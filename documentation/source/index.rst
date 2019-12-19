@@ -10,7 +10,7 @@ Welcome to Multiplex's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   drawable
 
 Indices and tables
 ==================
