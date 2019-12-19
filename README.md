@@ -1,2 +1,56 @@
-# multiplex-plot
+# Multiplex
+
 A Python library that builds on matplotlib, providing new types of visualizations
+
+## Getting Started
+
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+
+### Prerequisites
+
+Multiplex is based on [matplotlib](https://github.com/matplotlib/matplotlib).
+You can install matplotlib using `python -m pip install -U matplotlib`.
+More details about it are available in [matplotlib's repository](https://github.com/matplotlib/matplotlib).
+
+### Installing
+
+Multiplex is not currently distributed with pip since it is still in early development.
+Until then, download or clone the repository and place the library wherever you plan on using it.
+
+## Running the tests
+
+The tests use [unittest](https://docs.python.org/3/library/unittest.html).
+Each visualization has its own unit tests.
+You can run the tests individually:
+
+```
+python3 -m unittest multiplex.tests.test_drawable
+```
+
+Or you can run the tests using the `tests.sh` script:
+
+```
+chmod +x tests.sh
+./tests.sh
+```
+
+## Built With
+
+* [matplotlib](https://github.com/matplotlib/matplotlib)
+
+## Versioning
+
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+
+## Authors
+
+* **Nicholas Mamo** - *Library development* - [NicholasMamo](https://github.com/NicholasMamo)
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2) for this README template
+* Cole Nussbaumer Knaflic's [Storytelling with Data](http://www.storytellingwithdata.com/) for the inspiration
