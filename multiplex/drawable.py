@@ -1,5 +1,6 @@
 """
 A class that wraps a figure and provides more functionality to work with visualizations.
+All functionality goes through this class.
 """
 
 import matplotlib.pyplot as plt
@@ -7,6 +8,23 @@ import matplotlib.pyplot as plt
 class Drawable():
 	"""
 	The :class:`Drawable` class wraps a matplotlib figure and axis to provide additional functionality.
+	If no axis is given, the default plot axis (:code:`plt.gca()`) is used.
+	The :class:`Drawable` class can be used as a normal :class:`matplotlib.axis.Axis` object with additional functionality.
+	The axis functionality can be called on the :class:`Drawable` class.
+	The :class:`Drawable` instance re-routes method and attribute calls to the :class:`matplotlib.axis.Axis` instance.
+
+	To create a :class:`Drawable` instance from a normal plot:
+
+	.. code-block:: python
+
+	  viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+
+	To create a :class:`Drawable` instance from an axis, or a subplot:
+
+	.. code-block:: python
+
+	  figure, axis = plt.subplots(2, 1, figsize=(10, 10))
+	  viz = drawable.Drawable(figure, axis[0])
 
 	:ivar figure: The figure that the :class:`Drawable` class wraps.
 	:vartype figure: :class:`matplotlib.figure.Figure`
