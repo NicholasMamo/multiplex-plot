@@ -198,6 +198,32 @@ If <cite>None</cite> is not given, the plot&#8217;s main subplot is used instead
 <dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="drawable.Drawable.set_caption">
+<code class="descname">set_caption</code><span class="sig-paren">(</span><em>caption</em>, <em>alpha=0.8</em>, <em>ha='left'</em>, <em>va='bottom'</em>, <em>linespacing=1.2</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.set_caption" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a caption to the subplot.
+The caption is added just beneath the title.
+The method re-draws the title to make space for the caption.</p>
+<p>The caption is a <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code> object.
+Any arguments that the constructor accepts can be provided to this method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>caption</strong> (<em>str</em>) &#8211; The caption to add to the axis.</li>
+<li><strong>alpha</strong> (<em>float</em>) &#8211; The opacity of the caption.
+1 is the maximum opacity, and 0 is the minimum.</li>
+<li><strong>ha</strong> (<em>str</em>) &#8211; The horizontal alignment of the caption.</li>
+<li><strong>va</strong> (<em>str</em>) &#8211; The vertical alignment of the caption.</li>
+<li><strong>linespacing</strong> (<em>str</em>) &#8211; The space between lines.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </dd></dl>
 
 </div>
