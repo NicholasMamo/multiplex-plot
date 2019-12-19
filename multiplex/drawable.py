@@ -69,6 +69,9 @@ class Drawable():
 		:type va: str
 		:param linespacing: The space between lines.
 		:type linespacing: str
+
+		:return: The caption instance.
+		:rtype: :class:`matplotlib.text.Text`
 		"""
 
 		"""
@@ -79,14 +82,17 @@ class Drawable():
 		lines = [ re.sub('([ \t]+)', ' ', line).strip() for line in lines ]
 		lines = [ line for line in lines if len(line) ]
 
-		self.axis.text(0, 1, '\n'.join(lines), transform=self.axis.transAxes,
-        			   ha=ha, va=va, alpha=alpha, linespacing=linespacing, *args, **kwargs)
+		caption = self.axis.text(0, 1, '\n'.join(lines), transform=self.axis.transAxes,
+        						 ha=ha, va=va, alpha=alpha, linespacing=linespacing,
+								 *args, **kwargs)
 
 		"""
 		Re-draw the title to make space for the caption.
 		"""
 		title = self.axis.get_title(loc='left')
 		self.axis.set_title(title, loc='left', pad=(15 * linespacing * len(lines)))
+
+		return caption
 
 	def __getattr__(self, name):
 		"""
