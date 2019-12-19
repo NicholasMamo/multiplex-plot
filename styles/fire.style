@@ -253,7 +253,7 @@ lines.antialiased : True  ## render lines in antialiased (no jaggies)
 #font.family  : sans-serif
 #font.style   : normal
 #font.variant : normal
-font.weight  : 600
+font.weight  : 500
 #font.stretch : normal
 font.size    : 14.0
 
