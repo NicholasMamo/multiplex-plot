@@ -359,7 +359,7 @@ axes.linewidth     : 1     ## edge linewidth
 #axes.grid.which    : major   ## gridlines at {major, minor, both} ticks
 #axes.titlelocation : center  ## alignment of the title: {left, right, center}
 axes.titlesize     : x-large   ## fontsize of the axes title
-axes.titleweight   : normal  ## font weight of title
+axes.titleweight   : bold  ## font weight of title
 #axes.titlecolor    : auto    ## color of the axes title, auto falls back to text.color
                               ## as default value
 axes.titlepad      : 20     ## pad between axes and title in points
