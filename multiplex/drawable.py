@@ -28,3 +28,27 @@ class Drawable():
 
 		self.figure = figure
 		self.axis = plt.gca() if axis is None else axis
+
+	def __getattr__(self, name):
+		"""
+		Get an attribute indicated by `name` from the class.
+		If it gets to this point, then the attribute does not exist.
+		Instead, it is retrieved from the :class:`Drawable` axis.
+
+		:param name: The name of the attribute.
+		:type name: str
+		"""
+
+		def method(*args, **kwargs):
+			"""
+			Try to get the attribute from the axis.
+			If arguments were given, then the attribute is treated as a method call.
+			Otherwise, it is treated as a normal attribute call.
+			"""
+
+			if len(args) or len(kwargs):
+				getattr(self.axis, name)(*args, **kwargs)
+			else:
+				getattr(self.axis, name)
+
+		return method
