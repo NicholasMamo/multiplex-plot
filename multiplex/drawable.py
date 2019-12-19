@@ -4,6 +4,7 @@ All functionality goes through this class.
 """
 
 import matplotlib.pyplot as plt
+import re
 
 class Drawable():
 	"""
@@ -46,6 +47,46 @@ class Drawable():
 
 		self.figure = figure
 		self.axis = plt.gca() if axis is None else axis
+
+	def set_caption(self, caption, alpha=0.8, ha='left', va='bottom',
+					linespacing=1.2, *args, **kwargs):
+		"""
+		Add a caption to the subplot.
+		The caption is added just beneath the title.
+		The method re-draws the title to make space for the caption.
+
+		The caption is a :class:`matplotlib.text.Text` object.
+		Any arguments that the constructor accepts can be provided to this method.
+
+		:param caption: The caption to add to the axis.
+		:type caption: str
+		:param alpha: The opacity of the caption.
+					  1 is the maximum opacity, and 0 is the minimum.
+		:type alpha: float
+		:param ha: The horizontal alignment of the caption.
+		:type ha: str
+		:param va: The vertical alignment of the caption.
+		:type va: str
+		:param linespacing: The space between lines.
+		:type linespacing: str
+		"""
+
+		"""
+		Pre-process the caption.
+		Remove extra spaces from it.
+		"""
+		lines = caption.split('\n')
+		lines = [ re.sub('([ \t]+)', ' ', line).strip() for line in lines ]
+		lines = [ line for line in lines if len(line) ]
+
+		self.axis.text(0, 1, '\n'.join(lines), transform=self.axis.transAxes,
+        			   ha=ha, va=va, alpha=alpha, linespacing=linespacing, *args, **kwargs)
+
+		"""
+		Re-draw the title to make space for the caption.
+		"""
+		title = self.axis.get_title(loc='left')
+		self.axis.set_title(title, loc='left', pad=(15 * linespacing * len(lines)))
 
 	def __getattr__(self, name):
 		"""
