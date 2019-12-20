@@ -23,3 +23,15 @@ class TextAnnotation():
 		"""
 
 		self.drawable = drawable
+
+	def draw(self, data):
+		"""
+		Draw the text annotation visualization.
+		The method receives text as a list of tokens and draws them as text.
+
+		:param data: The text data.
+					 The visualization expects a list of tokens.
+		:type data: list of str
+		"""
+
+		self.axis.axis('off')
