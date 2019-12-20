@@ -1,6 +1,6 @@
-****
+********
 Drawable
-****
+********
 
 .. automodule:: drawable
    :members:

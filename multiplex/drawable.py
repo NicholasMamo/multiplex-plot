@@ -102,6 +102,9 @@ class Drawable():
 
 		:param name: The name of the attribute.
 		:type name: str
+
+		:return: The function applied on the axis.
+		:rtype: function
 		"""
 
 		def method(*args, **kwargs):
