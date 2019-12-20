@@ -12,6 +12,7 @@ Welcome to Multiplex's documentation!
 
    drawable
    text
+   utilities
 
 Indices and tables
 ==================

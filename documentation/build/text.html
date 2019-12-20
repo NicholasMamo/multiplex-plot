@@ -169,9 +169,29 @@ The visualization is drawn on the given axis.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="text.annotation.TextAnnotation._draw_tokens">
+<code class="descname">_draw_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>word_spacing=0.005</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the tokens on the plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tokens</strong> (<em>list of str</em>) &#8211; The text tokens to draw.
+The method expects a list of tokens.</li>
+<li><strong>word_spacing</strong> (<em>float</em>) &#8211; The space between words.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="text.annotation.TextAnnotation.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw the text annotation visualization.</p>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>data</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the text annotation visualization.
+The method receives text as a list of tokens and draws them as text.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
