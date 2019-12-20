@@ -4,7 +4,12 @@ All functionality goes through this class.
 """
 
 import matplotlib.pyplot as plt
+import os
 import re
+import sys
+
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+from text.annotation import TextAnnotation
 
 class Drawable():
 	"""
@@ -120,3 +125,17 @@ class Drawable():
 				getattr(self.axis, name)
 
 		return method
+
+	"""
+	Visualizations
+	"""
+
+	def draw_text_annotation(self):
+		"""
+		Draw a text annotation visualization on this Drawable.
+
+		:return: The drawn text annotation.
+		:rtype: :class:`text.annotation.TextAnnotation`
+		"""
+
+		return TextAnnotation(self)
