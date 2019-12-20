@@ -130,12 +130,16 @@ class Drawable():
 	Visualizations
 	"""
 
-	def draw_text_annotation(self):
+	def draw_text_annotation(self, *args, **kwargs):
 		"""
 		Draw a text annotation visualization on this Drawable.
+		The arguments and keyword arguments are those supported by :meth:`text.annotation.TextAnnotation.draw` method.
 
 		:return: The drawn text annotation.
 		:rtype: :class:`text.annotation.TextAnnotation`
 		"""
 
-		return TextAnnotation(self)
+		text_annotation = TextAnnotation(self)
+		text_annotation.draw(*args, **kwargs)
+
+		return text_annotation
