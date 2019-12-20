@@ -42,32 +42,51 @@ class TextAnnotation():
 
 		axis = self.drawable.axis
 		axis.axis('off')
-		axis.invert_yaxis()
 
 		self._draw_tokens(data, *args, **kwargs)
 
-	def _draw_tokens(self, tokens, word_spacing=0.005, *args, **kwargs):
+	def _draw_tokens(self, tokens, wordspacing=0.005, linespacing=0.6, *args, **kwargs):
 		"""
 		Draw the tokens on the plot.
 
 		:param tokens: The text tokens to draw.
 					   The method expects a list of tokens.
 		:type tokens: list of str
-		:param word_spacing: The space between words.
-		:type word_spacing: float
+		:param wordspacing: The space between words.
+		:type wordspacing: float
+		:param linespacing: The space between lines.
+		:type linespacing: float
 		"""
 
 		axis = self.drawable.axis
 		figure = self.drawable.figure
 
-		axis.set_ylim(0, 0)
-		self.drawable.figure.set_figheight(1)
+		x_lim = axis.get_xlim()[1]
 
 		"""
 		Go through each token and draw it on the axis.
 		"""
-		offset = 0
+		offset, lines = 0, 0
 		for token in tokens:
-			text = axis.text(offset, 0, token)
+			text = axis.text(offset, lines * linespacing, token)
 			bb = util.get_bb(figure, axis, text)
-			offset += bb.width + word_spacing
+
+			"""
+			If the token exceeds the x-limit, break line.
+			The offset is reset to the left, and a new line is added.
+			The token is moved to this new line.
+			"""
+			if bb.x1 > x_lim:
+				offset = 0
+				lines += 1
+				text.set_position((offset, lines * linespacing))
+
+			offset += bb.width + wordspacing
+
+		"""
+		Re-draw the axis and the figure dimensions.
+		The axis and the figure are made to fit the text tightly.
+		"""
+		axis.set_ylim(-linespacing, lines * linespacing + 0.1)
+		axis.invert_yaxis()
+		self.drawable.figure.set_figheight(lines * linespacing)
