@@ -3,6 +3,12 @@ A class of visualization that allows text annotations.
 The annotation class is mainly concerned with organizing text.
 """
 
+import os
+import sys
+
+sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
+import util
+
 class TextAnnotation():
 	"""
 	A class of visualization that allows text annotations.
@@ -24,7 +30,7 @@ class TextAnnotation():
 
 		self.drawable = drawable
 
-	def draw(self, data):
+	def draw(self, data, *args, **kwargs):
 		"""
 		Draw the text annotation visualization.
 		The method receives text as a list of tokens and draws them as text.
@@ -34,4 +40,31 @@ class TextAnnotation():
 		:type data: list of str
 		"""
 
-		self.axis.axis('off')
+		axis = self.drawable.axis
+		axis.axis('off')
+		axis.invert_yaxis()
+
+		self._draw_tokens(data, *args, **kwargs)
+
+	def _draw_tokens(self, tokens, word_spacing=0.005, *args, **kwargs):
+		"""
+		Draw the tokens on the plot.
+
+		:param tokens: The text tokens to draw.
+					   The method expects a list of tokens.
+		:type tokens: list of str
+		:param word_spacing: The space between words.
+		:type word_spacing: float
+		"""
+
+		axis = self.drawable.axis
+		figure = self.drawable.figure
+
+		axis.set_ylim(-0.1, 0.1)
+		self.drawable.figure.set_figheight(1)
+
+		offset = 0
+		for token in tokens:
+			text = axis.text(offset, 0, token)
+			bb = util.get_bb(figure, axis, text)
+			offset += bb.width + word_spacing
