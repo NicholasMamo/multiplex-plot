@@ -75,7 +75,7 @@ class TextAnnotation():
 			if token in punctuation:
 				offset -= wordspacing * 1.5
 
-			text = axis.text(offset, lines * linespacing, token)
+			text = axis.text(offset, lines * linespacing, token, *args, **kwargs)
 			bb = util.get_bb(figure, axis, text)
 
 			"""
