@@ -11,6 +11,7 @@ Welcome to Multiplex's documentation!
    :caption: Contents:
 
    drawable
+   text
 
 Indices and tables
 ==================
