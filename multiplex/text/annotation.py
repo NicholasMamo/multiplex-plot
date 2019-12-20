@@ -60,9 +60,12 @@ class TextAnnotation():
 		axis = self.drawable.axis
 		figure = self.drawable.figure
 
-		axis.set_ylim(-0.1, 0.1)
+		axis.set_ylim(0, 0)
 		self.drawable.figure.set_figheight(1)
 
+		"""
+		Go through each token and draw it on the axis.
+		"""
 		offset = 0
 		for token in tokens:
 			text = axis.text(offset, 0, token)
