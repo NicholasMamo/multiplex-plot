@@ -61,6 +61,7 @@ class TextAnnotation():
 		axis = self.drawable.axis
 		figure = self.drawable.figure
 
+		punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
 		x_lim = axis.get_xlim()[1]
 
 		"""
@@ -75,8 +76,9 @@ class TextAnnotation():
 			If the token exceeds the x-limit, break line.
 			The offset is reset to the left, and a new line is added.
 			The token is moved to this new line.
+			Lines do not break on certain types of punctuation.
 			"""
-			if bb.x1 > x_lim:
+			if bb.x1 > x_lim and token not in punctuation:
 				offset = 0
 				lines += 1
 				text.set_position((offset, lines * linespacing))
