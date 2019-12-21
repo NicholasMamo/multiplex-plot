@@ -97,7 +97,7 @@ class TextAnnotation():
 		"""
 		axis.set_ylim(-linespacing, lines * linespacing + 0.1)
 		axis.invert_yaxis()
-		self.drawable.figure.set_figheight(lines * linespacing)
+		self.drawable.figure.set_figheight(max(1, lines * linespacing))
 
 	def _draw_token(self, token, offset, line, linespacing, *args, **kwargs):
 		"""
