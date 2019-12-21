@@ -83,7 +83,7 @@ class TextAnnotation():
 			if token in punctuation:
 				offset -= wordspacing * 1.5
 
-			text = self._draw_token(token, offset, lines, linespacing)
+			text = self._draw_token(token, offset, lines, wordspacing, linespacing)
 			line_tokens.append(text)
 			bb = util.get_bb(figure, axis, text)
 
@@ -111,7 +111,7 @@ class TextAnnotation():
 		axis.invert_yaxis()
 		self.drawable.figure.set_figheight(max(1, lines * linespacing))
 
-	def _draw_token(self, token, offset, line, linespacing, *args, **kwargs):
+	def _draw_token(self, token, offset, line, wordspacing, linespacing, *args, **kwargs):
 		"""
 		Draw the token on the plot.
 
@@ -121,6 +121,8 @@ class TextAnnotation():
 		:type offset: float
 		:param line: The line number of the token.
 		:type line: int
+		:param wordspacing: The space between words.
+		:type wordspacing: float
 		:param linespacing: The space between lines.
 		:type linespacing: float
 
@@ -129,7 +131,16 @@ class TextAnnotation():
 		"""
 
 		axis = self.drawable.axis
-		text = axis.text(offset, line * linespacing, token, *args, **kwargs)
+
+		"""
+		The bbox's padding is calculated in pixels.
+		Therefore it is transformed from the provided axis coordinates to pixels.
+		"""
+		wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
+						  axis.transData.transform((0, 0))[0])
+		text = axis.text(offset, line * linespacing, token,
+						 bbox=dict(facecolor='None', edgecolor='None', pad=wordspacing_px / 2.),
+						 *args, **kwargs)
 		return text
 
 	def _newline(self, token, line, linespacing):
