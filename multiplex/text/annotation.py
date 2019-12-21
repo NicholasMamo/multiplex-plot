@@ -215,6 +215,9 @@ class TextAnnotation():
 			space = space + x_lim - last.x1
 			space = space / (len(text_tokens) - 1)
 
+			wordspacing_px = (axis.transData.transform((space, 0))[0] -
+							  axis.transData.transform((0, 0))[0])
+
 			"""
 			Re-position the tokens.
 			"""
@@ -224,6 +227,7 @@ class TextAnnotation():
 					token.set_position((offset - space * 1.25, line * linespacing))
 				else:
 					token.set_position((offset, line * linespacing))
+					token.set_bbox(dict(facecolor='None', edgecolor='None', pad=wordspacing_px / 2.))
 					bb = util.get_bb(figure, axis, token)
 					offset += bb.width + space
 
