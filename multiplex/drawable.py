@@ -119,8 +119,8 @@ class Drawable():
 			Otherwise, it is treated as a normal attribute call.
 			"""
 
-			if len(args) or len(kwargs):
 				getattr(self.axis, name)(*args, **kwargs)
+			if callable(getattr(self.axis, name)):
 			else:
 				getattr(self.axis, name)
 
