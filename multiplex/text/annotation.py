@@ -45,7 +45,8 @@ class TextAnnotation():
 
 		self._draw_tokens(data, *args, **kwargs)
 
-	def _draw_tokens(self, tokens, wordspacing=0.005, linespacing=0.6, *args, **kwargs):
+	def _draw_tokens(self, tokens, wordspacing=0.005, linespacing=0.6,
+					 align='left', *args, **kwargs):
 		"""
 		Draw the tokens on the plot.
 
@@ -56,6 +57,12 @@ class TextAnnotation():
 		:type wordspacing: float
 		:param linespacing: The space between lines.
 		:type linespacing: float
+		:param align: The text's alignment.
+					  Possible values:
+					  	- left
+						- right
+						- justify
+		:type align: str
 		"""
 
 		axis = self.drawable.axis
@@ -87,9 +94,9 @@ class TextAnnotation():
 			Lines do not break on certain types of punctuation.
 			"""
 			if bb.x1 > x_lim and token not in punctuation:
-				self._organize_tokens(line_tokens, lines, linespacing)
+				self._organize_tokens(line_tokens, lines, linespacing, align)
 				offset, lines = 0, lines + 1
-				line_tokens = []
+				line_tokens = [ text ]
 
 			offset += bb.width + wordspacing
 
@@ -122,7 +129,7 @@ class TextAnnotation():
 		text = axis.text(offset, line * linespacing, token, *args, **kwargs)
 		return text
 
-	def _organize_tokens(self, tokens, line, linespacing,
+	def _organize_tokens(self, tokens, line, linespacing, align='left',
 						 *args, **kwargs):
 		"""
 		Organize the line tokens.
@@ -134,6 +141,37 @@ class TextAnnotation():
 		:type line: int
 		:param linespacing: The space between lines.
 		:type linespacing: float
+		:param align: The text's alignment.
+					  Possible values:
+					  	- left
+						- right
+						- justify
+		:type align: str
 		"""
 
-		tokens[-1].set_position((0, (line + 1) * linespacing))
+		"""
+		If the text is left-aligned or justify, move the last token to the next line.
+
+		Otherwise, if the text is right-aligned, move the last token to the next line.
+		Then align all the tokens in the last line to the right.
+		"""
+		last = tokens.pop(-1)
+		if align == 'left' or align == 'justify':
+			last.set_position((0, (line + 1) * linespacing))
+		elif align == 'right':
+			last.set_position((0, (line + 1) * linespacing))
+
+			if len(tokens):
+				figure = self.drawable.figure
+				axis = self.drawable.axis
+
+				"""
+				Offset each token in the line to move it to the end of the line.
+				"""
+				last = tokens[-1]
+				x_lim = axis.get_xlim()[1]
+				offset = x_lim - util.get_bb(figure, axis, last).x1
+
+				for token in tokens:
+					bb = util.get_bb(figure, axis, token)
+					token.set_position((bb.x0 + offset, line * linespacing))
