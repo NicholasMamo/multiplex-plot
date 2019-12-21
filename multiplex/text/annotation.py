@@ -68,6 +68,7 @@ class TextAnnotation():
 		Go through each token and draw it on the axis.
 		"""
 		offset, lines = 0, 0
+		line_tokens = []
 		for token in tokens:
 			"""
 			If the token is a punctuation mark, do not add wordspacing to it.
@@ -76,6 +77,7 @@ class TextAnnotation():
 				offset -= wordspacing * 1.5
 
 			text = self._draw_token(token, offset, lines, linespacing)
+			line_tokens.append(text)
 			bb = util.get_bb(figure, axis, text)
 
 			"""
@@ -85,9 +87,9 @@ class TextAnnotation():
 			Lines do not break on certain types of punctuation.
 			"""
 			if bb.x1 > x_lim and token not in punctuation:
-				offset = 0
-				lines += 1
-				text.set_position((offset, lines * linespacing))
+				self._organize_tokens(line_tokens, lines, linespacing)
+				offset, lines = 0, lines + 1
+				line_tokens = []
 
 			offset += bb.width + wordspacing
 
@@ -119,3 +121,19 @@ class TextAnnotation():
 		axis = self.drawable.axis
 		text = axis.text(offset, line * linespacing, token, *args, **kwargs)
 		return text
+
+	def _organize_tokens(self, tokens, line, linespacing,
+						 *args, **kwargs):
+		"""
+		Organize the line tokens.
+		This function is used when the line overflows.
+
+		:param tokens: The list of tokens added to the line
+		:type tokens: list of str
+		:param line: The line number of the tokens.
+		:type line: int
+		:param linespacing: The space between lines.
+		:type linespacing: float
+		"""
+
+		tokens[-1].set_position((0, (line + 1) * linespacing))
