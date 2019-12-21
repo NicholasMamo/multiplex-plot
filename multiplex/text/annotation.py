@@ -75,7 +75,7 @@ class TextAnnotation():
 			if token in punctuation:
 				offset -= wordspacing * 1.5
 
-			text = axis.text(offset, lines * linespacing, token, *args, **kwargs)
+			text = self._draw_token(token, offset, lines, linespacing)
 			bb = util.get_bb(figure, axis, text)
 
 			"""
@@ -98,3 +98,24 @@ class TextAnnotation():
 		axis.set_ylim(-linespacing, lines * linespacing + 0.1)
 		axis.invert_yaxis()
 		self.drawable.figure.set_figheight(lines * linespacing)
+
+	def _draw_token(self, token, offset, line, linespacing, *args, **kwargs):
+		"""
+		Draw the token on the plot.
+
+		:param token: The text token to draw.
+		:type token: str
+		:param offset: The token's offset.
+		:type offset: float
+		:param line: The line number of the token.
+		:type line: int
+		:param linespacing: The space between lines.
+		:type linespacing: float
+
+		:return: The drawn text box.
+		:rtype: :class:`matplotlib.text.Text`
+		"""
+
+		axis = self.drawable.axis
+		text = axis.text(offset, line * linespacing, token, *args, **kwargs)
+		return text
