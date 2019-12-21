@@ -105,6 +105,7 @@ class TextAnnotation():
 		Re-draw the axis and the figure dimensions.
 		The axis and the figure are made to fit the text tightly.
 		"""
+		self._organize_tokens(line_tokens, lines, linespacing, align)
 		axis.set_ylim(-linespacing, lines * linespacing + 0.1)
 		axis.invert_yaxis()
 		self.drawable.figure.set_figheight(max(1, lines * linespacing))
