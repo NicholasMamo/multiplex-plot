@@ -31,6 +31,7 @@
 
   
     <link rel="top" title="Multiplex 0.0 documentation" href="index.html"/>
+        <link rel="next" title="Utilities" href="utilities.html"/>
         <link rel="prev" title="Drawable" href="drawable.html"/> 
 
   
@@ -83,6 +84,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-text.annotation">Text Annotation</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 
             
@@ -169,8 +171,35 @@ The visualization is drawn on the given axis.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="text.annotation.TextAnnotation._draw_token">
+<code class="descname">_draw_token</code><span class="sig-paren">(</span><em>token</em>, <em>offset</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the token on the plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>token</strong> (<em>str</em>) &#8211; The text token to draw.</li>
+<li><strong>offset</strong> (<em>float</em>) &#8211; The token&#8217;s offset.</li>
+<li><strong>line</strong> (<em>int</em>) &#8211; The line number of the token.</li>
+<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
+<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn text box.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="text.annotation.TextAnnotation._draw_tokens">
-<code class="descname">_draw_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>word_spacing=0.005</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
+<code class="descname">_draw_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>wordspacing=0.005</em>, <em>linespacing=0.6</em>, <em>align='left'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the tokens on the plot.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -179,7 +208,68 @@ The visualization is drawn on the given axis.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>tokens</strong> (<em>list of str</em>) &#8211; The text tokens to draw.
 The method expects a list of tokens.</li>
-<li><strong>word_spacing</strong> (<em>float</em>) &#8211; The space between words.</li>
+<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
+<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
+<li><strong>align</strong> (<em>str</em>) &#8211; <p>The text&#8217;s alignment.
+Possible values:</p>
+<blockquote>
+<div><ul>
+<li>left</li>
+<li>right</li>
+<li>justify</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="text.annotation.TextAnnotation._newline">
+<code class="descname">_newline</code><span class="sig-paren">(</span><em>token</em>, <em>line</em>, <em>linespacing</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._newline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new line with the given token.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>token</strong> (<code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The text token to move to the next line.</li>
+<li><strong>line</strong> (<em>int</em>) &#8211; The new line number of the token.</li>
+<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="text.annotation.TextAnnotation._organize_tokens">
+<code class="descname">_organize_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>align='left'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._organize_tokens" title="Permalink to this definition">¶</a></dt>
+<dd><p>Organize the line tokens.
+This function is used when the line overflows.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tokens</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of tokens added to the line.</li>
+<li><strong>line</strong> (<em>int</em>) &#8211; The line number of the tokens.</li>
+<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
+<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
+<li><strong>align</strong> (<em>str</em>) &#8211; <p>The text&#8217;s alignment.
+Possible values:</p>
+<blockquote>
+<div><ul>
+<li>left</li>
+<li>right</li>
+<li>justify</li>
+</ul>
+</div></blockquote>
+</li>
 </ul>
 </td>
 </tr>
@@ -214,6 +304,8 @@ The visualization expects a list of tokens.</td>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="drawable.html" class="btn btn-neutral" title="Drawable" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
