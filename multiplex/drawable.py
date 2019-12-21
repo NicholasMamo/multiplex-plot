@@ -119,10 +119,10 @@ class Drawable():
 			Otherwise, it is treated as a normal attribute call.
 			"""
 
-				getattr(self.axis, name)(*args, **kwargs)
 			if callable(getattr(self.axis, name)):
+				return getattr(self.axis, name)(*args, **kwargs)
 			else:
-				getattr(self.axis, name)
+				return getattr(self.axis, name)
 
 		return method
 
