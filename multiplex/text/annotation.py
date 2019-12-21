@@ -94,6 +94,7 @@ class TextAnnotation():
 			Lines do not break on certain types of punctuation.
 			"""
 			if bb.x1 > x_lim and token not in punctuation:
+				self._newline(line_tokens.pop(-1), lines, linespacing)
 				self._organize_tokens(line_tokens, lines, linespacing, align)
 				offset, lines = 0, lines + 1
 				line_tokens = [ text ]
@@ -129,14 +130,28 @@ class TextAnnotation():
 		text = axis.text(offset, line * linespacing, token, *args, **kwargs)
 		return text
 
+	def _newline(self, token, line, linespacing):
+		"""
+		Create a new line with the given token.
+
+		:param token: The text token to move to the next line.
+		:type token: :class:`matplotlib.text.Text`
+		:param line: The new line number of the token.
+		:type line: int
+		:param linespacing: The space between lines.
+		:type linespacing: float
+		"""
+
+		token.set_position((0, (line + 1) * linespacing))
+
 	def _organize_tokens(self, tokens, line, linespacing, align='left',
 						 *args, **kwargs):
 		"""
 		Organize the line tokens.
 		This function is used when the line overflows.
 
-		:param tokens: The list of tokens added to the line
-		:type tokens: list of str
+		:param tokens: The list of tokens added to the line.
+		:type tokens: list of :class:`matplotlib.text.Text`
 		:param line: The line number of the tokens.
 		:type line: int
 		:param linespacing: The space between lines.
@@ -155,12 +170,9 @@ class TextAnnotation():
 		Otherwise, if the text is right-aligned, move the last token to the next line.
 		Then align all the tokens in the last line to the right.
 		"""
-		last = tokens.pop(-1)
 		if align == 'left' or align == 'justify':
-			last.set_position((0, (line + 1) * linespacing))
+			pass
 		elif align == 'right':
-			last.set_position((0, (line + 1) * linespacing))
-
 			if len(tokens):
 				figure = self.drawable.figure
 				axis = self.drawable.axis
