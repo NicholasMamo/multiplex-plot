@@ -95,7 +95,7 @@ class TextAnnotation():
 			"""
 			if bb.x1 > x_lim and token not in punctuation:
 				self._newline(line_tokens.pop(-1), lines, linespacing)
-				self._organize_tokens(line_tokens, lines, linespacing, align)
+				self._organize_tokens(line_tokens, lines, wordspacing, linespacing, align)
 				offset, lines = 0, lines + 1
 				line_tokens = [ text ]
 
@@ -105,7 +105,7 @@ class TextAnnotation():
 		Re-draw the axis and the figure dimensions.
 		The axis and the figure are made to fit the text tightly.
 		"""
-		self._organize_tokens(line_tokens, lines, linespacing, align)
+		self._organize_tokens(line_tokens, lines, wordspacing, linespacing, align)
 		axis.set_ylim(-linespacing, lines * linespacing + 0.1)
 		axis.invert_yaxis()
 		self.drawable.figure.set_figheight(max(1, lines * linespacing))
@@ -145,7 +145,7 @@ class TextAnnotation():
 
 		token.set_position((0, (line + 1) * linespacing))
 
-	def _organize_tokens(self, tokens, line, linespacing, align='left',
+	def _organize_tokens(self, tokens, line, wordspacing, linespacing, align='left',
 						 *args, **kwargs):
 		"""
 		Organize the line tokens.
@@ -155,6 +155,8 @@ class TextAnnotation():
 		:type tokens: list of :class:`matplotlib.text.Text`
 		:param line: The line number of the tokens.
 		:type line: int
+		:param wordspacing: The space between words.
+		:type wordspacing: float
 		:param linespacing: The space between lines.
 		:type linespacing: float
 		:param align: The text's alignment.
@@ -165,24 +167,60 @@ class TextAnnotation():
 		:type align: str
 		"""
 
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		x_lim = axis.get_xlim()[1]
+
 		"""
 		If the text is left-aligned or justify, move the last token to the next line.
 
 		Otherwise, if the text is right-aligned, move the last token to the next line.
 		Then align all the tokens in the last line to the right.
 		"""
-		if align == 'left' or align == 'justify':
+		if align == 'left':
 			pass
+		elif align == 'justify':
+			"""
+			If the alignment is justified, add space between text tokens to fill the line.
+			"""
+			punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
+			text_tokens = [ token for token in tokens if token.get_text() not in punctuation ]
+
+			"""
+			Calculate the total space between tokens.
+
+			Use this space to calculate the total projected space after justification.
+			The process therefore first calculates the space between tokens.
+			Then, it calculates the empty space to fill the line.
+			"""
+			space = 0
+			for i in range(len(text_tokens) - 1):
+				space += (util.get_bb(figure, axis, text_tokens[i + 1]).x0 -
+						  util.get_bb(figure, axis, text_tokens[i]).x1)
+
+			last = util.get_bb(figure, axis, tokens[-1])
+			space = space + x_lim - last.x1
+			space = space / (len(text_tokens) - 1)
+
+			"""
+			Re-position the tokens.
+			"""
+			offset = 0
+			for token in tokens:
+				if token.get_text() in punctuation:
+					token.set_position((offset - space * 1.25, line * linespacing))
+				else:
+					token.set_position((offset, line * linespacing))
+					bb = util.get_bb(figure, axis, token)
+					offset += bb.width + space
+
 		elif align == 'right':
 			if len(tokens):
-				figure = self.drawable.figure
-				axis = self.drawable.axis
-
 				"""
 				Offset each token in the line to move it to the end of the line.
 				"""
 				last = tokens[-1]
-				x_lim = axis.get_xlim()[1]
 				offset = x_lim - util.get_bb(figure, axis, last).x1
 
 				for token in tokens:
