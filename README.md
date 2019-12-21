@@ -6,6 +6,7 @@ A Python library that builds on matplotlib, providing new types of visualization
 
 These instructions will get you a copy of the project up and running.
 For use-cases of Multiplex, check out the Jupyter Notebook examples in the [examples](examples) directory.
+To read more about Multiplex, read the [documentation](https://nicholasmamo.github.io/multiplex-plot/).
 
 ### Prerequisites
 
