@@ -59,9 +59,9 @@ class TextAnnotation():
 		:type linespacing: float
 		:param align: The text's alignment.
 					  Possible values:
-					  	- left
-						- right
-						- justify
+					  - left
+					  - right
+					  - justify
 		:type align: str
 		"""
 
@@ -173,9 +173,9 @@ class TextAnnotation():
 		:type linespacing: float
 		:param align: The text's alignment.
 					  Possible values:
-					  	- left
-						- right
-						- justify
+					  - left
+					  - right
+					  - justify
 		:type align: str
 		"""
 

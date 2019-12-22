@@ -30,7 +30,8 @@
   
 
   
-    <link rel="top" title="Multiplex 0.0 documentation" href="index.html"/> 
+    <link rel="top" title="Multiplex 0.0 documentation" href="index.html"/>
+        <link rel="prev" title="Text" href="text.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -76,9 +77,10 @@
             
             
                 <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="drawable.html">Drawable</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text.html">Text</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="">Utilities</a></li>
 </ul>
 
             
@@ -128,7 +130,7 @@
 <p>A set of utility functions that are common to all types of visualizations.</p>
 <dl class="function">
 <dt id="util.get_bb">
-<code class="descclassname">util.</code><code class="descname">get_bb</code><span class="sig-paren">(</span><em>figure</em>, <em>axis</em>, <em>component</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_bb" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">util.</code><code class="descname">get_bb</code><span class="sig-paren">(</span><em>figure</em>, <em>axis</em>, <em>component</em>, <em>transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_bb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the bounding box of the given component.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -139,6 +141,8 @@
 This is used to get the figure renderer.</li>
 <li><strong>axis</strong> (<code class="xref py py-class docutils literal"><span class="pre">matplotlib.axis.Axis</span></code>) &#8211; The axis (or subplot) where the component is plotted.</li>
 <li><strong>component</strong> (<em>object</em>) &#8211; The component whose bounding box will be fetched.</li>
+<li><strong>transform</strong> (None or <code class="xref py py-class docutils literal"><span class="pre">matplotlib.transforms.TransformNode</span></code>) &#8211; The bounding box transformation.
+If <cite>None</cite> is given, the data transformation is used.</li>
 </ul>
 </td>
 </tr>
@@ -158,6 +162,13 @@ This is used to get the figure renderer.</li>
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="text.html" class="btn btn-neutral" title="Text" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
