@@ -26,8 +26,9 @@ class TestDrawable(unittest.TestCase):
 		text = 'caption.'
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		caption = viz.set_caption(text)
-		self.assertEqual(text, caption.get_text())
+		caption_tokens = viz.set_caption(text)
+		caption_text = '\n'.join([ ' '.join([ token.get_text() for token in caption_line ]) for caption_line in caption_tokens ])
+		self.assertEqual(text, caption_text)
 
 	def test_caption_removes_multiple_spaces(self):
 		"""
@@ -39,8 +40,9 @@ class TestDrawable(unittest.TestCase):
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		caption = viz.set_caption(text)
-		self.assertEqual('This is a multi-level caption.', caption.get_text())
+		caption_tokens = viz.set_caption(text)
+		caption_text = '\n'.join([ ' '.join([ token.get_text() for token in caption_line ]) for caption_line in caption_tokens ])
+		self.assertEqual('This is a multi-level caption.', caption_text)
 
 	def test_caption_removes_tabs(self):
 		"""
@@ -52,8 +54,9 @@ class TestDrawable(unittest.TestCase):
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		caption = viz.set_caption(text)
-		self.assertEqual('This is a multi-level caption.', caption.get_text())
+		caption_tokens = viz.set_caption(text)
+		caption_text = '\n'.join([ ' '.join([ token.get_text() for token in caption_line ]) for caption_line in caption_tokens ])
+		self.assertEqual('This is a multi-level caption.', caption_text)
 
 	def test_caption_retains_newlines(self):
 		"""
@@ -66,5 +69,6 @@ class TestDrawable(unittest.TestCase):
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		caption = viz.set_caption(text)
-		self.assertEqual('This is a multi-level\ncaption.', caption.get_text())
+		caption_tokens = viz.set_caption(text)
+		caption_text = '\n'.join([ ' '.join([ token.get_text() for token in caption_line ]) for caption_line in caption_tokens ])
+		self.assertEqual('This is a multi-level\ncaption.', caption_text)

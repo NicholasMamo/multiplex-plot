@@ -75,6 +75,9 @@ class Drawable():
 		:type va: str
 		:param linespacing: The space between lines.
 		:type linespacing: str
+
+		:return: A list of tokens that make up the caption.
+		:rtype: list of :class:`matplotlib.text.Text`
 		"""
 
 		"""
@@ -85,28 +88,65 @@ class Drawable():
 		lines = [ re.sub('([ \t]+)', ' ', line).strip() for line in lines ]
 		lines = [ line for line in lines if len(line) ]
 
-		x_lim = self.axis.get_xlim()[1]
+		"""
+		The caption is constructed bottom-up.
+		Each time that a line wraps around, it pushes the already-drawn part up.
+		"""
 		line_number = 0
+		caption_tokens = []
 		for line in lines[::-1]:
 			"""
 			Go through each line and draw it word by word.
 			"""
-			line_number += 1
 			tokens = line.split()
+			line_captions = []
 
-			offset = 0
+			offset, line_wraps = 0, 0
 			for token in tokens:
-				caption = self.axis.text(offset, 1 + (line_number - 1) * linespacing, token, transform=self.axis.transAxes,
+				"""
+				Draw the token at the bottom, displacing it by the number of already-drawn lines.
+				"""
+				caption = self.axis.text(offset, 1 + line_number * linespacing, token, transform=self.axis.transAxes,
 										 ha=ha, va=va, alpha=alpha, linespacing=linespacing,
 										 *args, **kwargs)
 
-				offset += util.get_bb(self.figure, self.axis, caption, self.axis.transAxes).width + wordspacing
+				bb = util.get_bb(self.figure, self.axis, caption, self.axis.transAxes)
+				if bb.x1 > 1:
+					"""
+					If the token overflows the axis, push all the previous tokens up one line.
+					The overflowing token is added to the line instead.
+					"""
+					caption.set_position((0, 1 + (line_number) * linespacing))
+					line_wraps = line_wraps + 1
+					offset = 0
+
+					"""
+					Push up the previously-drawn tokens in the same line.
+					"""
+					for other in line_captions:
+						position = (other.get_position()[0], other.get_position()[1] + linespacing)
+						other.set_position(position)
+
+				"""
+				Mark the position of the next token.
+				"""
+				offset += bb.width + wordspacing
+				line_captions.append(caption)
+
+			"""
+			The next line starts in a new line.
+			The recently-drawn line may contain multiple lines because it wraps around.
+			"""
+			caption_tokens.insert(0, line_captions)
+			line_number += 1 + line_wraps
 
 		"""
 		Re-draw the title to make space for the caption.
 		"""
 		title = self.axis.get_title(loc='left')
 		self.axis.set_title(title, loc='left', pad=(5 + 16 * line_number))
+
+		return caption_tokens
 
 	def __getattr__(self, name):
 		"""
