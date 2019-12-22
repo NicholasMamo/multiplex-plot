@@ -10,6 +10,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from text.annotation import TextAnnotation
+import util
 
 class Drawable():
 	"""
@@ -54,7 +55,7 @@ class Drawable():
 		self.axis = plt.gca() if axis is None else axis
 
 	def set_caption(self, caption, alpha=0.8, ha='left', va='bottom',
-					linespacing=1.2, *args, **kwargs):
+					wordspacing=0.005, linespacing=0.075, *args, **kwargs):
 		"""
 		Add a caption to the subplot.
 		The caption is added just beneath the title.
@@ -74,9 +75,6 @@ class Drawable():
 		:type va: str
 		:param linespacing: The space between lines.
 		:type linespacing: str
-
-		:return: The caption instance.
-		:rtype: :class:`matplotlib.text.Text`
 		"""
 
 		"""
@@ -87,17 +85,28 @@ class Drawable():
 		lines = [ re.sub('([ \t]+)', ' ', line).strip() for line in lines ]
 		lines = [ line for line in lines if len(line) ]
 
-		caption = self.axis.text(0, 1, '\n'.join(lines), transform=self.axis.transAxes,
-        						 ha=ha, va=va, alpha=alpha, linespacing=linespacing,
-								 *args, **kwargs)
+		x_lim = self.axis.get_xlim()[1]
+		line_number = 0
+		for line in lines[::-1]:
+			"""
+			Go through each line and draw it word by word.
+			"""
+			line_number += 1
+			tokens = line.split()
+
+			offset = 0
+			for token in tokens:
+				caption = self.axis.text(offset, 1 + (line_number - 1) * linespacing, token, transform=self.axis.transAxes,
+										 ha=ha, va=va, alpha=alpha, linespacing=linespacing,
+										 *args, **kwargs)
+
+				offset += util.get_bb(self.figure, self.axis, caption, self.axis.transAxes).width + wordspacing
 
 		"""
 		Re-draw the title to make space for the caption.
 		"""
 		title = self.axis.get_title(loc='left')
-		self.axis.set_title(title, loc='left', pad=(15 * linespacing * len(lines)))
-
-		return caption
+		self.axis.set_title(title, loc='left', pad=(5 + 16 * line_number))
 
 	def __getattr__(self, name):
 		"""
