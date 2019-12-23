@@ -142,7 +142,7 @@ class TextAnnotation():
 					wordspacing, linespacing, *args, **kwargs
 				)
 				line_labels.append(label)
-				self._align(line_labels, lines, wordspacing, linespacing, align='right', x_lim=- wordspacing * 4)
+				self._align(line_labels, lines, wordspacing * 4, linespacing, align='right', x_lim=- wordspacing * 8)
 
 			offset += bb.width + wordspacing
 
@@ -235,11 +235,15 @@ class TextAnnotation():
 					    - right
 					    - justify
 		:type align: str
+		:param x_lim: The x-limit relative to which to align the tokens.
+					  If it is not given, the axis' x-limit is used instead.
+		:type x_lim: float
 		"""
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
+		punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
 		x_lim = axis.get_xlim()[1] if x_lim is None else x_lim
 
 		"""
@@ -254,7 +258,6 @@ class TextAnnotation():
 			"""
 			If the alignment is justified, add space between text tokens to fill the line.
 			"""
-			punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
 			text_tokens = [ token for token in tokens if token.get_text() not in punctuation ]
 
 			"""
@@ -295,11 +298,17 @@ class TextAnnotation():
 		elif align == 'right':
 			if len(tokens):
 				"""
-				Offset each token in the line to move it to the end of the line.
+				Start moving the tokens to the back of the line in reverse.
 				"""
-				last = tokens[-1]
-				offset = x_lim - util.get_bb(figure, axis, last).x1
 
-				for token in tokens:
+				offset = 0
+				for token in tokens[::-1]:
 					bb = util.get_bb(figure, axis, token)
-					token.set_position((bb.x0 + offset, line * linespacing))
+					offset += bb.width
+					token.set_position((x_lim - offset, bb.y0))
+
+					"""
+					Do not add to the offset if the token is a punctuation mark.
+					"""
+					if token.get_text() not in punctuation:
+						offset += wordspacing
