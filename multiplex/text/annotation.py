@@ -162,13 +162,22 @@ class TextAnnotation():
 		kwargs.update(style)
 
 		"""
+		Some styling are set specifically for the bbox.
+		"""
+		bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' }
+		for arg in bbox_kwargs:
+			if arg in kwargs:
+				bbox_kwargs[arg] = kwargs.get(arg)
+				del kwargs[arg]
+
+		"""
 		The bbox's padding is calculated in pixels.
 		Therefore it is transformed from the provided axis coordinates to pixels.
 		"""
 		wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
 						  axis.transData.transform((0, 0))[0])
 		text = axis.text(offset, line * linespacing, text,
-						 bbox=dict(facecolor='None', edgecolor='None', pad=wordspacing_px / 2.),
+						 bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
 						 *args, **kwargs)
 		return text
 
@@ -257,7 +266,10 @@ class TextAnnotation():
 					token.set_position((offset - space * 1.25, line * linespacing))
 				else:
 					token.set_position((offset, line * linespacing))
-					token.set_bbox(dict(facecolor='None', edgecolor='None', pad=wordspacing_px / 2.))
+					bb = token.get_bbox_patch()
+					token.set_bbox(dict(
+						facecolor=bb.get_facecolor(), edgecolor=bb.get_edgecolor(),
+						pad=wordspacing_px / 2.))
 					bb = util.get_bb(figure, axis, token)
 					offset += bb.width + space
 
