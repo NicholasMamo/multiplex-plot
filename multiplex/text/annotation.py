@@ -96,7 +96,7 @@ class TextAnnotation():
 			"""
 			if bb.x1 > x_lim and token not in punctuation:
 				self._newline(line_tokens.pop(-1), lines, linespacing)
-				self._organize_tokens(line_tokens, lines, wordspacing, linespacing, align)
+				self._align(line_tokens, lines, wordspacing, linespacing, align)
 				offset, lines = 0, lines + 1
 				line_tokens = [ text ]
 
@@ -107,7 +107,7 @@ class TextAnnotation():
 		The axis and the figure are made to fit the text tightly.
 		"""
 		if align != 'justify':
-			self._organize_tokens(line_tokens, lines, wordspacing, linespacing, align)
+			self._align(line_tokens, lines, wordspacing, linespacing, align)
 		axis.set_ylim(-linespacing, lines * linespacing + 0.1)
 		axis.invert_yaxis()
 		self.drawable.figure.set_figheight(max(1, lines * linespacing))
@@ -158,7 +158,7 @@ class TextAnnotation():
 
 		token.set_position((0, (line + 1) * linespacing))
 
-	def _organize_tokens(self, tokens, line, wordspacing, linespacing, align='left',
+	def _align(self, tokens, line, wordspacing, linespacing, align='left',
 						 *args, **kwargs):
 		"""
 		Organize the line tokens.

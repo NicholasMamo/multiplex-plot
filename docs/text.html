@@ -171,6 +171,37 @@ The visualization is drawn on the given axis.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="text.annotation.TextAnnotation._align">
+<code class="descname">_align</code><span class="sig-paren">(</span><em>tokens</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>align='left'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._align" title="Permalink to this definition">¶</a></dt>
+<dd><p>Organize the line tokens.
+This function is used when the line overflows.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tokens</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of tokens added to the line.</li>
+<li><strong>line</strong> (<em>int</em>) &#8211; The line number of the tokens.</li>
+<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
+<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
+<li><strong>align</strong> (<em>str</em>) &#8211; <p>The text&#8217;s alignment.
+Possible values:</p>
+<blockquote>
+<div><ul>
+<li>left</li>
+<li>right</li>
+<li>justify</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="text.annotation.TextAnnotation._draw_token">
 <code class="descname">_draw_token</code><span class="sig-paren">(</span><em>token</em>, <em>offset</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_token" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the token on the plot.</p>
@@ -239,37 +270,6 @@ Possible values:</p>
 <li><strong>token</strong> (<code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The text token to move to the next line.</li>
 <li><strong>line</strong> (<em>int</em>) &#8211; The new line number of the token.</li>
 <li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="text.annotation.TextAnnotation._organize_tokens">
-<code class="descname">_organize_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>align='left'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._organize_tokens" title="Permalink to this definition">¶</a></dt>
-<dd><p>Organize the line tokens.
-This function is used when the line overflows.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tokens</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of tokens added to the line.</li>
-<li><strong>line</strong> (<em>int</em>) &#8211; The line number of the tokens.</li>
-<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
-<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
-<li><strong>align</strong> (<em>str</em>) &#8211; <p>The text&#8217;s alignment.
-Possible values:</p>
-<blockquote>
-<div><ul>
-<li>left</li>
-<li>right</li>
-<li>justify</li>
-</ul>
-</div></blockquote>
-</li>
 </ul>
 </td>
 </tr>
