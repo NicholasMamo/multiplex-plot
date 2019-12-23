@@ -42,8 +42,9 @@ class TextAnnotation():
 		.. code-block:: python
 
 			{
-			  'text': 'token',
+			  'label': None,
 			  'style': { 'facecolor': 'None' },
+			  'text': 'token',
 			}
 
 		Of these keys, only `text` is required.
@@ -100,7 +101,7 @@ class TextAnnotation():
 		Go through each token and draw it on the axis.
 		"""
 		offset, lines = 0, 0
-		line_tokens = []
+		line_tokens, labels, line_labels = [], [], []
 		for token in tokens:
 			"""
 			If the token is a punctuation mark, do not add wordspacing to it.
@@ -128,7 +129,20 @@ class TextAnnotation():
 				self._newline(line_tokens.pop(-1), lines, linespacing)
 				self._align(line_tokens, lines, wordspacing, linespacing, align)
 				offset, lines = 0, lines + 1
-				line_tokens = [ text ]
+				line_tokens, line_labels = [ text ], []
+
+			"""
+			If the token has a label associated with it, draw it on the first instance.
+			The labels are ordered left-to-right according to when they appeared.
+			"""
+			if 'label' in token and token.get('label') not in labels:
+				labels.append(token.get('label'))
+				label = self._draw_token(
+					token.get('label'), token.get('style', {}), 0, lines,
+					wordspacing, linespacing, *args, **kwargs
+				)
+				line_labels.append(label)
+				self._align(line_labels, lines, wordspacing, linespacing, align='right', x_lim=- wordspacing * 4)
 
 			offset += bb.width + wordspacing
 
@@ -201,7 +215,7 @@ class TextAnnotation():
 		token.set_position((0, (line + 1) * linespacing))
 
 	def _align(self, tokens, line, wordspacing, linespacing, align='left',
-						 *args, **kwargs):
+			   x_lim=None, *args, **kwargs):
 		"""
 		Organize the line tokens.
 		This function is used when the line overflows.
@@ -226,7 +240,7 @@ class TextAnnotation():
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		x_lim = axis.get_xlim()[1]
+		x_lim = axis.get_xlim()[1] if x_lim is None else x_lim
 
 		"""
 		If the text is left-aligned or justify, move the last token to the next line.
