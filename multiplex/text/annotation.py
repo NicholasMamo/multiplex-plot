@@ -108,7 +108,13 @@ class TextAnnotation():
 			if token.get('text') in punctuation:
 				offset -= wordspacing * 1.5
 
-			text = self._draw_token(token, offset, lines, wordspacing, linespacing, *args, **kwargs)
+			"""
+			Draw the text token.
+			"""
+			text = self._draw_token(
+				token.get('text'), token.get('style', {}), offset, lines,
+				wordspacing, linespacing, *args, **kwargs
+			)
 			line_tokens.append(text)
 			bb = util.get_bb(figure, axis, text)
 
@@ -136,12 +142,14 @@ class TextAnnotation():
 		axis.invert_yaxis()
 		self.drawable.figure.set_figheight(max(1, lines * linespacing))
 
-	def _draw_token(self, token, offset, line, wordspacing, linespacing, *args, **kwargs):
+	def _draw_token(self, text, style, offset, line, wordspacing, linespacing, *args, **kwargs):
 		"""
 		Draw the token on the plot.
 
-		:param token: The text token to draw.
-		:type token: str
+		:param text: The text token to draw.
+		:type text: str
+		:param style: The style information for the token.
+		:type style: dict
 		:param offset: The token's offset.
 		:type offset: float
 		:param line: The line number of the token.
@@ -157,10 +165,7 @@ class TextAnnotation():
 
 		axis = self.drawable.axis
 
-		text = token.get('text')
-		style = token.get('style', {})
 		kwargs.update(style)
-
 		"""
 		Some styling are set specifically for the bbox.
 		"""
