@@ -142,7 +142,7 @@ class TextAnnotation():
 					wordspacing, linespacing, *args, **kwargs
 				)
 				line_labels.append(label)
-				self._align(line_labels, lines, wordspacing * 4, linespacing, align='right', x_lim=- wordspacing * 8)
+				self._align(line_labels, lines, wordspacing * 2, linespacing, align='right', x_lim=- wordspacing * 8)
 
 			offset += bb.width + wordspacing
 
