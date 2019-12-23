@@ -84,7 +84,7 @@ class TextAnnotation():
 			if token in punctuation:
 				offset -= wordspacing * 1.5
 
-			text = self._draw_token(token, offset, lines, wordspacing, linespacing)
+			text = self._draw_token(token, offset, lines, wordspacing, linespacing, *args, **kwargs)
 			line_tokens.append(text)
 			bb = util.get_bb(figure, axis, text)
 
