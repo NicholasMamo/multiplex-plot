@@ -35,13 +35,37 @@ class TextAnnotation():
 		Draw the text annotation visualization.
 		The method receives text as a list of tokens and draws them as text.
 
+		The text can be provided either as strings or as dictionaries.
+		If strings are provided, the function converts them into dictionaries.
+		Dictionaries should have the following format:
+
+		.. code-block:: python
+
+			{
+			  'text': 'token',
+			  'style': { 'facecolor': 'None' },
+			}
+
+		Of these keys, only `text` is required.
+		The correct styling options are those accepted by the :class:`matplotlib.text.Text` class.
+		Anything not given uses default values.
+
+		Any other styling options, common to all tokens, should be provided as keyword arguments.
+
 		:param data: The text data.
 					 The visualization expects a list of tokens.
-		:type data: list of str
+		:type data: list of str or list of dict
 		"""
 
 		axis = self.drawable.axis
 		axis.axis('off')
+
+		"""
+		If text tokens are provided, convert them into a dictionary.
+		"""
+		for i, token in enumerate(data):
+			if type(token) is str:
+				data[i] = { 'text': token }
 
 		self._draw_tokens(data, *args, **kwargs)
 
@@ -133,13 +157,16 @@ class TextAnnotation():
 
 		axis = self.drawable.axis
 
+		text = token.get('text')
+		style = token.get('style', {})
+
 		"""
 		The bbox's padding is calculated in pixels.
 		Therefore it is transformed from the provided axis coordinates to pixels.
 		"""
 		wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
 						  axis.transData.transform((0, 0))[0])
-		text = axis.text(offset, line * linespacing, token,
+		text = axis.text(offset, line * linespacing, text,
 						 bbox=dict(facecolor='None', edgecolor='None', pad=wordspacing_px / 2.),
 						 *args, **kwargs)
 		return text

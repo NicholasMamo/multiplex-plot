@@ -282,11 +282,24 @@ Possible values:</p>
 <code class="descname">draw</code><span class="sig-paren">(</span><em>data</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the text annotation visualization.
 The method receives text as a list of tokens and draws them as text.</p>
+<p>The text can be provided either as strings or as dictionaries.
+If strings are provided, the function converts them into dictionaries.
+Dictionaries should have the following format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;token&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">},</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Of these keys, only <cite>text</cite> is required.
+The correct styling options are those accepted by the <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code> class.
+Anything not given uses default values.</p>
+<p>Any other styling options, common to all tokens, should be provided as keyword arguments.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>list of str</em>) &#8211; The text data.
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>list of str or list of dict</em>) &#8211; The text data.
 The visualization expects a list of tokens.</td>
 </tr>
 </tbody>
