@@ -105,7 +105,7 @@ class TextAnnotation():
 			"""
 			If the token is a punctuation mark, do not add wordspacing to it.
 			"""
-			if token in punctuation:
+			if token.get('text') in punctuation:
 				offset -= wordspacing * 1.5
 
 			text = self._draw_token(token, offset, lines, wordspacing, linespacing, *args, **kwargs)
@@ -118,7 +118,7 @@ class TextAnnotation():
 			The token is moved to this new line.
 			Lines do not break on certain types of punctuation.
 			"""
-			if bb.x1 > x_lim and token not in punctuation:
+			if bb.x1 > x_lim and token.get('text') not in punctuation:
 				self._newline(line_tokens.pop(-1), lines, linespacing)
 				self._align(line_tokens, lines, wordspacing, linespacing, align)
 				offset, lines = 0, lines + 1
