@@ -159,6 +159,7 @@ class TextAnnotation():
 
 		text = token.get('text')
 		style = token.get('style', {})
+		kwargs.update(style)
 
 		"""
 		The bbox's padding is calculated in pixels.
