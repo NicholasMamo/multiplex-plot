@@ -138,8 +138,23 @@ For example, the below visualization, created using the <a class="reference inte
 <p>Keep reading to learn more about text visualizations.</p>
 <span class="target" id="module-text"></span><div class="section" id="module-text.annotation">
 <span id="text-annotation"></span><h2>Text Annotation<a class="headerlink" href="#module-text.annotation" title="Permalink to this headline">¶</a></h2>
-<p>A class of visualization that allows text annotations.
-The annotation class is mainly concerned with organizing text.</p>
+<p>The <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal"><span class="pre">text.annotation.TextAnnotation</span></code></a> class is mainly concerned with organizing text.
+You can do just about anything with these visualizations, including—unsurprisingly enough—annotating the text.</p>
+<p>To get started with a <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal"><span class="pre">text.annotation.TextAnnotation</span></code></a> visualization, create an instance of it and call the <a class="reference internal" href="#text.annotation.TextAnnotation.draw" title="text.annotation.TextAnnotation.draw"><code class="xref py py-meth docutils literal"><span class="pre">text.annotation.TextAnnotation.draw()</span></code></a> method.
+This method expects, at the very least, a <cite>list</cite> of text tokens.
+Alternatively, you can provide a <cite>list</cite> of <cite>dict</cite> of tokens containing at least a <cite>text</cite> attribute and any of the other keys:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+  <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">},</span>
+  <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;token&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Instructions on how the text should be formatted can be passed on to the <a class="reference internal" href="#text.annotation.TextAnnotation.draw" title="text.annotation.TextAnnotation.draw"><code class="xref py py-meth docutils literal"><span class="pre">text.annotation.TextAnnotation.draw()</span></code></a> method.
+These attributes include alignment and the line height.
+The text can also be styled by passing on any attributes supported by the <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code> class.
+The same attributes can be passed on to the <cite>style</cite> key in the code block above.
+You can find examples to help you get started <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb">here</a>.</p>
 <dl class="class">
 <dt id="text.annotation.TextAnnotation">
 <em class="property">class </em><code class="descclassname">text.annotation.</code><code class="descname">TextAnnotation</code><span class="sig-paren">(</span><em>drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation" title="Permalink to this definition">¶</a></dt>
@@ -238,7 +253,7 @@ If it is not given, the axis&#8217; x-limit is used instead.</li>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation._draw_tokens">
-<code class="descname">_draw_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>wordspacing=0.005</em>, <em>lineheight=1.25</em>, <em>align='left'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
+<code class="descname">_draw_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>wordspacing</em>, <em>lineheight</em>, <em>align</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the tokens on the plot.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -246,7 +261,7 @@ If it is not given, the axis&#8217; x-limit is used instead.</li>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>tokens</strong> (<em>list of str</em>) &#8211; The text tokens to draw.
-The method expects a list of tokens.</li>
+The method expects a <cite>list</cite> of tokens, each one a <cite>dict</cite>.</li>
 <li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
 <li><strong>lineheight</strong> (<em>float</em>) &#8211; The space between lines.</li>
 <li><strong>align</strong> (<em>str</em>) &#8211; <p>The text&#8217;s alignment.
@@ -303,7 +318,7 @@ The function expects lines to be tuples of legend labels and tokens.</td>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>data</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>data</em>, <em>wordspacing=0.005</em>, <em>lineheight=1.25</em>, <em>align='left'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the text annotation visualization.
 The method receives text as a list of tokens and draws them as text.</p>
 <p>The text can be provided either as strings or as dictionaries.
@@ -324,8 +339,23 @@ Anything not given uses default values.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>list of str or list of dict</em>) &#8211; The text data.
-The visualization expects a list of tokens.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> (<em>list of str or list of dict</em>) &#8211; The text data.
+The visualization expects a <cite>list</cite> of tokens, or a <cite>list</cite> of <cite>dict</cite> instances as shown above.</li>
+<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
+<li><strong>lineheight</strong> (<em>float</em>) &#8211; The space between lines.</li>
+<li><strong>align</strong> (<em>str</em>) &#8211; <p>The text&#8217;s alignment.
+Possible values:</p>
+<blockquote>
+<div><ul>
+<li>left</li>
+<li>right</li>
+<li>justify</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>

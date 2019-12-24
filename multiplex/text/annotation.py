@@ -1,6 +1,24 @@
 """
-A class of visualization that allows text annotations.
-The annotation class is mainly concerned with organizing text.
+The :class:`text.annotation.TextAnnotation` class is mainly concerned with organizing text.
+You can do just about anything with these visualizations, including—unsurprisingly enough—annotating the text.
+
+To get started with a :class:`text.annotation.TextAnnotation` visualization, create an instance of it and call the :meth:`text.annotation.TextAnnotation.draw` method.
+This method expects, at the very least, a `list` of text tokens.
+Alternatively, you can provide a `list` of `dict` of tokens containing at least a `text` attribute and any of the other keys:
+
+.. code-block:: python
+
+	{
+	  'label': None,
+	  'style': { 'facecolor': 'None' },
+	  'text': 'token',
+	}
+
+Instructions on how the text should be formatted can be passed on to the :meth:`text.annotation.TextAnnotation.draw` method.
+These attributes include alignment and the line height.
+The text can also be styled by passing on any attributes supported by the :class:`matplotlib.text.Text` class.
+The same attributes can be passed on to the `style` key in the code block above.
+You can find examples to help you get started `here <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb>`_.
 """
 
 import os
@@ -30,7 +48,8 @@ class TextAnnotation():
 
 		self.drawable = drawable
 
-	def draw(self, data, *args, **kwargs):
+	def draw(self, data, wordspacing=0.005, lineheight=1.25,
+			 align='left', *args, **kwargs):
 		"""
 		Draw the text annotation visualization.
 		The method receives text as a list of tokens and draws them as text.
@@ -54,8 +73,19 @@ class TextAnnotation():
 		Any other styling options, common to all tokens, should be provided as keyword arguments.
 
 		:param data: The text data.
-					 The visualization expects a list of tokens.
+					 The visualization expects a `list` of tokens, or a `list` of `dict` instances as shown above.
 		:type data: list of str or list of dict
+		:param wordspacing: The space between words.
+		:type wordspacing: float
+		:param lineheight: The space between lines.
+		:type lineheight: float
+		:param align: The text's alignment.
+					  Possible values:
+
+					    - left
+					    - right
+					    - justify
+		:type align: str
 		"""
 
 		axis = self.drawable.axis
@@ -68,15 +98,15 @@ class TextAnnotation():
 			if type(token) is str:
 				data[i] = { 'text': token }
 
-		self._draw_tokens(data, *args, **kwargs)
+		self._draw_tokens(data, wordspacing, lineheight, align, *args, **kwargs)
 
-	def _draw_tokens(self, tokens, wordspacing=0.005, lineheight=1.25,
-					 align='left', *args, **kwargs):
+	def _draw_tokens(self, tokens, wordspacing, lineheight,
+					 align, *args, **kwargs):
 		"""
 		Draw the tokens on the plot.
 
 		:param tokens: The text tokens to draw.
-					   The method expects a list of tokens.
+					   The method expects a `list` of tokens, each one a `dict`.
 		:type tokens: list of str
 		:param wordspacing: The space between words.
 		:type wordspacing: float
