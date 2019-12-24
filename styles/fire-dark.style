@@ -640,8 +640,8 @@ figure.facecolor   : (0.212, 0.271, 0.31)     ## figure facecolor
 ## The default savefig params can be different from the display params
 ## e.g., you may want a higher resolution, or to make the figure
 ## background white
-#savefig.dpi       : figure      ## figure dots per inch or 'figure'
-#savefig.facecolor : white       ## figure facecolor when saving
+savefig.dpi       : figure      ## figure dots per inch or 'figure'
+savefig.facecolor : (0.212, 0.271, 0.31)       ## figure facecolor when saving
 #savefig.edgecolor : white       ## figure edgecolor when saving
 #savefig.format    : png         ## {png, ps, pdf, svg}
 #savefig.bbox      : standard    ## {tight, standard}
