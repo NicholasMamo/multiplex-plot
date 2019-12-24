@@ -1,5 +1,5 @@
 """
-All visualizations revolve around the :class:`Drawable` class.
+All of Multiplex's visualizations revolve around the :class:`Drawable` class.
 A :class:`Drawable` is nothing more than a class that wraps a matplotlib figure and an axis.
 All of the functions that you would call on a matplotlib axis, you can call on the :class:`Drawable`.
 The :class:`Drawable` instance re-routes unknown functions to the matplotlib axis.
@@ -17,6 +17,10 @@ If you want to plot on a particular axis, or a subplot, create it as follows ins
 
   figure, axis = plt.subplots(2, 1, figsize=(10, 10))
   viz = drawable.Drawable(figure, axis[0])
+
+To learn more about how Multiplex works, keep reading the documentation.
+If all you want is to get your hands dirty, take a look at the `examples <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_ directory.
+Happy visualizing!
 """
 
 import matplotlib.pyplot as plt
