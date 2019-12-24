@@ -165,7 +165,6 @@ class TextAnnotation():
 				self._newline(line_tokens.pop(-1), lines, linespacing)
 				self._align(line_tokens, lines, wordspacing, linespacing, align)
 				offset, lines = 0, lines + 1
-				bb = util.get_bb(figure, axis, text)
 				drawn_lines.append((line_labels, line_tokens))
 				line_tokens, line_labels = [ text ], []
 
@@ -193,13 +192,10 @@ class TextAnnotation():
 
 		"""
 		Move the plot so that it starts from x-coordinate 0.
-		"""
-		self._move_plot(drawn_lines)
-
-		"""
-		Re-draw the axis and the figure dimensions.
+		Then, re-draw the axis and the figure dimensions.
 		The axis and the figure are made to fit the text tightly.
 		"""
+		self._move_plot(drawn_lines)
 		axis.set_ylim(- linespacing, lines * linespacing)
 		axis.invert_yaxis()
 		self.drawable.figure.set_figheight(lines * lineheight / 2)
