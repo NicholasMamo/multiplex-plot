@@ -6,6 +6,12 @@
 Welcome to Multiplex's documentation!
 =====================================
 
+Multiplex is a visualization library built on `matplotlib <https://github.com/matplotlib/matplotlib/>`_.
+The library provides new types of visualizations to help you explore data and explain it better.
+
+This documentation describes all of Multiplex's functionality.
+If you want to get started immediately, check out the `example notebooks <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
