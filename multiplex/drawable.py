@@ -55,7 +55,7 @@ class Drawable():
 		self.axis = plt.gca() if axis is None else axis
 
 	def set_caption(self, caption, alpha=0.8, ha='left', va='bottom',
-					wordspacing=0.005, *args, **kwargs):
+					wordspacing=0.005, lineheight=1.25, *args, **kwargs):
 		"""
 		Add a caption to the subplot.
 		The caption is added just beneath the title.
@@ -73,6 +73,8 @@ class Drawable():
 		:type ha: str
 		:param va: The vertical alignment of the caption.
 		:type va: str
+		:param lineheight: The space between lines.
+		:type lineheight: str
 
 		:return: A list of tokens that make up the caption.
 		:rtype: list of :class:`matplotlib.text.Text`
@@ -112,7 +114,7 @@ class Drawable():
 				Set the linespacing since it depends on the figure height.
 				"""
 				bb = util.get_bb(self.figure, self.axis, caption, self.axis.transAxes)
-				linespacing = bb.height
+				linespacing = bb.height * lineheight
 
 				if bb.x1 > 1:
 					"""
