@@ -8,8 +8,11 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
+	
   <title>Text &mdash; Multiplex 0.1.0 documentation</title>
   
+	<meta content="6-b47nDPjK44wloiTTz5ZH1d0PbmODUCmFdUAtM3dR0" name="google-site-verification" />
+
 
   
   
@@ -129,7 +132,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="text">
+    <div class="section" id="text">
 <h1>Text<a class="headerlink" href="#text" title="Permalink to this headline">¶</a></h1>
 <p>Text visualizations are tools to help you tell your story better.
 These types of visualizations give you the comfort of organizing text so that you can focus instead on the narrative.
@@ -276,6 +279,25 @@ Possible values:</p>
 </li>
 </ul>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="text.annotation.TextAnnotation._get_linespacing">
+<code class="descname">_get_linespacing</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._get_linespacing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the line spacing.
+The line spacing is calculated by creating a token and getting its height.
+The token is immediately removed.
+The token&#8217;s styling have to be provided as keyword arguments.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The line spacing.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">float</td>
 </tr>
 </tbody>
 </table>
