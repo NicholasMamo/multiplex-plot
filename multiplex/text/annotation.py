@@ -323,7 +323,7 @@ class TextAnnotation():
 				for token in tokens[::-1]:
 					bb = util.get_bb(figure, axis, token)
 					offset += bb.width
-					token.set_position((x_lim - offset, bb.y0 + wordspacing / 2))
+					token.set_position((x_lim - offset, bb.y1))
 
 					"""
 					Do not add to the offset if the token is a punctuation mark.
