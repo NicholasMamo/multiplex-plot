@@ -3,10 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. meta::
-   :google-site-verification: 6-b47nDPjK44wloiTTz5ZH1d0PbmODUCmFdUAtM3dR0
-   :keywords: python, visualizations, matplotlib
-
 Welcome to Multiplex's documentation!
 =====================================
 
