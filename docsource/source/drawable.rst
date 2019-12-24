@@ -1,6 +1,6 @@
-********
-Drawable
-********
+***************
+Getting started
+***************
 
 .. image:: ../../examples/exports/time-series.png
 
