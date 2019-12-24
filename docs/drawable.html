@@ -129,8 +129,20 @@
   <div class="section" id="drawable">
 <h1>Drawable<a class="headerlink" href="#drawable" title="Permalink to this headline">¶</a></h1>
 <img alt="_images/time-series.png" src="_images/time-series.png" />
-<span class="target" id="module-drawable"></span><p>A class that wraps a figure and provides more functionality to work with visualizations.
-All functionality goes through this class.</p>
+<span class="target" id="module-drawable"></span><p>All visualizations revolve around the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">Drawable</span></code></a> class.
+A <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">Drawable</span></code></a> is nothing more than a class that wraps a matplotlib figure and an axis.
+All of the functions that you would call on a matplotlib axis, you can call on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">Drawable</span></code></a>.
+The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">Drawable</span></code></a> instance re-routes unknown functions to the matplotlib axis.
+However, the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">Drawable</span></code></a> also comes with new visualizations to help you explore or explain data faster.</p>
+<p>To start working with a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">Drawable</span></code></a>, create it from a normal plot:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>If you want to plot on a particular axis, or a subplot, create it as follows instead:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
 <dl class="class">
 <dt id="drawable.Drawable">
 <em class="property">class </em><code class="descclassname">drawable.</code><code class="descname">Drawable</code><span class="sig-paren">(</span><em>figure</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable" title="Permalink to this definition">¶</a></dt>

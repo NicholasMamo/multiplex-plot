@@ -1,6 +1,22 @@
 """
-A class that wraps a figure and provides more functionality to work with visualizations.
-All functionality goes through this class.
+All visualizations revolve around the :class:`Drawable` class.
+A :class:`Drawable` is nothing more than a class that wraps a matplotlib figure and an axis.
+All of the functions that you would call on a matplotlib axis, you can call on the :class:`Drawable`.
+The :class:`Drawable` instance re-routes unknown functions to the matplotlib axis.
+However, the :class:`Drawable` also comes with new visualizations to help you explore or explain data faster.
+
+To start working with a :class:`Drawable`, create it from a normal plot:
+
+.. code-block:: python
+
+  viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+
+If you want to plot on a particular axis, or a subplot, create it as follows instead:
+
+.. code-block:: python
+
+  figure, axis = plt.subplots(2, 1, figsize=(10, 10))
+  viz = drawable.Drawable(figure, axis[0])
 """
 
 import matplotlib.pyplot as plt
