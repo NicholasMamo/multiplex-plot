@@ -1,6 +1,6 @@
 # Multiplex
 
-A Python library that builds on matplotlib, providing new types of visualizations
+A Python library that builds on matplotlib, providing new types of visualizations to help you explore your data and explain it better.
 
 ## Getting Started
 
