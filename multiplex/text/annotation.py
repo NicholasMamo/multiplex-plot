@@ -131,7 +131,8 @@ class TextAnnotation():
 		Go through each token and draw it on the axis.
 		"""
 		drawn_lines = []
-		linespacing, offset, lines = 0, 0, 0
+		linespacing = self._get_linespacing(*args, **kwargs) * lineheight
+		offset, lines = 0, 0
 		line_tokens, labels, line_labels = [], [], []
 		for token in tokens:
 			"""
@@ -150,17 +151,12 @@ class TextAnnotation():
 			line_tokens.append(text)
 
 			"""
-			Set the linespacing since it depends on the figure height.
-			"""
-			bb = util.get_bb(figure, axis, text)
-			linespacing = bb.height * lineheight
-
-			"""
 			If the token exceeds the x-limit, break line.
 			The offset is reset to the left, and a new line is added.
 			The token is moved to this new line.
 			Lines do not break on certain types of punctuation.
 			"""
+			bb = util.get_bb(figure, axis, text)
 			if bb.x1 > x_lim and token.get('text') not in punctuation:
 				self._newline(line_tokens.pop(-1), lines, linespacing)
 				self._align(line_tokens, lines, wordspacing, linespacing, align)
@@ -199,6 +195,30 @@ class TextAnnotation():
 		axis.set_ylim(- linespacing, lines * linespacing)
 		axis.invert_yaxis()
 		self.drawable.figure.set_figheight(lines * lineheight / 2)
+
+	def _get_linespacing(self, *args, **kwargs):
+		"""
+		Calculate the line spacing.
+		The line spacing is calculated by creating a token and getting its height.
+		The token is immediately removed.
+		The token's styling have to be provided as keyword arguments.
+
+		:return: The line spacing.
+		:rtype: float
+		"""
+
+		axis = self.drawable.axis
+		figure = self.drawable.figure
+
+		"""
+		Draw a dummy token and get its height.
+		Then, remove that token.
+		"""
+		token = self._draw_token('None', {}, 0, 0, 0, 0, *args, **kwargs)
+		bb = util.get_bb(figure, axis, token)
+		height = bb.height
+		token.remove()
+		return height
 
 	def _draw_token(self, text, style, offset, line, wordspacing, linespacing, *args, **kwargs):
 		"""
