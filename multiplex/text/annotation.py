@@ -115,7 +115,7 @@ class TextAnnotation():
 			"""
 			text = self._draw_token(
 				token.get('text'), token.get('style', {}), offset, lines,
-				wordspacing, linespacing, *args, **kwargs
+				wordspacing, linespacing, va='top', *args, **kwargs
 			)
 			line_tokens.append(text)
 
@@ -123,7 +123,7 @@ class TextAnnotation():
 			Set the linespacing since it depends on the figure height.
 			"""
 			bb = util.get_bb(figure, axis, text)
-			linespacing = bb.height
+			linespacing = bb.height * lineheight
 
 			"""
 			If the token exceeds the x-limit, break line.
@@ -147,7 +147,7 @@ class TextAnnotation():
 				labels.append(token.get('label'))
 				label = self._draw_token(
 					token.get('label'), token.get('style', {}), 0, lines,
-					wordspacing, linespacing, *args, **kwargs
+					wordspacing, linespacing, va='top', *args, **kwargs
 				)
 				line_labels.append(label)
 				self._align(line_labels, lines, wordspacing * 2, linespacing, align='right', x_lim=- wordspacing * 8)
@@ -170,9 +170,9 @@ class TextAnnotation():
 		Re-draw the axis and the figure dimensions.
 		The axis and the figure are made to fit the text tightly.
 		"""
-		axis.set_ylim(- linespacing * lineheight, lines * linespacing)
+		axis.set_ylim(- linespacing, lines * linespacing)
 		axis.invert_yaxis()
-		self.drawable.figure.set_figheight(max(1, lines * lineheight / 2.))
+		self.drawable.figure.set_figheight(lines * lineheight / 2)
 
 	def _draw_token(self, text, style, offset, line, wordspacing, linespacing, *args, **kwargs):
 		"""
