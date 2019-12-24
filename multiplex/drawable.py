@@ -74,7 +74,7 @@ class Drawable():
 		:param va: The vertical alignment of the caption.
 		:type va: str
 		:param lineheight: The space between lines.
-		:type lineheight: str
+		:type lineheight: float
 
 		:return: A list of tokens that make up the caption.
 		:rtype: list of :class:`matplotlib.text.Text`

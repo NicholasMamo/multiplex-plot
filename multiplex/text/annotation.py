@@ -70,7 +70,7 @@ class TextAnnotation():
 
 		self._draw_tokens(data, *args, **kwargs)
 
-	def _draw_tokens(self, tokens, wordspacing=0.005, linespacing=0.6,
+	def _draw_tokens(self, tokens, wordspacing=0.005, lineheight=1.25,
 					 align='left', *args, **kwargs):
 		"""
 		Draw the tokens on the plot.
@@ -80,8 +80,8 @@ class TextAnnotation():
 		:type tokens: list of str
 		:param wordspacing: The space between words.
 		:type wordspacing: float
-		:param linespacing: The space between lines.
-		:type linespacing: float
+		:param lineheight: The space between lines.
+		:type lineheight: float
 		:param align: The text's alignment.
 					  Possible values:
 
@@ -101,7 +101,7 @@ class TextAnnotation():
 		Go through each token and draw it on the axis.
 		"""
 		drawn_lines = []
-		offset, lines = 0, 0
+		linespacing, offset, lines = 0, 0, 0
 		line_tokens, labels, line_labels = [], [], []
 		for token in tokens:
 			"""
@@ -118,7 +118,12 @@ class TextAnnotation():
 				wordspacing, linespacing, *args, **kwargs
 			)
 			line_tokens.append(text)
+
+			"""
+			Set the linespacing since it depends on the figure height.
+			"""
 			bb = util.get_bb(figure, axis, text)
+			linespacing = bb.height
 
 			"""
 			If the token exceeds the x-limit, break line.
@@ -130,6 +135,7 @@ class TextAnnotation():
 				self._newline(line_tokens.pop(-1), lines, linespacing)
 				self._align(line_tokens, lines, wordspacing, linespacing, align)
 				offset, lines = 0, lines + 1
+				bb = util.get_bb(figure, axis, text)
 				drawn_lines.append((line_labels, line_tokens))
 				line_tokens, line_labels = [ text ], []
 
@@ -164,9 +170,9 @@ class TextAnnotation():
 		Re-draw the axis and the figure dimensions.
 		The axis and the figure are made to fit the text tightly.
 		"""
-		axis.set_ylim(-linespacing, lines * linespacing + 0.1)
+		axis.set_ylim(-linespacing, lines * linespacing)
 		axis.invert_yaxis()
-		self.drawable.figure.set_figheight(max(1, lines * linespacing))
+		self.drawable.figure.set_figheight(max(1, lines * lineheight / 3.))
 
 	def _draw_token(self, text, style, offset, line, wordspacing, linespacing, *args, **kwargs):
 		"""
@@ -317,7 +323,7 @@ class TextAnnotation():
 				for token in tokens[::-1]:
 					bb = util.get_bb(figure, axis, token)
 					offset += bb.width
-					token.set_position((x_lim - offset, bb.y0))
+					token.set_position((x_lim - offset, bb.y0 + wordspacing / 2))
 
 					"""
 					Do not add to the offset if the token is a punctuation mark.
