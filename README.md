@@ -16,8 +16,7 @@ More details about it are available in [matplotlib's repository](https://github.
 
 ### Installing
 
-Multiplex is not currently distributed with pip since it is still in early development.
-Until then, download or clone the repository and place the library wherever you plan on using it.
+You can install Multiplex using `python -m pip install -U multiplex-plot`.
 
 ## Running the tests
 
