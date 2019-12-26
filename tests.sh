@@ -7,3 +7,4 @@ cd "$parent_path" # go to the script path
 # Perform the unit tests
 
 python3 -m unittest multiplex.tests.test_drawable
+python3 -m unittest multiplex.tests.test_text_annotation
