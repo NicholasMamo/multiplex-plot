@@ -19,6 +19,11 @@ a:visited.reference internal {
 	color: rgba(255, 255, 255, 0.7);
 }
 
+.multiplex-logo {
+	display: block;
+	margin: 0 auto;
+}
+
 .wy-nav-side {
 	background: var(--dark);
 }
