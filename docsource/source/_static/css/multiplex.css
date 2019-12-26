@@ -28,7 +28,8 @@ a:visited.reference internal {
 	background: var(--dark);
 }
 
-.wy-side-nav-search {
+.wy-side-nav-search,
+.wy-nav-top {
 	background-color: var(--primary);
 }
 
