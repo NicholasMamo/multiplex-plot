@@ -3,9 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. meta::
+   :description: Multiplex: visualizations that tell stories
+   :keywords: Multiplex, Python, visualizations, data science
+
 .. image:: ../../assets/logo.png
 
-Multiplex is a visualization library built on `matplotlib <https://github.com/matplotlib/matplotlib/>`_.
+Multiplex is a visualization library for Python built on `matplotlib <https://github.com/matplotlib/matplotlib/>`_.
 The library provides new types of visualizations to help you explore data and explain it better.
 
 This documentation describes all of Multiplex's functionality.
