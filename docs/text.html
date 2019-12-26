@@ -272,7 +272,7 @@ If it is not given, the axis&#8217; x-limit is used instead.</li>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>tokens</strong> (<em>list of str</em>) &#8211; The text tokens to draw.
 The method expects a <cite>list</cite> of tokens, each one a <cite>dict</cite>.</li>
 <li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
@@ -288,6 +288,15 @@ Possible values:</p>
 </div></blockquote>
 </li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn lines.
+Each line is made up of tuples of lists.
+The first list in each tuple is the list of legend labels.
+The second list in each tuple is the list of actual tokens.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of tuple</p>
 </td>
 </tr>
 </tbody>
@@ -371,7 +380,7 @@ Anything not given uses default values.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>data</strong> (<em>list of str or list of dict</em>) &#8211; The text data.
 The visualization expects a <cite>list</cite> of tokens, or a <cite>list</cite> of <cite>dict</cite> instances as shown above.</li>
 <li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
@@ -387,6 +396,15 @@ Possible values:</p>
 </div></blockquote>
 </li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn lines.
+Each line is made up of tuples of lists.
+The first list in each tuple is the list of legend labels.
+The second list in each tuple is the list of actual tokens.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of tuple</p>
 </td>
 </tr>
 </tbody>

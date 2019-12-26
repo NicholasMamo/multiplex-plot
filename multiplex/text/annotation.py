@@ -86,6 +86,12 @@ class TextAnnotation():
 					    - right
 					    - justify
 		:type align: str
+
+		:return: The drawn lines.
+				 Each line is made up of tuples of lists.
+				 The first list in each tuple is the list of legend labels.
+				 The second list in each tuple is the list of actual tokens.
+		:rtype: list of tuple
 		"""
 
 		axis = self.drawable.axis
@@ -98,7 +104,7 @@ class TextAnnotation():
 			if type(token) is str:
 				data[i] = { 'text': token }
 
-		self._draw_tokens(data, wordspacing, lineheight, align, *args, **kwargs)
+		return self._draw_tokens(data, wordspacing, lineheight, align, *args, **kwargs)
 
 	def _draw_tokens(self, tokens, wordspacing, lineheight,
 					 align, *args, **kwargs):
@@ -119,6 +125,12 @@ class TextAnnotation():
 					    - right
 					    - justify
 		:type align: str
+
+		:return: The drawn lines.
+				 Each line is made up of tuples of lists.
+				 The first list in each tuple is the list of legend labels.
+				 The second list in each tuple is the list of actual tokens.
+		:rtype: list of tuple
 		"""
 
 		axis = self.drawable.axis
@@ -195,6 +207,8 @@ class TextAnnotation():
 		axis.set_ylim(- linespacing, lines * linespacing)
 		axis.invert_yaxis()
 		self.drawable.figure.set_figheight(lines * lineheight / 2)
+
+		return drawn_lines
 
 	def _get_linespacing(self, *args, **kwargs):
 		"""
