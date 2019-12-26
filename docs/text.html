@@ -203,7 +203,7 @@ The visualization is drawn on the given axis.</p>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>data</em>, <em>wordspacing=0.005</em>, <em>lineheight=1.25</em>, <em>align='left'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>data</em>, <em>wordspacing=0.005</em>, <em>lineheight=1.25</em>, <em>align='left'</em>, <em>with_legend=True</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the text annotation visualization.
 The method receives text as a list of tokens and draws them as text.</p>
 <p>The text can be provided either as strings or as dictionaries.
@@ -234,11 +234,28 @@ Possible values:</p>
 <blockquote>
 <div><ul>
 <li>left</li>
-<li>right</li>
-<li>justify</li>
+<li><dl class="first docutils">
+<dt>right</dt>
+<dd><ul class="first last">
+<li>center</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>justify</dt>
+<dd><ul class="first last">
+<li>justify-start (or justify-left)</li>
+<li>justify-center</li>
+<li>justify-end or (justify-right)</li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </div></blockquote>
 </li>
+<li><strong>with_legend</strong> (<em>bool</em>) &#8211; A boolean indicating whether labels should create a legend.</li>
 </ul>
 </td>
 </tr>
@@ -257,7 +274,7 @@ The second list in each tuple is the list of actual tokens.</p>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation._draw_tokens">
-<code class="descname">_draw_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>wordspacing</em>, <em>lineheight</em>, <em>align</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
+<code class="descname">_draw_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>wordspacing</em>, <em>lineheight</em>, <em>align</em>, <em>with_legend</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the tokens on the plot.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -275,9 +292,20 @@ Possible values:</p>
 <li>left</li>
 <li>right</li>
 <li>justify</li>
+<li><dl class="first docutils">
+<dt>justify</dt>
+<dd><ul class="first last">
+<li>justify-start (or justify-left)</li>
+<li>justify-center</li>
+<li>justify-end or (justify-right)</li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </div></blockquote>
 </li>
+<li><strong>with_legend</strong> (<em>bool</em>) &#8211; A boolean indicating whether labels should create a legend.</li>
 </ul>
 </td>
 </tr>
@@ -361,6 +389,32 @@ The token&#8217;s styling have to be provided as keyword arguments.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="text.annotation.TextAnnotation._get_alignment">
+<code class="descname">_get_alignment</code><span class="sig-paren">(</span><em>align</em>, <em>last=False</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._get_alignment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the proper alignment value for the current line.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>align</strong> (<em>str</em>) &#8211; The provided alignment value.</li>
+<li><strong>last</strong> (<em>bool</em>) &#8211; A boolean indicating whether this is the last line.
+If it is the last line, alignments like <cite>justify-left</cite> transform into <cite>left</cite>.
+Otherwise, <cite>justify</cite> is returned.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The alignment value for the current line.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="text.annotation.TextAnnotation._align">
 <code class="descname">_align</code><span class="sig-paren">(</span><em>tokens</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>align='left'</em>, <em>x_lim=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._align" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organize the line tokens.
@@ -379,8 +433,24 @@ Possible values:</p>
 <blockquote>
 <div><ul>
 <li>left</li>
-<li>right</li>
-<li>justify</li>
+<li><dl class="first docutils">
+<dt>right</dt>
+<dd><ul class="first last">
+<li>center</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>justify</dt>
+<dd><ul class="first last">
+<li>justify-start (or justify-left)</li>
+<li>justify-center</li>
+<li>justify-end or (justify-right)</li>
+</ul>
+</dd>
+</dl>
+</li>
 </ul>
 </div></blockquote>
 </li>
