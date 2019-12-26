@@ -87,9 +87,9 @@ class TextAnnotation():
 					    - right
 						- center
 					    - justify
-						- justify-left
+						- justify-start (or justify-left)
 						- justify-center
-						- justify-right
+						- justify-end or (justify-right)
 		:type align: str
 
 		:return: The drawn lines.
@@ -317,9 +317,11 @@ class TextAnnotation():
 		:rtype: str
 		"""
 
+		map = { 'start': 'left', 'end': 'right' }
+
 		alignment = re.findall('(justify)?-?(.+?)$', align)[0]
 		if last:
-			return 'left' if alignment[1] == 'justify' else alignment[1]
+			return 'left' if alignment[1] == 'justify' else map.get(alignment[1], alignment[1])
 		else:
 			return alignment[0] if alignment[0] else alignment[1]
 
@@ -344,9 +346,9 @@ class TextAnnotation():
 					    - right
 						- center
 					    - justify
-						- justify-left
+						- justify-start (or justify-left)
 						- justify-center
-						- justify-right
+						- justify-end or (justify-right)
 		:type align: str
 		:param x_lim: The x-limit relative to which to align the tokens.
 					  If it is not given, the axis' x-limit is used instead.
