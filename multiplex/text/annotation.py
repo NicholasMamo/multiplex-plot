@@ -84,12 +84,12 @@ class TextAnnotation():
 					  Possible values:
 
 					    - left
+					    - center
 					    - right
-						- center
 					    - justify
-						- justify-start (or justify-left)
-						- justify-center
-						- justify-end or (justify-right)
+					    - justify-start (or justify-left)
+					    - justify-center
+					    - justify-end or (justify-right)
 		:type align: str
 		:param with_legend: A boolean indicating whether labels should create a legend.
 		:type with_legend: bool
@@ -130,12 +130,12 @@ class TextAnnotation():
 					  Possible values:
 
 					    - left
+					    - center
 					    - right
 					    - justify
-					    - justify
-						- justify-start (or justify-left)
-						- justify-center
-						- justify-end or (justify-right)
+					    - justify-start (or justify-left)
+					    - justify-center
+					    - justify-end or (justify-right)
 		:type align: str
 		:param with_legend: A boolean indicating whether labels should create a legend.
 		:type with_legend: bool
@@ -354,12 +354,12 @@ class TextAnnotation():
 					  Possible values:
 
 					    - left
+					    - center
 					    - right
-						- center
 					    - justify
-						- justify-start (or justify-left)
-						- justify-center
-						- justify-end or (justify-right)
+					    - justify-start (or justify-left)
+					    - justify-center
+					    - justify-end or (justify-right)
 		:type align: str
 		:param x_lim: The x-limit relative to which to align the tokens.
 					  If it is not given, the axis' x-limit is used instead.
