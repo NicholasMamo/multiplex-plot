@@ -223,8 +223,9 @@ class TextAnnotation():
 		Then, re-draw the axis and the figure dimensions.
 		The axis and the figure are made to fit the text tightly.
 		"""
-		self._move_plot(drawn_lines)
-		axis.set_ylim(- linespacing, lines * linespacing)
+		self._tighten(drawn_lines)
+		axis.set_ylim(-linespacing, lines * linespacing)
+		y_lim = axis.get_ylim()[0] - axis.get_ylim()[1]
 		axis.invert_yaxis()
 		self.drawable.figure.set_figheight(lines * lineheight / 2)
 
@@ -453,7 +454,7 @@ class TextAnnotation():
 		else:
 			raise ValueError("Unsupported alignment %s" % align)
 
-	def _move_plot(self, drawn_lines):
+	def _tighten(self, drawn_lines):
 		"""
 		Move the plot so that it starts from x-coordinate 0.
 		This offsets the legend labels so that they start at 0.
