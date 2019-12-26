@@ -4,6 +4,13 @@
   --dark: #36454F
 }
 
+@media screen and (min-width: 1400px) {
+
+	.wy-nav-content-wrap {
+		background-color: initial;
+	}
+
+}
 
 a {
 	color: var(--primary);
@@ -22,6 +29,10 @@ a:visited.reference internal {
 .multiplex-logo {
 	display: block;
 	margin: 0 auto;
+}
+
+.wy-nav-content {
+	max-width: 61.8%;
 }
 
 .wy-nav-side {
