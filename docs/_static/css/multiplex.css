@@ -68,6 +68,11 @@ img.example {
 	background-color: var(--primary);
 }
 
+.wy-side-nav-search a,
+.wy-side-nav-search a:visited {
+	color: white;
+}
+
 .wy-menu-vertical a:active {
 	background-color: var(--primary);
 }
