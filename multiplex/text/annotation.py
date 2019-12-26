@@ -187,7 +187,7 @@ class TextAnnotation():
 				self._newline(line_tokens.pop(-1), lines, linespacing)
 				self._align(
 					line_tokens, lines, wordspacing, linespacing,
-					self._get_alignment(align)
+					self._get_alignment(align), x_lim
 				)
 				offset, lines = 0, lines + 1
 				drawn_lines.append((line_labels, line_tokens))
@@ -215,7 +215,7 @@ class TextAnnotation():
 		drawn_lines.append((line_labels, line_tokens))
 		self._align(
 			line_tokens, lines, wordspacing, linespacing,
-			self._get_alignment(align, last=True)
+			self._get_alignment(align, last=True), x_lim
 		)
 
 		"""
