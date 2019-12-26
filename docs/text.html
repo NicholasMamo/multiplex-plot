@@ -203,7 +203,7 @@ The visualization is drawn on the given axis.</p>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>data</em>, <em>wordspacing=0.005</em>, <em>lineheight=1.25</em>, <em>align='left'</em>, <em>with_legend=True</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>data</em>, <em>wordspacing=0.005</em>, <em>lineheight=1.25</em>, <em>align='left'</em>, <em>with_legend=True</em>, <em>rpad=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the text annotation visualization.
 The method receives text as a list of tokens and draws them as text.</p>
 <p>The text can be provided either as strings or as dictionaries.
@@ -244,6 +244,8 @@ Possible values:</p>
 </div></blockquote>
 </li>
 <li><strong>with_legend</strong> (<em>bool</em>) &#8211; A boolean indicating whether labels should create a legend.</li>
+<li><strong>rpad</strong> (<em>float</em>) &#8211; The right padding as a percentage of the plot.
+The range is expected to be between 0 and 1.</li>
 </ul>
 </td>
 </tr>
@@ -262,7 +264,7 @@ The second list in each tuple is the list of actual tokens.</p>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation._draw_tokens">
-<code class="descname">_draw_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>wordspacing</em>, <em>lineheight</em>, <em>align</em>, <em>with_legend</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
+<code class="descname">_draw_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>wordspacing</em>, <em>lineheight</em>, <em>align</em>, <em>with_legend</em>, <em>rpad</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the tokens on the plot.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -288,6 +290,8 @@ Possible values:</p>
 </div></blockquote>
 </li>
 <li><strong>with_legend</strong> (<em>bool</em>) &#8211; A boolean indicating whether labels should create a legend.</li>
+<li><strong>rpad</strong> (<em>float</em>) &#8211; The right padding as a percentage of the plot.
+The range is expected to be between 0 and 1.</li>
 </ul>
 </td>
 </tr>

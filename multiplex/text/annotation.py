@@ -50,7 +50,7 @@ class TextAnnotation():
 		self.drawable = drawable
 
 	def draw(self, data, wordspacing=0.005, lineheight=1.25,
-			 align='left', with_legend=True, *args, **kwargs):
+			 align='left', with_legend=True, rpad=0, *args, **kwargs):
 		"""
 		Draw the text annotation visualization.
 		The method receives text as a list of tokens and draws them as text.
@@ -93,6 +93,9 @@ class TextAnnotation():
 		:type align: str
 		:param with_legend: A boolean indicating whether labels should create a legend.
 		:type with_legend: bool
+		:param rpad: The right padding as a percentage of the plot.
+					 The range is expected to be between 0 and 1.
+		:type rpad: float
 
 		:return: The drawn lines.
 				 Each line is made up of tuples of lists.
@@ -112,10 +115,10 @@ class TextAnnotation():
 				data[i] = { 'text': token }
 
 		return self._draw_tokens(data, wordspacing, lineheight, align,
-								 with_legend, *args, **kwargs)
+								 with_legend, rpad, *args, **kwargs)
 
 	def _draw_tokens(self, tokens, wordspacing, lineheight,
-					 align, with_legend, *args, **kwargs):
+					 align, with_legend, rpad, *args, **kwargs):
 		"""
 		Draw the tokens on the plot.
 
@@ -139,6 +142,9 @@ class TextAnnotation():
 		:type align: str
 		:param with_legend: A boolean indicating whether labels should create a legend.
 		:type with_legend: bool
+		:param rpad: The right padding as a percentage of the plot.
+					 The range is expected to be between 0 and 1.
+		:type rpad: float
 
 		:return: The drawn lines.
 				 Each line is made up of tuples of lists.
@@ -151,7 +157,7 @@ class TextAnnotation():
 		figure = self.drawable.figure
 
 		punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
-		x_lim = axis.get_xlim()[1]
+		x_lim = axis.get_xlim()[1] * (1. - rpad)
 
 		"""
 		Go through each token and draw it on the axis.
