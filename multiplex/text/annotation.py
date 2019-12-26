@@ -203,11 +203,10 @@ class TextAnnotation():
 		Align the last line.
 		"""
 		drawn_lines.append((line_labels, line_tokens))
-		if align != 'justify':
-			self._align(
-				line_tokens, lines, wordspacing, linespacing,
-				self._get_alignment(align, last=True)
-			)
+		self._align(
+			line_tokens, lines, wordspacing, linespacing,
+			self._get_alignment(align, last=True)
+		)
 
 		"""
 		Move the plot so that it starts from x-coordinate 0.
@@ -320,7 +319,7 @@ class TextAnnotation():
 
 		alignment = re.findall('(justify)?-?(.+?)$', align)[0]
 		if last:
-			return alignment[1]
+			return 'left' if alignment[1] == 'justify' else alignment[1]
 		else:
 			return alignment[0] if alignment[0] else alignment[1]
 
