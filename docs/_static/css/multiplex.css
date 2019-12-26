@@ -17,12 +17,12 @@ a {
 	text-decoration: underline;
 }
 
-a:visited: {
+a:visited {
 	color: var(--dark);
 }
 
 a.reference internal,
-a:visited.reference internal {
+a.reference:visited internal {
 	color: rgba(255, 255, 255, 0.7);
 }
 
