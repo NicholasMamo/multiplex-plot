@@ -456,7 +456,7 @@ class TextAnnotation():
 
 	def _tighten(self, drawn_lines):
 		"""
-		Move the plot so that it starts from x-coordinate 0.
+		Move the plot so that it starts from x- and y-coordinate 0.
 		This offsets the legend labels so that they start at 0.
 
 		:param drawn_lines: A list of drawn lines.
@@ -470,11 +470,13 @@ class TextAnnotation():
 		"""
 		Calculate the necessary offset.
 		"""
-		offset = 0
+		x_offset = 0
+		y_offset = 0
 		for (labels, tokens) in drawn_lines:
 			for label in labels:
 				bb = util.get_bb(figure, axis, label)
-				offset = min(offset, bb.x0)
+				x_offset = min(x_offset, bb.x0)
+				y_offset = min(y_offset, bb.y0)
 
 		"""
 		Move all tokens by this offset.
@@ -483,4 +485,4 @@ class TextAnnotation():
 			tokens = labels + tokens
 			for token in tokens:
 				bb = util.get_bb(figure, axis, token)
-				token.set_position((bb.x0 - offset, bb.y0))
+				token.set_position((bb.x0 - x_offset, bb.y0 - y_offset))
