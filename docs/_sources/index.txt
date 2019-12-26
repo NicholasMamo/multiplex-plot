@@ -6,6 +6,8 @@
 Welcome to Multiplex's documentation!
 =====================================
 
+.. image:: ../../assets/logo.png
+
 Multiplex is a visualization library built on `matplotlib <https://github.com/matplotlib/matplotlib/>`_.
 The library provides new types of visualizations to help you explore data and explain it better.
 
