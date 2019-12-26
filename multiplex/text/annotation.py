@@ -23,6 +23,7 @@ You can find examples to help you get started `here <https://github.com/Nicholas
 
 import os
 import sys
+import re
 
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 import util
@@ -86,6 +87,9 @@ class TextAnnotation():
 					    - right
 						- center
 					    - justify
+						- justify-left
+						- justify-center
+						- justify-right
 		:type align: str
 
 		:return: The drawn lines.
@@ -172,7 +176,10 @@ class TextAnnotation():
 			bb = util.get_bb(figure, axis, text)
 			if bb.x1 > x_lim and token.get('text') not in punctuation:
 				self._newline(line_tokens.pop(-1), lines, linespacing)
-				self._align(line_tokens, lines, wordspacing, linespacing, align)
+				self._align(
+					line_tokens, lines, wordspacing, linespacing,
+					self._get_alignment(align)
+				)
 				offset, lines = 0, lines + 1
 				drawn_lines.append((line_labels, line_tokens))
 				line_tokens, line_labels = [ text ], []
@@ -197,7 +204,10 @@ class TextAnnotation():
 		"""
 		drawn_lines.append((line_labels, line_tokens))
 		if align != 'justify':
-			self._align(line_tokens, lines, wordspacing, linespacing, align)
+			self._align(
+				line_tokens, lines, wordspacing, linespacing,
+				self._get_alignment(align, last=True)
+			)
 
 		"""
 		Move the plot so that it starts from x-coordinate 0.
@@ -293,6 +303,27 @@ class TextAnnotation():
 
 		token.set_position((0, (line + 1) * linespacing))
 
+	def _get_alignment(self, align, last=False):
+		"""
+		Get the proper alignment value for the current line.
+
+		:param align: The provided alignment value.
+		:type align: str
+		:param last: A boolean indicating whether this is the last line.
+					 If it is the last line, alignments like `justify-left` transform into `left`.
+					 Otherwise, `justify` is returned.
+		:type last: bool
+
+		:return: The alignment value for the current line.
+		:rtype: str
+		"""
+
+		alignment = re.findall('(justify)?-?(.+?)$', align)[0]
+		if last:
+			return alignment[1]
+		else:
+			return alignment[0] if alignment[0] else alignment[1]
+
 	def _align(self, tokens, line, wordspacing, linespacing, align='left',
 			   x_lim=None, *args, **kwargs):
 		"""
@@ -314,6 +345,9 @@ class TextAnnotation():
 					    - right
 						- center
 					    - justify
+						- justify-left
+						- justify-center
+						- justify-right
 		:type align: str
 		:param x_lim: The x-limit relative to which to align the tokens.
 					  If it is not given, the axis' x-limit is used instead.
