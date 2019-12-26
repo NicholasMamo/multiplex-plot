@@ -21,6 +21,12 @@ a:visited {
 	color: var(--dark);
 }
 
+img.example {
+	display: block;
+	margin: 0 auto;
+	max-width: 600px;
+}
+
 .multiplex-logo {
 	display: block;
 	margin: 0 auto;

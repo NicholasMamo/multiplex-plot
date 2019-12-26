@@ -11,6 +11,7 @@ These types of visualizations give you the comfort of organizing text so that yo
 For example, the below visualization, created using the :class:`text.annotation.TextAnnotation` class, highlights the named entities:
 
 .. image:: ../../examples/exports/text-annotation.png
+   :class: example
 
 Keep reading to learn more about text visualizations.
 
