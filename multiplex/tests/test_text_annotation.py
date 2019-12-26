@@ -139,6 +139,15 @@ class TestTextAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(center, 5))
 
+	def test_align_invalid(self):
+		"""
+		Test that when an invalid alignment is given, a :class:`ValueError` is raised.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), align='invalid')
+
 	def _reconstruct_text(self, lines):
 		"""
 		Reconstruct the visualization text from a list of lines.

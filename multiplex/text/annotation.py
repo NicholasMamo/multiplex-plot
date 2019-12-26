@@ -404,6 +404,8 @@ class TextAnnotation():
 				for token in tokens:
 					bb = util.get_bb(figure, axis, token)
 					token.set_position((bb.x0 + offset, bb.y1))
+		else:
+			raise ValueError("Unsupported alignment %s" % align)
 
 	def _move_plot(self, drawn_lines):
 		"""
