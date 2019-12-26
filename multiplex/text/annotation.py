@@ -50,7 +50,7 @@ class TextAnnotation():
 		self.drawable = drawable
 
 	def draw(self, data, wordspacing=0.005, lineheight=1.25,
-			 align='left', with_legend=True, lpad=0, rpad=0, *args, **kwargs):
+			 align='left', with_legend=True, lpad=0, rpad=0, tpad=0, *args, **kwargs):
 		"""
 		Draw the text annotation visualization.
 		The method receives text as a list of tokens and draws them as text.
@@ -99,6 +99,9 @@ class TextAnnotation():
 		:param rpad: The right padding as a percentage of the plot.
 					 The range is expected to be between 0 and 1.
 		:type rpad: float
+		:param tpad: The top padding as a percentage of the plot.
+					 The range is expected to be between 0 and 1.
+		:type tpad: float
 
 		:return: The drawn lines.
 				 Each line is made up of tuples of lists.
@@ -118,10 +121,10 @@ class TextAnnotation():
 				data[i] = { 'text': token }
 
 		return self._draw_tokens(data, wordspacing, lineheight, align,
-								 with_legend, lpad, rpad, *args, **kwargs)
+								 with_legend, lpad, rpad, tpad, *args, **kwargs)
 
 	def _draw_tokens(self, tokens, wordspacing, lineheight,
-					 align, with_legend, lpad, rpad, *args, **kwargs):
+					 align, with_legend, lpad, rpad, tpad, *args, **kwargs):
 		"""
 		Draw the tokens on the plot.
 
@@ -151,6 +154,9 @@ class TextAnnotation():
 		:param rpad: The right padding as a percentage of the plot.
 					 The range is expected to be between 0 and 1.
 		:type rpad: float
+		:param tpad: The top padding as a percentage of the plot.
+					 The range is expected to be between 0 and 1.
+		:type tpad: float
 
 		:return: The drawn lines.
 				 Each line is made up of tuples of lists.
@@ -240,9 +246,10 @@ class TextAnnotation():
 		"""
 		self._tighten(drawn_lines)
 		axis.set_ylim(-linespacing, lines * linespacing)
-		y_lim = axis.get_ylim()[0] - axis.get_ylim()[1]
+		axis_height = axis.get_ylim()[1] - axis.get_ylim()[0]
+		axis.set_ylim(axis.get_ylim()[0] - axis_height * tpad, axis.get_ylim()[1])
 		axis.invert_yaxis()
-		self.drawable.figure.set_figheight(lines * lineheight / 2)
+		self.drawable.figure.set_figheight((1 + tpad) * lines * lineheight / 2)
 
 		return drawn_lines
 
