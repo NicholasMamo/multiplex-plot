@@ -148,6 +148,42 @@ class TestTextAnnotation(unittest.TestCase):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), align='invalid')
 
+	def test_with_legend(self):
+		"""
+		Test that when a label is given, a legend is drawn.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		tokens = text.split()
+		for i, token in enumerate(tokens):
+			if token == 'Memphis':
+				tokens[i] = {
+					'text': token,
+					'label': 'name'
+				}
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		lines = viz.draw_text_annotation(tokens)
+		self.assertTrue(len(lines[0][0]))
+
+	def test_without_legend(self):
+		"""
+		Test that a legend is not drawn when it is disabled, even if labels are given.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		tokens = text.split()
+		for i, token in enumerate(tokens):
+			if token == 'Memphis':
+				tokens[i] = {
+					'text': token,
+					'label': 'name'
+				}
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		lines = viz.draw_text_annotation(tokens, with_legend=False)
+		self.assertFalse(len(lines[0][0]))
+
 	def _reconstruct_text(self, lines):
 		"""
 		Reconstruct the visualization text from a list of lines.

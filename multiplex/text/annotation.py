@@ -50,7 +50,7 @@ class TextAnnotation():
 		self.drawable = drawable
 
 	def draw(self, data, wordspacing=0.005, lineheight=1.25,
-			 align='left', *args, **kwargs):
+			 align='left', with_legend=True, *args, **kwargs):
 		"""
 		Draw the text annotation visualization.
 		The method receives text as a list of tokens and draws them as text.
@@ -91,6 +91,8 @@ class TextAnnotation():
 						- justify-center
 						- justify-end or (justify-right)
 		:type align: str
+		:param with_legend: A boolean indicating whether labels should create a legend.
+		:type with_legend: bool
 
 		:return: The drawn lines.
 				 Each line is made up of tuples of lists.
@@ -109,10 +111,11 @@ class TextAnnotation():
 			if type(token) is str:
 				data[i] = { 'text': token }
 
-		return self._draw_tokens(data, wordspacing, lineheight, align, *args, **kwargs)
+		return self._draw_tokens(data, wordspacing, lineheight, align,
+								 with_legend, *args, **kwargs)
 
 	def _draw_tokens(self, tokens, wordspacing, lineheight,
-					 align, *args, **kwargs):
+					 align, with_legend, *args, **kwargs):
 		"""
 		Draw the tokens on the plot.
 
@@ -129,7 +132,13 @@ class TextAnnotation():
 					    - left
 					    - right
 					    - justify
+					    - justify
+						- justify-start (or justify-left)
+						- justify-center
+						- justify-end or (justify-right)
 		:type align: str
+		:param with_legend: A boolean indicating whether labels should create a legend.
+		:type with_legend: bool
 
 		:return: The drawn lines.
 				 Each line is made up of tuples of lists.
@@ -188,14 +197,15 @@ class TextAnnotation():
 			If the token has a label associated with it, draw it on the first instance.
 			The labels are ordered left-to-right according to when they appeared.
 			"""
-			if 'label' in token and token.get('label') not in labels:
+			if with_legend and 'label' in token and token.get('label') not in labels:
 				labels.append(token.get('label'))
 				label = self._draw_token(
 					token.get('label'), token.get('style', {}), 0, lines,
 					wordspacing, linespacing, va='top', *args, **kwargs
 				)
 				line_labels.append(label)
-				self._align(line_labels, lines, wordspacing * 2, linespacing, align='right', x_lim=- wordspacing * 8)
+				self._align(line_labels, lines, wordspacing * 2,
+							linespacing, align='right', x_lim=- wordspacing * 8)
 
 			offset += bb.width + wordspacing
 
