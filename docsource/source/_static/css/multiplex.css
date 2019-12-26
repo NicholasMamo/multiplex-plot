@@ -1,0 +1,41 @@
+:root {
+  --primary: #157A6E;
+  --primary-faded: rgba(21, 122, 110, 0.7);
+  --dark: #36454F
+}
+
+
+a {
+	color: var(--primary);
+	text-decoration: underline;
+}
+
+a:visited: {
+	color: var(--dark);
+}
+
+a.reference internal,
+a:visited.reference internal {
+	color: rgba(255, 255, 255, 0.7);
+}
+
+.wy-nav-side {
+	background: var(--dark);
+}
+
+.wy-side-nav-search {
+	background-color: var(--primary);
+}
+
+.wy-menu-vertical a:active {
+	background-color: var(--primary);
+}
+
+.wy-menu-vertical a:hover {
+	background-color: var(--primary-faded);
+}
+
+.wy-menu-vertical header,
+.wy-menu-vertical p.caption {
+	color: rgba(255, 255, 255, 0.8);
+}
