@@ -37,6 +37,24 @@ img.example {
 	color: rgba(255, 255, 255, 0.7);
 }
 
+.wy-menu-vertical li.on a,
+.wy-menu-vertical li.on a:hover,
+.wy-menu-vertical li.current>a,
+.wy-menu-vertical li.current>a:hover {
+	background: var(--primary);
+	border-bottom: none;
+	border-top: none;
+}
+
+.wy-menu-vertical li.toctree-l2 {
+	background: var(--primary-faded);
+}
+
+.wy-menu-vertical li.toctree-l2.current>a,
+.wy-menu-vertical li.toctree-l2>a:hover {
+	background: var(--primary);
+}
+
 .wy-nav-content {
 	max-width: 61.8%;
 }
