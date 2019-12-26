@@ -21,14 +21,14 @@ a:visited {
 	color: var(--dark);
 }
 
-a.reference internal,
-a.reference:visited internal {
-	color: rgba(255, 255, 255, 0.7);
-}
-
 .multiplex-logo {
 	display: block;
 	margin: 0 auto;
+}
+
+.wy-menu.wy-menu-vertical a.reference.internal,
+.wy-menu.wy-menu-vertical a:visited.reference.internal {
+	color: rgba(255, 255, 255, 0.7);
 }
 
 .wy-nav-content {
