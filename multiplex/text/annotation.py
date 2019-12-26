@@ -317,6 +317,7 @@ class TextAnnotation():
 		:rtype: str
 		"""
 
+		align = align.lower()
 		map = { 'start': 'left', 'end': 'right' }
 
 		alignment = re.findall('(justify)?-?(.+?)$', align)[0]
