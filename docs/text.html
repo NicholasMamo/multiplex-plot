@@ -197,26 +197,34 @@ The visualization is drawn on the given axis.</p>
 </table>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="text.annotation.TextAnnotation.__weakref__">
-<code class="descname">__weakref__</code><a class="headerlink" href="#text.annotation.TextAnnotation.__weakref__" title="Permalink to this definition">¶</a></dt>
-<dd><p>list of weak references to the object (if defined)</p>
-</dd></dl>
-
 <dl class="method">
-<dt id="text.annotation.TextAnnotation._align">
-<code class="descname">_align</code><span class="sig-paren">(</span><em>tokens</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>align='left'</em>, <em>x_lim=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._align" title="Permalink to this definition">¶</a></dt>
-<dd><p>Organize the line tokens.
-This function is used when the line overflows.</p>
+<dt id="text.annotation.TextAnnotation.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>data</em>, <em>wordspacing=0.005</em>, <em>lineheight=1.25</em>, <em>align='left'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the text annotation visualization.
+The method receives text as a list of tokens and draws them as text.</p>
+<p>The text can be provided either as strings or as dictionaries.
+If strings are provided, the function converts them into dictionaries.
+Dictionaries should have the following format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+  <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">},</span>
+  <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;token&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Of these keys, only <cite>text</cite> is required.
+The correct styling options are those accepted by the <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code> class.
+Anything not given uses default values.</p>
+<p>Any other styling options, common to all tokens, should be provided as keyword arguments.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>tokens</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of tokens added to the line.</li>
-<li><strong>line</strong> (<em>int</em>) &#8211; The line number of the tokens.</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>data</strong> (<em>list of str or list of dict</em>) &#8211; The text data.
+The visualization expects a <cite>list</cite> of tokens, or a <cite>list</cite> of <cite>dict</cite> instances as shown above.</li>
 <li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
-<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
+<li><strong>lineheight</strong> (<em>float</em>) &#8211; The space between lines.</li>
 <li><strong>align</strong> (<em>str</em>) &#8211; <p>The text&#8217;s alignment.
 Possible values:</p>
 <blockquote>
@@ -227,37 +235,16 @@ Possible values:</p>
 </ul>
 </div></blockquote>
 </li>
-<li><strong>x_lim</strong> (<em>float</em>) &#8211; The x-limit relative to which to align the tokens.
-If it is not given, the axis&#8217; x-limit is used instead.</li>
 </ul>
 </td>
 </tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="text.annotation.TextAnnotation._draw_token">
-<code class="descname">_draw_token</code><span class="sig-paren">(</span><em>text</em>, <em>style</em>, <em>offset</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_token" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw the token on the plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>text</strong> (<em>str</em>) &#8211; The text token to draw.</li>
-<li><strong>style</strong> (<em>dict</em>) &#8211; The style information for the token.</li>
-<li><strong>offset</strong> (<em>float</em>) &#8211; The token&#8217;s offset.</li>
-<li><strong>line</strong> (<em>int</em>) &#8211; The line number of the token.</li>
-<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
-<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
-</ul>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn lines.
+Each line is made up of tuples of lists.
+The first list in each tuple is the list of legend labels.
+The second list in each tuple is the list of actual tokens.</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn text box.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of tuple</p>
 </td>
 </tr>
 </tbody>
@@ -323,16 +310,28 @@ The token&#8217;s styling have to be provided as keyword arguments.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.annotation.TextAnnotation._move_plot">
-<code class="descname">_move_plot</code><span class="sig-paren">(</span><em>drawn_lines</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._move_plot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Move the plot so that it starts from x-coordinate 0.
-This offsets the legend labels so that they start at 0.</p>
+<dt id="text.annotation.TextAnnotation._draw_token">
+<code class="descname">_draw_token</code><span class="sig-paren">(</span><em>text</em>, <em>style</em>, <em>offset</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the token on the plot.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>drawn_lines</strong> (<em>list of float</em>) &#8211; A list of drawn lines.
-The function expects lines to be tuples of legend labels and tokens.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<em>str</em>) &#8211; The text token to draw.</li>
+<li><strong>style</strong> (<em>dict</em>) &#8211; The style information for the token.</li>
+<li><strong>offset</strong> (<em>float</em>) &#8211; The token&#8217;s offset.</li>
+<li><strong>line</strong> (<em>int</em>) &#8211; The line number of the token.</li>
+<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
+<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn text box.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code></p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -358,33 +357,19 @@ The function expects lines to be tuples of legend labels and tokens.</td>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.annotation.TextAnnotation.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>data</em>, <em>wordspacing=0.005</em>, <em>lineheight=1.25</em>, <em>align='left'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw the text annotation visualization.
-The method receives text as a list of tokens and draws them as text.</p>
-<p>The text can be provided either as strings or as dictionaries.
-If strings are provided, the function converts them into dictionaries.
-Dictionaries should have the following format:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
-  <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">},</span>
-  <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;token&#39;</span><span class="p">,</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Of these keys, only <cite>text</cite> is required.
-The correct styling options are those accepted by the <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code> class.
-Anything not given uses default values.</p>
-<p>Any other styling options, common to all tokens, should be provided as keyword arguments.</p>
+<dt id="text.annotation.TextAnnotation._align">
+<code class="descname">_align</code><span class="sig-paren">(</span><em>tokens</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>align='left'</em>, <em>x_lim=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._align" title="Permalink to this definition">¶</a></dt>
+<dd><p>Organize the line tokens.
+This function is used when the line overflows.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<em>list of str or list of dict</em>) &#8211; The text data.
-The visualization expects a <cite>list</cite> of tokens, or a <cite>list</cite> of <cite>dict</cite> instances as shown above.</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tokens</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of tokens added to the line.</li>
+<li><strong>line</strong> (<em>int</em>) &#8211; The line number of the tokens.</li>
 <li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
-<li><strong>lineheight</strong> (<em>float</em>) &#8211; The space between lines.</li>
+<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
 <li><strong>align</strong> (<em>str</em>) &#8211; <p>The text&#8217;s alignment.
 Possible values:</p>
 <blockquote>
@@ -395,20 +380,35 @@ Possible values:</p>
 </ul>
 </div></blockquote>
 </li>
+<li><strong>x_lim</strong> (<em>float</em>) &#8211; The x-limit relative to which to align the tokens.
+If it is not given, the axis&#8217; x-limit is used instead.</li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn lines.
-Each line is made up of tuples of lists.
-The first list in each tuple is the list of legend labels.
-The second list in each tuple is the list of actual tokens.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of tuple</p>
 </td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="text.annotation.TextAnnotation._move_plot">
+<code class="descname">_move_plot</code><span class="sig-paren">(</span><em>drawn_lines</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._move_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move the plot so that it starts from x-coordinate 0.
+This offsets the legend labels so that they start at 0.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>drawn_lines</strong> (<em>list of float</em>) &#8211; A list of drawn lines.
+The function expects lines to be tuples of legend labels and tokens.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="text.annotation.TextAnnotation.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#text.annotation.TextAnnotation.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
 </dd></dl>

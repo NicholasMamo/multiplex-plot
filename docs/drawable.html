@@ -189,26 +189,6 @@ The <a class="reference internal" href="#drawable.Drawable" title="drawable.Draw
 </tbody>
 </table>
 <dl class="method">
-<dt id="drawable.Drawable.__getattr__">
-<code class="descname">__getattr__</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.__getattr__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get an attribute indicated by <cite>name</cite> from the class.
-If it gets to this point, then the attribute does not exist.
-Instead, it is retrieved from the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">Drawable</span></code></a> axis.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str</em>) &#8211; The name of the attribute.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The function applied on the axis.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">function</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="drawable.Drawable.__init__">
 <code class="descname">__init__</code><span class="sig-paren">(</span><em>figure</em>, <em>axis=None</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the drawable with the figure.</p>
@@ -223,29 +203,6 @@ This is mainly used to get the figure renderer.</li>
 If <cite>None</cite> is not given, the plot&#8217;s main subplot is used instead.</li>
 </ul>
 </td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="drawable.Drawable.__weakref__">
-<code class="descname">__weakref__</code><a class="headerlink" href="#drawable.Drawable.__weakref__" title="Permalink to this definition">¶</a></dt>
-<dd><p>list of weak references to the object (if defined)</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="drawable.Drawable.draw_text_annotation">
-<code class="descname">draw_text_annotation</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_text_annotation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw a text annotation visualization on this Drawable.
-The arguments and keyword arguments are those supported by <a class="reference internal" href="text.html#text.annotation.TextAnnotation.draw" title="text.annotation.TextAnnotation.draw"><code class="xref py py-meth docutils literal"><span class="pre">text.annotation.TextAnnotation.draw()</span></code></a> method.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The drawn text annotation.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="text.html#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal"><span class="pre">text.annotation.TextAnnotation</span></code></a></td>
 </tr>
 </tbody>
 </table>
@@ -281,6 +238,49 @@ Any arguments that the constructor accepts can be provided to this method.</p>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="drawable.Drawable.__getattr__">
+<code class="descname">__getattr__</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.__getattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an attribute indicated by <cite>name</cite> from the class.
+If it gets to this point, then the attribute does not exist.
+Instead, it is retrieved from the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">Drawable</span></code></a> axis.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str</em>) &#8211; The name of the attribute.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The function applied on the axis.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">function</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="drawable.Drawable.draw_text_annotation">
+<code class="descname">draw_text_annotation</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_text_annotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a text annotation visualization on this Drawable.
+The arguments and keyword arguments are those supported by <a class="reference internal" href="text.html#text.annotation.TextAnnotation.draw" title="text.annotation.TextAnnotation.draw"><code class="xref py py-meth docutils literal"><span class="pre">text.annotation.TextAnnotation.draw()</span></code></a> method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The drawn text annotation.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="text.html#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal"><span class="pre">text.annotation.TextAnnotation</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="drawable.Drawable.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#drawable.Drawable.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
 </dd></dl>

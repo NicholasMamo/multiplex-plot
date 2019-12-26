@@ -37,6 +37,9 @@ extensions = [
 # Modules that Sphinx should ignore.
 autodoc_mock_imports = [ 'matplotlib.pyplot' ]
 
+# Do not sort the autodoc imports
+autodoc_member_order = 'bysource'
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
