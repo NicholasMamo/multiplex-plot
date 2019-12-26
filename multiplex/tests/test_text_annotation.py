@@ -81,7 +81,7 @@ class TestTextAnnotation(unittest.TestCase):
 			if i == 0:
 				x = bb.x0
 
-			self.assertLessEqual(x, bb.x0)
+			self.assertEqual(x, bb.x0)
 
 	def test_align_right(self):
 		"""
@@ -98,26 +98,46 @@ class TestTextAnnotation(unittest.TestCase):
 			if i == 0:
 				x = bb.x1
 
-			self.assertLessEqual(x, bb.x1)
+			self.assertEqual(x, bb.x1)
+
+	def test_align_center(self):
+		"""
+		Test that when centering text, all of the lines' centers are the same.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		lines = viz.draw_text_annotation(text.split(), align='center')
+
+		x = 0
+		for i, (_, tokens) in enumerate(lines[:-1]):
+			bb0 = util.get_bb(viz.figure, viz.axis, tokens[0])
+			bb1 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+			center = (bb0.x0 + bb1.x1) / 2.
+			if i == 0:
+				x = center
+
+			self.assertEqual(round(x, 5), round(center, 5))
 
 	def test_align_justify(self):
 		"""
 		Test that when justifying text, all lines start and end at the same x-coordinate.
+		The calculation is made on the center since the bboxes of text do not start or end at the exact same coordinate.
 		"""
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		lines = viz.draw_text_annotation(text.split(), align='justify')
 
-		x0, x1 = 0, 0
-		for i, (_, tokens) in enumerate(lines[:-1]):
-			bb = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		x = 0
+		for i, (_, tokens) in enumerate(lines[:-1]): # skip the last line as it is not justified
+			bb0 = util.get_bb(viz.figure, viz.axis, tokens[0])
+			bb1 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+			center = (bb0.x0 + bb1.x1) / 2.
 			if i == 0:
-				x0 = bb.x0
-				x1 = bb.x1
+				x = center
 
-			self.assertLessEqual(x0, bb.x0)
-			self.assertLessEqual(x1, bb.x1)
+			self.assertEqual(round(x, 5), round(center, 5))
 
 	def _reconstruct_text(self, lines):
 		"""

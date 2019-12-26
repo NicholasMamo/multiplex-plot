@@ -84,6 +84,7 @@ class TextAnnotation():
 
 					    - left
 					    - right
+						- center
 					    - justify
 		:type align: str
 
@@ -311,6 +312,7 @@ class TextAnnotation():
 
 					    - left
 					    - right
+						- center
 					    - justify
 		:type align: str
 		:param x_lim: The x-limit relative to which to align the tokens.
@@ -372,7 +374,6 @@ class TextAnnotation():
 						pad=wordspacing_px / 2.))
 					bb = util.get_bb(figure, axis, token)
 					offset += bb.width + space
-
 		elif align == 'right':
 			if len(tokens):
 				"""
@@ -390,6 +391,19 @@ class TextAnnotation():
 					"""
 					if token.get_text() not in punctuation:
 						offset += wordspacing
+		elif align == 'center':
+			if len(tokens):
+				"""
+				Calculate the space that is left in the line.
+				Then, halve it and move all tokens by that value.
+				"""
+
+				bb = util.get_bb(figure, axis, tokens[-1])
+				offset = (x_lim - bb.x1)/2.
+
+				for token in tokens:
+					bb = util.get_bb(figure, axis, token)
+					token.set_position((bb.x0 + offset, bb.y1))
 
 	def _move_plot(self, drawn_lines):
 		"""
