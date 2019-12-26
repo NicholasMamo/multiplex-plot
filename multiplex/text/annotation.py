@@ -50,7 +50,7 @@ class TextAnnotation():
 		self.drawable = drawable
 
 	def draw(self, data, wordspacing=0.005, lineheight=1.25,
-			 align='left', with_legend=True, rpad=0, *args, **kwargs):
+			 align='left', with_legend=True, lpad=0, rpad=0, *args, **kwargs):
 		"""
 		Draw the text annotation visualization.
 		The method receives text as a list of tokens and draws them as text.
@@ -93,6 +93,9 @@ class TextAnnotation():
 		:type align: str
 		:param with_legend: A boolean indicating whether labels should create a legend.
 		:type with_legend: bool
+		:param lpad: The left padding as a percentage of the plot.
+					 The range is expected to be between 0 and 1.
+		:type lpad: float
 		:param rpad: The right padding as a percentage of the plot.
 					 The range is expected to be between 0 and 1.
 		:type rpad: float
@@ -115,10 +118,10 @@ class TextAnnotation():
 				data[i] = { 'text': token }
 
 		return self._draw_tokens(data, wordspacing, lineheight, align,
-								 with_legend, rpad, *args, **kwargs)
+								 with_legend, lpad, rpad, *args, **kwargs)
 
 	def _draw_tokens(self, tokens, wordspacing, lineheight,
-					 align, with_legend, rpad, *args, **kwargs):
+					 align, with_legend, lpad, rpad, *args, **kwargs):
 		"""
 		Draw the tokens on the plot.
 
@@ -142,6 +145,9 @@ class TextAnnotation():
 		:type align: str
 		:param with_legend: A boolean indicating whether labels should create a legend.
 		:type with_legend: bool
+		:param lpad: The left padding as a percentage of the plot.
+					 The range is expected to be between 0 and 1.
+		:type lpad: float
 		:param rpad: The right padding as a percentage of the plot.
 					 The range is expected to be between 0 and 1.
 		:type rpad: float
@@ -157,14 +163,17 @@ class TextAnnotation():
 		figure = self.drawable.figure
 
 		punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
-		x_lim = axis.get_xlim()[1] * (1. - rpad)
+		x_lim = (
+			axis.get_xlim()[1] * lpad,
+			axis.get_xlim()[1] * (1. - rpad)
+		)
 
 		"""
 		Go through each token and draw it on the axis.
 		"""
 		drawn_lines = []
 		linespacing = self._get_linespacing(*args, **kwargs) * lineheight
-		offset, lines = 0, 0
+		offset, lines = x_lim[0], 0
 		line_tokens, labels, line_labels = [], [], []
 		for token in tokens:
 			"""
@@ -189,13 +198,13 @@ class TextAnnotation():
 			Lines do not break on certain types of punctuation.
 			"""
 			bb = util.get_bb(figure, axis, text)
-			if bb.x1 > x_lim and token.get('text') not in punctuation:
-				self._newline(line_tokens.pop(-1), lines, linespacing)
+			if bb.x1 > x_lim[1] and token.get('text') not in punctuation:
+				self._newline(line_tokens.pop(-1), lines, linespacing, x_lim[0])
 				self._align(
 					line_tokens, lines, wordspacing, linespacing,
 					self._get_alignment(align), x_lim
 				)
-				offset, lines = 0, lines + 1
+				offset, lines = x_lim[0], lines + 1
 				drawn_lines.append((line_labels, line_tokens))
 				line_tokens, line_labels = [ text ], []
 
@@ -211,7 +220,7 @@ class TextAnnotation():
 				)
 				line_labels.append(label)
 				self._align(line_labels, lines, wordspacing * 2,
-							linespacing, align='right', x_lim=- wordspacing * 8)
+							linespacing, align='right', x_lim=(-1, - wordspacing * 8))
 
 			offset += bb.width + wordspacing
 
@@ -305,7 +314,7 @@ class TextAnnotation():
 						 *args, **kwargs)
 		return text
 
-	def _newline(self, token, line, linespacing):
+	def _newline(self, token, line, linespacing, line_start):
 		"""
 		Create a new line with the given token.
 
@@ -315,9 +324,11 @@ class TextAnnotation():
 		:type line: int
 		:param linespacing: The space between lines.
 		:type linespacing: float
+		:param line_start: The x-coordinate where the line starts.
+		:type line_start: float
 		"""
 
-		token.set_position((0, (line + 1) * linespacing))
+		token.set_position((line_start, (line + 1) * linespacing))
 
 	def _get_alignment(self, align, last=False):
 		"""
@@ -370,14 +381,15 @@ class TextAnnotation():
 		:type align: str
 		:param x_lim: The x-limit relative to which to align the tokens.
 					  If it is not given, the axis' x-limit is used instead.
-		:type x_lim: float
+					  The x-limit is a tuple limiting the start and end.
+		:type x_lim: tuple
 		"""
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
 		punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
-		x_lim = axis.get_xlim()[1] if x_lim is None else x_lim
+		x_lim = axis.get_xlim() if x_lim is None else x_lim
 
 		"""
 		If the text is left-aligned or justify, move the last token to the next line.
@@ -406,7 +418,7 @@ class TextAnnotation():
 						  util.get_bb(figure, axis, text_tokens[i]).x1)
 
 			last = util.get_bb(figure, axis, tokens[-1])
-			space = space + x_lim - last.x1
+			space = space + x_lim[1] - last.x1
 			space = space / (len(text_tokens) - 1)
 
 			wordspacing_px = (axis.transData.transform((space, 0))[0] -
@@ -415,7 +427,7 @@ class TextAnnotation():
 			"""
 			Re-position the tokens.
 			"""
-			offset = 0
+			offset = x_lim[0]
 			for token in tokens:
 				if token.get_text() in punctuation:
 					token.set_position((offset - space * 1.25, line * linespacing))
@@ -437,7 +449,7 @@ class TextAnnotation():
 				for token in tokens[::-1]:
 					bb = util.get_bb(figure, axis, token)
 					offset += bb.width
-					token.set_position((x_lim - offset, bb.y1))
+					token.set_position((x_lim[1] - offset, bb.y1))
 
 					"""
 					Do not add to the offset if the token is a punctuation mark.
