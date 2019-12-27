@@ -108,6 +108,8 @@ class TextAnnotation():
 				 The first list in each tuple is the list of legend labels.
 				 The second list in each tuple is the list of actual tokens.
 		:rtype: list of tuple
+
+		:raises: ValueError
 		"""
 
 		axis = self.drawable.axis
@@ -407,6 +409,8 @@ class TextAnnotation():
 					  If it is not given, the axis' x-limit is used instead.
 					  The x-limit is a tuple limiting the start and end.
 		:type x_lim: tuple
+
+		:raises: ValueError
 		"""
 
 		figure = self.drawable.figure
