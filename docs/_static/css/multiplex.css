@@ -22,7 +22,7 @@
 
 @media screen and (min-width: 1400px) {
 
-	img.example {
+	img.example:not(.inline) {
 		box-sizing: border-box;
 		padding: 0 1em;
 		max-width: calc(0.382 * (100% - 300px));
