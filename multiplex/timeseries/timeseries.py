@@ -2,7 +2,7 @@
 The :class:`timeseries.timeseries.TimeSeries` class borrows heavily on matplotlib's `plot` function.
 This class builds on matplotlib's plotting and introduces more functionality.
 
-To start creating time series visualizations, create a :class:`timeseries.timeseries.TimeSeries` instance and call the :meth:``timeseries.timeseries.TimeSeries.draw` method.
+To start creating time series visualizations, create a :class:`timeseries.timeseries.TimeSeries` instance and call the :meth:`timeseries.timeseries.TimeSeries.draw` method.
 If you are using the :class:`drawable.Drawable` class, just call the :meth:`drawable.Drawable.draw_time_series` method on a :class:`drawable.Drawable` instance instead.
 """
 

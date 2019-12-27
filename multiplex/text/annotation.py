@@ -2,7 +2,7 @@
 The :class:`text.annotation.TextAnnotation` class is mainly concerned with organizing text.
 You can do just about anything with these visualizations, including—unsurprisingly enough—annotating the text.
 
-To start creating time series visualizations, create a :class:`timeseries.timeseries.TimeSeries` instance and call the :meth:``timeseries.timeseries.TimeSeries.draw` method.
+To start creating time series visualizations, create a :class:`timeseries.timeseries.TimeSeries` instance and call the :meth:`timeseries.timeseries.TimeSeries.draw` method.
 If you are using the :class:`drawable.Drawable` class, just call the :meth:`drawable.Drawable.draw_time_series` method on a :class:`drawable.Drawable` instance instead.
 
 This method expects, at the very least, a `list` of text tokens.
