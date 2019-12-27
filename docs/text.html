@@ -157,8 +157,9 @@ For example, the below visualization, created using the <a class="reference inte
 <span id="text-annotation"></span><h2>Text Annotation<a class="headerlink" href="#module-text.annotation" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal"><span class="pre">text.annotation.TextAnnotation</span></code></a> class is mainly concerned with organizing text.
 You can do just about anything with these visualizations, including—unsurprisingly enough—annotating the text.</p>
-<p>To get started with a <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal"><span class="pre">text.annotation.TextAnnotation</span></code></a> visualization, create an instance of it and call the <a class="reference internal" href="#text.annotation.TextAnnotation.draw" title="text.annotation.TextAnnotation.draw"><code class="xref py py-meth docutils literal"><span class="pre">text.annotation.TextAnnotation.draw()</span></code></a> method.
-This method expects, at the very least, a <cite>list</cite> of text tokens.
+<p>To start creating time series visualizations, create a <code class="xref py py-class docutils literal"><span class="pre">timeseries.timeseries.TimeSeries</span></code> instance and call the :meth:<a href="#id1"><span class="problematic" id="id2">``</span></a>timeseries.timeseries.TimeSeries.draw` method.
+If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> class, just call the <code class="xref py py-meth docutils literal"><span class="pre">drawable.Drawable.draw_time_series()</span></code> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> instance instead.</p>
+<p>This method expects, at the very least, a <cite>list</cite> of text tokens.
 Alternatively, you can provide a <cite>list</cite> of <cite>dict</cite> of tokens containing at least a <cite>text</cite> attribute and any of the other keys:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
@@ -181,7 +182,7 @@ The <a class="reference internal" href="#text.annotation.TextAnnotation" title="
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>) &#8211; The axis where the text annotation visualization will be drawn.</td>
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>) &#8211; The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</td>
 </tr>
 </tbody>
 </table>
@@ -195,7 +196,7 @@ The visualization is drawn on the given axis.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>drawable</strong> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>) &#8211; The axis where the text annotation visualization will be drawn.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>drawable</strong> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>) &#8211; The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</td>
 </tr>
 </tbody>
 </table>
