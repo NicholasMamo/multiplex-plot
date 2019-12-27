@@ -1,4 +1,4 @@
-![Multiplex](https://github.com/NicholasMamo/multiplex-plot/tree/master/assets/logo.png)
+![Multiplex](https://raw.githubusercontent.com/NicholasMamo/multiplex-plot/master/assets/logo.png)
 
 # Multiplex
 
