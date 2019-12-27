@@ -17,3 +17,4 @@ Feel free to copy-and-paste the sample code and build on it: telling your story 
 
 - [1. Getting Started](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/1.%20Getting%20started.ipynb) - A very short tutorial to acquaint you with how Multiplex works
 - [2. Text](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb) - A series of examples of Multiplex's text visualizations, demonstrating how you can use Multiplex to annotate text
+- [3. Time Series](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20Series.ipynb) - Examples using Multiplex's time series, which make it easier to plot and explain how data changes over time
