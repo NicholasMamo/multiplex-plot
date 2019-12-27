@@ -120,6 +120,21 @@ class TextAnnotation():
 			if type(token) is str:
 				data[i] = { 'text': token }
 
+		"""
+		Validate the arguments.
+		All padding arguments should be non-negative.
+		The left-padding and the right-padding should not overlap.
+		"""
+		if lpad < 0:
+			raise ValueError("The left padding should be between 0 and 1, received %d" % lpad)
+		if rpad < 0:
+			raise ValueError("The right padding should be between 0 and 1, received %d" % rpad)
+		if tpad < 0:
+			raise ValueError("The top padding should be between 0 and 1, received %d" % tpad)
+
+		if lpad + rpad >= 1:
+			raise ValueError("The left and right padding should not overlap, received %d left padding and %d right padding" % (lpad, rpad))
+
 		return self._draw_tokens(data, wordspacing, lineheight, align,
 								 with_legend, lpad, rpad, tpad, *args, **kwargs)
 

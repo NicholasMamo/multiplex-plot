@@ -227,6 +227,88 @@ class TestTextAnnotation(unittest.TestCase):
 		lines = viz.draw_text_annotation(tokens, with_legend=False)
 		self.assertFalse(len(lines[0][0]))
 
+	def test_lpad_bounds(self):
+		"""
+		Test that the left padding is bound between 0 and 1.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+		"""
+		The left padding cannot be negative.
+		"""
+		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), lpad=-0.1)
+
+		"""
+		A left padding of 0 is allowed.
+		"""
+		lines = viz.draw_text_annotation(text.split(), lpad=0)
+		self.assertTrue(len(lines))
+
+		"""
+		The left padding cannot be greater or equal to 1.
+		"""
+		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), lpad=1)
+
+	def test_rpad_bounds(self):
+		"""
+		Test that the right padding is bound between 0 and 1.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+		"""
+		The right padding cannot be negative.
+		"""
+		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), rpad=-0.1)
+
+		"""
+		A right padding of 0 is allowed.
+		"""
+		lines = viz.draw_text_annotation(text.split(), rpad=0)
+		self.assertTrue(len(lines))
+
+		"""
+		The right padding cannot be greater or equal to 1.
+		"""
+		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), rpad=1)
+
+	def test_tpad_bounds(self):
+		"""
+		Test that the top padding has a lower-bound of 0.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+		"""
+		The top padding cannot be negative.
+		"""
+		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), tpad=-0.1)
+
+		"""
+		A top padding of 0 is allowed.
+		"""
+		lines = viz.draw_text_annotation(text.split(), tpad=0)
+		self.assertTrue(len(lines))
+
+		"""
+		A top padding of 1 is allowed.
+		"""
+		lines = viz.draw_text_annotation(text.split(), tpad=1)
+		self.assertTrue(len(lines))
+
+	def test_xpad_bounds(self):
+		"""
+		Test that the left and right padding cannot occupy the entire axis.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), lpad=0.5, rpad=0.5)
+
 	def _reconstruct_text(self, lines):
 		"""
 		Reconstruct the visualization text from a list of lines.
