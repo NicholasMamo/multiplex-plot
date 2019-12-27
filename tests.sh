@@ -8,3 +8,4 @@ cd "$parent_path" # go to the script path
 
 python3 -m unittest multiplex.tests.test_drawable
 python3 -m unittest multiplex.tests.test_text_annotation
+python3 -m unittest multiplex.tests.test_time_series
