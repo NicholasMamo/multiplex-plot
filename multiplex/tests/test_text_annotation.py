@@ -139,6 +139,49 @@ class TestTextAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(center, 5))
 
+	def test_align_justify_left(self):
+		"""
+		Test that when justifying text with the last line being left-aligned, the last line starts at x-coordinate 0.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		lines = viz.draw_text_annotation(text.split(), align='justify-start')
+
+		bb = util.get_bb(viz.figure, viz.axis, lines[0][-1][0])
+		self.assertEqual(0, bb.x0)
+
+	def test_align_justify_right(self):
+		"""
+		Test that when justifying text with the last line being right-aligned, the last line ends at the farthest right.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		lines = viz.draw_text_annotation(text.split(), align='justify-end')
+
+		bb = util.get_bb(viz.figure, viz.axis, lines[0][-1][-1])
+		self.assertEqual(viz.axis.get_xlim()[1], bb.x1)
+
+	def test_align_justify_center(self):
+		"""
+		Test that when justifying text with the last line centered, all lines have the exact same center.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		lines = viz.draw_text_annotation(text.split(), align='justify-center')
+
+		x = 0
+		for i, (_, tokens) in enumerate(lines):
+			bb0 = util.get_bb(viz.figure, viz.axis, tokens[0])
+			bb1 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+			center = (bb0.x0 + bb1.x1) / 2.
+			if i == 0:
+				x = center
+
+			self.assertEqual(round(x, 5), round(center, 5))
+
 	def test_align_invalid(self):
 		"""
 		Test that when an invalid alignment is given, a :class:`ValueError` is raised.

@@ -471,7 +471,7 @@ class TextAnnotation():
 				"""
 
 				bb = util.get_bb(figure, axis, tokens[-1])
-				offset = (x_lim - bb.x1)/2.
+				offset = (x_lim[1] - bb.x1)/2.
 
 				for token in tokens:
 					bb = util.get_bb(figure, axis, token)
