@@ -2,7 +2,9 @@
 The :class:`text.annotation.TextAnnotation` class is mainly concerned with organizing text.
 You can do just about anything with these visualizations, including—unsurprisingly enough—annotating the text.
 
-To get started with a :class:`text.annotation.TextAnnotation` visualization, create an instance of it and call the :meth:`text.annotation.TextAnnotation.draw` method.
+To start creating time series visualizations, create a :class:`timeseries.timeseries.TimeSeries` instance and call the :meth:``timeseries.timeseries.TimeSeries.draw` method.
+If you are using the :class:`drawable.Drawable` class, just call the :meth:`drawable.Drawable.draw_time_series` method on a :class:`drawable.Drawable` instance instead.
+
 This method expects, at the very least, a `list` of text tokens.
 Alternatively, you can provide a `list` of `dict` of tokens containing at least a `text` attribute and any of the other keys:
 
@@ -33,7 +35,7 @@ class TextAnnotation():
 	A class of visualization that allows text annotations.
 	The :class:`text.annotation.TextAnnotation` is mainly concered with organizing text.
 
-	:ivar drawable: The axis where the text annotation visualization will be drawn.
+	:ivar drawable: The :class:`drawable.Drawable` where the time series visualization will be drawn.
 	:vartype drawable: :class:`drawable.Drawable`
 	"""
 
@@ -43,7 +45,7 @@ class TextAnnotation():
 		The figure is used to get the renderer.
 		The visualization is drawn on the given axis.
 
-		:param drawable: The axis where the text annotation visualization will be drawn.
+		:param drawable: The :class:`drawable.Drawable` where the time series visualization will be drawn.
 		:type drawable: :class:`drawable.Drawable`
 		"""
 
