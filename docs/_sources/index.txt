@@ -28,6 +28,7 @@ If you want to get started immediately, check out the `example notebooks <https:
 
    drawable
    text
+   timeseries
    utilities
 
 Indices and tables

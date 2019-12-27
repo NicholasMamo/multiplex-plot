@@ -48,7 +48,7 @@
 
   
     <link rel="top" title="Multiplex 0.1.2 documentation" href="index.html"/>
-        <link rel="next" title="Utilities" href="utilities.html"/>
+        <link rel="next" title="Time Series" href="timeseries.html"/>
         <link rel="prev" title="Getting started" href="drawable.html"/> 
 
   
@@ -101,6 +101,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-text.annotation">Text Annotation</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries.html">Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 
@@ -157,8 +158,8 @@ For example, the below visualization, created using the <a class="reference inte
 <span id="text-annotation"></span><h2>Text Annotation<a class="headerlink" href="#module-text.annotation" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal"><span class="pre">text.annotation.TextAnnotation</span></code></a> class is mainly concerned with organizing text.
 You can do just about anything with these visualizations, including—unsurprisingly enough—annotating the text.</p>
-<p>To start creating time series visualizations, create a <code class="xref py py-class docutils literal"><span class="pre">timeseries.timeseries.TimeSeries</span></code> instance and call the :meth:<a href="#id1"><span class="problematic" id="id2">``</span></a>timeseries.timeseries.TimeSeries.draw` method.
-If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> class, just call the <code class="xref py py-meth docutils literal"><span class="pre">drawable.Drawable.draw_time_series()</span></code> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> instance instead.</p>
+<p>To start creating time series visualizations, create a <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> instance and call the <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries.draw" title="timeseries.timeseries.TimeSeries.draw"><code class="xref py py-meth docutils literal"><span class="pre">timeseries.timeseries.TimeSeries.draw()</span></code></a> method.
+If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> class, just call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-meth docutils literal"><span class="pre">drawable.Drawable.draw_time_series()</span></code></a> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> instance instead.</p>
 <p>This method expects, at the very least, a <cite>list</cite> of text tokens.
 Alternatively, you can provide a <cite>list</cite> of <cite>dict</cite> of tokens containing at least a <cite>text</cite> attribute and any of the other keys:</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -490,7 +491,7 @@ The function expects lines to be tuples of legend labels and tokens.</td>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="timeseries.html" class="btn btn-neutral float-right" title="Time Series" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="drawable.html" class="btn btn-neutral" title="Getting started" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
