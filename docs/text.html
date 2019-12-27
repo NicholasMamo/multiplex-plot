@@ -11,7 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
 	
-  <title>Text &mdash; Multiplex 0.1.1 documentation</title>
+  <title>Text &mdash; Multiplex 0.1.2 documentation</title>
   
 	<meta content="6-b47nDPjK44wloiTTz5ZH1d0PbmODUCmFdUAtM3dR0" name="google-site-verification" />
 
@@ -47,7 +47,7 @@
   
 
   
-    <link rel="top" title="Multiplex 0.1.1 documentation" href="index.html"/>
+    <link rel="top" title="Multiplex 0.1.2 documentation" href="index.html"/>
         <link rel="next" title="Utilities" href="utilities.html"/>
         <link rel="prev" title="Getting started" href="drawable.html"/> 
 
@@ -259,7 +259,10 @@ The first list in each tuple is the list of legend labels.
 The second list in each tuple is the list of actual tokens.</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of tuple</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list of tuple</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">ValueError</p>
 </td>
 </tr>
 </tbody>
@@ -420,7 +423,7 @@ This function is used when the line overflows.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>tokens</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of tokens added to the line.</li>
 <li><strong>line</strong> (<em>int</em>) &#8211; The line number of the tokens.</li>
 <li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
@@ -443,6 +446,9 @@ Possible values:</p>
 If it is not given, the axis&#8217; x-limit is used instead.
 The x-limit is a tuple limiting the start and end.</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">ValueError</p>
 </td>
 </tr>
 </tbody>
@@ -517,7 +523,7 @@ The function expects lines to be tuples of legend labels and tokens.</td>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.1.1',
+            VERSION:'0.1.2',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true
