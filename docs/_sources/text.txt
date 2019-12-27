@@ -1,6 +1,6 @@
-****
-Text
-****
+*******
+2. Text
+*******
 
 .. meta::
    :description: Python text visualizations for information retrieval and natural language processing (NLP)

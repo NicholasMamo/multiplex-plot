@@ -1,6 +1,6 @@
-***********
-Time Series
-***********
+**************
+3. Time Series
+**************
 
 .. meta::
    :description: Python time series visualizations that make it easier to create and annotate time series to tell a story through data

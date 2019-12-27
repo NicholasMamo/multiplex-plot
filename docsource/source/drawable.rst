@@ -1,6 +1,6 @@
-***************
-Getting started
-***************
+******************
+1. Getting started
+******************
 
 .. meta::
    :description: Multiplex: visualizations that tell stories
