@@ -165,12 +165,14 @@ class TextAnnotation():
 		:type with_legend: bool
 		:param lpad: The left padding as a percentage of the plot.
 					 The range is expected to be between 0 and 1.
+					 The left padding and the right padding cannot reach or exceed 100%.
 		:type lpad: float
 		:param rpad: The right padding as a percentage of the plot.
 					 The range is expected to be between 0 and 1.
+					 The left padding and the right padding cannot reach or exceed 100%.
 		:type rpad: float
 		:param tpad: The top padding as a percentage of the plot.
-					 The range is expected to be between 0 and 1.
+					 Any value greater or equal than 0 is accepted.
 		:type tpad: float
 
 		:return: The drawn lines.
