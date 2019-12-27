@@ -86,6 +86,8 @@ a:visited {
 	background-color: var(--primary);
 }
 
+.wy-nav-top a,
+.wy-nav-top a:visited,
 .wy-side-nav-search a,
 .wy-side-nav-search a:visited {
 	color: white;
