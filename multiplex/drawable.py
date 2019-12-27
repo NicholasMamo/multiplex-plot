@@ -30,6 +30,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from text.annotation import TextAnnotation
+from timeseries.timeseries import TimeSeries
 import util
 
 class Drawable():
@@ -206,7 +207,7 @@ class Drawable():
 
 	def draw_text_annotation(self, *args, **kwargs):
 		"""
-		Draw a text annotation visualization on this Drawable.
+		Draw a text annotation visualization on this :class:`Drawable`.
 		The arguments and keyword arguments are those supported by :meth:`text.annotation.TextAnnotation.draw` method.
 
 		:return: The drawn text annotation's lines.
@@ -218,3 +219,15 @@ class Drawable():
 
 		text_annotation = TextAnnotation(self)
 		return text_annotation.draw(*args, **kwargs)
+
+	def draw_time_series(self, *args, **kwargs):
+		"""
+		Draw a time series visualization on this :class:`Drawable`.
+		The arguments and keyword arguments are those supported by :meth:`text.annotation.TextAnnotation.draw` method.
+
+		:return: The time series object.
+		:rtype: :class:`timeseries.timeseries.TimeSeries`
+		"""
+
+		time_series = TimeSeries(self)
+		return time_series.draw(*args, **kwargs)
