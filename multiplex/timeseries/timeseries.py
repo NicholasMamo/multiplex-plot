@@ -33,12 +33,19 @@ class TimeSeries(object):
 
 		self.drawable = drawable
 
-	def draw(self, *args, **kwargs):
+	def draw(self, x, y, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`drawable.Drawable`.
 		The arguments and keyword arguments are passed on to the :meth:`matplotlib.pyplot.plot` method.
 		Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.
+
+		:param x: The list of x-coordinates to plot.
+				  The x-coordinates must have the same number of points as the y-coordinates.
+		:type x: list of float
+		:param y: The list of corresponding y-coordinates to plot.
+				  The y-coordinates must have the same number of points as the x-coordinates.
+		:type y: list of float
 		"""
 
 		axis = self.drawable.axis
-		axis.plot(*args, **kwargs)
+		axis.plot(x, y, *args, **kwargs)
