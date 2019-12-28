@@ -51,12 +51,13 @@ class TimeSeries(object):
 		"""
 
 		axis = self.drawable.axis
-		axis.plot(x, y, *args, **kwargs)
+		plot = axis.plot(x, y, *args, **kwargs)
+		kwargs.update({ 'color': plot[0].get_color() })
 
 		if label is not None and len(x) and len(y):
 			self._draw_label(label, x[-1], y[-1], *args, **kwargs)
 
-	def _draw_label(self, label, x, y):
+	def _draw_label(self, label, x, y, *args, **kwargs):
 		"""
 		Draw a label at the end of the line.
 
@@ -72,5 +73,5 @@ class TimeSeries(object):
 		"""
 
 		axis = self.drawable.axis
-		text = axis.text(x * 1.01, y, label, va='center')
+		text = axis.text(x * 1.01, y, label, va='center', *args, **kwargs)
 		return text
