@@ -33,7 +33,7 @@ class TimeSeries(object):
 
 		self.drawable = drawable
 
-	def draw(self, x, y, *args, **kwargs):
+	def draw(self, x, y, label=None, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`drawable.Drawable`.
 		The arguments and keyword arguments are passed on to the :meth:`matplotlib.pyplot.plot` method.
@@ -45,7 +45,32 @@ class TimeSeries(object):
 		:param y: The list of corresponding y-coordinates to plot.
 				  The y-coordinates must have the same number of points as the x-coordinates.
 		:type y: list of float
+		:param label: The plot's label.
+					  If given, the label is drawn at the end of the line.
+		:type label: str or None
 		"""
 
 		axis = self.drawable.axis
 		axis.plot(x, y, *args, **kwargs)
+
+		if label is not None and len(x) and len(y):
+			self._draw_label(label, x[-1], y[-1], *args, **kwargs)
+
+	def _draw_label(self, label, x, y):
+		"""
+		Draw a label at the end of the line.
+
+		:param label: The label to draw.
+		:type label: str
+		:param x: The x-position of the last point on the line.
+		:type x: float
+		:param y: The y-position of the last point on the line.
+		:type y: float
+
+		:return: The drawn label's text box.
+		:rtype: :class:`matplotlib.text.Text`
+		"""
+
+		axis = self.drawable.axis
+		text = axis.text(x * 1.01, y, label, va='center')
+		return text
