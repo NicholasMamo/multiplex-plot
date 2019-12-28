@@ -58,6 +58,8 @@ class Drawable():
 	:vartype figure: :class:`matplotlib.figure.Figure`
 	:ivar axis: The axis where the drawable will draw.
 	:vartype axis: :class:`matplotlib.axis.Axis`
+	:ivar _time_series: The time series object that is being used.
+	:vartype _time_series: :class:`timeseries.timeseries.TimeSeries`
 	"""
 
 	def __init__(self, figure, axis=None):
@@ -74,6 +76,8 @@ class Drawable():
 
 		self.figure = figure
 		self.axis = plt.gca() if axis is None else axis
+
+		self._time_series = None
 
 	def set_caption(self, caption, alpha=0.8, ha='left', va='bottom',
 					wordspacing=0.005, lineheight=1.25, *args, **kwargs):
@@ -229,5 +233,6 @@ class Drawable():
 		:rtype: :class:`timeseries.timeseries.TimeSeries`
 		"""
 
-		time_series = TimeSeries(self)
-		return time_series.draw(*args, **kwargs)
+		self._time_series = self._time_series if self._time_series is not None else TimeSeries(self)
+		self._time_series.draw(*args, **kwargs)
+		return self._time_series
