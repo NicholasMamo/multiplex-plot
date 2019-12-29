@@ -158,6 +158,8 @@ Multiplex&#8217;s time series makes it easier to create time series that tell a 
 <span id="id1"></span><h2>Time Series<a class="headerlink" href="#module-timeseries.timeseries" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> class borrows heavily on matplotlib&#8217;s <cite>plot</cite> function.
 This class builds on matplotlib&#8217;s plotting and introduces more functionality.</p>
+<p>For example, Multiplex time series do not have a legend by default.
+Instead, to aid readability, the line&#8217;s label is added to the end of the plot.</p>
 <p>To start creating time series visualizations, create a <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> instance and call the <a class="reference internal" href="#timeseries.timeseries.TimeSeries.draw" title="timeseries.timeseries.TimeSeries.draw"><code class="xref py py-meth docutils literal"><span class="pre">timeseries.timeseries.TimeSeries.draw()</span></code></a> method.
 If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> class, just call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-meth docutils literal"><span class="pre">drawable.Drawable.draw_time_series()</span></code></a> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> instance instead.</p>
 <dl class="class">
@@ -191,7 +193,7 @@ The visualization is drawn on the given axis.</p>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>label=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>label=None</em>, <em>label_style=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a time series on the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>.
 The arguments and keyword arguments are passed on to the <code class="xref py py-meth docutils literal"><span class="pre">matplotlib.pyplot.plot()</span></code> method.
 Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.</p>
@@ -206,6 +208,7 @@ The x-coordinates must have the same number of points as the y-coordinates.</li>
 The y-coordinates must have the same number of points as the x-coordinates.</li>
 <li><strong>label</strong> (<em>str or None</em>) &#8211; The plot&#8217;s label.
 If given, the label is drawn at the end of the line.</li>
+<li><strong>label_style</strong> (<em>dict or None</em>) &#8211; The style of the label.</li>
 </ul>
 </td>
 </tr>
