@@ -22,6 +22,9 @@ class TimeSeries(object):
 
 	:ivar drawable: The :class:`drawable.Drawable` where the time series visualization will be drawn.
 	:vartype drawable: :class:`drawable.Drawable`
+	:ivar _labels: The labels in the time series.
+				   This list is used to ensure that labels do not overlap.
+	:vartype _labels: list of :class:`matplotlib.text.Text`
 	"""
 
 	def __init__(self, drawable):
@@ -35,6 +38,8 @@ class TimeSeries(object):
 		"""
 
 		self.drawable = drawable
+
+		self._labels = []
 
 	def draw(self, x, y, label=None, label_style=None, *args, **kwargs):
 		"""
@@ -61,7 +66,8 @@ class TimeSeries(object):
 		if label is not None and len(x) and len(y):
 			default_label_style = { 'color': plot[0].get_color() }
 			default_label_style.update(label_style)
-			self._draw_label(label, x[-1], y[-1], default_label_style)
+			label = self._draw_label(label, x[-1], y[-1], default_label_style)
+			self._labels.append(label)
 
 	def _draw_label(self, label, x, y, *args, **kwargs):
 		"""
