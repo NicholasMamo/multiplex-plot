@@ -52,10 +52,10 @@ class TimeSeries(object):
 
 		axis = self.drawable.axis
 		plot = axis.plot(x, y, *args, **kwargs)
-		kwargs.update({ 'color': plot[0].get_color() })
 
 		if label is not None and len(x) and len(y):
-			self._draw_label(label, x[-1], y[-1], *args, **kwargs)
+			label_style = { 'color': plot[0].get_color() }
+			self._draw_label(label, x[-1], y[-1], label_style)
 
 	def _draw_label(self, label, x, y, *args, **kwargs):
 		"""
