@@ -33,7 +33,7 @@ class TimeSeries(object):
 
 		self.drawable = drawable
 
-	def draw(self, x, y, label=None, *args, **kwargs):
+	def draw(self, x, y, label=None, label_style=None, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`drawable.Drawable`.
 		The arguments and keyword arguments are passed on to the :meth:`matplotlib.pyplot.plot` method.
@@ -48,14 +48,17 @@ class TimeSeries(object):
 		:param label: The plot's label.
 					  If given, the label is drawn at the end of the line.
 		:type label: str or None
+		:param label_style: The style of the label.
+		:type label_style: dict or None
 		"""
 
 		axis = self.drawable.axis
 		plot = axis.plot(x, y, *args, **kwargs)
 
 		if label is not None and len(x) and len(y):
-			label_style = { 'color': plot[0].get_color() }
-			self._draw_label(label, x[-1], y[-1], label_style)
+			default_label_style = { 'color': plot[0].get_color() }
+			default_label_style.update(label_style)
+			self._draw_label(label, x[-1], y[-1], default_label_style)
 
 	def _draw_label(self, label, x, y, *args, **kwargs):
 		"""
