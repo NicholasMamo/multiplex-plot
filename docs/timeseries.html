@@ -152,7 +152,7 @@
 <p>Time series are among the most common types of visualizations, and with good reason.
 They are easy to create because they are simple, which means that they are also intuitive.
 All too often, we rely on that simplicity to tell a story.
-Multiplex&#8217;s time series makes it easier to create time series that tell a story clearly.</p>
+Multiplex&#8217;s time series makes it easier for data to tell a story clearly.</p>
 <p>Keep reading to learn more about time series visualizations.</p>
 <span class="target" id="module-timeseries"></span><div class="section" id="module-timeseries.timeseries">
 <span id="id1"></span><h2>Time Series<a class="headerlink" href="#module-timeseries.timeseries" title="Permalink to this headline">¶</a></h2>
@@ -171,7 +171,12 @@ This class builds on matplotlib&#8217;s plotting and introduces more functionali
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>) &#8211; The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</td>
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>) &#8211; The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</li>
+<li><strong>_labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The labels in the time series.
+This list is used to ensure that labels do not overlap.</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>

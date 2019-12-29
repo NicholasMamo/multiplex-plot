@@ -9,7 +9,7 @@
 Time series are among the most common types of visualizations, and with good reason.
 They are easy to create because they are simple, which means that they are also intuitive.
 All too often, we rely on that simplicity to tell a story.
-Multiplex's time series makes it easier to create time series that tell a story clearly.
+Multiplex's time series makes it easier for data to tell a story clearly.
 
 Keep reading to learn more about time series visualizations.
 
