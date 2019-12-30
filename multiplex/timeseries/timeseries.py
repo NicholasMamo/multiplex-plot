@@ -87,3 +87,44 @@ class TimeSeries(object):
 		axis = self.drawable.axis
 		text = axis.text(x * 1.01, y, label, va='center', *args, **kwargs)
 		return text
+
+	def _get_overlapping_labels(self):
+		"""
+		Get groups of overlapping labels.
+		The function returns a list of lists.
+		Each inner list contains the labels that overlap.
+		The function automatically excludes labels that do not overlap with other labels.
+
+		:return: A list of lists.
+				 Each inner list represents overlapping labels.
+		:rtype: list of lists of :class:`matplotlib.text.Text`
+		"""
+
+		# TODO: sort the labels in ascending order of y0.
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		overlapping_labels = []
+		for label in self._labels:
+			assigned = False
+
+			"""
+			Go through each label and visit each group of overlapping labels.
+			If the label overlaps with any label in that group, add it to that group.
+			That group would have to be distributed entirely.
+			"""
+			for group in overlapping_labels:
+				if (any([ util.overlapping(figure, axis, label, other) for other in group ])):
+					group.append(label)
+					assigned = True
+					break
+
+			"""
+			If the label does not overlap with any other label, add it to its own group.
+			Groups with a single label overlap with no other group and require no distribution.
+			"""
+			if not assigned:
+				overlapping_labels.append([ label])
+
+		return [ group for group in overlapping_labels if len(group) > 1 ]
