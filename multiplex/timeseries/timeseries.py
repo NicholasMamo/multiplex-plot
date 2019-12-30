@@ -102,7 +102,8 @@ class TimeSeries(object):
 
 		overlapping = self._get_overlapping_labels()
 		if overlapping:
-			pass
+			for group in overlapping:
+				self._distribute_labels(group)
 
 	def _get_overlapping_labels(self):
 		"""
