@@ -174,7 +174,7 @@ If <cite>None</cite> is given, the data transformation is used.</li>
 
 <dl class="function">
 <dt id="util.overlapping">
-<code class="descclassname">util.</code><code class="descname">overlapping</code><span class="sig-paren">(</span><em>c1</em>, <em>c2</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.overlapping" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">util.</code><code class="descname">overlapping</code><span class="sig-paren">(</span><em>figure</em>, <em>axis</em>, <em>c1</em>, <em>c2</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.overlapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check whether the given components overlap.
 The overlap considers the bounding box, and is therefore not perfectly precise.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -182,6 +182,9 @@ The overlap considers the bounding box, and is therefore not perfectly precise.<
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>figure</strong> (<code class="xref py py-class docutils literal"><span class="pre">matplotlib.figure.Figure</span></code>) &#8211; The figure that the component occupies.
+This is used to get the figure renderer.</li>
+<li><strong>axis</strong> (<code class="xref py py-class docutils literal"><span class="pre">matplotlib.axis.Axis</span></code>) &#8211; The axis (or subplot) where the component is plotted.</li>
 <li><strong>c1</strong> (<em>object</em>) &#8211; The first component.
 Its bounding box will be compared to the second component.</li>
 <li><strong>c2</strong> (<em>object</em>) &#8211; The second component.
