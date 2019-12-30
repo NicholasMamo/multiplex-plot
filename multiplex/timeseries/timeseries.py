@@ -45,7 +45,7 @@ class TimeSeries(object):
 
 		self._labels = []
 
-	def draw(self, x, y, label=None, label_style=None, annotations=None, *args, **kwargs):
+	def draw(self, x, y, label=None, label_style=None, annotations=None, annotation_style=None, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`drawable.Drawable`.
 		The arguments and keyword arguments are passed on to the :meth:`matplotlib.pyplot.plot` method.
@@ -76,6 +76,9 @@ class TimeSeries(object):
 								  'text': 'annotation',
 								}
 		:type annotations: list of dict or list of str
+		:param annotation_style: A dictionary containing the style that should be applied in general to all annotations.
+								 This dictionary is over-written by any annotation-specific style.
+		:type annotation_style: dict or None
 
 		:raises: ValueError
 		"""
@@ -91,9 +94,9 @@ class TimeSeries(object):
 		"""
 		Draw the label at the end of the line.
 		"""
-		label_style = {} if label_style is None else label_style
 		if label is not None and len(x) and len(y):
 			default_label_style = { 'color': plot[0].get_color() }
+			label_style = {} if label_style is None else label_style
 			default_label_style.update(label_style)
 			label = self._draw_label(label, x[-1], y[-1], default_label_style)
 
@@ -111,11 +114,14 @@ class TimeSeries(object):
 
 			"""
 			By default, the annotations have the same color as the plot.
+			However, this may be over-written by the annotation style.
 			"""
 			default_annotation_style = {
 				'color': plot[0].get_color(),
 				'marker': 'o', 'markersize': 10
 			}
+			annotation_style = {} if annotation_style is None else annotation_style
+			default_annotation_style.update(annotation_style)
 
 			"""
 			Draw the annotations separately.
