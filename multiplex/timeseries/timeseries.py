@@ -91,7 +91,7 @@ class TimeSeries(object):
 		"""
 
 		axis = self.drawable.axis
-		text = axis.text(x * 1.01, y, label, va='center', *args, **kwargs)
+		text = axis.text(x * 1.01, y, label, va='center', bbox={ 'edgecolor': 'None', 'facecolor': 'None', 'pad': 1 }, *args, **kwargs)
 		return text
 
 	def _arrange_labels(self):
