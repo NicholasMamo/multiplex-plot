@@ -145,6 +145,38 @@ class TimeSeries(object):
 
 		return [ group for group in overlapping_labels if len(group) > 1 ]
 
+	def _distribute_labels(self, labels):
+		"""
+		Distribute the given labels so that they do not overlap.
+
+		:param labels: The list of overlapping labels.
+		:type labels: list of :class:`matplotlib.text.Text`
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		"""
+		Calculate the total height that the labels should occupy.
+		Then, get the mean y-coordinate of the labels to find the middle.
+		"""
+		total_height = self._get_total_height(labels)
+		middle = self._get_middle(labels)
+
+		"""
+		Sort the labels in ascending order of position (y-coordinate).
+		Then, move the labels one by one.
+		The initial offset is calculated as the distance that the first label needs to move.
+		Subsequently, the offset is calculated by adding the height of each label.
+		"""
+		labels = sorted(labels, key=lambda x: util.get_bb(figure, axis, x).y0)
+		y0 = middle - total_height / 2.
+		for label in labels:
+			position = label.get_position()
+			bb = util.get_bb(figure, axis, label)
+			label.set_position((position[0], y0 + bb.height / 2.))
+			y0 += bb.height
+
 	def _get_total_height(self, labels):
 		"""
 		Get the total height of the given labels.
