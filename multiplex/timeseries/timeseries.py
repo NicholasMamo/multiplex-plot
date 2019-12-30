@@ -98,12 +98,14 @@ class TimeSeries(object):
 		"""
 		Go through the labels and ensure that none overlap.
 		If any do overlap, move the labels.
+		The function keeps repeating until no labels overlap.
 		"""
 
 		overlapping = self._get_overlapping_labels()
-		if overlapping:
+		while overlapping:
 			for group in overlapping:
 				self._distribute_labels(group)
+			overlapping = self._get_overlapping_labels()
 
 	def _get_overlapping_labels(self):
 		"""
