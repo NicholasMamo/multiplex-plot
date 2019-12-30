@@ -99,6 +99,9 @@ class TimeSeries(object):
 		Go through the labels and ensure that none overlap.
 		If any do overlap, move the labels.
 		The function keeps repeating until no labels overlap.
+
+		.. image:: ../../examples/exports/overlapping-labels.png
+		   :class: example
 		"""
 
 		overlapping = self._get_overlapping_labels()
