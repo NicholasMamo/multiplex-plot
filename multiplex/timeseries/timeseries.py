@@ -67,7 +67,7 @@ class TimeSeries(object):
 							The annotations can either be simple strings, or dictionaries.
 							With dictionaries, you can style each annotation separately.
 							If no dictionary is given, then a default style is used.
-							Dictionaries must follow the following format:
+							Dictionaries must have the following format:
 
 							.. code-block:: python
 
@@ -108,6 +108,22 @@ class TimeSeries(object):
 				raise ValueError("The number of annotations must be equal to the number of points; received %d annotations and %d points" % (len(annotations), len(x)))
 			if len(annotations) != len(y):
 				raise ValueError("The number of annotations must be equal to the number of points; received %d annotations and %d points" % (len(annotations), len(y)))
+
+			"""
+			By default, the annotations have the same color as the plot.
+			"""
+			default_annotation_style = {
+				'color': plot[0].get_color(),
+				'marker': 'o', 'markersize': 10
+			}
+
+			"""
+			Draw the annotations separately.
+			Annotations that are empty (or `None`) are skipped.
+			"""
+			for (x, y, annotation) in zip(x, y, annotations):
+				if annotation:
+					self._draw_annotation(x, y, annotation, **default_annotation_style)
 
 	def _draw_label(self, label, x, y, *args, **kwargs):
 		"""
@@ -252,3 +268,30 @@ class TimeSeries(object):
 		bb0, bb1 = util.get_bb(figure, axis, labels[0]), util.get_bb(figure, axis, labels[-1])
 
 		return (bb0.y0 + bb1.y1) / 2.
+
+	def _draw_annotation(self, x, y, annotation, *args, **kwargs):
+		"""
+		Draw the annotation.
+
+		:param x: The x-coordinate of the annotation.
+		:type x: float
+		:param y: The y-coordinate of the annotation.
+		:type y: float
+		:param annotation: The annotation to draw.
+						   The function accepts either a string or a dictionary.
+						   If a dictionary is provided, it must have the following format:
+
+						   .. code-block:: python
+
+							   {
+								 'style': { 'facecolor': 'None' },
+								 'text': 'annotation',
+							   }
+		"""
+
+		axis = self.drawable.axis
+
+		if type(annotation) is str:
+			annotation = { 'text': annotation }
+
+		axis.plot(x, y, *args, **kwargs)
