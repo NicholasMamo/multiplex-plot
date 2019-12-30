@@ -144,3 +144,23 @@ class TimeSeries(object):
 				overlapping_labels.append([ label])
 
 		return [ group for group in overlapping_labels if len(group) > 1 ]
+
+	def _get_middle(self, labels):
+		"""
+		Get the middle y-coordinate of the given labels.
+		The middle is calculated as the mid-point between the label that is highest and lowest.
+
+		:param labels: The list of labels.
+		:type labels: list of :class:`matplotlib.text.Text`
+
+		:return: The middle y-coordinate of the labels.
+		:rtype: float
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		labels = sorted(labels, key=lambda x: util.get_bb(figure, axis, x).y0)
+		bb0, bb1 = util.get_bb(figure, axis, labels[0]), util.get_bb(figure, axis, labels[-1])
+
+		return (bb0.y0 + bb1.y1) / 2.
