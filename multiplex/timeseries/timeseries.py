@@ -300,4 +300,6 @@ class TimeSeries(object):
 		if type(annotation) is str:
 			annotation = { 'text': annotation }
 
+		kwargs.update(annotation.get('style', {}))
+
 		axis.plot(x, y, *args, **kwargs)
