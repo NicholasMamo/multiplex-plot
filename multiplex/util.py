@@ -51,8 +51,8 @@ def overlapping(figure, axis, c1, c2, *args, **kwargs):
 	bb1, bb2 = get_bb(figure, axis, c1, *args, **kwargs), get_bb(figure, axis, c2, *args, **kwargs)
 
 	return (
-		(bb2.x0 <= bb1.x0 <= bb2.x1 or bb2.x0 <= bb1.x1 <= bb2.x1) and
-		(bb2.y0 <= bb1.y0 <= bb2.y1 or bb2.y0 <= bb1.y1 <= bb2.y1) or
-		(bb1.x0 <= bb2.x0 <= bb1.x1 or bb1.x0 <= bb2.x1 <= bb1.x1) and
-		(bb1.y0 <= bb2.y0 <= bb1.y1 or bb1.y0 <= bb2.y1 <= bb1.y1)
+		(bb2.x0 < bb1.x0 < bb2.x1 or bb2.x0 < bb1.x1 < bb2.x1) and
+		(bb2.y0 < bb1.y0 < bb2.y1 or bb2.y0 < bb1.y1 < bb2.y1) or
+		(bb1.x0 < bb2.x0 < bb1.x1 or bb1.x0 < bb2.x1 < bb1.x1) and
+		(bb1.y0 < bb2.y0 < bb1.y1 or bb1.y0 < bb2.y1 < bb1.y1)
 	)
