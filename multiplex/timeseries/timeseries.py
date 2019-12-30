@@ -63,6 +63,10 @@ class TimeSeries(object):
 		axis = self.drawable.axis
 		plot = axis.plot(x, y, *args, **kwargs)
 
+		# TODO: Add support for pandas Series
+
+		label_style = {} if label_style is None else label_style
+
 		if label is not None and len(x) and len(y):
 			default_label_style = { 'color': plot[0].get_color() }
 			default_label_style.update(label_style)
