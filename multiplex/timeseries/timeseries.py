@@ -20,6 +20,10 @@ class TimeSeries(object):
 	The :class:`timeseries.timeseries.TimeSeries` class borrows heavily on matplotlib's `plot` function.
 	This class builds on matplotlib's plotting and introduces more functionality.
 
+	For example, Multiplex's time series have no legend.
+	Instead, it adds a label at the end of the time series for readability.
+	Multiplex also makes it easy to annotate points on the time series with descriptions to explain their significance.
+
 	:ivar drawable: The :class:`drawable.Drawable` where the time series visualization will be drawn.
 	:vartype drawable: :class:`drawable.Drawable`
 	:ivar _labels: The labels in the time series.
@@ -41,7 +45,7 @@ class TimeSeries(object):
 
 		self._labels = []
 
-	def draw(self, x, y, label=None, label_style=None, *args, **kwargs):
+	def draw(self, x, y, label=None, label_style=None, annotations=None, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`drawable.Drawable`.
 		The arguments and keyword arguments are passed on to the :meth:`matplotlib.pyplot.plot` method.
@@ -58,6 +62,22 @@ class TimeSeries(object):
 		:type label: str or None
 		:param label_style: The style of the label.
 		:type label_style: dict or None
+		:param annotations: A list of annotations.
+							If a list of annotations is given, it must be equal to the number of points.
+							The annotations can either be simple strings, or dictionaries.
+							With dictionaries, you can style each annotation separately.
+							If no dictionary is given, then a default style is used.
+							Dictionaries must follow the following format:
+
+							.. code-block:: python
+
+								{
+								  'style': { 'facecolor': 'None' },
+								  'text': 'annotation',
+								}
+		:type annotations: list of dict or list of str
+
+		:raises: ValueError
 		"""
 
 		axis = self.drawable.axis
@@ -65,8 +85,10 @@ class TimeSeries(object):
 
 		# TODO: Add support for pandas Series
 
+		"""
+		Draw the label at the end of the line.
+		"""
 		label_style = {} if label_style is None else label_style
-
 		if label is not None and len(x) and len(y):
 			default_label_style = { 'color': plot[0].get_color() }
 			default_label_style.update(label_style)
@@ -74,6 +96,15 @@ class TimeSeries(object):
 
 			self._labels.append(label)
 			self._arrange_labels()
+
+		"""
+		Draw the annotations.
+		"""
+		if annotations:
+			if len(annotations) != len(x):
+				raise ValueError("The number of annotations must be equal to the number of points; received %d annotations and %d points" % (len(annotations), len(x)))
+			if len(annotations) != len(y):
+				raise ValueError("The number of annotations must be equal to the number of points; received %d annotations and %d points" % (len(annotations), len(y)))
 
 	def _draw_label(self, label, x, y, *args, **kwargs):
 		"""
