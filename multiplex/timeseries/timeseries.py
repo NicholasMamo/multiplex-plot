@@ -116,10 +116,10 @@ class TimeSeries(object):
 		:rtype: list of lists of :class:`matplotlib.text.Text`
 		"""
 
-		# TODO: sort the labels in ascending order of y0.
-
 		figure = self.drawable.figure
 		axis = self.drawable.axis
+
+		labels = sorted(self._labels, key=lambda x: util.get_bb(figure, axis, x).y0)
 
 		overlapping_labels = []
 		for label in self._labels:
