@@ -67,7 +67,9 @@ class TimeSeries(object):
 			default_label_style = { 'color': plot[0].get_color() }
 			default_label_style.update(label_style)
 			label = self._draw_label(label, x[-1], y[-1], default_label_style)
+
 			self._labels.append(label)
+			self._arrange_labels()
 
 	def _draw_label(self, label, x, y, *args, **kwargs):
 		"""
@@ -87,6 +89,16 @@ class TimeSeries(object):
 		axis = self.drawable.axis
 		text = axis.text(x * 1.01, y, label, va='center', *args, **kwargs)
 		return text
+
+	def _arrange_labels(self):
+		"""
+		Go through the labels and ensure that none overlap.
+		If any do overlap, move the labels.
+		"""
+
+		overlapping = self._get_overlapping_labels()
+		if overlapping:
+			pass
 
 	def _get_overlapping_labels(self):
 		"""
