@@ -26,3 +26,14 @@ class TestTimeSeries(unittest.TestCase):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		self.assertRaises(ValueError, viz.draw_time_series, [ 1 ] * 5, [ 1 ] * 5, annotations=[ 'a' ] * 4)
+
+	def test_unequal_points(self):
+		"""
+		Test that the number of x-coordinates and y-coordinates must always be the same.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertRaises(ValueError, viz.draw_time_series, [ 1 ] * 5, [ 1 ] * 4)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertRaises(ValueError, viz.draw_time_series, [ 1 ] * 4, [ 1 ] * 5)

@@ -80,6 +80,9 @@ class TimeSeries(object):
 		:raises: ValueError
 		"""
 
+		if len(x) != len(y):
+			raise ValueError("The number of x-coordinates and y-coordinates must be equal; received %d x-coordinates and %d y-coordinates" % (len(x), len(y)))
+
 		axis = self.drawable.axis
 		plot = axis.plot(x, y, *args, **kwargs)
 
