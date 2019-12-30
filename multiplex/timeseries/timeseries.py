@@ -122,7 +122,7 @@ class TimeSeries(object):
 		labels = sorted(self._labels, key=lambda x: util.get_bb(figure, axis, x).y0)
 
 		overlapping_labels = []
-		for label in self._labels:
+		for label in labels:
 			assigned = False
 
 			"""
