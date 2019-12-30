@@ -145,6 +145,22 @@ class TimeSeries(object):
 
 		return [ group for group in overlapping_labels if len(group) > 1 ]
 
+	def _get_total_height(self, labels):
+		"""
+		Get the total height of the given labels.
+
+		:param labels: The list of labels.
+		:type labels: list of :class:`matplotlib.text.Text`
+
+		:return: The total height of the labels.
+		:rtype: float
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		return sum([ util.get_bb(figure, axis, label).height for label in labels ])
+
 	def _get_middle(self, labels):
 		"""
 		Get the middle y-coordinate of the given labels.
