@@ -250,7 +250,8 @@ If given, the label is drawn at the end of the line.</li>
 <dt id="timeseries.timeseries.TimeSeries._arrange_labels">
 <code class="descname">_arrange_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._arrange_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Go through the labels and ensure that none overlap.
-If any do overlap, move the labels.</p>
+If any do overlap, move the labels.
+The function keeps repeating until no labels overlap.</p>
 </dd></dl>
 
 <dl class="method">
@@ -268,6 +269,57 @@ The function automatically excludes labels that do not overlap with other labels
 Each inner list represents overlapping labels.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list of lists of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._distribute_labels">
+<code class="descname">_distribute_labels</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._distribute_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distribute the given labels so that they do not overlap.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of overlapping labels.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._get_total_height">
+<code class="descname">_get_total_height</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_total_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the total height of the given labels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of labels.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The total height of the labels.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._get_middle">
+<code class="descname">_get_middle</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_middle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the middle y-coordinate of the given labels.
+The middle is calculated as the mid-point between the label that is highest and lowest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of labels.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The middle y-coordinate of the labels.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
 </tr>
 </tbody>
 </table>
