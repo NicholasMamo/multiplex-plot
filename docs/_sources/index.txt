@@ -16,8 +16,8 @@ Multiplex is built on the principle that visualizations are about exploring and 
 For this reason, Multiplex is built with the intent of making it as easy as possible to transform data into visualizations.
 
 Multiplex is aimed at data scientists who want to explore and explain data.
-Currently, the library provides support for text visualizations, useful for Natural Language Processing (NLP) tasks.
-In the future, it will also support other visualizations that are used in information retrieval tasks.
+Currently, the library provides text visualizations, useful for Natural Language Processing (NLP) tasks, as well as easy-to-annotate time series.
+In the future, it will also provide other visualizations that are used in information retrieval tasks.
 
 This documentation describes all of Multiplex's functionality.
 If you want to get started immediately, check out the `example notebooks <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_.
