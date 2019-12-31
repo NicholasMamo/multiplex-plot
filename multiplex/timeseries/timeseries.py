@@ -356,11 +356,50 @@ class TimeSeries(object):
 		"""
 		Draw the tokens one after the other.
 		"""
-		for token in tokens:
-			token = axis.text(x, y, token,
+		lines, line_tokens = [], []
+		x_offset = x
+		ha, va = annotation_style.get('ha'), annotation_style.get('va')
+		for i, token in enumerate(tokens):
+			token = axis.text(x_offset, y, token,
 							  *args, **annotation_style, **kwargs)
+			line_tokens.append(token)
 			bb = util.get_bb(figure, axis, token)
-			x += bb.width if annotation_style.get('ha') == 'left' else - bb.width
+			x_offset += bb.width if ha == 'left' else - bb.width
+
+			if ha == 'right' and (x - x_offset) / x_lim_width >= 0.15:
+				lines.append(line_tokens)
+				x_offset = x
+
+				"""
+				Go through the previous lines and make a new line out of them.
+				"""
+				if va == 'top':
+					for line in lines:
+						for other in line:
+							position = other.get_position()
+							bb1 = util.get_bb(figure, axis, other)
+							other.set_position((position[0], position[1] - bb.height))
+				else:
+					for other in line_tokens:
+						position = other.get_position()
+						bb1 = util.get_bb(figure, axis, other)
+						other.set_position((position[0], position[1] + len(lines) * bb.height))
+
+				line_tokens = []
+
+		if line_tokens:
+			lines.append(line_tokens)
+		if va == 'bottom':
+			for other in line_tokens:
+				position = other.get_position()
+				bb1 = util.get_bb(figure, axis, other)
+				other.set_position((position[0], position[1] + len(lines) * bb.height))
+
+			for line in lines:
+				for other in line:
+					position = other.get_position()
+					bb1 = util.get_bb(figure, axis, other)
+					other.set_position((position[0], position[1] - bb.height))
 
 	def _get_best_ha(self, x):
 		"""
