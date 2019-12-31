@@ -320,9 +320,26 @@ class TimeSeries(object):
 		marker_style.update(annotation.get('marker_style', {}))
 		axis.plot(x, y, *args, **marker_style, **kwargs)
 
-		annotation_style['ha'] = annotation_style.get('ha', self._get_best_ha(x))
-		annotation_style['va'] = annotation_style.get('va', self._get_best_va(y))
+		"""
+		Draw the annotation.
+		First, the best horizontal and vertical alignments are calculated.
+		"""
+
+		ha, va = self._get_best_ha(x), self._get_best_va(y)
+		annotation_style['ha'] = annotation_style.get('ha', ha)
+		annotation_style['va'] = annotation_style.get('va', va)
 		annotation_style.update(annotation.get('annotation_style', {}))
+
+		"""
+		Add some padding to the annotations based on the horizontal alignment.
+		"""
+		x_lim = axis.get_xlim()
+		x_lim_width = x_lim[1] - x_lim[0]
+		x += x_lim_width * 0.01 if annotation_style['ha'] == 'left' else - x_lim_width * 0.01
+
+		y_lim = axis.get_ylim()
+		y_lim_width = y_lim[1] - y_lim[0]
+		y += y_lim_width * 0.01 if annotation_style['va'] == 'bottom' else - y_lim_width * 0.01
 
 		axis.text(x, y, annotation.get('text'),
 				  *args, **annotation_style, **kwargs)
