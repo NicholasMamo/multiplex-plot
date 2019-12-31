@@ -347,9 +347,9 @@ class TimeSeries(object):
 		x_lim_width = x_lim[1] - x_lim[0]
 
 		if (x - x_lim[0])/x_lim_width <= 0.1:
-			return 'left'
+			return 'left' # the annotation is on the right
 		else:
-			return 'right'
+			return 'right' # the annotation is on the left
 
 	def _get_best_va(self, y):
 		"""
@@ -370,7 +370,7 @@ class TimeSeries(object):
 		y_lim = axis.get_ylim()
 		y_lim_width = y_lim[1] - y_lim[0]
 
-		if (y - y_lim[0])/y_lim_width < 0.1:
-			return 'bottom'
+		if (y - y_lim[0])/y_lim_width >= 0.9:
+			return 'top' # the annotation is at the bottom
 		else:
-			return 'top'
+			return 'bottom' # the annotation is at the top
