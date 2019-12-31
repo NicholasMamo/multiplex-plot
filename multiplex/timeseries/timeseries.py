@@ -317,6 +317,7 @@ class TimeSeries(object):
 		if type(annotation) is str:
 			annotation = { 'text': annotation }
 
+		marker_style.update(annotation.get('marker_style', {}))
 		axis.plot(x, y, *args, **marker_style, **kwargs)
 
 		annotation_style['ha'] = annotation_style.get('ha', self._get_best_ha(x))
