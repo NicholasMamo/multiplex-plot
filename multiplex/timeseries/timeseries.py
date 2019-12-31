@@ -330,18 +330,19 @@ class TimeSeries(object):
 		annotation_style['ha'] = annotation_style.get('ha', ha)
 		annotation_style['va'] = annotation_style.get('va', va)
 		annotation_style.update(annotation.get('annotation_style', {}))
+		ha, va = annotation_style.get('ha'), annotation_style.get('va')
 
 		"""
 		Add some padding to the annotations based on the horizontal alignment.
 		"""
 		x_lim = axis.get_xlim()
 		x_lim_width = x_lim[1] - x_lim[0]
-		x_pad = x_lim_width * 0.01 if annotation_style['ha'] == 'left' else - x_lim_width * 0.01
+		x_pad = x_lim_width * 0.01 if ha == 'left' else - x_lim_width * 0.01
 		x += x_pad
 
 		y_lim = axis.get_ylim()
 		y_lim_width = y_lim[1] - y_lim[0]
-		y_pad = y_lim_width * 0.01 if annotation_style['va'] == 'bottom' else - y_lim_width * 0.01
+		y_pad = y_lim_width * 0.01
 		y += y_pad
 
 		"""
@@ -358,7 +359,6 @@ class TimeSeries(object):
 		"""
 		lines, line_tokens = [], []
 		x_offset = x
-		ha, va = annotation_style.get('ha'), annotation_style.get('va')
 		for i, token in enumerate(tokens):
 			token = axis.text(x_offset, y, token, *args, **annotation_style, **kwargs)
 			line_tokens.append(token)
