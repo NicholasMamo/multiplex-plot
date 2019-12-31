@@ -45,7 +45,7 @@ class TimeSeries(object):
 
 		self._labels = []
 
-	def draw(self, x, y, label=None, label_style=None, annotations=None, marker_style=None, *args, **kwargs):
+	def draw(self, x, y, label=None, label_style=None, annotations=None, marker_style=None, annotation_style=None, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`drawable.Drawable`.
 		The arguments and keyword arguments are passed on to the :meth:`matplotlib.pyplot.plot` method.
@@ -128,12 +128,20 @@ class TimeSeries(object):
 			default_marker_style.update(marker_style)
 
 			"""
+			By default, the annotations have the same color as the plot.
+			However, this may be over-written by the annotation style.
+			"""
+			default_annotation_style = { 'color': plot[0].get_color() }
+			annotation_style = {} if annotation_style is None else annotation_style
+			default_annotation_style.update(annotation_style)
+
+			"""
 			Draw the annotations separately.
 			Annotations that are empty (or `None`) are skipped.
 			"""
 			for (x, y, annotation) in zip(x, y, annotations):
 				if annotation:
-					self._draw_annotation(x, y, annotation, default_marker_style)
+					self._draw_annotation(x, y, annotation, default_marker_style, default_annotation_style)
 
 	def _draw_label(self, label, x, y, *args, **kwargs):
 		"""
@@ -279,7 +287,7 @@ class TimeSeries(object):
 
 		return (bb0.y0 + bb1.y1) / 2.
 
-	def _draw_annotation(self, x, y, annotation, marker_style, *args, **kwargs):
+	def _draw_annotation(self, x, y, annotation, marker_style, annotation_style, *args, **kwargs):
 		"""
 		Draw the annotation.
 
@@ -298,9 +306,10 @@ class TimeSeries(object):
 								 'annotation_style': { },
 								 'text': 'annotation',
 							   }
-		:param marker_style: A dictionary containing the style that should be applied in general to all annotation markers.
-							 This dictionary is over-written by any annotation-specific style.
+		:param marker_style: A dictionary containing the style that should be applied to the annotation marker.
 		:type marker_style: dict
+		:param annotation_style: A dictionary containing the style that should be applied to the annotations.
+		:type annotation_style: dict
 		"""
 
 		axis = self.drawable.axis
@@ -309,3 +318,7 @@ class TimeSeries(object):
 			annotation = { 'text': annotation }
 
 		axis.plot(x, y, *args, **marker_style, **kwargs)
+
+		axis.text(x, y, annotation.get('text'),
+				  ha='right', va='bottom',
+				  *args, **annotation_style, **kwargs)
