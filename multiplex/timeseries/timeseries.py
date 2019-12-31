@@ -369,8 +369,8 @@ class TimeSeries(object):
 				(ha == 'left' and (x_offset - x) / x_lim_width >= 0.15)) and
 				 i < len(tokens) - 2):
 				lines.append(line_tokens)
-				x_offset = x
 				self._newline(lines, line_tokens, ha, va)
+				x_offset = x
 				line_tokens = []
 
 		"""
@@ -445,17 +445,39 @@ class TimeSeries(object):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		"""
-		Go through the previous lines and make a new line out of them.
-		"""
-		if va == 'top':
-			for line in lines:
-				for other in line:
+		if ha == 'right':
+			if va == 'top':
+				"""
+				Go through the previous lines and make a new line out of them.
+				"""
+				for line in lines:
+					for other in line:
+						position = other.get_position()
+						bb = util.get_bb(figure, axis, other)
+						other.set_position((position[0], position[1] - bb.height))
+			elif va == 'bottom':
+				"""
+				Make a new line out of the last line.
+				"""
+				for other in line_tokens:
 					position = other.get_position()
 					bb = util.get_bb(figure, axis, other)
-					other.set_position((position[0], position[1] - bb.height))
-		elif va == 'bottom':
-			for other in line_tokens:
-				position = other.get_position()
-				bb = util.get_bb(figure, axis, other)
-				other.set_position((position[0], position[1] + len(lines) * bb.height))
+					other.set_position((position[0], position[1] + len(lines) * bb.height))
+		elif ha == 'left':
+			if va == 'bottom':
+				"""
+				Go through the previous lines and make a new line out of them.
+				"""
+				for line in lines:
+					for other in line:
+						position = other.get_position()
+						bb = util.get_bb(figure, axis, other)
+						other.set_position((position[0], position[1] + bb.height))
+			elif va == 'top':
+				"""
+				Make a new line out of the last line.
+				"""
+				for other in line_tokens:
+					position = other.get_position()
+					bb = util.get_bb(figure, axis, other)
+					other.set_position((position[0], position[1] - len(lines) * bb.height))
