@@ -379,6 +379,8 @@ class TimeSeries(object):
 		if line_tokens:
 			lines.append(line_tokens)
 		self._newline(lines, line_tokens, ha, va)
+		if va == 'bottom':
+			self._remove_empty_line(lines, va)
 
 	def _get_best_ha(self, x):
 		"""
@@ -481,3 +483,25 @@ class TimeSeries(object):
 					position = other.get_position()
 					bb = util.get_bb(figure, axis, other)
 					other.set_position((position[0], position[1] - len(lines) * bb.height))
+
+	def _remove_empty_line(self, lines, va):
+		"""
+		Remove the last empty line from the annotation.
+
+		:param lines: A list of lines, each containing tokens.
+		:type lines: list of lists of :class:`matplotlib.text.Text`
+		:param va: The vertical alignment: 'top' or 'bottom'.
+		:type va: str
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		"""
+		Go through each line and offset every token by its height.
+		"""
+		for line in lines:
+			for token in line:
+				position = token.get_position()
+				bb = util.get_bb(figure, axis, token)
+				token.set_position((position[0], position[1] - bb.height))
