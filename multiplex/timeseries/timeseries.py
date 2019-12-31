@@ -45,7 +45,7 @@ class TimeSeries(object):
 
 		self._labels = []
 
-	def draw(self, x, y, label=None, label_style=None, annotations=None, annotation_style=None, *args, **kwargs):
+	def draw(self, x, y, label=None, label_style=None, annotations=None, marker_style=None, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`drawable.Drawable`.
 		The arguments and keyword arguments are passed on to the :meth:`matplotlib.pyplot.plot` method.
@@ -72,12 +72,16 @@ class TimeSeries(object):
 							.. code-block:: python
 
 								{
-								  'style': { 'facecolor': 'None' },
+								  'marker_style': { },
+								  'annotation_style': { },
 								  'text': 'annotation',
 								}
 		:type annotations: list of dict or list of str
-		:param annotation_style: A dictionary containing the style that should be applied in general to all annotations.
-								 This dictionary is over-written by any annotation-specific style.
+		:param marker_style: A dictionary containing the style that should be applied in general to all annotation markers.
+							 This dictionary is over-written by any annotation-specific style.
+		:type marker_style: dict or None
+		:param annotation_style: A dictionary containing the style that should be applied in general to the annotation text.
+							 This dictionary is over-written by any annotation-specific style.
 		:type annotation_style: dict or None
 
 		:raises: ValueError
@@ -113,15 +117,15 @@ class TimeSeries(object):
 				raise ValueError("The number of annotations must be equal to the number of points; received %d annotations and %d points" % (len(annotations), len(y)))
 
 			"""
-			By default, the annotations have the same color as the plot.
-			However, this may be over-written by the annotation style.
+			By default, the annotations' markers have the same color as the plot.
+			However, this may be over-written by the marker style.
 			"""
-			default_annotation_style = {
+			default_marker_style = {
 				'color': plot[0].get_color(),
-				'marker': 'o', 'markersize': 10
+				'marker': 'o', 'markersize': 8
 			}
-			annotation_style = {} if annotation_style is None else annotation_style
-			default_annotation_style.update(annotation_style)
+			marker_style = {} if marker_style is None else marker_style
+			default_marker_style.update(marker_style)
 
 			"""
 			Draw the annotations separately.
@@ -129,7 +133,7 @@ class TimeSeries(object):
 			"""
 			for (x, y, annotation) in zip(x, y, annotations):
 				if annotation:
-					self._draw_annotation(x, y, annotation, **default_annotation_style)
+					self._draw_annotation(x, y, annotation, default_marker_style)
 
 	def _draw_label(self, label, x, y, *args, **kwargs):
 		"""
@@ -275,7 +279,7 @@ class TimeSeries(object):
 
 		return (bb0.y0 + bb1.y1) / 2.
 
-	def _draw_annotation(self, x, y, annotation, *args, **kwargs):
+	def _draw_annotation(self, x, y, annotation, marker_style, *args, **kwargs):
 		"""
 		Draw the annotation.
 
@@ -290,9 +294,13 @@ class TimeSeries(object):
 						   .. code-block:: python
 
 							   {
-								 'style': { 'facecolor': 'None' },
+								 'marker_style': { },
+								 'annotation_style': { },
 								 'text': 'annotation',
 							   }
+		:param marker_style: A dictionary containing the style that should be applied in general to all annotation markers.
+							 This dictionary is over-written by any annotation-specific style.
+		:type marker_style: dict
 		"""
 
 		axis = self.drawable.axis
@@ -300,6 +308,4 @@ class TimeSeries(object):
 		if type(annotation) is str:
 			annotation = { 'text': annotation }
 
-		kwargs.update(annotation.get('style', {}))
-
-		axis.plot(x, y, *args, **kwargs)
+		axis.plot(x, y, *args, **marker_style, **kwargs)
