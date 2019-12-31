@@ -11,6 +11,9 @@
    :class: multiplex-logo
    :width: 400
 
+.. image:: ../../examples/exports/3-time-series.png
+   :class: example
+
 Multiplex is a visualization library for Python built on `matplotlib <https://github.com/matplotlib/matplotlib/>`_.
 Multiplex is built on the principle that visualizations are about exploring and explaining data in a beautiful way.
 For this reason, Multiplex is built with the intent of making it as easy as possible to transform data into visualizations.

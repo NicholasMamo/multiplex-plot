@@ -49,6 +49,11 @@ a:visited {
 	color: var(--dark);
 }
 
+img.center {
+	display: block;
+	margin: 1em auto;
+}
+
 .multiplex-logo {
 	display: block;
 	margin: 0 auto;
