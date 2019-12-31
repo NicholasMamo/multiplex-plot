@@ -2,6 +2,9 @@
 The :class:`timeseries.timeseries.TimeSeries` class borrows heavily on matplotlib's `plot` function.
 This class builds on matplotlib's plotting and introduces more functionality.
 
+.. image:: ../../examples/exports/time-series.png
+   :class: example
+
 For example, Multiplex time series do not have a legend by default.
 Instead, to aid readability, the line's label is added to the end of the plot.
 Multiplex also supports annotations, making it easier to tell a story through time series.
