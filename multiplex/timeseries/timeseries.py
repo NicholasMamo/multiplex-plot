@@ -312,6 +312,7 @@ class TimeSeries(object):
 		:type annotation_style: dict
 		"""
 
+		figure = self.drawable.figure
 		axis = self.drawable.axis
 
 		if type(annotation) is str:
@@ -335,14 +336,31 @@ class TimeSeries(object):
 		"""
 		x_lim = axis.get_xlim()
 		x_lim_width = x_lim[1] - x_lim[0]
-		x += x_lim_width * 0.01 if annotation_style['ha'] == 'left' else - x_lim_width * 0.01
+		x_pad = x_lim_width * 0.01 if annotation_style['ha'] == 'left' else - x_lim_width * 0.01
+		x += x_pad
 
 		y_lim = axis.get_ylim()
 		y_lim_width = y_lim[1] - y_lim[0]
-		y += y_lim_width * 0.01 if annotation_style['va'] == 'bottom' else - y_lim_width * 0.01
+		y_pad = y_lim_width * 0.01 if annotation_style['va'] == 'bottom' else - y_lim_width * 0.01
+		y += y_pad
 
-		axis.text(x, y, annotation.get('text'),
-				  *args, **annotation_style, **kwargs)
+		"""
+		Split the text into tokens.
+		This allows the annotation to break lines if necessary.
+		If the text is to be on the left, draw the tokens in reverse.
+		"""
+		tokens = annotation.get('text').split()
+		if annotation_style.get('ha') == 'right':
+			tokens = tokens[::-1]
+
+		"""
+		Draw the tokens one after the other.
+		"""
+		for token in tokens:
+			token = axis.text(x, y, token,
+							  *args, **annotation_style, **kwargs)
+			bb = util.get_bb(figure, axis, token)
+			x += bb.width if annotation_style.get('ha') == 'left' else - bb.width
 
 	def _get_best_ha(self, x):
 		"""
