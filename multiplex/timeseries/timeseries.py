@@ -319,6 +319,57 @@ class TimeSeries(object):
 
 		axis.plot(x, y, *args, **marker_style, **kwargs)
 
+		annotation_style['ha'] = annotation_style.get('ha', self._get_best_ha(x))
+		annotation_style['va'] = annotation_style.get('va', self._get_best_va(y))
+		annotation_style.update(annotation.get('annotation_style', {}))
+
 		axis.text(x, y, annotation.get('text'),
-				  ha='right', va='bottom',
 				  *args, **annotation_style, **kwargs)
+
+	def _get_best_ha(self, x):
+		"""
+		Get the best horizontal alignment for the annotation.
+		The horizontal alignment is either `left` or `right`.
+
+		:param x: The x-coordinate of the annotation.
+		:type x: float
+		"""
+
+		axis = self.drawable.axis
+
+		"""
+		Get the x-limit.
+		If the x-coordinate is within less than or equal to 10% of the x-axis start, plot the annotation on the right.
+		Otherwise, plot it on the left.
+		"""
+		x_lim = axis.get_xlim()
+		x_lim_width = x_lim[1] - x_lim[0]
+
+		if (x - x_lim[0])/x_lim_width <= 0.1:
+			return 'left'
+		else:
+			return 'right'
+
+	def _get_best_va(self, y):
+		"""
+		Get the best vertcial alignment for the annotation.
+		The vertcial alignment is either `top` or `bottom`.
+
+		:param y: The y-coordinate of the annotation.
+		:type y: float
+		"""
+
+		axis = self.drawable.axis
+
+		"""
+		Get the y-limit.
+		If the y-coordinate is within less than or equal to 10% of the y-axis start, plot the annotation on the top.
+		Otherwise, plot it on the bottom.
+		"""
+		y_lim = axis.get_ylim()
+		y_lim_width = y_lim[1] - y_lim[0]
+
+		if (y - y_lim[0])/y_lim_width < 0.1:
+			return 'bottom'
+		else:
+			return 'top'
