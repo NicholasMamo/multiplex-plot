@@ -2,7 +2,7 @@
 The :class:`timeseries.timeseries.TimeSeries` class borrows heavily on matplotlib's `plot` function.
 This class builds on matplotlib's plotting and introduces more functionality.
 
-.. image:: ../../examples/exports/time-series.png
+.. image:: ../../examples/exports/3-time-series.png
    :class: example
 
 For example, Multiplex time series do not have a legend by default.
@@ -172,7 +172,7 @@ class TimeSeries(object):
 		If any do overlap, move the labels.
 		The function keeps repeating until no labels overlap.
 
-		.. image:: ../../examples/exports/overlapping-labels.png
+		.. image:: ../../examples/exports/3-overlapping-labels.png
 		   :class: example
 		"""
 
