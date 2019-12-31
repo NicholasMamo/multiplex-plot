@@ -200,216 +200,6 @@ The visualization is drawn on the given axis.</p>
 </table>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="timeseries.timeseries.TimeSeries.__weakref__">
-<code class="descname">__weakref__</code><a class="headerlink" href="#timeseries.timeseries.TimeSeries.__weakref__" title="Permalink to this definition">¶</a></dt>
-<dd><p>list of weak references to the object (if defined)</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._arrange_labels">
-<code class="descname">_arrange_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._arrange_labels" title="Permalink to this definition">¶</a></dt>
-<dd><p>Go through the labels and ensure that none overlap.
-If any do overlap, move the labels.
-The function keeps repeating until no labels overlap.</p>
-<img alt="_images/overlapping-labels.png" class="example" src="_images/overlapping-labels.png" />
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._distribute_labels">
-<code class="descname">_distribute_labels</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._distribute_labels" title="Permalink to this definition">¶</a></dt>
-<dd><p>Distribute the given labels so that they do not overlap.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of overlapping labels.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._draw_annotation">
-<code class="descname">_draw_annotation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>annotation</em>, <em>marker_style</em>, <em>annotation_style</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._draw_annotation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw the annotation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> (<em>float</em>) &#8211; The x-coordinate of the annotation.</li>
-<li><strong>y</strong> (<em>float</em>) &#8211; The y-coordinate of the annotation.</li>
-<li><strong>annotation</strong> &#8211; <p>The annotation to draw.
-The function accepts either a string or a dictionary.
-If a dictionary is provided, it must have the following format:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
-      <span class="s1">&#39;marker_style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
-      <span class="s1">&#39;annotation_style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
-      <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;annotation&#39;</span><span class="p">,</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-</li>
-<li><strong>marker_style</strong> (<em>dict</em>) &#8211; A dictionary containing the style that should be applied to the annotation marker.</li>
-<li><strong>annotation_style</strong> (<em>dict</em>) &#8211; A dictionary containing the style that should be applied to the annotations.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._draw_label">
-<code class="descname">_draw_label</code><span class="sig-paren">(</span><em>label</em>, <em>x</em>, <em>y</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._draw_label" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw a label at the end of the line.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>label</strong> (<em>str</em>) &#8211; The label to draw.</li>
-<li><strong>x</strong> (<em>float</em>) &#8211; The x-position of the last point on the line.</li>
-<li><strong>y</strong> (<em>float</em>) &#8211; The y-position of the last point on the line.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn label&#8217;s text box.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._get_best_ha">
-<code class="descname">_get_best_ha</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_best_ha" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the best horizontal alignment for the annotation.
-The horizontal alignment is either <cite>left</cite> or <cite>right</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<em>float</em>) &#8211; The x-coordinate of the annotation.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._get_best_va">
-<code class="descname">_get_best_va</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_best_va" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the best vertcial alignment for the annotation.
-The vertcial alignment is either <cite>top</cite> or <cite>bottom</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>y</strong> (<em>float</em>) &#8211; The y-coordinate of the annotation.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._get_middle">
-<code class="descname">_get_middle</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_middle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the middle y-coordinate of the given labels.
-The middle is calculated as the mid-point between the label that is highest and lowest.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of labels.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The middle y-coordinate of the labels.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._get_overlapping_labels">
-<code class="descname">_get_overlapping_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_overlapping_labels" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get groups of overlapping labels.
-The function returns a list of lists.
-Each inner list contains the labels that overlap.
-The function automatically excludes labels that do not overlap with other labels.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of lists.
-Each inner list represents overlapping labels.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list of lists of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._get_total_height">
-<code class="descname">_get_total_height</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_total_height" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the total height of the given labels.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of labels.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The total height of the labels.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._newline">
-<code class="descname">_newline</code><span class="sig-paren">(</span><em>lines</em>, <em>line_tokens</em>, <em>ha</em>, <em>va</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._newline" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new line.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>lines</strong> (list of lists of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; A list of lines, each containing tokens.</li>
-<li><strong>line_tokens</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The tokens in the current line, which will be &#8216;retired&#8217;.</li>
-<li><strong>ha</strong> (<em>str</em>) &#8211; The horizontal alignment: &#8216;left&#8217; or &#8216;right&#8217;.</li>
-<li><strong>va</strong> (<em>str</em>) &#8211; The vertical alignment: &#8216;top&#8217; or &#8216;bottom&#8217;.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._remove_empty_line">
-<code class="descname">_remove_empty_line</code><span class="sig-paren">(</span><em>lines</em>, <em>va</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._remove_empty_line" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove the last empty line from the annotation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>lines</strong> (list of lists of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; A list of lines, each containing tokens.</li>
-<li><strong>va</strong> (<em>str</em>) &#8211; The vertical alignment: &#8216;top&#8217; or &#8216;bottom&#8217;.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries.draw">
 <code class="descname">draw</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>label=None</em>, <em>label_style=None</em>, <em>annotations=None</em>, <em>marker_style=None</em>, <em>annotation_style=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.draw" title="Permalink to this definition">¶</a></dt>
@@ -454,6 +244,216 @@ This dictionary is over-written by any annotation-specific style.</li>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._draw_label">
+<code class="descname">_draw_label</code><span class="sig-paren">(</span><em>label</em>, <em>x</em>, <em>y</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._draw_label" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a label at the end of the line.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>label</strong> (<em>str</em>) &#8211; The label to draw.</li>
+<li><strong>x</strong> (<em>float</em>) &#8211; The x-position of the last point on the line.</li>
+<li><strong>y</strong> (<em>float</em>) &#8211; The y-position of the last point on the line.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn label&#8217;s text box.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._arrange_labels">
+<code class="descname">_arrange_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._arrange_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go through the labels and ensure that none overlap.
+If any do overlap, move the labels.
+The function keeps repeating until no labels overlap.</p>
+<img alt="_images/overlapping-labels.png" class="example" src="_images/overlapping-labels.png" />
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._get_overlapping_labels">
+<code class="descname">_get_overlapping_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_overlapping_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get groups of overlapping labels.
+The function returns a list of lists.
+Each inner list contains the labels that overlap.
+The function automatically excludes labels that do not overlap with other labels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of lists.
+Each inner list represents overlapping labels.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list of lists of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._distribute_labels">
+<code class="descname">_distribute_labels</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._distribute_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distribute the given labels so that they do not overlap.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of overlapping labels.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._get_total_height">
+<code class="descname">_get_total_height</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_total_height" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the total height of the given labels.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of labels.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The total height of the labels.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._get_middle">
+<code class="descname">_get_middle</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_middle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the middle y-coordinate of the given labels.
+The middle is calculated as the mid-point between the label that is highest and lowest.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of labels.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The middle y-coordinate of the labels.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._draw_annotation">
+<code class="descname">_draw_annotation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>annotation</em>, <em>marker_style</em>, <em>annotation_style</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._draw_annotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the annotation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> (<em>float</em>) &#8211; The x-coordinate of the annotation.</li>
+<li><strong>y</strong> (<em>float</em>) &#8211; The y-coordinate of the annotation.</li>
+<li><strong>annotation</strong> &#8211; <p>The annotation to draw.
+The function accepts either a string or a dictionary.
+If a dictionary is provided, it must have the following format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+      <span class="s1">&#39;marker_style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
+      <span class="s1">&#39;annotation_style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
+      <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;annotation&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><strong>marker_style</strong> (<em>dict</em>) &#8211; A dictionary containing the style that should be applied to the annotation marker.</li>
+<li><strong>annotation_style</strong> (<em>dict</em>) &#8211; A dictionary containing the style that should be applied to the annotations.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._get_best_ha">
+<code class="descname">_get_best_ha</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_best_ha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the best horizontal alignment for the annotation.
+The horizontal alignment is either <cite>left</cite> or <cite>right</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<em>float</em>) &#8211; The x-coordinate of the annotation.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._get_best_va">
+<code class="descname">_get_best_va</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_best_va" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the best vertcial alignment for the annotation.
+The vertcial alignment is either <cite>top</cite> or <cite>bottom</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>y</strong> (<em>float</em>) &#8211; The y-coordinate of the annotation.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._newline">
+<code class="descname">_newline</code><span class="sig-paren">(</span><em>lines</em>, <em>line_tokens</em>, <em>ha</em>, <em>va</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._newline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a new line.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lines</strong> (list of lists of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; A list of lines, each containing tokens.</li>
+<li><strong>line_tokens</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The tokens in the current line, which will be &#8216;retired&#8217;.</li>
+<li><strong>ha</strong> (<em>str</em>) &#8211; The horizontal alignment: &#8216;left&#8217; or &#8216;right&#8217;.</li>
+<li><strong>va</strong> (<em>str</em>) &#8211; The vertical alignment: &#8216;top&#8217; or &#8216;bottom&#8217;.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries._remove_empty_line">
+<code class="descname">_remove_empty_line</code><span class="sig-paren">(</span><em>lines</em>, <em>va</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._remove_empty_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove the last empty line from the annotation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lines</strong> (list of lists of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; A list of lines, each containing tokens.</li>
+<li><strong>va</strong> (<em>str</em>) &#8211; The vertical alignment: &#8216;top&#8217; or &#8216;bottom&#8217;.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="timeseries.timeseries.TimeSeries.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#timeseries.timeseries.TimeSeries.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
 </dd></dl>

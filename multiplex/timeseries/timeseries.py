@@ -320,7 +320,7 @@ class TimeSeries(object):
 			annotation = { 'text': annotation }
 
 		marker_style.update(annotation.get('marker_style', {}))
-		axis.plot(x, y, *args, **marker_style, **kwargs)
+		axis.plot(x, y, *args, **marker_style)
 
 		"""
 		Draw the annotation.
@@ -361,7 +361,7 @@ class TimeSeries(object):
 		lines, line_tokens = [], []
 		x_offset = x
 		for i, token in enumerate(tokens):
-			token = axis.text(x_offset, y, token, *args, **annotation_style, **kwargs)
+			token = axis.text(x_offset, y, token, *args, **annotation_style)
 			line_tokens.append(token)
 			bb = util.get_bb(figure, axis, token)
 			x_offset += bb.width if ha == 'left' else - bb.width
