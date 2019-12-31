@@ -14,6 +14,7 @@ For example, the below visualization, created using the :class:`text.annotation.
    :class: example inline
 
 Keep reading to learn more about text visualizations.
+You can also check out the `text visualizations tutorial Jupyter Notebook <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb>`_.
 
 .. automodule:: text
    :members:
