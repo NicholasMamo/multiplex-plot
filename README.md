@@ -4,6 +4,8 @@
 
 A Python library that builds on matplotlib, providing new types of visualizations to help you explore your data and explain it better.
 
+![Example time series](https://raw.githubusercontent.com/NicholasMamo/multiplex-plot/master/examples/exports/3-time-series.png)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running.
