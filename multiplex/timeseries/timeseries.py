@@ -49,7 +49,8 @@ class TimeSeries(object):
 
 		self._labels = []
 
-	def draw(self, x, y, label=None, label_style=None, annotations=None, marker_style=None, annotation_style=None, *args, **kwargs):
+	def draw(self, x, y, label=None, label_style=None, annotations=None,
+			 marker_style=None, annotation_style=None, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`drawable.Drawable`.
 		The arguments and keyword arguments are passed on to the :meth:`matplotlib.pyplot.plot` method.
@@ -85,7 +86,8 @@ class TimeSeries(object):
 							 This dictionary is over-written by any annotation-specific style.
 		:type marker_style: dict or None
 		:param annotation_style: A dictionary containing the style that should be applied in general to the annotation text.
-							 This dictionary is over-written by any annotation-specific style.
+								 This dictionary is over-written by any annotation-specific style.
+								 A special key, `wordspacing`, can be set to determine the spacing between words in the annotation.
 		:type annotation_style: dict or None
 
 		:raises: ValueError
@@ -134,8 +136,11 @@ class TimeSeries(object):
 			"""
 			By default, the annotations have the same color as the plot.
 			However, this may be over-written by the annotation style.
+			The default wordpsacing is based on the plot width.
 			"""
-			default_annotation_style = { 'color': plot[0].get_color() }
+			x_lim = axis.get_xlim()
+			x_lim_width = x_lim[1] - x_lim[0]
+			default_annotation_style = { 'color': plot[0].get_color(), 'wordspacing': x_lim_width/250. }
 			annotation_style = {} if annotation_style is None else annotation_style
 			default_annotation_style.update(annotation_style)
 
@@ -313,6 +318,7 @@ class TimeSeries(object):
 		:param marker_style: A dictionary containing the style that should be applied to the annotation marker.
 		:type marker_style: dict
 		:param annotation_style: A dictionary containing the style that should be applied to the annotations.
+								 A special key, `wordspacing`, can be set to determine the spacing between words in the annotation.
 		:type annotation_style: dict
 		"""
 
@@ -329,7 +335,6 @@ class TimeSeries(object):
 		Draw the annotation.
 		First, the best horizontal and vertical alignments are calculated.
 		"""
-
 		ha, va = self._get_best_ha(x), self._get_best_va(y)
 		annotation_style['ha'] = annotation_style.get('ha', ha)
 		annotation_style['va'] = annotation_style.get('va', va)
@@ -363,11 +368,13 @@ class TimeSeries(object):
 		"""
 		lines, line_tokens = [], []
 		x_offset = x
+		wordspacing = annotation_style.pop('wordspacing')
 		for i, token in enumerate(tokens):
 			token = axis.text(x_offset, y, token, *args, **annotation_style)
 			line_tokens.append(token)
 			bb = util.get_bb(figure, axis, token)
-			x_offset += bb.width if ha == 'left' else - bb.width
+			width = bb.width + wordspacing
+			x_offset += width if ha == 'left' else - width
 
 			if (((ha == 'right' and (x - x_offset) / x_lim_width >= 0.15) or
 				(ha == 'left' and (x_offset - x) / x_lim_width >= 0.15)) and
