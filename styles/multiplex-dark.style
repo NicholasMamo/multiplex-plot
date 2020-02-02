@@ -641,7 +641,7 @@ figure.facecolor   : C2     ## figure facecolor
 ## e.g., you may want a higher resolution, or to make the figure
 ## background C2
 #savefig.dpi       : figure      ## figure dots per inch or 'figure'
-#savefig.facecolor : C2       ## figure facecolor when saving
+savefig.facecolor : C2       ## figure facecolor when saving
 #savefig.edgecolor : C2       ## figure edgecolor when saving
 #savefig.format    : png         ## {png, ps, pdf, svg}
 #savefig.bbox      : standard    ## {tight, standard}
