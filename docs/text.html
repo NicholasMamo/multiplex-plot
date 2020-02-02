@@ -28,42 +28,41 @@
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
-  
-
-  
-    <link rel="top" title="Multiplex 0.1.5 documentation" href="index.html"/>
-        <link rel="next" title="3. Time Series" href="timeseries.html"/>
-        <link rel="prev" title="1. Getting started" href="drawable.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Time Series" href="timeseries.html" />
+    <link rel="prev" title="1. Getting started" href="drawable.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -94,10 +93,13 @@
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="drawable.html">1. Getting started</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">2. Text Visualizations</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Text Visualizations</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-text.annotation">Text Annotation</a></li>
 </ul>
 </li>
@@ -114,34 +116,54 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">Multiplex</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Multiplex</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>2. Text Visualizations</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>2. Text Visualizations</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/text.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/text.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -151,68 +173,62 @@
 <h1>2. Text Visualizations<a class="headerlink" href="#text-visualizations" title="Permalink to this headline">¶</a></h1>
 <p>Text visualizations are tools to help you tell your story better.
 These types of visualizations give you the comfort of organizing text so that you can focus instead on the narrative.
-For example, the below visualization, created using the <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal"><span class="pre">text.annotation.TextAnnotation</span></code></a> class, highlights the named entities:</p>
+For example, the below visualization, created using the <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code></a> class, highlights the named entities:</p>
 <img alt="_images/2-text-annotation.png" class="example inline" src="_images/2-text-annotation.png" />
 <p>Keep reading to learn more about text visualizations.
 You can also check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb">text visualizations tutorial Jupyter Notebook</a>.</p>
 <span class="target" id="module-text"></span><div class="section" id="module-text.annotation">
 <span id="text-annotation"></span><h2>Text Annotation<a class="headerlink" href="#module-text.annotation" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal"><span class="pre">text.annotation.TextAnnotation</span></code></a> class is mainly concerned with organizing text.
+<p>The <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code></a> class is mainly concerned with organizing text.
 You can do just about anything with these visualizations, including—unsurprisingly enough—annotating the text.</p>
-<p>To start creating time series visualizations, create a <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> instance and call the <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries.draw" title="timeseries.timeseries.TimeSeries.draw"><code class="xref py py-meth docutils literal"><span class="pre">timeseries.timeseries.TimeSeries.draw()</span></code></a> method.
-If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> class, just call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-meth docutils literal"><span class="pre">drawable.Drawable.draw_time_series()</span></code></a> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> instance instead.</p>
+<p>To start creating time series visualizations, create a <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> instance and call the <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries.draw" title="timeseries.timeseries.TimeSeries.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries.draw()</span></code></a> method.
+If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> class, just call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-meth docutils literal notranslate"><span class="pre">drawable.Drawable.draw_time_series()</span></code></a> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> instance instead.</p>
 <p>This method expects, at the very least, a <cite>list</cite> of text tokens.
 Alternatively, you can provide a <cite>list</cite> of <cite>dict</cite> of tokens containing at least a <cite>text</cite> attribute and any of the other keys:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
   <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">},</span>
   <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;token&#39;</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Instructions on how the text should be formatted can be passed on to the <a class="reference internal" href="#text.annotation.TextAnnotation.draw" title="text.annotation.TextAnnotation.draw"><code class="xref py py-meth docutils literal"><span class="pre">text.annotation.TextAnnotation.draw()</span></code></a> method.
+<p>Instructions on how the text should be formatted can be passed on to the <a class="reference internal" href="#text.annotation.TextAnnotation.draw" title="text.annotation.TextAnnotation.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation.draw()</span></code></a> method.
 Among others, these attributes include alignment and the line height.
-The text can also be styled by passing on any attributes supported by the <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code> class.
+The text can also be styled by passing on any attributes supported by the <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code> class.
 The same attributes can be passed on to the <cite>style</cite> key in the code block above.
 You can find examples to help you get started <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb">here</a>.</p>
 <dl class="class">
 <dt id="text.annotation.TextAnnotation">
-<em class="property">class </em><code class="descclassname">text.annotation.</code><code class="descname">TextAnnotation</code><span class="sig-paren">(</span><em>drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">text.annotation.</code><code class="sig-name descname">TextAnnotation</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class of visualization that allows text annotations.
-The <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal"><span class="pre">text.annotation.TextAnnotation</span></code></a> is mainly concered with organizing text.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>) &#8211; The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</td>
-</tr>
-</tbody>
-</table>
+The <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code></a> is mainly concered with organizing text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><p><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a>) – The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</p>
+</dd>
+</dl>
 <dl class="method">
 <dt id="text.annotation.TextAnnotation.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the text annotation with the figure and axis.
 The figure is used to get the renderer.
 The visualization is drawn on the given axis.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>drawable</strong> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>) &#8211; The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>drawable</strong> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a>) – The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>data</em>, <em>wordspacing=0.005</em>, <em>lineheight=1.25</em>, <em>align='left'</em>, <em>with_legend=True</em>, <em>lpad=0</em>, <em>rpad=0</em>, <em>tpad=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">wordspacing=0.005</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">with_legend=True</em>, <em class="sig-param">lpad=0</em>, <em class="sig-param">rpad=0</em>, <em class="sig-param">tpad=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the text annotation visualization.
 The method receives text as a list of tokens and draws them as text.</p>
 <p>The text can be provided either as strings or as dictionaries.
 If strings are provided, the function converts them into dictionaries.
 Dictionaries should have the following format:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
   <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">},</span>
   <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;token&#39;</span><span class="p">,</span>
@@ -220,263 +236,234 @@ Dictionaries should have the following format:</p>
 </pre></div>
 </div>
 <p>Of these keys, only <cite>text</cite> is required.
-The correct styling options are those accepted by the <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code> class.
+The correct styling options are those accepted by the <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code> class.
 Anything not given uses default values.</p>
 <p>Any other styling options, common to all tokens, should be provided as keyword arguments.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<em>list of str or list of dict</em>) &#8211; The text data.
-The visualization expects a <cite>list</cite> of tokens, or a <cite>list</cite> of <cite>dict</cite> instances as shown above.</li>
-<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
-<li><strong>lineheight</strong> (<em>float</em>) &#8211; The space between lines.</li>
-<li><strong>align</strong> (<em>str</em>) &#8211; <p>The text&#8217;s alignment.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>list of str</em><em> or </em><em>list of dict</em>) – The text data.
+The visualization expects a <cite>list</cite> of tokens, or a <cite>list</cite> of <cite>dict</cite> instances as shown above.</p></li>
+<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
+<li><p><strong>lineheight</strong> (<em>float</em>) – The space between lines.</p></li>
+<li><p><strong>align</strong> (<em>str</em>) – <p>The text’s alignment.
 Possible values:</p>
 <blockquote>
 <div><ul>
-<li>left</li>
-<li>center</li>
-<li>right</li>
-<li>justify</li>
-<li>justify-start (or justify-left)</li>
-<li>justify-center</li>
-<li>justify-end or (justify-right)</li>
+<li><p>left</p></li>
+<li><p>center</p></li>
+<li><p>right</p></li>
+<li><p>justify</p></li>
+<li><p>justify-start (or justify-left)</p></li>
+<li><p>justify-center</p></li>
+<li><p>justify-end or (justify-right)</p></li>
 </ul>
 </div></blockquote>
-</li>
-<li><strong>with_legend</strong> (<em>bool</em>) &#8211; A boolean indicating whether labels should create a legend.</li>
-<li><strong>lpad</strong> (<em>float</em>) &#8211; The left padding as a percentage of the plot.
-The range is expected to be between 0 and 1.</li>
-<li><strong>rpad</strong> (<em>float</em>) &#8211; The right padding as a percentage of the plot.
-The range is expected to be between 0 and 1.</li>
-<li><strong>tpad</strong> (<em>float</em>) &#8211; The top padding as a percentage of the plot.
-The range is expected to be between 0 and 1.</li>
+</p></li>
+<li><p><strong>with_legend</strong> (<em>bool</em>) – A boolean indicating whether labels should create a legend.</p></li>
+<li><p><strong>lpad</strong> (<em>float</em>) – The left padding as a percentage of the plot.
+The range is expected to be between 0 and 1.</p></li>
+<li><p><strong>rpad</strong> (<em>float</em>) – The right padding as a percentage of the plot.
+The range is expected to be between 0 and 1.</p></li>
+<li><p><strong>tpad</strong> (<em>float</em>) – The top padding as a percentage of the plot.
+The range is expected to be between 0 and 1.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn lines.
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The drawn lines.
 Each line is made up of tuples of lists.
 The first list in each tuple is the list of legend labels.
 The second list in each tuple is the list of actual tokens.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list of tuple</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">ValueError</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of tuple</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p>ValueError</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation._draw_tokens">
-<code class="descname">_draw_tokens</code><span class="sig-paren">(</span><em>tokens</em>, <em>wordspacing</em>, <em>lineheight</em>, <em>align</em>, <em>with_legend</em>, <em>lpad</em>, <em>rpad</em>, <em>tpad</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_draw_tokens</code><span class="sig-paren">(</span><em class="sig-param">tokens</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">lineheight</em>, <em class="sig-param">align</em>, <em class="sig-param">with_legend</em>, <em class="sig-param">lpad</em>, <em class="sig-param">rpad</em>, <em class="sig-param">tpad</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the tokens on the plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>tokens</strong> (<em>list of str</em>) &#8211; The text tokens to draw.
-The method expects a <cite>list</cite> of tokens, each one a <cite>dict</cite>.</li>
-<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
-<li><strong>lineheight</strong> (<em>float</em>) &#8211; The space between lines.</li>
-<li><strong>align</strong> (<em>str</em>) &#8211; <p>The text&#8217;s alignment.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tokens</strong> (<em>list of str</em>) – The text tokens to draw.
+The method expects a <cite>list</cite> of tokens, each one a <cite>dict</cite>.</p></li>
+<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
+<li><p><strong>lineheight</strong> (<em>float</em>) – The space between lines.</p></li>
+<li><p><strong>align</strong> (<em>str</em>) – <p>The text’s alignment.
 Possible values:</p>
 <blockquote>
 <div><ul>
-<li>left</li>
-<li>center</li>
-<li>right</li>
-<li>justify</li>
-<li>justify-start (or justify-left)</li>
-<li>justify-center</li>
-<li>justify-end or (justify-right)</li>
+<li><p>left</p></li>
+<li><p>center</p></li>
+<li><p>right</p></li>
+<li><p>justify</p></li>
+<li><p>justify-start (or justify-left)</p></li>
+<li><p>justify-center</p></li>
+<li><p>justify-end or (justify-right)</p></li>
 </ul>
 </div></blockquote>
-</li>
-<li><strong>with_legend</strong> (<em>bool</em>) &#8211; A boolean indicating whether labels should create a legend.</li>
-<li><strong>lpad</strong> (<em>float</em>) &#8211; The left padding as a percentage of the plot.
+</p></li>
+<li><p><strong>with_legend</strong> (<em>bool</em>) – A boolean indicating whether labels should create a legend.</p></li>
+<li><p><strong>lpad</strong> (<em>float</em>) – The left padding as a percentage of the plot.
 The range is expected to be between 0 and 1.
-The left padding and the right padding cannot reach or exceed 100%.</li>
-<li><strong>rpad</strong> (<em>float</em>) &#8211; The right padding as a percentage of the plot.
+The left padding and the right padding cannot reach or exceed 100%.</p></li>
+<li><p><strong>rpad</strong> (<em>float</em>) – The right padding as a percentage of the plot.
 The range is expected to be between 0 and 1.
-The left padding and the right padding cannot reach or exceed 100%.</li>
-<li><strong>tpad</strong> (<em>float</em>) &#8211; The top padding as a percentage of the plot.
-Any value greater or equal than 0 is accepted.</li>
+The left padding and the right padding cannot reach or exceed 100%.</p></li>
+<li><p><strong>tpad</strong> (<em>float</em>) – The top padding as a percentage of the plot.
+Any value greater or equal than 0 is accepted.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn lines.
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The drawn lines.
 Each line is made up of tuples of lists.
 The first list in each tuple is the list of legend labels.
 The second list in each tuple is the list of actual tokens.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list of tuple</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of tuple</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation._get_linespacing">
-<code class="descname">_get_linespacing</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._get_linespacing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_get_linespacing</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._get_linespacing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the line spacing.
 The line spacing is calculated by creating a token and getting its height.
 The token is immediately removed.
-The token&#8217;s styling have to be provided as keyword arguments.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The line spacing.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">float</td>
-</tr>
-</tbody>
-</table>
+The token’s styling have to be provided as keyword arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The line spacing.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation._draw_token">
-<code class="descname">_draw_token</code><span class="sig-paren">(</span><em>text</em>, <em>style</em>, <em>offset</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_token" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_draw_token</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">style</em>, <em class="sig-param">offset</em>, <em class="sig-param">line</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_token" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the token on the plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>text</strong> (<em>str</em>) &#8211; The text token to draw.</li>
-<li><strong>style</strong> (<em>dict</em>) &#8211; The style information for the token.</li>
-<li><strong>offset</strong> (<em>float</em>) &#8211; The token&#8217;s offset.</li>
-<li><strong>line</strong> (<em>int</em>) &#8211; The line number of the token.</li>
-<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
-<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – The text token to draw.</p></li>
+<li><p><strong>style</strong> (<em>dict</em>) – The style information for the token.</p></li>
+<li><p><strong>offset</strong> (<em>float</em>) – The token’s offset.</p></li>
+<li><p><strong>line</strong> (<em>int</em>) – The line number of the token.</p></li>
+<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
+<li><p><strong>linespacing</strong> (<em>float</em>) – The space between lines.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn text box.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The drawn text box.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation._newline">
-<code class="descname">_newline</code><span class="sig-paren">(</span><em>token</em>, <em>line</em>, <em>linespacing</em>, <em>line_start</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._newline" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_newline</code><span class="sig-paren">(</span><em class="sig-param">token</em>, <em class="sig-param">line</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">line_start</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._newline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new line with the given token.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>token</strong> (<code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The text token to move to the next line.</li>
-<li><strong>line</strong> (<em>int</em>) &#8211; The new line number of the token.</li>
-<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
-<li><strong>line_start</strong> (<em>float</em>) &#8211; The x-coordinate where the line starts.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The text token to move to the next line.</p></li>
+<li><p><strong>line</strong> (<em>int</em>) – The new line number of the token.</p></li>
+<li><p><strong>linespacing</strong> (<em>float</em>) – The space between lines.</p></li>
+<li><p><strong>line_start</strong> (<em>float</em>) – The x-coordinate where the line starts.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation._get_alignment">
-<code class="descname">_get_alignment</code><span class="sig-paren">(</span><em>align</em>, <em>last=False</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._get_alignment" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_get_alignment</code><span class="sig-paren">(</span><em class="sig-param">align</em>, <em class="sig-param">last=False</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._get_alignment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the proper alignment value for the current line.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>align</strong> (<em>str</em>) &#8211; The provided alignment value.</li>
-<li><strong>last</strong> (<em>bool</em>) &#8211; A boolean indicating whether this is the last line.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>align</strong> (<em>str</em>) – The provided alignment value.</p></li>
+<li><p><strong>last</strong> (<em>bool</em>) – A boolean indicating whether this is the last line.
 If it is the last line, alignments like <cite>justify-left</cite> transform into <cite>left</cite>.
-Otherwise, <cite>justify</cite> is returned.</li>
+Otherwise, <cite>justify</cite> is returned.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The alignment value for the current line.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The alignment value for the current line.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation._align">
-<code class="descname">_align</code><span class="sig-paren">(</span><em>tokens</em>, <em>line</em>, <em>wordspacing</em>, <em>linespacing</em>, <em>align='left'</em>, <em>x_lim=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._align" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_align</code><span class="sig-paren">(</span><em class="sig-param">tokens</em>, <em class="sig-param">line</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">x_lim=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._align" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organize the line tokens.
 This function is used when the line overflows.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>tokens</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of tokens added to the line.</li>
-<li><strong>line</strong> (<em>int</em>) &#8211; The line number of the tokens.</li>
-<li><strong>wordspacing</strong> (<em>float</em>) &#8211; The space between words.</li>
-<li><strong>linespacing</strong> (<em>float</em>) &#8211; The space between lines.</li>
-<li><strong>align</strong> (<em>str</em>) &#8211; <p>The text&#8217;s alignment.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tokens</strong> (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The list of tokens added to the line.</p></li>
+<li><p><strong>line</strong> (<em>int</em>) – The line number of the tokens.</p></li>
+<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
+<li><p><strong>linespacing</strong> (<em>float</em>) – The space between lines.</p></li>
+<li><p><strong>align</strong> (<em>str</em>) – <p>The text’s alignment.
 Possible values:</p>
 <blockquote>
 <div><ul>
-<li>left</li>
-<li>center</li>
-<li>right</li>
-<li>justify</li>
-<li>justify-start (or justify-left)</li>
-<li>justify-center</li>
-<li>justify-end or (justify-right)</li>
+<li><p>left</p></li>
+<li><p>center</p></li>
+<li><p>right</p></li>
+<li><p>justify</p></li>
+<li><p>justify-start (or justify-left)</p></li>
+<li><p>justify-center</p></li>
+<li><p>justify-end or (justify-right)</p></li>
 </ul>
 </div></blockquote>
-</li>
-<li><strong>x_lim</strong> (<em>tuple</em>) &#8211; The x-limit relative to which to align the tokens.
-If it is not given, the axis&#8217; x-limit is used instead.
-The x-limit is a tuple limiting the start and end.</li>
+</p></li>
+<li><p><strong>x_lim</strong> (<em>tuple</em>) – The x-limit relative to which to align the tokens.
+If it is not given, the axis’ x-limit is used instead.
+The x-limit is a tuple limiting the start and end.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">ValueError</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p>ValueError</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="text.annotation.TextAnnotation._tighten">
-<code class="descname">_tighten</code><span class="sig-paren">(</span><em>drawn_lines</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._tighten" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_tighten</code><span class="sig-paren">(</span><em class="sig-param">drawn_lines</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._tighten" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the plot so that it starts from x- and y-coordinate 0.
 This offsets the legend labels so that they start at 0.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>drawn_lines</strong> (<em>list of float</em>) &#8211; A list of drawn lines.
-The function expects lines to be tuples of legend labels and tokens.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>drawn_lines</strong> (<em>list of float</em>) – A list of drawn lines.
+The function expects lines to be tuples of legend labels and tokens.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="text.annotation.TextAnnotation.__weakref__">
-<code class="descname">__weakref__</code><a class="headerlink" href="#text.annotation.TextAnnotation.__weakref__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#text.annotation.TextAnnotation.__weakref__" title="Permalink to this definition">¶</a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
@@ -487,15 +474,16 @@ The function expects lines to be tuples of legend labels and tokens.</td>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="timeseries.html" class="btn btn-neutral float-right" title="3. Time Series" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="timeseries.html" class="btn btn-neutral float-right" title="3. Time Series" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="drawable.html" class="btn btn-neutral" title="1. Getting started" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="drawable.html" class="btn btn-neutral float-left" title="1. Getting started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -504,11 +492,11 @@ The function expects lines to be tuples of legend labels and tokens.</td>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Nicholas Mamo.
+        &copy; Copyright 2019, Nicholas Mamo
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -521,35 +509,15 @@ The function expects lines to be tuples of legend labels and tokens.</td>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.1.5',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>

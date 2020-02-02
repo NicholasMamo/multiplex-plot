@@ -28,42 +28,41 @@
 
   
   
+  
+  
 
   
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
 
-  
-  
     
 
   
-
-  
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
-
-  
-    <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
-  
-
-  
-    <link rel="top" title="Multiplex 0.1.5 documentation" href="index.html"/>
-        <link rel="next" title="Utilities" href="utilities.html"/>
-        <link rel="prev" title="2. Text Visualizations" href="text.html"/> 
-
-  
-  <script src="_static/js/modernizr.min.js"></script>
-
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
+    <link rel="prev" title="2. Text Visualizations" href="text.html" /> 
 </head>
 
-<body class="wy-body-for-nav" role="document">
+<body class="wy-body-for-nav">
 
+   
   <div class="wy-grid-for-nav">
-
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
-        <div class="wy-side-nav-search">
+        <div class="wy-side-nav-search" >
           
 
           
@@ -94,11 +93,14 @@
           
             
             
-                <p class="caption"><span class="caption-text">Contents:</span></p>
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="drawable.html">1. Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text.html">2. Text Visualizations</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="">3. Time Series</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Time Series</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-timeseries.timeseries">Time Series</a></li>
 </ul>
 </li>
@@ -114,34 +116,54 @@
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
 
       
-      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
-        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="index.html">Multiplex</a>
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Multiplex</a>
+        
       </nav>
 
 
-      
       <div class="wy-nav-content">
+        
         <div class="rst-content">
+        
           
 
- 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 <div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-    <li><a href="index.html">Docs</a> &raquo;</li>
-      
-    <li>3. Time Series</li>
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>3. Time Series</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
         
-          
-            <a href="_sources/timeseries.txt" rel="nofollow"> View page source</a>
+            
+            <a href="_sources/timeseries.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
@@ -152,130 +174,116 @@
 <p>Time series are among the most common types of visualizations, and with good reason.
 They are easy to create because they are simple, which means that they are also intuitive.
 All too often, we rely on that simplicity to tell a story.
-Multiplex&#8217;s time series makes it easier for data to tell a story clearly.</p>
+Multiplex’s time series makes it easier for data to tell a story clearly.</p>
 <p>Keep reading to learn more about time series visualizations.
 You can also check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20Series.ipynb">time series tutorial Jupyter Notebook</a>.</p>
 <span class="target" id="module-timeseries"></span><div class="section" id="module-timeseries.timeseries">
 <span id="id1"></span><h2>Time Series<a class="headerlink" href="#module-timeseries.timeseries" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> class borrows heavily from matplotlib&#8217;s <cite>plot</cite> function.
-This class builds on matplotlib&#8217;s plotting and introduces more functionality.</p>
+<p>The <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> class borrows heavily from matplotlib’s <cite>plot</cite> function.
+This class builds on matplotlib’s plotting and introduces more functionality.</p>
 <img alt="_images/3-time-series.png" class="example" src="_images/3-time-series.png" />
 <p>For example, Multiplex time series do not have a legend by default.
-Instead, to aid readability, the line&#8217;s label is added to the end of the plot.
+Instead, to aid readability, the line’s label is added to the end of the plot.
 Multiplex also supports annotations, making it easier to tell a story through time series.</p>
-<p>To start creating time series visualizations, create a <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> instance and call the <a class="reference internal" href="#timeseries.timeseries.TimeSeries.draw" title="timeseries.timeseries.TimeSeries.draw"><code class="xref py py-meth docutils literal"><span class="pre">timeseries.timeseries.TimeSeries.draw()</span></code></a> method.
-If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> class, just call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-meth docutils literal"><span class="pre">drawable.Drawable.draw_time_series()</span></code></a> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> instance instead.</p>
+<p>To start creating time series visualizations, create a <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> instance and call the <a class="reference internal" href="#timeseries.timeseries.TimeSeries.draw" title="timeseries.timeseries.TimeSeries.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries.draw()</span></code></a> method.
+If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> class, just call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-meth docutils literal notranslate"><span class="pre">drawable.Drawable.draw_time_series()</span></code></a> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> instance instead.</p>
 <dl class="class">
 <dt id="timeseries.timeseries.TimeSeries">
-<em class="property">class </em><code class="descclassname">timeseries.timeseries.</code><code class="descname">TimeSeries</code><span class="sig-paren">(</span><em>drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> class borrows heavily on matplotlib&#8217;s <cite>plot</cite> function.
-This class builds on matplotlib&#8217;s plotting and introduces more functionality.</p>
-<p>For example, Multiplex&#8217;s time series have no legend.
+<em class="property">class </em><code class="sig-prename descclassname">timeseries.timeseries.</code><code class="sig-name descname">TimeSeries</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> class borrows heavily on matplotlib’s <cite>plot</cite> function.
+This class builds on matplotlib’s plotting and introduces more functionality.</p>
+<p>For example, Multiplex’s time series have no legend.
 Instead, it adds a label at the end of the time series for readability.
 Multiplex also makes it easy to annotate points on the time series with descriptions to explain their significance.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
-<li><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>) &#8211; The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</li>
-<li><strong>_labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The labels in the time series.
-This list is used to ensure that labels do not overlap.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a>) – The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</p></li>
+<li><p><strong>_labels</strong> (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The labels in the time series.
+This list is used to ensure that labels do not overlap.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries.__init__">
-<code class="descname">__init__</code><span class="sig-paren">(</span><em>drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the text annotation with the figure and axis.
 The figure is used to get the renderer.
 The visualization is drawn on the given axis.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>drawable</strong> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>) &#8211; The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>drawable</strong> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a>) – The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries.draw">
-<code class="descname">draw</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>label=None</em>, <em>label_style=None</em>, <em>annotations=None</em>, <em>marker_style=None</em>, <em>annotation_style=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw a time series on the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal"><span class="pre">drawable.Drawable</span></code></a>.
-The arguments and keyword arguments are passed on to the <code class="xref py py-meth docutils literal"><span class="pre">matplotlib.pyplot.plot()</span></code> method.
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">label=None</em>, <em class="sig-param">label_style=None</em>, <em class="sig-param">annotations=None</em>, <em class="sig-param">marker_style=None</em>, <em class="sig-param">annotation_style=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a time series on the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a>.
+The arguments and keyword arguments are passed on to the <code class="xref py py-meth docutils literal notranslate"><span class="pre">matplotlib.pyplot.plot()</span></code> method.
 Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>x</strong> (<em>list of float</em>) &#8211; The list of x-coordinates to plot.
-The x-coordinates must have the same number of points as the y-coordinates.</li>
-<li><strong>y</strong> (<em>list of float</em>) &#8211; The list of corresponding y-coordinates to plot.
-The y-coordinates must have the same number of points as the x-coordinates.</li>
-<li><strong>label</strong> (<em>str or None</em>) &#8211; The plot&#8217;s label.
-If given, the label is drawn at the end of the line.</li>
-<li><strong>label_style</strong> (<em>dict or None</em>) &#8211; The style of the label.</li>
-<li><strong>annotations</strong> (<em>list of dict or list of str</em>) &#8211; <p>A list of annotations.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list of float</em>) – The list of x-coordinates to plot.
+The x-coordinates must have the same number of points as the y-coordinates.</p></li>
+<li><p><strong>y</strong> (<em>list of float</em>) – The list of corresponding y-coordinates to plot.
+The y-coordinates must have the same number of points as the x-coordinates.</p></li>
+<li><p><strong>label</strong> (<em>str</em><em> or </em><em>None</em>) – The plot’s label.
+If given, the label is drawn at the end of the line.</p></li>
+<li><p><strong>label_style</strong> (<em>dict</em><em> or </em><em>None</em>) – The style of the label.</p></li>
+<li><p><strong>annotations</strong> (<em>list of dict</em><em> or </em><em>list of str</em>) – <p>A list of annotations.
 If a list of annotations is given, it must be equal to the number of points.
 The annotations can either be simple strings, or dictionaries.
 With dictionaries, you can style each annotation separately.
 If no dictionary is given, then a default style is used.
 Dictionaries must have the following format:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s1">&#39;marker_style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
   <span class="s1">&#39;annotation_style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
   <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;annotation&#39;</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-</li>
-<li><strong>marker_style</strong> (<em>dict or None</em>) &#8211; A dictionary containing the style that should be applied in general to all annotation markers.
-This dictionary is over-written by any annotation-specific style.</li>
-<li><strong>annotation_style</strong> (<em>dict or None</em>) &#8211; A dictionary containing the style that should be applied in general to the annotation text.
-This dictionary is over-written by any annotation-specific style.</li>
+</p></li>
+<li><p><strong>marker_style</strong> (<em>dict</em><em> or </em><em>None</em>) – A dictionary containing the style that should be applied in general to all annotation markers.
+This dictionary is over-written by any annotation-specific style.</p></li>
+<li><p><strong>annotation_style</strong> (<em>dict</em><em> or </em><em>None</em>) – A dictionary containing the style that should be applied in general to the annotation text.
+This dictionary is over-written by any annotation-specific style.
+A special key, <cite>wordspacing</cite>, can be set to determine the spacing between words in the annotation.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last">ValueError</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p>ValueError</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._draw_label">
-<code class="descname">_draw_label</code><span class="sig-paren">(</span><em>label</em>, <em>x</em>, <em>y</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._draw_label" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_draw_label</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._draw_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a label at the end of the line.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>label</strong> (<em>str</em>) &#8211; The label to draw.</li>
-<li><strong>x</strong> (<em>float</em>) &#8211; The x-position of the last point on the line.</li>
-<li><strong>y</strong> (<em>float</em>) &#8211; The y-position of the last point on the line.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>label</strong> (<em>str</em>) – The label to draw.</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – The x-position of the last point on the line.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-position of the last point on the line.</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn label&#8217;s text box.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The drawn label’s text box.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._arrange_labels">
-<code class="descname">_arrange_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._arrange_labels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_arrange_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._arrange_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Go through the labels and ensure that none overlap.
 If any do overlap, move the labels.
 The function keeps repeating until no labels overlap.</p>
@@ -284,177 +292,153 @@ The function keeps repeating until no labels overlap.</p>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._get_overlapping_labels">
-<code class="descname">_get_overlapping_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_overlapping_labels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_get_overlapping_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_overlapping_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get groups of overlapping labels.
 The function returns a list of lists.
 Each inner list contains the labels that overlap.
 The function automatically excludes labels that do not overlap with other labels.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of lists.
-Each inner list represents overlapping labels.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list of lists of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of lists.
+Each inner list represents overlapping labels.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of lists of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._distribute_labels">
-<code class="descname">_distribute_labels</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._distribute_labels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_distribute_labels</code><span class="sig-paren">(</span><em class="sig-param">labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._distribute_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Distribute the given labels so that they do not overlap.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of overlapping labels.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>labels</strong> (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The list of overlapping labels.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._get_total_height">
-<code class="descname">_get_total_height</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_total_height" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_get_total_height</code><span class="sig-paren">(</span><em class="sig-param">labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_total_height" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the total height of the given labels.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of labels.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The total height of the labels.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>labels</strong> (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The list of labels.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The total height of the labels.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._get_middle">
-<code class="descname">_get_middle</code><span class="sig-paren">(</span><em>labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_middle" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_get_middle</code><span class="sig-paren">(</span><em class="sig-param">labels</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_middle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the middle y-coordinate of the given labels.
 The middle is calculated as the mid-point between the label that is highest and lowest.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>labels</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The list of labels.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The middle y-coordinate of the labels.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>labels</strong> (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The list of labels.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The middle y-coordinate of the labels.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._draw_annotation">
-<code class="descname">_draw_annotation</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>annotation</em>, <em>marker_style</em>, <em>annotation_style</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._draw_annotation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_draw_annotation</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">annotation</em>, <em class="sig-param">marker_style</em>, <em class="sig-param">annotation_style</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._draw_annotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the annotation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>x</strong> (<em>float</em>) &#8211; The x-coordinate of the annotation.</li>
-<li><strong>y</strong> (<em>float</em>) &#8211; The y-coordinate of the annotation.</li>
-<li><strong>annotation</strong> &#8211; <p>The annotation to draw.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the annotation.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the annotation.</p></li>
+<li><p><strong>annotation</strong> – <p>The annotation to draw.
 The function accepts either a string or a dictionary.
 If a dictionary is provided, it must have the following format:</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">{</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
       <span class="s1">&#39;marker_style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
       <span class="s1">&#39;annotation_style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="p">},</span>
       <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;annotation&#39;</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-</li>
-<li><strong>marker_style</strong> (<em>dict</em>) &#8211; A dictionary containing the style that should be applied to the annotation marker.</li>
-<li><strong>annotation_style</strong> (<em>dict</em>) &#8211; A dictionary containing the style that should be applied to the annotations.</li>
+</p></li>
+<li><p><strong>marker_style</strong> (<em>dict</em>) – A dictionary containing the style that should be applied to the annotation marker.</p></li>
+<li><p><strong>annotation_style</strong> (<em>dict</em>) – A dictionary containing the style that should be applied to the annotations.
+A special key, <cite>wordspacing</cite>, can be set to determine the spacing between words in the annotation.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._get_best_ha">
-<code class="descname">_get_best_ha</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_best_ha" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_get_best_ha</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_best_ha" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the best horizontal alignment for the annotation.
 The horizontal alignment is either <cite>left</cite> or <cite>right</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> (<em>float</em>) &#8211; The x-coordinate of the annotation.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the annotation.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._get_best_va">
-<code class="descname">_get_best_va</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_best_va" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_get_best_va</code><span class="sig-paren">(</span><em class="sig-param">y</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._get_best_va" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the best vertcial alignment for the annotation.
 The vertcial alignment is either <cite>top</cite> or <cite>bottom</cite>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>y</strong> (<em>float</em>) &#8211; The y-coordinate of the annotation.</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the annotation.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._newline">
-<code class="descname">_newline</code><span class="sig-paren">(</span><em>lines</em>, <em>line_tokens</em>, <em>ha</em>, <em>va</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._newline" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_newline</code><span class="sig-paren">(</span><em class="sig-param">lines</em>, <em class="sig-param">line_tokens</em>, <em class="sig-param">ha</em>, <em class="sig-param">va</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._newline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new line.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>lines</strong> (list of lists of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; A list of lines, each containing tokens.</li>
-<li><strong>line_tokens</strong> (list of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; The tokens in the current line, which will be &#8216;retired&#8217;.</li>
-<li><strong>ha</strong> (<em>str</em>) &#8211; The horizontal alignment: &#8216;left&#8217; or &#8216;right&#8217;.</li>
-<li><strong>va</strong> (<em>str</em>) &#8211; The vertical alignment: &#8216;top&#8217; or &#8216;bottom&#8217;.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lines</strong> (list of lists of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – A list of lines, each containing tokens.</p></li>
+<li><p><strong>line_tokens</strong> (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The tokens in the current line, which will be ‘retired’.</p></li>
+<li><p><strong>ha</strong> (<em>str</em>) – The horizontal alignment: ‘left’ or ‘right’.</p></li>
+<li><p><strong>va</strong> (<em>str</em>) – The vertical alignment: ‘top’ or ‘bottom’.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._remove_empty_line">
-<code class="descname">_remove_empty_line</code><span class="sig-paren">(</span><em>lines</em>, <em>va</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._remove_empty_line" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_remove_empty_line</code><span class="sig-paren">(</span><em class="sig-param">lines</em>, <em class="sig-param">va</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._remove_empty_line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove the last empty line from the annotation.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>lines</strong> (list of lists of <code class="xref py py-class docutils literal"><span class="pre">matplotlib.text.Text</span></code>) &#8211; A list of lines, each containing tokens.</li>
-<li><strong>va</strong> (<em>str</em>) &#8211; The vertical alignment: &#8216;top&#8217; or &#8216;bottom&#8217;.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lines</strong> (list of lists of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – A list of lines, each containing tokens.</p></li>
+<li><p><strong>va</strong> (<em>str</em>) – The vertical alignment: ‘top’ or ‘bottom’.</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="timeseries.timeseries.TimeSeries.__weakref__">
-<code class="descname">__weakref__</code><a class="headerlink" href="#timeseries.timeseries.TimeSeries.__weakref__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#timeseries.timeseries.TimeSeries.__weakref__" title="Permalink to this definition">¶</a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
@@ -465,15 +449,16 @@ The vertcial alignment is either <cite>top</cite> or <cite>bottom</cite>.</p>
 
 
            </div>
+           
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="text.html" class="btn btn-neutral" title="2. Text Visualizations" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="text.html" class="btn btn-neutral float-left" title="2. Text Visualizations" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -482,11 +467,11 @@ The vertcial alignment is either <cite>top</cite> or <cite>bottom</cite>.</p>
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Nicholas Mamo.
+        &copy; Copyright 2019, Nicholas Mamo
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -499,35 +484,15 @@ The vertcial alignment is either <cite>top</cite> or <cite>bottom</cite>.</p>
   
 
 
-  
-
-    <script type="text/javascript">
-        var DOCUMENTATION_OPTIONS = {
-            URL_ROOT:'./',
-            VERSION:'0.1.5',
-            COLLAPSE_INDEX:false,
-            FILE_SUFFIX:'.html',
-            HAS_SOURCE:  true
-        };
-    </script>
-      <script type="text/javascript" src="_static/jquery.js"></script>
-      <script type="text/javascript" src="_static/underscore.js"></script>
-      <script type="text/javascript" src="_static/doctools.js"></script>
-
-  
-
-  
-  
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-  
-
-  
-  
   <script type="text/javascript">
       jQuery(function () {
-          SphinxRtdTheme.StickyNav.enable();
+          SphinxRtdTheme.Navigation.enable(true);
       });
   </script>
+
+  
+  
+    
    
 
 </body>
