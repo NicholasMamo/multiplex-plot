@@ -270,7 +270,7 @@ font.sans-serif  : Inter, Roboto, DejaVu Sans, Bitstream Vera Sans, Computer Mod
 ## The text properties used by `text.Text`.
 ## See https://matplotlib.org/api/artist_api.html#module-matplotlib.text
 ## for more information on text properties
-text.color : C3
+text.color : C0
 
 
 ## ***************************************************************************
@@ -351,7 +351,7 @@ text.color : C3
 ## Following are default face and edge colors, default tick sizes,
 ## default fontsizes for ticklabels, and so on.  See
 ## https://matplotlib.org/api/axes_api.html#module-matplotlib.axes
-axes.facecolor     : white   ## axes background color
+axes.facecolor     : C2   ## axes background color
 axes.edgecolor     : (0.212, 0.271, 0.31, 0.5)   ## axes edge color
 axes.linewidth     : 1     ## edge linewidth
 #axes.grid          : False   ## display grid or not
@@ -366,7 +366,7 @@ axes.titlepad      : 20     ## pad between axes and title in points
 axes.labelsize     : medium  ## fontsize of the x any y labels
 axes.labelpad      : 10.0     ## space between label and axis
 axes.labelweight   : 500  ## weight of the x and y labels
-axes.labelcolor    : C3
+axes.labelcolor    : C0
 #axes.axisbelow     : line    ## draw axis gridlines and ticks:
                               ##     - below patches (True)
                               ##     - above patches but below lines ('line')
@@ -400,7 +400,7 @@ axes.spines.right  : False
 #axes.unicode_minus : True  ## use Unicode for the minus symbol
                             ## rather than hyphen.  See
                             ## https://en.wikipedia.org/wiki/Plus_and_minus_signs#Character_codes
-axes.prop_cycle : cycler('color', ['d91919', '157a6e', 'ffa630', '36454f'])
+axes.prop_cycle : cycler('color', [ '36454F', 'D91919', 'FFFFFF' ])
                    ## color cycle for plot lines as list of string colorspecs:
                    ##     single letter, long name, or web-style hex
 				   ## As opposed to all other paramters in this file, the color
@@ -452,7 +452,7 @@ xtick.major.width   : 1     ## major tick width in points
 #xtick.minor.width   : 0.6     ## minor tick width in points
 #xtick.major.pad     : 3.5     ## distance to major tick label in points
 #xtick.minor.pad     : 3.4     ## distance to the minor tick label in points
-xtick.color         : C3   ## color of the tick labels
+xtick.color         : C0   ## color of the tick labels
 #xtick.labelsize     : medium  ## fontsize of the tick labels
 #xtick.direction     : out     ## direction: {in, out, inout}
 #xtick.minor.visible : False   ## visibility of minor ticks on x-axis
@@ -472,7 +472,7 @@ ytick.major.size    : 2     ## major tick size in points
 #ytick.minor.width   : 0.6     ## minor tick width in points
 #ytick.major.pad     : 3.5     ## distance to major tick label in points
 #ytick.minor.pad     : 3.4     ## distance to the minor tick label in points
-ytick.color         : C3   ## color of the tick labels
+ytick.color         : C0   ## color of the tick labels
 #ytick.labelsize     : medium  ## fontsize of the tick labels
 #ytick.direction     : out     ## direction: {in, out, inout}
 #ytick.minor.visible : False   ## visibility of minor ticks on y-axis
@@ -527,8 +527,8 @@ legend.labelspacing  : 1  ## the vertical space between the legend entries
 #figure.titleweight : normal    ## weight of the figure title
 #figure.figsize     : 6.4, 4.8  ## figure size in inches
 #figure.dpi         : 100       ## figure dots per inch
-figure.facecolor   : white     ## figure facecolor
-#figure.edgecolor   : white     ## figure edgecolor
+figure.facecolor   : C2     ## figure facecolor
+#figure.edgecolor   : C2     ## figure edgecolor
 #figure.frameon     : True      ## enable figure frame
 #figure.max_open_warning : 20   ## The maximum number of figures to open through
                                 ## the pyplot interface before emitting a warning.
@@ -639,10 +639,10 @@ figure.facecolor   : white     ## figure facecolor
 ## ***************************************************************************
 ## The default savefig params can be different from the display params
 ## e.g., you may want a higher resolution, or to make the figure
-## background white
+## background C2
 #savefig.dpi       : figure      ## figure dots per inch or 'figure'
-#savefig.facecolor : white       ## figure facecolor when saving
-#savefig.edgecolor : white       ## figure edgecolor when saving
+#savefig.facecolor : C2       ## figure facecolor when saving
+#savefig.edgecolor : C2       ## figure edgecolor when saving
 #savefig.format    : png         ## {png, ps, pdf, svg}
 #savefig.bbox      : standard    ## {tight, standard}
                                  ## 'tight' is incompatible with pipe-based animation

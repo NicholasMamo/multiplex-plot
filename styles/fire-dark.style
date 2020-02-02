@@ -400,7 +400,7 @@ axes.spines.right  : False
 #axes.unicode_minus : True  ## use Unicode for the minus symbol
                             ## rather than hyphen.  See
                             ## https://en.wikipedia.org/wiki/Plus_and_minus_signs#Character_codes
-axes.prop_cycle : cycler('color', ['FA6368', '6BC4A1', 'FFA630', 'FDFDFD'])
+axes.prop_cycle : cycler('color', [ 'FDFDFD', 'FA6368', '36454F' ])
                    ## color cycle for plot lines as list of string colorspecs:
                    ##     single letter, long name, or web-style hex
 				   ## As opposed to all other paramters in this file, the color
@@ -527,7 +527,7 @@ legend.labelspacing  : 1  ## the vertical space between the legend entries
 #figure.titleweight : normal    ## weight of the figure title
 #figure.figsize     : 6.4, 4.8  ## figure size in inches
 #figure.dpi         : 100       ## figure dots per inch
-figure.facecolor   : (0.212, 0.271, 0.31)     ## figure facecolor
+figure.facecolor   : C2     ## figure facecolor
 #figure.edgecolor   : white     ## figure edgecolor
 #figure.frameon     : True      ## enable figure frame
 #figure.max_open_warning : 20   ## The maximum number of figures to open through
