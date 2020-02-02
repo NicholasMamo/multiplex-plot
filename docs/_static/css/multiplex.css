@@ -1,7 +1,7 @@
 :root {
   --primary: #157A6E;
   --primary-faded: rgba(21, 122, 110, 0.7);
-  --dark: #36454F
+  --dark: #21282F
 }
 
 @media screen and (max-width: 1399px) {
