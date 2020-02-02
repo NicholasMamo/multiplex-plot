@@ -270,7 +270,6 @@ class TextAnnotation():
 		axis_height = axis.get_ylim()[1] - axis.get_ylim()[0]
 		axis.set_ylim(axis.get_ylim()[0] - axis_height * tpad, axis.get_ylim()[1])
 		axis.invert_yaxis()
-		self.drawable.figure.set_figheight((1 + tpad) * lines * lineheight / 2)
 
 		return drawn_lines
 
