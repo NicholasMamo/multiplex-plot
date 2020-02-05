@@ -24,7 +24,6 @@ Keep reading to learn more about text visualizations.
    :private-members:
    :special-members:
 
-==========
 Annotation
 ==========
 
@@ -33,7 +32,6 @@ Annotation
    :private-members:
    :special-members:
 
-===============
 Text Annotation
 ===============
 

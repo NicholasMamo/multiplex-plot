@@ -22,7 +22,7 @@ Keep reading to learn more about time series visualizations.
    :private-members:
    :special-members:
 
-===========
+
 Time Series
 ===========
 
