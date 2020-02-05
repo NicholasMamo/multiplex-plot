@@ -56,3 +56,53 @@ def overlapping(figure, axis, c1, c2, *args, **kwargs):
 		(bb1.x0 < bb2.x0 < bb1.x1 or bb1.x0 < bb2.x1 < bb1.x1) and
 		(bb1.y0 < bb2.y0 < bb1.y1 or bb1.y0 < bb2.y1 < bb1.y1)
 	)
+
+def get_linespacing(figure, axis, wordspacing=0, *args, **kwargs):
+	"""
+	Calculate the line spacing of text tokens.
+	The line spacing is calculated by creating a token and getting its height.
+	The token is immediately removed.
+	The token's styling have to be provided as keyword arguments.
+
+	:param figure: The figure that the component occupies.
+				   This is used to get the figure renderer.
+	:type figure: :class:`matplotlib.figure.Figure`
+	:param axis: The axis (or subplot) where the component is plotted.
+	:type axis: :class:`matplotlib.axis.Axis`
+	:param wordspacing: The spacing between tokens.
+						This is used to be able to create the padding around words.
+	:type wordspacing: float
+
+	:return: The line spacing.
+	:rtype: float
+	"""
+
+	"""
+	Draw a dummy token first.
+	"""
+
+	"""
+	Some styling are set specifically for the bbox.
+	"""
+	bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' }
+	for arg in bbox_kwargs:
+		if arg in kwargs:
+			bbox_kwargs[arg] = kwargs.get(arg)
+			del kwargs[arg]
+
+	"""
+	The bbox's padding is calculated in pixels.
+	Therefore it is transformed from the provided axis coordinates to pixels.
+	"""
+	wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
+					  axis.transData.transform((0, 0))[0])
+	token = axis.text(0, 0, 'None', bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
+					  *args, **kwargs)
+
+	"""
+	Get the height from the bbox.
+	"""
+	bb = get_bb(figure, axis, token)
+	height = bb.height
+	token.remove()
+	return height
