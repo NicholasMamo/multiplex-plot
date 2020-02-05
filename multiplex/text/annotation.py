@@ -103,8 +103,196 @@ class Annotation():
 			if type(token) is str:
 				tokens[i] = { 'text': token }
 
-		return self._draw_tokens(tokens, wordspacing, lineheight, align,
-								 with_legend, lpad, rpad, tpad, *args, **kwargs)
+		return self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, *args, **kwargs)
+
+	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, *args, **kwargs):
+		"""
+		Draw the tokens on the plot.
+
+		:param tokens: The text tokens to draw.
+					   The method expects a `list` of tokens, each one a `dict`.
+		:type tokens: list of str
+		:param x: The start and end x-position of the annotation.
+		:type x: tuple
+		:param y: The starting y-position of the annotation.
+		:type y: float
+		:param wordspacing: The space between words.
+		:type wordspacing: float
+		:param lineheight: The space between lines.
+		:type lineheight: float
+		:param align: The text's alignment.
+					  Possible values:
+
+					    - left
+					    - center
+					    - right
+					    - justify
+					    - justify-start (or justify-left)
+					    - justify-center
+					    - justify-end or (justify-right)
+		:type align: str
+
+		:return: The drawn lines.
+				 Each line is made up of tuples of lists.
+				 The first list in each tuple is the list of legend labels.
+				 The second list in each tuple is the list of actual tokens.
+		:rtype: list of tuple
+		"""
+
+		axis = self.drawable.axis
+		figure = self.drawable.figure
+
+		punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
+		x_lim = (
+			axis.get_xlim()[1] * lpad,
+			axis.get_xlim()[1] * (1. - rpad)
+		)
+
+		"""
+		Go through each token and draw it on the axis.
+		"""
+		drawn_lines = []
+		linespacing = self._get_linespacing(*args, **kwargs) * lineheight
+		offset, lines = x_lim[0], 0
+		line_tokens, labels, line_labels = [], [], []
+		for token in tokens:
+			"""
+			If the token is a punctuation mark, do not add wordspacing to it.
+			"""
+			if token.get('text') in punctuation:
+				offset -= wordspacing * 1.5
+
+			"""
+			Draw the text token.
+			"""
+			text = self._draw_token(
+				token.get('text'), token.get('style', {}), offset, lines,
+				wordspacing, linespacing, va='top', *args, **kwargs
+			)
+			line_tokens.append(text)
+
+			"""
+			If the token exceeds the x-limit, break line.
+			The offset is reset to the left, and a new line is added.
+			The token is moved to this new line.
+			Lines do not break on certain types of punctuation.
+			"""
+			bb = util.get_bb(figure, axis, text)
+			if bb.x1 > x_lim[1] and token.get('text') not in punctuation:
+				self._newline(line_tokens.pop(-1), lines, linespacing, x_lim[0])
+				self._align(
+					line_tokens, lines, wordspacing, linespacing,
+					self._get_alignment(align), x_lim
+				)
+				offset, lines = x_lim[0], lines + 1
+				drawn_lines.append((line_labels, line_tokens))
+				line_tokens, line_labels = [ text ], []
+
+			"""
+			If the token has a label associated with it, draw it on the first instance.
+			The labels are ordered left-to-right according to when they appeared.
+			"""
+			if with_legend and 'label' in token and token.get('label') not in labels:
+				labels.append(token.get('label'))
+				label = self._draw_token(
+					token.get('label'), token.get('style', {}), 0, lines,
+					wordspacing, linespacing, va='top', *args, **kwargs
+				)
+				line_labels.append(label)
+				self._align(line_labels, lines, wordspacing * 2,
+							linespacing, align='right', x_lim=(-1, - wordspacing * 8))
+
+			offset += bb.width + wordspacing
+
+		"""
+		Align the last line.
+		"""
+		drawn_lines.append((line_labels, line_tokens))
+		self._align(
+			line_tokens, lines, wordspacing, linespacing,
+			self._get_alignment(align, last=True), x_lim
+		)
+
+		"""
+		Move the plot so that it starts from x-coordinate 0.
+		Then, re-draw the axis and the figure dimensions.
+		The axis and the figure are made to fit the text tightly.
+		"""
+		self._tighten(drawn_lines)
+		axis.set_ylim(-linespacing, lines * linespacing)
+		axis_height = axis.get_ylim()[1] - axis.get_ylim()[0]
+		axis.set_ylim(axis.get_ylim()[0] - axis_height * tpad, axis.get_ylim()[1])
+		axis.invert_yaxis()
+
+		return drawn_lines
+
+	def _get_linespacing(self, *args, **kwargs):
+		"""
+		Calculate the line spacing.
+		The line spacing is calculated by creating a token and getting its height.
+		The token is immediately removed.
+		The token's styling have to be provided as keyword arguments.
+
+		:return: The line spacing.
+		:rtype: float
+		"""
+
+		axis = self.drawable.axis
+		figure = self.drawable.figure
+
+		"""
+		Draw a dummy token and get its height.
+		Then, remove that token.
+		"""
+		token = self._draw_token('None', {}, 0, 0, 0, 0, *args, **kwargs)
+		bb = util.get_bb(figure, axis, token)
+		height = bb.height
+		token.remove()
+		return height
+
+	def _draw_token(self, text, style, offset, line, wordspacing, linespacing, *args, **kwargs):
+		"""
+		Draw the token on the plot.
+
+		:param text: The text token to draw.
+		:type text: str
+		:param style: The style information for the token.
+		:type style: dict
+		:param offset: The token's offset.
+		:type offset: float
+		:param line: The line number of the token.
+		:type line: int
+		:param wordspacing: The space between words.
+		:type wordspacing: float
+		:param linespacing: The space between lines.
+		:type linespacing: float
+
+		:return: The drawn text box.
+		:rtype: :class:`matplotlib.text.Text`
+		"""
+
+		axis = self.drawable.axis
+
+		kwargs.update(style)
+		"""
+		Some styling are set specifically for the bbox.
+		"""
+		bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' }
+		for arg in bbox_kwargs:
+			if arg in kwargs:
+				bbox_kwargs[arg] = kwargs.get(arg)
+				del kwargs[arg]
+
+		"""
+		The bbox's padding is calculated in pixels.
+		Therefore it is transformed from the provided axis coordinates to pixels.
+		"""
+		wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
+						  axis.transData.transform((0, 0))[0])
+		text = axis.text(offset, line * linespacing, text,
+						 bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
+						 *args, **kwargs)
+		return text
 
 	def _newline(self, token, line, linespacing, line_start):
 		"""
@@ -265,3 +453,36 @@ class Annotation():
 					token.set_position((bb.x0 + offset, bb.y1))
 		else:
 			raise ValueError("Unsupported alignment %s" % align)
+
+	def _tighten(self, drawn_lines):
+		"""
+		Move the plot so that it starts from x- and y-coordinate 0.
+		This offsets the legend labels so that they start at 0.
+
+		:param drawn_lines: A list of drawn lines.
+						   The function expects lines to be tuples of legend labels and tokens.
+		:type drawn_lines: list of float
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		"""
+		Calculate the necessary offset.
+		"""
+		x_offset = 0
+		y_offset = 0
+		for (labels, tokens) in drawn_lines:
+			for label in labels:
+				bb = util.get_bb(figure, axis, label)
+				x_offset = min(x_offset, bb.x0)
+				y_offset = min(y_offset, bb.y0)
+
+		"""
+		Move all tokens by this offset.
+		"""
+		for (labels, tokens) in drawn_lines:
+			tokens = labels + tokens
+			for token in tokens:
+				bb = util.get_bb(figure, axis, token)
+				token.set_position((bb.x0 - x_offset, bb.y0 - y_offset))
