@@ -180,9 +180,14 @@ For example, the below visualization, created using the <code class="xref py py-
 You can also check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb">text visualizations tutorial Jupyter Notebook</a>.</p>
 <span class="target" id="module-text"></span><div class="section" id="module-text.annotation">
 <span id="annotation"></span><h2>Annotation<a class="headerlink" href="#module-text.annotation" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.Annotation</span></code></a> class is used to draw text on visualizations.
-In and of itself, it is not a visualization type.
-To create text-only visualizations, use the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> class.</p>
+<p>The <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.Annotation</span></code></a> class is not quite a visualization, but it’s an important class nevertheless.
+The <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.Annotation</span></code></a> class is used to draw text on visualizations.
+For example, it is used in the <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> visualization to draw text on visualizations and explain them better.</p>
+<p>The <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.Annotation</span></code></a> class is most prominent in the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> class, described further down.
+The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> visualization actually revolves around the annotation and is used to create text-only visualizations.
+It also adds some extra functionality to annotations, such as legends.</p>
+<p>Look over the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.Annotation</span></code></a> class to learn more about what kind of annotations you can create.
+If you want to create text-only visualizations, skip ahead to the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> class.</p>
 <dl class="class">
 <dt id="text.annotation.Annotation">
 <em class="property">class </em><code class="sig-prename descclassname">text.annotation.</code><code class="sig-name descname">Annotation</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation" title="Permalink to this definition">¶</a></dt>
@@ -587,12 +592,12 @@ This is used to look for <cite>label</cite> attributes.</p>
 <dt id="text.text.TextAnnotation._tighten">
 <code class="sig-name descname">_tighten</code><span class="sig-paren">(</span><em class="sig-param">drawn_lines</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._tighten" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the plot so that it starts from x- and y-coordinate 0.
-This offsets the legend labels so that they start at 0.
-:param drawn_lines: A list of drawn lines.</p>
-<blockquote>
-<div><p>The function expects lines to be tuples of legend labels and tokens.</p>
-</div></blockquote>
+This offsets the legend labels so that they start at 0.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>drawn_lines</strong> (<em>list of float</em>) – A list of drawn lines.
+The function expects lines to be tuples of legend labels and tokens.</p>
+</dd>
 </dl>
 </dd></dl>
 

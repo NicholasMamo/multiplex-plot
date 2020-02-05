@@ -1,7 +1,14 @@
 """
+The :class:`text.annotation.Annotation` class is not quite a visualization, but it's an important class nevertheless.
 The :class:`text.annotation.Annotation` class is used to draw text on visualizations.
-In and of itself, it is not a visualization type.
-To create text-only visualizations, use the :class:`text.text.TextAnnotation` class.
+For example, it is used in the :class:`timeseries.timeseries.TimeSeries` visualization to draw text on visualizations and explain them better.
+
+The :class:`text.annotation.Annotation` class is most prominent in the :class:`text.text.TextAnnotation` class, described further down.
+The :class:`text.text.TextAnnotation` visualization actually revolves around the annotation and is used to create text-only visualizations.
+It also adds some extra functionality to annotations, such as legends.
+
+Look over the :class:`text.annotation.Annotation` class to learn more about what kind of annotations you can create.
+If you want to create text-only visualizations, skip ahead to the :class:`text.text.TextAnnotation` class.
 """
 
 import os

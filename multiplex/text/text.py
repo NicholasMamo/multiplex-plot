@@ -264,6 +264,7 @@ class TextAnnotation():
 		"""
 		Move the plot so that it starts from x- and y-coordinate 0.
 		This offsets the legend labels so that they start at 0.
+		
 		:param drawn_lines: A list of drawn lines.
 						   The function expects lines to be tuples of legend labels and tokens.
 		:type drawn_lines: list of float
