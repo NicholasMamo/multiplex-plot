@@ -35,7 +35,7 @@ class TextAnnotation():
 	A class of visualization that allows text annotations.
 	The :class:`text.text.TextAnnotation` is mainly concered with organizing text.
 
-	:ivar drawable: The :class:`drawable.Drawable` where the time series visualization will be drawn.
+	:ivar drawable: The :class:`drawable.Drawable` where the text visualization will be drawn.
 	:vartype drawable: :class:`drawable.Drawable`
 	"""
 
@@ -45,7 +45,7 @@ class TextAnnotation():
 		The figure is used to get the renderer.
 		The visualization is drawn on the given axis.
 
-		:param drawable: The :class:`drawable.Drawable` where the time series visualization will be drawn.
+		:param drawable: The :class:`drawable.Drawable` where the text visualization will be drawn.
 		:type drawable: :class:`drawable.Drawable`
 		"""
 
