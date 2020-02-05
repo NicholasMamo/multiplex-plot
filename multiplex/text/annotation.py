@@ -148,7 +148,7 @@ class Annotation():
 		drawn_lines = []
 		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs) * lineheight
 		offset, lines = x[0], 0
-		line_tokens, labels, line_labels = [], [], []
+		line_tokens = []
 		for token in tokens:
 			"""
 			If the token is a punctuation mark, do not add wordspacing to it.
@@ -179,15 +179,15 @@ class Annotation():
 					self._get_alignment(align), x
 				)
 				offset, lines = x[0], lines + 1
-				drawn_lines.append((line_labels, line_tokens))
-				line_tokens, line_labels = [ text ], []
+				drawn_lines.append(line_tokens)
+				line_tokens = [ text ]
 
 			offset += bb.width + wordspacing
 
 		"""
 		Align the last line.
 		"""
-		drawn_lines.append((line_labels, line_tokens))
+		drawn_lines.append(line_tokens)
 		self._align(
 			line_tokens, lines, wordspacing, linespacing,
 			self._get_alignment(align, last=True), x
