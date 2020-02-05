@@ -159,9 +159,6 @@ class TextAnnotation():
 		The axis and the figure are made to fit the text tightly.
 		"""
 		lines = len(tokens)
-		axis.set_ylim(-linespacing, lines * linespacing)
-		axis_height = axis.get_ylim()[1] - axis.get_ylim()[0]
-		axis.set_ylim(axis.get_ylim()[0] - axis_height * tpad, axis.get_ylim()[1])
 		axis.set_ylim(-lines * linespacing, tpad + linespacing)
 
 		return tokens
