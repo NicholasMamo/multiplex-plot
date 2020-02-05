@@ -1,5 +1,5 @@
 """
-The :class:`text.annotation.TextAnnotation` class is mainly concerned with organizing text.
+The :class:`text.text.TextAnnotation` class is mainly concerned with organizing text.
 You can do just about anything with these visualizations, including—unsurprisingly enough—annotating the text.
 
 To start creating time series visualizations, create a :class:`timeseries.timeseries.TimeSeries` instance and call the :meth:`timeseries.timeseries.TimeSeries.draw` method.
@@ -16,7 +16,7 @@ Alternatively, you can provide a `list` of `dict` of tokens containing at least 
 	  'text': 'token',
 	}
 
-Instructions on how the text should be formatted can be passed on to the :meth:`text.annotation.TextAnnotation.draw` method.
+Instructions on how the text should be formatted can be passed on to the :meth:`text.text.TextAnnotation.draw` method.
 Among others, these attributes include alignment and the line height.
 The text can also be styled by passing on any attributes supported by the :class:`matplotlib.text.Text` class.
 The same attributes can be passed on to the `style` key in the code block above.
@@ -33,7 +33,7 @@ import util
 class TextAnnotation():
 	"""
 	A class of visualization that allows text annotations.
-	The :class:`text.annotation.TextAnnotation` is mainly concered with organizing text.
+	The :class:`text.text.TextAnnotation` is mainly concered with organizing text.
 
 	:ivar drawable: The :class:`drawable.Drawable` where the time series visualization will be drawn.
 	:vartype drawable: :class:`drawable.Drawable`

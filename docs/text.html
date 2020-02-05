@@ -179,7 +179,7 @@ For example, the below visualization, created using the <code class="xref py py-
 You can also check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb">text visualizations tutorial Jupyter Notebook</a>.</p>
 <span class="target" id="module-text"></span><div class="section" id="module-text.text">
 <span id="text-annotation"></span><h2>Text Annotation<a class="headerlink" href="#module-text.text" title="Permalink to this headline">¶</a></h2>
-<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code> class is mainly concerned with organizing text.
+<p>The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> class is mainly concerned with organizing text.
 You can do just about anything with these visualizations, including—unsurprisingly enough—annotating the text.</p>
 <p>To start creating time series visualizations, create a <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> instance and call the <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries.draw" title="timeseries.timeseries.TimeSeries.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries.draw()</span></code></a> method.
 If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> class, just call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-meth docutils literal notranslate"><span class="pre">drawable.Drawable.draw_time_series()</span></code></a> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> instance instead.</p>
@@ -192,7 +192,7 @@ Alternatively, you can provide a <cite>list</cite> of <cite>dict</cite> of token
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Instructions on how the text should be formatted can be passed on to the <code class="xref py py-meth docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation.draw()</span></code> method.
+<p>Instructions on how the text should be formatted can be passed on to the <a class="reference internal" href="#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text.text.TextAnnotation.draw()</span></code></a> method.
 Among others, these attributes include alignment and the line height.
 The text can also be styled by passing on any attributes supported by the <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code> class.
 The same attributes can be passed on to the <cite>style</cite> key in the code block above.
@@ -201,7 +201,7 @@ You can find examples to help you get started <a class="reference external" href
 <dt id="text.text.TextAnnotation">
 <em class="property">class </em><code class="sig-prename descclassname">text.text.</code><code class="sig-name descname">TextAnnotation</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class of visualization that allows text annotations.
-The <code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code> is mainly concered with organizing text.</p>
+The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> is mainly concered with organizing text.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><p><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a>) – The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</p>
