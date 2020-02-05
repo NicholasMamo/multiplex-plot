@@ -2,7 +2,7 @@
 The :class:`text.text.TextAnnotation` class is mainly concerned with organizing text.
 You can do just about anything with these visualizations, including annotating the text.
 
-To start creating text visualizations, create a :class:`multiplex.text.Text` instance and call the :meth:`multiplex.text.Text.draw` method.
+To start creating text visualizations, create a :class:`text.Text` instance and call the :meth:`text.Text.draw` method.
 If you are using the :class:`drawable.Drawable` class, just call the :meth:`drawable.Drawable.draw_text_annotation` method on a :class:`drawable.Drawable` instance instead.
 
 This method expects, at the very least, a string.
