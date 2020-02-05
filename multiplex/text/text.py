@@ -138,23 +138,24 @@ class TextAnnotation():
 
 		annotation = Annotation(self.drawable)
 		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs)
-		tokens = annotation.draw(data, (lpad, axis.get_xlim()[1] - rpad), 0,
+		lines = annotation.draw(data, (lpad, axis.get_xlim()[1] - rpad), 0,
 								 wordspacing=wordspacing, lineheight=lineheight,
 								 align=align, va='top', *args, **kwargs)
 
 		"""
 		Draw a legend if it is requested.
 		"""
-		legends = self._draw_legend(data, tokens, wordspacing, linespacing, *args, **kwargs) if with_legend else []
+		labels = self._draw_legend(data, lines, wordspacing, linespacing, *args, **kwargs) if with_legend else [] * len(lines)
+		drawn_lines = zip(labels, lines)
+		self._tighten(drawn_lines)
 
 		"""
 		Re-draw the axis and the figure dimensions.
 		The axis and the figure are made to fit the text tightly.
 		"""
-		lines = len(tokens)
-		axis.set_ylim(-lines * linespacing, tpad + linespacing)
+		axis.set_ylim(- len(lines) * linespacing, tpad + linespacing)
 
-		return tokens
+		return drawn_lines
 
 	def _draw_legend(self, data, tokens, wordspacing, linespacing, *args, **kwargs):
 		"""
@@ -258,3 +259,35 @@ class TextAnnotation():
 						 bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
 						 *args, **kwargs)
 		return text
+
+	def _tighten(self, drawn_lines):
+		"""
+		Move the plot so that it starts from x- and y-coordinate 0.
+		This offsets the legend labels so that they start at 0.
+		:param drawn_lines: A list of drawn lines.
+						   The function expects lines to be tuples of legend labels and tokens.
+		:type drawn_lines: list of float
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+		drawn_lines = list(drawn_lines)
+
+		"""
+		Calculate the necessary offset.
+		"""
+		x_offset = 0
+		y_offset = 0
+		for (labels, tokens) in drawn_lines:
+			for label in labels:
+				bb = util.get_bb(figure, axis, label)
+				x_offset = min(x_offset, bb.x0)
+				y_offset = min(y_offset, bb.y0)
+
+		"""
+		Move all tokens by this offset.
+		"""
+		for (labels, tokens) in drawn_lines:
+			for token in labels + tokens:
+				bb = util.get_bb(figure, axis, token)
+				token.set_position((bb.x0 - x_offset, bb.y0 - y_offset))
