@@ -141,17 +141,13 @@ class Annotation():
 		figure = self.drawable.figure
 
 		punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
-		x_lim = (
-			axis.get_xlim()[1] * lpad,
-			axis.get_xlim()[1] * (1. - rpad)
-		)
 
 		"""
 		Go through each token and draw it on the axis.
 		"""
 		drawn_lines = []
 		linespacing = self._get_linespacing(*args, **kwargs) * lineheight
-		offset, lines = x_lim[0], 0
+		offset, lines = x[0], 0
 		line_tokens, labels, line_labels = [], [], []
 		for token in tokens:
 			"""
@@ -176,13 +172,13 @@ class Annotation():
 			Lines do not break on certain types of punctuation.
 			"""
 			bb = util.get_bb(figure, axis, text)
-			if bb.x1 > x_lim[1] and token.get('text') not in punctuation:
-				self._newline(line_tokens.pop(-1), lines, linespacing, x_lim[0])
+			if bb.x1 > x[1] and token.get('text') not in punctuation:
+				self._newline(line_tokens.pop(-1), lines, linespacing, x[0])
 				self._align(
 					line_tokens, lines, wordspacing, linespacing,
-					self._get_alignment(align), x_lim
+					self._get_alignment(align), x
 				)
-				offset, lines = x_lim[0], lines + 1
+				offset, lines = x[0], lines + 1
 				drawn_lines.append((line_labels, line_tokens))
 				line_tokens, line_labels = [ text ], []
 
@@ -194,18 +190,16 @@ class Annotation():
 		drawn_lines.append((line_labels, line_tokens))
 		self._align(
 			line_tokens, lines, wordspacing, linespacing,
-			self._get_alignment(align, last=True), x_lim
+			self._get_alignment(align, last=True), x
 		)
 
 		"""
-		Move the plot so that it starts from x-coordinate 0.
-		Then, re-draw the axis and the figure dimensions.
+		Re-draw the axis and the figure dimensions.
 		The axis and the figure are made to fit the text tightly.
 		"""
-		self._tighten(drawn_lines)
 		axis.set_ylim(-linespacing, lines * linespacing)
 		axis_height = axis.get_ylim()[1] - axis.get_ylim()[0]
-		axis.set_ylim(axis.get_ylim()[0] - axis_height * tpad, axis.get_ylim()[1])
+		axis.set_ylim(axis.get_ylim()[0] - axis_height * y, axis.get_ylim()[1])
 		axis.invert_yaxis()
 
 		return drawn_lines
