@@ -12,7 +12,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
-from text.annotation import TextAnnotation
+from text.text import TextAnnotation
 from timeseries.timeseries import TimeSeries
 import util
 

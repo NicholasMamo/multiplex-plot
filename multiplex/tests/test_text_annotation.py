@@ -1,5 +1,5 @@
 """
-Unit tests for the :class:`text.annotation.TextAnnotation` class.
+Unit tests for the :class:`text.text.TextAnnotation` class.
 """
 
 import matplotlib.pyplot as plt
@@ -16,7 +16,7 @@ import util
 
 class TestTextAnnotation(unittest.TestCase):
 	"""
-	Unit tests for the :class:`text.annotation.TextAnnotation` class.
+	Unit tests for the :class:`text.text.TextAnnotation` class.
 	"""
 
 	def test_text(self):
