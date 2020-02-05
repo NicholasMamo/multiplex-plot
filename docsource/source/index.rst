@@ -22,8 +22,10 @@ Multiplex is aimed at data scientists who want to explore and explain data.
 Currently, the library provides text visualizations, useful for Natural Language Processing (NLP) tasks, as well as easy-to-annotate time series.
 In the future, it will also provide other visualizations that are used in information retrieval tasks.
 
-This documentation describes all of Multiplex's functionality.
-If you want to get started immediately, check out the `example notebooks <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_.
+.. note::
+
+	This documentation describes all of Multiplex's functionality.
+	If you want to get started immediately, check out the `example notebooks <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_.
 
 .. toctree::
    :maxdepth: 2
