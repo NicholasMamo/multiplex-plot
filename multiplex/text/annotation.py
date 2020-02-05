@@ -133,10 +133,8 @@ class Annotation():
 		:type align: str
 
 		:return: The drawn lines.
-				 Each line is made up of tuples of lists.
-				 The first list in each tuple is the list of legend labels.
-				 The second list in each tuple is the list of actual tokens.
-		:rtype: list of tuple
+				 Each line is made up of the text tokens.
+		:rtype: list of :class:`matplotlib.text.Text`
 		"""
 
 		axis = self.drawable.axis
@@ -187,20 +185,6 @@ class Annotation():
 				offset, lines = x_lim[0], lines + 1
 				drawn_lines.append((line_labels, line_tokens))
 				line_tokens, line_labels = [ text ], []
-
-			"""
-			If the token has a label associated with it, draw it on the first instance.
-			The labels are ordered left-to-right according to when they appeared.
-			"""
-			if with_legend and 'label' in token and token.get('label') not in labels:
-				labels.append(token.get('label'))
-				label = self._draw_token(
-					token.get('label'), token.get('style', {}), 0, lines,
-					wordspacing, linespacing, va='top', *args, **kwargs
-				)
-				line_labels.append(label)
-				self._align(line_labels, lines, wordspacing * 2,
-							linespacing, align='right', x_lim=(-1, - wordspacing * 8))
 
 			offset += bb.width + wordspacing
 
@@ -453,36 +437,3 @@ class Annotation():
 					token.set_position((bb.x0 + offset, bb.y1))
 		else:
 			raise ValueError("Unsupported alignment %s" % align)
-
-	def _tighten(self, drawn_lines):
-		"""
-		Move the plot so that it starts from x- and y-coordinate 0.
-		This offsets the legend labels so that they start at 0.
-
-		:param drawn_lines: A list of drawn lines.
-						   The function expects lines to be tuples of legend labels and tokens.
-		:type drawn_lines: list of float
-		"""
-
-		figure = self.drawable.figure
-		axis = self.drawable.axis
-
-		"""
-		Calculate the necessary offset.
-		"""
-		x_offset = 0
-		y_offset = 0
-		for (labels, tokens) in drawn_lines:
-			for label in labels:
-				bb = util.get_bb(figure, axis, label)
-				x_offset = min(x_offset, bb.x0)
-				y_offset = min(y_offset, bb.y0)
-
-		"""
-		Move all tokens by this offset.
-		"""
-		for (labels, tokens) in drawn_lines:
-			tokens = labels + tokens
-			for token in tokens:
-				bb = util.get_bb(figure, axis, token)
-				token.set_position((bb.x0 - x_offset, bb.y0 - y_offset))
