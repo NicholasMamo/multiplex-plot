@@ -100,7 +100,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="drawable.html">1. Getting started</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. Text Visualizations</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-text.annotation">Text Annotation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-text.text">Text Annotation</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="timeseries.html">3. Time Series</a></li>
@@ -173,13 +173,13 @@
 <h1>2. Text Visualizations<a class="headerlink" href="#text-visualizations" title="Permalink to this headline">¶</a></h1>
 <p>Text visualizations are tools to help you tell your story better.
 These types of visualizations give you the comfort of organizing text so that you can focus instead on the narrative.
-For example, the below visualization, created using the <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code></a> class, highlights the named entities:</p>
+For example, the below visualization, created using the <code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code> class, highlights the named entities:</p>
 <img alt="_images/2-text-annotation.png" class="example inline" src="_images/2-text-annotation.png" />
 <p>Keep reading to learn more about text visualizations.
 You can also check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb">text visualizations tutorial Jupyter Notebook</a>.</p>
-<span class="target" id="module-text"></span><div class="section" id="module-text.annotation">
-<span id="text-annotation"></span><h2>Text Annotation<a class="headerlink" href="#module-text.annotation" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code></a> class is mainly concerned with organizing text.
+<span class="target" id="module-text"></span><div class="section" id="module-text.text">
+<span id="text-annotation"></span><h2>Text Annotation<a class="headerlink" href="#module-text.text" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code> class is mainly concerned with organizing text.
 You can do just about anything with these visualizations, including—unsurprisingly enough—annotating the text.</p>
 <p>To start creating time series visualizations, create a <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> instance and call the <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries.draw" title="timeseries.timeseries.TimeSeries.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries.draw()</span></code></a> method.
 If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> class, just call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-meth docutils literal notranslate"><span class="pre">drawable.Drawable.draw_time_series()</span></code></a> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> instance instead.</p>
@@ -192,24 +192,24 @@ Alternatively, you can provide a <cite>list</cite> of <cite>dict</cite> of token
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Instructions on how the text should be formatted can be passed on to the <a class="reference internal" href="#text.annotation.TextAnnotation.draw" title="text.annotation.TextAnnotation.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation.draw()</span></code></a> method.
+<p>Instructions on how the text should be formatted can be passed on to the <code class="xref py py-meth docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation.draw()</span></code> method.
 Among others, these attributes include alignment and the line height.
 The text can also be styled by passing on any attributes supported by the <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code> class.
 The same attributes can be passed on to the <cite>style</cite> key in the code block above.
 You can find examples to help you get started <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb">here</a>.</p>
 <dl class="class">
-<dt id="text.annotation.TextAnnotation">
-<em class="property">class </em><code class="sig-prename descclassname">text.annotation.</code><code class="sig-name descname">TextAnnotation</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation" title="Permalink to this definition">¶</a></dt>
+<dt id="text.text.TextAnnotation">
+<em class="property">class </em><code class="sig-prename descclassname">text.text.</code><code class="sig-name descname">TextAnnotation</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class of visualization that allows text annotations.
-The <a class="reference internal" href="#text.annotation.TextAnnotation" title="text.annotation.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code></a> is mainly concered with organizing text.</p>
+The <code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code> is mainly concered with organizing text.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><p><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a>) – The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> where the time series visualization will be drawn.</p>
 </dd>
 </dl>
 <dl class="method">
-<dt id="text.annotation.TextAnnotation.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.__init__" title="Permalink to this definition">¶</a></dt>
+<dt id="text.text.TextAnnotation.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the text annotation with the figure and axis.
 The figure is used to get the renderer.
 The visualization is drawn on the given axis.</p>
@@ -221,8 +221,8 @@ The visualization is drawn on the given axis.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.annotation.TextAnnotation.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">wordspacing=0.005</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">with_legend=True</em>, <em class="sig-param">lpad=0</em>, <em class="sig-param">rpad=0</em>, <em class="sig-param">tpad=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
+<dt id="text.text.TextAnnotation.draw">
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">wordspacing=0.005</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">with_legend=True</em>, <em class="sig-param">lpad=0</em>, <em class="sig-param">rpad=0</em>, <em class="sig-param">tpad=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the text annotation visualization.
 The method receives text as a list of tokens and draws them as text.</p>
 <p>The text can be provided either as strings or as dictionaries.
@@ -285,8 +285,8 @@ The second list in each tuple is the list of actual tokens.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.annotation.TextAnnotation._draw_tokens">
-<code class="sig-name descname">_draw_tokens</code><span class="sig-paren">(</span><em class="sig-param">tokens</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">lineheight</em>, <em class="sig-param">align</em>, <em class="sig-param">with_legend</em>, <em class="sig-param">lpad</em>, <em class="sig-param">rpad</em>, <em class="sig-param">tpad</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
+<dt id="text.text.TextAnnotation._draw_tokens">
+<code class="sig-name descname">_draw_tokens</code><span class="sig-paren">(</span><em class="sig-param">tokens</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">lineheight</em>, <em class="sig-param">align</em>, <em class="sig-param">with_legend</em>, <em class="sig-param">lpad</em>, <em class="sig-param">rpad</em>, <em class="sig-param">tpad</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._draw_tokens" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the tokens on the plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -333,8 +333,8 @@ The second list in each tuple is the list of actual tokens.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.annotation.TextAnnotation._get_linespacing">
-<code class="sig-name descname">_get_linespacing</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._get_linespacing" title="Permalink to this definition">¶</a></dt>
+<dt id="text.text.TextAnnotation._get_linespacing">
+<code class="sig-name descname">_get_linespacing</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._get_linespacing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the line spacing.
 The line spacing is calculated by creating a token and getting its height.
 The token is immediately removed.
@@ -350,8 +350,8 @@ The token’s styling have to be provided as keyword arguments.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.annotation.TextAnnotation._draw_token">
-<code class="sig-name descname">_draw_token</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">style</em>, <em class="sig-param">offset</em>, <em class="sig-param">line</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._draw_token" title="Permalink to this definition">¶</a></dt>
+<dt id="text.text.TextAnnotation._draw_token">
+<code class="sig-name descname">_draw_token</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">style</em>, <em class="sig-param">offset</em>, <em class="sig-param">line</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._draw_token" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the token on the plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -374,8 +374,8 @@ The token’s styling have to be provided as keyword arguments.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.annotation.TextAnnotation._newline">
-<code class="sig-name descname">_newline</code><span class="sig-paren">(</span><em class="sig-param">token</em>, <em class="sig-param">line</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">line_start</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._newline" title="Permalink to this definition">¶</a></dt>
+<dt id="text.text.TextAnnotation._newline">
+<code class="sig-name descname">_newline</code><span class="sig-paren">(</span><em class="sig-param">token</em>, <em class="sig-param">line</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">line_start</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._newline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new line with the given token.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -390,8 +390,8 @@ The token’s styling have to be provided as keyword arguments.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.annotation.TextAnnotation._get_alignment">
-<code class="sig-name descname">_get_alignment</code><span class="sig-paren">(</span><em class="sig-param">align</em>, <em class="sig-param">last=False</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._get_alignment" title="Permalink to this definition">¶</a></dt>
+<dt id="text.text.TextAnnotation._get_alignment">
+<code class="sig-name descname">_get_alignment</code><span class="sig-paren">(</span><em class="sig-param">align</em>, <em class="sig-param">last=False</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._get_alignment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the proper alignment value for the current line.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -412,8 +412,8 @@ Otherwise, <cite>justify</cite> is returned.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.annotation.TextAnnotation._align">
-<code class="sig-name descname">_align</code><span class="sig-paren">(</span><em class="sig-param">tokens</em>, <em class="sig-param">line</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">x_lim=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._align" title="Permalink to this definition">¶</a></dt>
+<dt id="text.text.TextAnnotation._align">
+<code class="sig-name descname">_align</code><span class="sig-paren">(</span><em class="sig-param">tokens</em>, <em class="sig-param">line</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">x_lim=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._align" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organize the line tokens.
 This function is used when the line overflows.</p>
 <dl class="field-list simple">
@@ -449,8 +449,8 @@ The x-limit is a tuple limiting the start and end.</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.annotation.TextAnnotation._tighten">
-<code class="sig-name descname">_tighten</code><span class="sig-paren">(</span><em class="sig-param">drawn_lines</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.TextAnnotation._tighten" title="Permalink to this definition">¶</a></dt>
+<dt id="text.text.TextAnnotation._tighten">
+<code class="sig-name descname">_tighten</code><span class="sig-paren">(</span><em class="sig-param">drawn_lines</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._tighten" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the plot so that it starts from x- and y-coordinate 0.
 This offsets the legend labels so that they start at 0.</p>
 <dl class="field-list simple">
@@ -462,8 +462,8 @@ The function expects lines to be tuples of legend labels and tokens.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="text.annotation.TextAnnotation.__weakref__">
-<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#text.annotation.TextAnnotation.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dt id="text.text.TextAnnotation.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#text.text.TextAnnotation.__weakref__" title="Permalink to this definition">¶</a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
