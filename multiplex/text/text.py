@@ -144,19 +144,118 @@ class TextAnnotation():
 			raise ValueError("The left and right padding should not overlap, received %d left padding and %d right padding" % (lpad, rpad))
 
 		annotation = Annotation(self.drawable)
+		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs)
 		tokens = annotation.draw(data, (lpad, axis.get_xlim()[1] - rpad), tpad,
 								 wordspacing=wordspacing, lineheight=lineheight,
 								 align=align, *args, **kwargs)
+
+		"""
+		Draw a legend if it is requested.
+		"""
+		legends = self._draw_legend(data, tokens, wordspacing, linespacing, *args, **kwargs) if with_legend else []
 
 		"""
 		Re-draw the axis and the figure dimensions.
 		The axis and the figure are made to fit the text tightly.
 		"""
 		lines = len(tokens)
-		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs)
 		axis.set_ylim(-linespacing, lines * linespacing)
 		axis_height = axis.get_ylim()[1] - axis.get_ylim()[0]
 		axis.set_ylim(axis.get_ylim()[0] - axis_height * tpad, axis.get_ylim()[1])
 		axis.invert_yaxis()
 
 		return tokens
+
+	def _draw_legend(self, data, tokens, wordspacing, linespacing, *args, **kwargs):
+		"""
+		Draw a legend by iterating through all the data points.
+		The labels are drawn on the same line as the corresponding token.
+
+		:data: The text data as a dictionary.
+			   This is used to look for `label` attributes.
+		:type data: dict
+		:param tokens: The drawn tokens, separated by lines.
+		:type tokens: list of list of :class:`matplotlib.text.Text`
+		:param wordspacing: The space between words.
+		:type wordspacing: float
+		:param linespacing: The space between lines.
+		:type linespacing: float
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+		lines = len(tokens)
+
+		drawn_labels = []
+		i = 0
+		for line, line_tokens in enumerate(tokens):
+			line_labels = []
+			for token in line_tokens:
+				text = data[i]
+				i += 1
+
+				"""
+				If the token has a label associated with it, draw it on the first instance.
+				The labels are ordered left-to-right according to when they appeared.
+				"""
+				label = text.get('label', '')
+				if label and label not in drawn_labels:
+					drawn_labels.append(label)
+					label = self._draw_token(
+						label, text.get('style', {}), 0, line,
+						wordspacing, linespacing, va='top', *args, **kwargs
+					)
+					line_labels.append(label)
+
+			"""
+			Re-align the legend.
+			"""
+			offset = 0
+			for token in line_labels[::-1]:
+				bb = util.get_bb(figure, axis, token)
+				offset += bb.width + wordspacing * 2
+				token.set_position((- wordspacing * 4 - offset, bb.y1))
+
+	def _draw_token(self, text, style, offset, line, wordspacing, linespacing, *args, **kwargs):
+		"""
+		Draw the token on the plot.
+
+		:param text: The text token to draw.
+		:type text: str
+		:param style: The style information for the token.
+		:type style: dict
+		:param offset: The token's offset.
+		:type offset: float
+		:param line: The line number of the token.
+		:type line: int
+		:param wordspacing: The space between words.
+		:type wordspacing: float
+		:param linespacing: The space between lines.
+		:type linespacing: float
+
+		:return: The drawn text box.
+		:rtype: :class:`matplotlib.text.Text`
+		"""
+
+		axis = self.drawable.axis
+
+		kwargs.update(style)
+		"""
+		Some styling are set specifically for the bbox.
+		"""
+		bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' }
+		for arg in bbox_kwargs:
+			if arg in kwargs:
+				bbox_kwargs[arg] = kwargs.get(arg)
+				del kwargs[arg]
+
+		"""
+		The bbox's padding is calculated in pixels.
+		Therefore it is transformed from the provided axis coordinates to pixels.
+		"""
+		wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
+						  axis.transData.transform((0, 0))[0])
+		text = axis.text(offset, line * linespacing, text,
+						 bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
+						 *args, **kwargs)
+		return text
