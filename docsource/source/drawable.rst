@@ -32,6 +32,9 @@ To learn more about how Multiplex works, keep reading the documentation.
 If all you want is to get your hands dirty, take a look at the `examples <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_ directory.
 Happy visualizing!
 
+Drawable
+========
+
 .. automodule:: drawable
    :members:
    :private-members:
