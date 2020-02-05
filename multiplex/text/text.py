@@ -1,12 +1,12 @@
 """
 The :class:`text.text.TextAnnotation` class is mainly concerned with organizing text.
-You can do just about anything with these visualizations, including—unsurprisingly enough—annotating the text.
+You can do just about anything with these visualizations, including annotating the text.
 
-To start creating time series visualizations, create a :class:`timeseries.timeseries.TimeSeries` instance and call the :meth:`timeseries.timeseries.TimeSeries.draw` method.
-If you are using the :class:`drawable.Drawable` class, just call the :meth:`drawable.Drawable.draw_time_series` method on a :class:`drawable.Drawable` instance instead.
+To start creating text visualizations, create a :class:`multiplex.text.Text` instance and call the :meth:`multiplex.text.Text.draw` method.
+If you are using the :class:`drawable.Drawable` class, just call the :meth:`drawable.Drawable.draw_text_annotation` method on a :class:`drawable.Drawable` instance instead.
 
-This method expects, at the very least, a `list` of text tokens.
-Alternatively, you can provide a `list` of `dict` of tokens containing at least a `text` attribute and any of the other keys:
+This method expects, at the very least, a string.
+Alternatively, you can provide a `list` of text tokens, or a `list` of `dict` of tokens containing at least a `text` attribute and any of the other keys:
 
 .. code-block:: python
 
@@ -60,7 +60,7 @@ class TextAnnotation():
 		Draw the text annotation visualization.
 		The method receives text as a list of tokens and draws them as text.
 
-		The text can be provided either as strings or as dictionaries.
+		The text can be provided either as a string, a list of strings or as dictionaries.
 		If strings are provided, the function converts them into dictionaries.
 		Dictionaries should have the following format:
 
@@ -79,8 +79,8 @@ class TextAnnotation():
 		Any other styling options, common to all tokens, should be provided as keyword arguments.
 
 		:param data: The text data.
-					 The visualization expects a `list` of tokens, or a `list` of `dict` instances as shown above.
-		:type data: list of str or list of dict
+					 The visualization expects a string, a `list` of tokens, or a `list` of `dict` instances as shown above.
+		:type data: str or list of str or list of dict
 		:param wordspacing: The space between words.
 		:type wordspacing: float
 		:param lineheight: The space between lines.
@@ -120,13 +120,6 @@ class TextAnnotation():
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 		axis.axis('off')
-
-		"""
-		If text tokens are provided, convert them into a dictionary.
-		"""
-		for i, token in enumerate(data):
-			if type(token) is str:
-				data[i] = { 'text': token }
 
 		"""
 		Validate the arguments.
