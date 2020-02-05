@@ -1,12 +1,14 @@
 """
-The :class:`text.text.TextAnnotation` class is mainly concerned with organizing text.
-You can do just about anything with these visualizations, including annotating the text.
+The :class:`text.text.TextAnnotation` class is aimed to help you create text-only visualizations with ease.
+As a visualization, it takes care or organizing text, allowing you to create visualizations by providing as little information as a string.
 
 To start creating text visualizations, create a :class:`text.Text` instance and call the :meth:`text.Text.draw` method.
 If you are using the :class:`drawable.Drawable` class, just call the :meth:`drawable.Drawable.draw_text_annotation` method on a :class:`drawable.Drawable` instance instead.
 
-This method expects, at the very least, a string.
-Alternatively, you can provide a `list` of text tokens, or a `list` of `dict` of tokens containing at least a `text` attribute and any of the other keys:
+This method expects, at the very least, a string to draw a visualization.
+However, you can create richer text visualizations by providing additional parameters.
+For example, instead of a string, you can provide a `list` of text tokens to split them however you want.
+Or, you can input a `list` of `dict` of tokens containing at least a `text` attribute and any of the other keys:
 
 .. code-block:: python
 
@@ -20,7 +22,6 @@ Instructions on how the text should be formatted can be passed on to the :meth:`
 Among others, these attributes include alignment and the line height.
 The text can also be styled by passing on any attributes supported by the :class:`matplotlib.text.Text` class.
 The same attributes can be passed on to the `style` key in the code block above.
-You can find examples to help you get started `here <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb>`_.
 """
 
 import os
@@ -264,7 +265,7 @@ class TextAnnotation():
 		"""
 		Move the plot so that it starts from x- and y-coordinate 0.
 		This offsets the legend labels so that they start at 0.
-		
+
 		:param drawn_lines: A list of drawn lines.
 						   The function expects lines to be tuples of legend labels and tokens.
 		:type drawn_lines: list of float
