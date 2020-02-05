@@ -357,13 +357,11 @@ The middle is calculated as the mid-point between the label that is highest and 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries._draw_annotation">
 <code class="sig-name descname">_draw_annotation</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">annotation</em>, <em class="sig-param">marker_style</em>, <em class="sig-param">annotation_style</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._draw_annotation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw the annotation.</p>
+<dd><p>Draw the annotation at the given coordinates.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the annotation.</p></li>
-<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the annotation.</p></li>
-<li><p><strong>annotation</strong> – <p>The annotation to draw.
+<li><p><strong>annotation</strong> (<em>str</em><em> or </em><em>dict</em>) – <p>The annotation to draw.
 The function accepts either a string or a dictionary.
 If a dictionary is provided, it must have the following format:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -374,10 +372,15 @@ If a dictionary is provided, it must have the following format:</p>
 </pre></div>
 </div>
 </p></li>
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the annotation.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the annotation.</p></li>
 <li><p><strong>marker_style</strong> (<em>dict</em>) – A dictionary containing the style that should be applied to the annotation marker.</p></li>
 <li><p><strong>annotation_style</strong> (<em>dict</em>) – A dictionary containing the style that should be applied to the annotations.
 A special key, <cite>wordspacing</cite>, can be set to determine the spacing between words in the annotation.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p>ValueError</p>
 </dd>
 </dl>
 </dd></dl>

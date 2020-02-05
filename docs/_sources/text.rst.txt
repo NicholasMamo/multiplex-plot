@@ -21,6 +21,15 @@ You can also check out the `text visualizations tutorial Jupyter Notebook <https
    :private-members:
    :special-members:
 
+==========
+Annotation
+==========
+
+.. automodule:: text.annotation
+   :members:
+   :private-members:
+   :special-members:
+
 ===============
 Text Annotation
 ===============
