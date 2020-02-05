@@ -147,7 +147,7 @@ class TextAnnotation():
 		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs)
 		tokens = annotation.draw(data, (lpad, axis.get_xlim()[1] - rpad), tpad,
 								 wordspacing=wordspacing, lineheight=lineheight,
-								 align=align, *args, **kwargs)
+								 align=align, va='top', *args, **kwargs)
 
 		"""
 		Draw a legend if it is requested.
@@ -162,7 +162,7 @@ class TextAnnotation():
 		axis.set_ylim(-linespacing, lines * linespacing)
 		axis_height = axis.get_ylim()[1] - axis.get_ylim()[0]
 		axis.set_ylim(axis.get_ylim()[0] - axis_height * tpad, axis.get_ylim()[1])
-		axis.invert_yaxis()
+		axis.set_ylim(-lines * linespacing, tpad + linespacing)
 
 		return tokens
 

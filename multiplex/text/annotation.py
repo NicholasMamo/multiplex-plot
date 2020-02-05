@@ -411,9 +411,9 @@ class Annotation():
 			offset = x_lim[0]
 			for token in tokens:
 				if token.get_text() in punctuation:
-					token.set_position((offset - space * 1.25, line * linespacing))
+					token.set_position((offset - space * 1.25, line * linespacing * ( -1 if va == 'top' else 1)))
 				else:
-					token.set_position((offset, line * linespacing))
+					token.set_position((offset, line * linespacing * ( -1 if va == 'top' else 1)))
 					bb = token.get_bbox_patch()
 					token.set_bbox(dict(
 						facecolor=bb.get_facecolor(), edgecolor=bb.get_edgecolor(),
