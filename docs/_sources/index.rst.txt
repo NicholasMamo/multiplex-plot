@@ -3,6 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. title:
+
+	Multiplex
+
 .. meta::
    :description: Multiplex: visualizations that tell stories
    :keywords: Multiplex, Python, visualizations, data science
@@ -13,6 +17,10 @@
 
 .. image:: ../../examples/exports/3-time-series.png
    :class: example
+
+*********
+Multiplex
+*********
 
 Multiplex is a visualization library for Python built on `matplotlib <https://github.com/matplotlib/matplotlib/>`_.
 Multiplex is built on the principle that visualizations are about exploring and explaining data in a beautiful way.
