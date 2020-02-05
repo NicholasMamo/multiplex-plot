@@ -143,6 +143,7 @@ class TextAnnotation():
 			raise ValueError("The left and right padding should not overlap, received %d left padding and %d right padding" % (lpad, rpad))
 
 		annotation = Annotation(self.drawable)
-		tokens = annotation.draw(data, (lpad, axis.get_xlim()[1] - rpad), tpad, wordspacing=wordspacing,
-						lineheight=lineheight, align=align)
+		tokens = annotation.draw(data, (lpad, axis.get_xlim()[1] - rpad), tpad,
+								 wordspacing=wordspacing, lineheight=lineheight,
+								 align=align, *args, **kwargs)
 		return tokens
