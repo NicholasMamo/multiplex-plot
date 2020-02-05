@@ -348,9 +348,11 @@ class TimeSeries(object):
 			x = (x + x_pad, x + x_lim_width * 0.15)
 		elif ha == 'right':
 			x = (x - x_lim_width * 0.15, x - x_pad)
+		elif ha == 'center':
+			x = (x - x_lim_width * 0.15 / 2., x + x_lim_width * 0.15 / 2.)
 		else:
-			# TODO: complete
-			x = (x - x_lim_width * 0.15, x - x_pad)
+			# TODO: raise exception
+			pass
 
 		y_lim = axis.get_ylim()
 		y_lim_width = y_lim[1] - y_lim[0]
