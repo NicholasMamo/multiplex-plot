@@ -79,9 +79,6 @@ def get_linespacing(figure, axis, wordspacing=0, *args, **kwargs):
 
 	"""
 	Draw a dummy token first.
-	"""
-
-	"""
 	Some styling are set specifically for the bbox.
 	"""
 	bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' }

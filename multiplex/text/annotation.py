@@ -137,8 +137,8 @@ class Annotation():
 		:rtype: list of :class:`matplotlib.text.Text`
 		"""
 
-		axis = self.drawable.axis
 		figure = self.drawable.figure
+		axis = self.drawable.axis
 
 		punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
 
@@ -146,7 +146,7 @@ class Annotation():
 		Go through each token and draw it on the axis.
 		"""
 		drawn_lines = []
-		linespacing = self._get_linespacing(*args, **kwargs) * lineheight
+		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs) * lineheight
 		offset, lines = x[0], 0
 		line_tokens, labels, line_labels = [], [], []
 		for token in tokens:
@@ -194,30 +194,6 @@ class Annotation():
 		)
 
 		return drawn_lines
-
-	def _get_linespacing(self, *args, **kwargs):
-		"""
-		Calculate the line spacing.
-		The line spacing is calculated by creating a token and getting its height.
-		The token is immediately removed.
-		The token's styling have to be provided as keyword arguments.
-
-		:return: The line spacing.
-		:rtype: float
-		"""
-
-		axis = self.drawable.axis
-		figure = self.drawable.figure
-
-		"""
-		Draw a dummy token and get its height.
-		Then, remove that token.
-		"""
-		token = self._draw_token('None', {}, 0, 0, 0, 0, *args, **kwargs)
-		bb = util.get_bb(figure, axis, token)
-		height = bb.height
-		token.remove()
-		return height
 
 	def _draw_token(self, text, style, offset, line, wordspacing, linespacing, *args, **kwargs):
 		"""

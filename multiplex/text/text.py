@@ -117,6 +117,7 @@ class TextAnnotation():
 		:raises: ValueError
 		"""
 
+		figure = self.drawable.figure
 		axis = self.drawable.axis
 		axis.axis('off')
 
@@ -152,78 +153,10 @@ class TextAnnotation():
 		The axis and the figure are made to fit the text tightly.
 		"""
 		lines = len(tokens)
-		linespacing = self._get_linespacing()
+		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs)
 		axis.set_ylim(-linespacing, lines * linespacing)
 		axis_height = axis.get_ylim()[1] - axis.get_ylim()[0]
 		axis.set_ylim(axis.get_ylim()[0] - axis_height * tpad, axis.get_ylim()[1])
 		axis.invert_yaxis()
 
 		return tokens
-
-	def _get_linespacing(self, *args, **kwargs):
-		"""
-		Calculate the line spacing.
-		The line spacing is calculated by creating a token and getting its height.
-		The token is immediately removed.
-		The token's styling have to be provided as keyword arguments.
-
-		:return: The line spacing.
-		:rtype: float
-		"""
-
-		axis = self.drawable.axis
-		figure = self.drawable.figure
-
-		"""
-		Draw a dummy token and get its height.
-		Then, remove that token.
-		"""
-		token = self._draw_token('None', {}, 0, 0, 0, 0, *args, **kwargs)
-		bb = util.get_bb(figure, axis, token)
-		height = bb.height
-		token.remove()
-		return height
-
-	def _draw_token(self, text, style, offset, line, wordspacing, linespacing, *args, **kwargs):
-		"""
-		Draw the token on the plot.
-
-		:param text: The text token to draw.
-		:type text: str
-		:param style: The style information for the token.
-		:type style: dict
-		:param offset: The token's offset.
-		:type offset: float
-		:param line: The line number of the token.
-		:type line: int
-		:param wordspacing: The space between words.
-		:type wordspacing: float
-		:param linespacing: The space between lines.
-		:type linespacing: float
-
-		:return: The drawn text box.
-		:rtype: :class:`matplotlib.text.Text`
-		"""
-
-		axis = self.drawable.axis
-
-		kwargs.update(style)
-		"""
-		Some styling are set specifically for the bbox.
-		"""
-		bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' }
-		for arg in bbox_kwargs:
-			if arg in kwargs:
-				bbox_kwargs[arg] = kwargs.get(arg)
-				del kwargs[arg]
-
-		"""
-		The bbox's padding is calculated in pixels.
-		Therefore it is transformed from the provided axis coordinates to pixels.
-		"""
-		wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
-						  axis.transData.transform((0, 0))[0])
-		text = axis.text(offset, line * linespacing, text,
-						 bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
-						 *args, **kwargs)
-		return text
