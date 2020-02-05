@@ -190,7 +190,7 @@ class Annotation():
 				self._newline(line_tokens, drawn_lines, linespacing, x[0], y, va)
 				self._align(
 					line_tokens, lines, wordspacing, linespacing,
-					self._get_alignment(align), x
+					self._get_alignment(align), x_lim=x, va=va
 				)
 				offset, lines = x[0], lines + 1
 				line_tokens = [ text ]
@@ -203,7 +203,7 @@ class Annotation():
 		drawn_lines.append(line_tokens)
 		self._align(
 			line_tokens, lines, wordspacing, linespacing,
-			self._get_alignment(align, last=True), x
+			self._get_alignment(align, last=True), x_lim=x, va=va
 		)
 
 		return drawn_lines
@@ -330,7 +330,7 @@ class Annotation():
 			return alignment[0] if alignment[0] else alignment[1]
 
 	def _align(self, tokens, line, wordspacing, linespacing, align='left',
-			   x_lim=None, *args, **kwargs):
+			   x_lim=None, va='top', *args, **kwargs):
 		"""
 		Organize the line tokens.
 		This function is used when the line overflows.
@@ -358,6 +358,10 @@ class Annotation():
 					  If it is not given, the axis' x-limit is used instead.
 					  The x-limit is a tuple limiting the start and end.
 		:type x_lim: tuple
+		:param va: The vertical alignment, can be one of `top` or `bottom`.
+				   If the vertical alignment is `bottom`, the annotation grows up.
+				   If the vertical alignment is `top`, the annotation grows down.
+		:type va: str
 
 		:raises: ValueError
 		"""
@@ -426,7 +430,7 @@ class Annotation():
 				for token in tokens[::-1]:
 					bb = util.get_bb(figure, axis, token)
 					offset += bb.width
-					token.set_position((x_lim[1] - offset, bb.y1))
+					token.set_position((x_lim[1] - offset, bb.y1 if va == 'top' else bb.y0))
 
 					"""
 					Do not add to the offset if the token is a punctuation mark.
@@ -445,6 +449,6 @@ class Annotation():
 
 				for token in tokens:
 					bb = util.get_bb(figure, axis, token)
-					token.set_position((bb.x0 + offset, bb.y1))
+					token.set_position((bb.x0 + offset, bb.y1 if va == 'top' else bb.y0))
 		else:
 			raise ValueError("Unsupported alignment %s" % align)
