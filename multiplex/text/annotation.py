@@ -134,7 +134,7 @@ class Annotation():
 
 		:return: The drawn lines.
 				 Each line is made up of the text tokens.
-		:rtype: list of :class:`matplotlib.text.Text`
+		:rtype: list of list of :class:`matplotlib.text.Text`
 		"""
 
 		figure = self.drawable.figure
