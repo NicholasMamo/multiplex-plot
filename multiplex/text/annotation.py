@@ -34,7 +34,7 @@ class Annotation():
 		self.drawable = drawable
 
 	def draw(self, annotation, x, y, wordspacing=0.005, lineheight=1.25,
-			 align='left', *args, **kwargs):
+			 align='left', va='top', *args, **kwargs):
 		"""
 		Draw the text annotation visualization.
 		The method receives text as a list of tokens and draws them as text.
@@ -82,6 +82,10 @@ class Annotation():
 					    - justify-center
 					    - justify-end or (justify-right)
 		:type align: str
+		:param va: The vertical alignment, can be one of `top` or `bottom`.
+				   If the vertical alignment is `bottom`, the annotation grows up.
+				   If the vertical alignment is `top`, the annotation grows down.
+		:type va: str
 
 		:return: The drawn annotation's lines.
 				 The second list in each tuple is the list of actual tokens.
@@ -103,9 +107,9 @@ class Annotation():
 			if type(token) is str:
 				tokens[i] = { 'text': token }
 
-		return self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, *args, **kwargs)
+		return self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs)
 
-	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, *args, **kwargs):
+	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs):
 		"""
 		Draw the tokens on the plot.
 
@@ -131,6 +135,10 @@ class Annotation():
 					    - justify-center
 					    - justify-end or (justify-right)
 		:type align: str
+		:param va: The vertical alignment, can be one of `top` or `bottom`.
+				   If the vertical alignment is `bottom`, the annotation grows up.
+				   If the vertical alignment is `top`, the annotation grows down.
+		:type va: str
 
 		:return: The drawn lines.
 				 Each line is made up of the text tokens.
@@ -161,7 +169,7 @@ class Annotation():
 			"""
 			text = self._draw_token(
 				token.get('text'), token.get('style', {}), offset, lines,
-				wordspacing, linespacing, va='top', *args, **kwargs
+				wordspacing, linespacing, va=va, *args, **kwargs
 			)
 			line_tokens.append(text)
 

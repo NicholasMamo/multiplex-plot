@@ -359,7 +359,7 @@ class TimeSeries(object):
 
 		annotation_ = Annotation(self.drawable)
 		wordspacing = annotation_style.pop('wordspacing')
-		tokens = annotation_.draw(annotation_text, x, y, wordspacing)
+		tokens = annotation_.draw(annotation_text, x, y, wordspacing, *args, **annotation_style)
 		return tokens
 
 	def _get_best_ha(self, x):
