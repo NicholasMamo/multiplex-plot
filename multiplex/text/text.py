@@ -145,7 +145,7 @@ class TextAnnotation():
 
 		annotation = Annotation(self.drawable)
 		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs)
-		tokens = annotation.draw(data, (lpad, axis.get_xlim()[1] - rpad), tpad,
+		tokens = annotation.draw(data, (lpad, axis.get_xlim()[1] - rpad), 0,
 								 wordspacing=wordspacing, lineheight=lineheight,
 								 align=align, va='top', *args, **kwargs)
 
