@@ -167,27 +167,32 @@ class Annotation():
 			"""
 			Draw the text token.
 			"""
-			text = self._draw_token(
-				token.get('text'), token.get('style', {}), offset, lines,
-				wordspacing, linespacing, va=va, *args, **kwargs
-			)
+			if va == 'top':
+				text = self._draw_token(
+					token.get('text'), offset, y + lines * linespacing,
+					token.get('style', {}), wordspacing, linespacing, va=va, *args, **kwargs
+				)
+			elif va == 'bottom':
+				text = self._draw_token(
+					token.get('text'), offset, y,
+					token.get('style', {}), wordspacing, linespacing, va=va, *args, **kwargs
+				)
 			line_tokens.append(text)
 
 			"""
-			If the token exceeds the x-limit, break line.
+			If the token exceeds the x-limit, break it into a new line.
 			The offset is reset to the left, and a new line is added.
 			The token is moved to this new line.
 			Lines do not break on certain types of punctuation.
 			"""
 			bb = util.get_bb(figure, axis, text)
 			if bb.x1 > x[1] and token.get('text') not in punctuation:
-				self._newline(line_tokens.pop(-1), lines, linespacing, x[0])
+				self._newline(line_tokens, drawn_lines, linespacing, x[0], y, va)
 				self._align(
 					line_tokens, lines, wordspacing, linespacing,
 					self._get_alignment(align), x
 				)
 				offset, lines = x[0], lines + 1
-				drawn_lines.append(line_tokens)
 				line_tokens = [ text ]
 
 			offset += bb.width + wordspacing
@@ -203,21 +208,23 @@ class Annotation():
 
 		return drawn_lines
 
-	def _draw_token(self, text, style, offset, line, wordspacing, linespacing, *args, **kwargs):
+	def _draw_token(self, text, x, y, style, wordspacing, linespacing, *args, **kwargs):
 		"""
 		Draw the token on the plot.
 
 		:param text: The text token to draw.
 		:type text: str
+		:param x: The x-position of the token.
+		:type x: int
+		:param y: The y-position of the token.
+		:type y: int
 		:param style: The style information for the token.
 		:type style: dict
 		:param offset: The token's offset.
 		:type offset: float
-		:param line: The line number of the token.
-		:type line: int
 		:param wordspacing: The space between words.
 		:type wordspacing: float
-		:param linespacing: The space between lines.
+		:param linespacing: The space betw.
 		:type linespacing: float
 
 		:return: The drawn text box.
@@ -242,26 +249,61 @@ class Annotation():
 		"""
 		wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
 						  axis.transData.transform((0, 0))[0])
-		text = axis.text(offset, line * linespacing, text,
+		text = axis.text(x, y, text,
 						 bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
 						 *args, **kwargs)
 		return text
 
-	def _newline(self, token, line, linespacing, line_start):
+	def _newline(self, line, previous_lines, linespacing, line_start, y, va):
 		"""
 		Create a new line with the given token.
 
 		:param token: The text token to move to the next line.
 		:type token: :class:`matplotlib.text.Text`
-		:param line: The new line number of the token.
-		:type line: int
+		:param line: The latest line.
+		:type line: list of :class:`matplotlib.text.Text`
+		:param previous_lines: The previously-drawn lines.
+		:type previous_lines: list  of list of :class:`matplotlib.text.Text`
 		:param linespacing: The space between lines.
 		:type linespacing: float
 		:param line_start: The x-coordinate where the line starts.
 		:type line_start: float
+		:param y: The starting y-position of the annotation.
+		:type y: float
+		:param va: The vertical alignment, can be one of `top` or `bottom`.
+				   If the vertical alignment is `bottom`, the annotation grows up.
+				   If the vertical alignment is `top`, the annotation grows down.
+		:type va: str
 		"""
 
-		token.set_position((line_start, (line + 1) * linespacing))
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		if va == 'bottom':
+			"""
+			Move the token into a new line.
+			"""
+			token = line.pop(-1)
+			bb = util.get_bb(figure, axis, token)
+			token.set_position((line_start, y))
+
+			"""
+			Go through the previous lines and push them up.
+			"""
+			previous_lines.append(line)
+			for line, previous_line in enumerate(previous_lines[::-1]):
+				for token in previous_line:
+					position = token.get_position()
+					bb = util.get_bb(figure, axis, token)
+					token.set_position((position[0], y + (line + 1) * linespacing))
+		elif va == 'top':
+			"""
+			Make a new line out of the last token.
+			"""
+			token = line.pop(-1)
+			bb = util.get_bb(figure, axis, token)
+			token.set_position((line_start, (len(previous_lines) + 1) * linespacing))
+			previous_lines.append(line)
 
 	def _get_alignment(self, align, last=False):
 		"""
