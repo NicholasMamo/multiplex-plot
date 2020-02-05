@@ -323,6 +323,8 @@ class TimeSeries(object):
 		:param annotation_style: A dictionary containing the style that should be applied to the annotations.
 								 A special key, `wordspacing`, can be set to determine the spacing between words in the annotation.
 		:type annotation_style: dict
+
+		:raises: ValueError
 		"""
 
 		figure = self.drawable.figure
@@ -351,8 +353,7 @@ class TimeSeries(object):
 		elif ha == 'center':
 			x = (x - x_lim_width * 0.15 / 2., x + x_lim_width * 0.15 / 2.)
 		else:
-			# TODO: raise exception
-			pass
+			raise ValueError(f"Unsupported horizontal alignment: {ha}")
 
 		y_lim = axis.get_ylim()
 		y_lim_width = y_lim[1] - y_lim[0]
@@ -362,8 +363,7 @@ class TimeSeries(object):
 		elif va == 'bottom':
 			y += y_pad
 		else:
-			# TODO: complete
-			y += y_pad
+			raise ValueError(f"Unsupported vertical alignment: {va}")
 
 		annotation_text = annotation if type(annotation) is str else annotation.get('text')
 		annotation_ = Annotation(self.drawable)
