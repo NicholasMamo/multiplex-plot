@@ -334,9 +334,9 @@ class TimeSeries(object):
 		"""
 		Calculate the best horizontal and vertical alignments.
 		"""
-		ha, va = annotation_style.pop('ha', self._get_best_ha(x)), annotation_style.pop('va', self._get_best_va(y))
-		annotation_style['va'] = annotation_style.pop('va', va)
 		annotation_style.update(annotation.get('annotation_style', {}))
+		ha, va = annotation_style.pop('ha', self._get_best_ha(x)), annotation_style.pop('va', self._get_best_va(y))
+		annotation_style['va'] = va
 
 		"""
 		Add some padding to the annotations based on the horizontal alignment.
