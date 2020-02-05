@@ -169,7 +169,7 @@ class Annotation():
 			"""
 			if va == 'top':
 				text = self._draw_token(
-					token.get('text'), offset, y + lines * linespacing,
+					token.get('text'), offset, y - lines * linespacing,
 					token.get('style', {}), wordspacing, linespacing, va=va, *args, **kwargs
 				)
 			elif va == 'bottom':
@@ -302,7 +302,7 @@ class Annotation():
 			"""
 			token = line.pop(-1)
 			bb = util.get_bb(figure, axis, token)
-			token.set_position((line_start, (len(previous_lines) + 1) * linespacing))
+			token.set_position((line_start, y - (len(previous_lines) + 1) * linespacing))
 			previous_lines.append(line)
 
 	def _get_alignment(self, align, last=False):
