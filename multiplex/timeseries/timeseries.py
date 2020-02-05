@@ -19,6 +19,8 @@ import sys
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 import util
 
+from text.annotation import Annotation
+
 class TimeSeries(object):
 	"""
 	The :class:`timeseries.timeseries.TimeSeries` class borrows heavily on matplotlib's `plot` function.
@@ -298,12 +300,8 @@ class TimeSeries(object):
 
 	def _draw_annotation(self, x, y, annotation, marker_style, annotation_style, *args, **kwargs):
 		"""
-		Draw the annotation.
+		Draw the annotation at the given coordinates.
 
-		:param x: The x-coordinate of the annotation.
-		:type x: float
-		:param y: The y-coordinate of the annotation.
-		:type y: float
 		:param annotation: The annotation to draw.
 						   The function accepts either a string or a dictionary.
 						   If a dictionary is provided, it must have the following format:
@@ -315,6 +313,11 @@ class TimeSeries(object):
 								 'annotation_style': { },
 								 'text': 'annotation',
 							   }
+		:type annotation: str or dict
+		:param x: The x-coordinate of the annotation.
+		:type x: float
+		:param y: The y-coordinate of the annotation.
+		:type y: float
 		:param marker_style: A dictionary containing the style that should be applied to the annotation marker.
 		:type marker_style: dict
 		:param annotation_style: A dictionary containing the style that should be applied to the annotations.
@@ -325,18 +328,13 @@ class TimeSeries(object):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		if type(annotation) is str:
-			annotation = { 'text': annotation }
-
 		marker_style.update(annotation.get('marker_style', {}))
 		axis.plot(x, y, *args, **marker_style)
 
 		"""
-		Draw the annotation.
-		First, the best horizontal and vertical alignments are calculated.
+		Calculate the best horizontal and vertical alignments.
 		"""
 		ha, va = self._get_best_ha(x), self._get_best_va(y)
-		annotation_style['ha'] = annotation_style.get('ha', ha)
 		annotation_style['va'] = annotation_style.get('va', va)
 		annotation_style.update(annotation.get('annotation_style', {}))
 		ha, va = annotation_style.get('ha'), annotation_style.get('va')
@@ -346,52 +344,23 @@ class TimeSeries(object):
 		"""
 		x_lim = axis.get_xlim()
 		x_lim_width = x_lim[1] - x_lim[0]
-		x_pad = x_lim_width * 0.01 if ha == 'left' else - x_lim_width * 0.01
-		x += x_pad
+		x_pad = x_lim_width * 0.01
+		if ha == 'left':
+			x = (x + x_pad, x + x_lim_width * 0.15)
+		else:
+			x = (x - x_lim_width * 0.15, x - x_pad)
 
 		y_lim = axis.get_ylim()
 		y_lim_width = y_lim[1] - y_lim[0]
 		y_pad = y_lim_width * 0.01
 		y += y_pad
 
-		"""
-		Split the text into tokens.
-		This allows the annotation to break lines if necessary.
-		If the text is to be on the left, draw the tokens in reverse.
-		"""
-		tokens = annotation.get('text').split()
-		if annotation_style.get('ha') == 'right':
-			tokens = tokens[::-1]
+		annotation_text = annotation if type(annotation) is str else annotation.get('text')
 
-		"""
-		Draw the tokens one after the other.
-		"""
-		lines, line_tokens = [], []
-		x_offset = x
+		annotation_ = Annotation(self.drawable)
 		wordspacing = annotation_style.pop('wordspacing')
-		for i, token in enumerate(tokens):
-			token = axis.text(x_offset, y, token, *args, **annotation_style)
-			line_tokens.append(token)
-			bb = util.get_bb(figure, axis, token)
-			width = bb.width + wordspacing
-			x_offset += width if ha == 'left' else - width
-
-			if (((ha == 'right' and (x - x_offset) / x_lim_width >= 0.15) or
-				(ha == 'left' and (x_offset - x) / x_lim_width >= 0.15)) and
-				 i < len(tokens) - 2):
-				lines.append(line_tokens)
-				self._newline(lines, line_tokens, ha, va)
-				x_offset = x
-				line_tokens = []
-
-		"""
-		If any other tokens remain in the last line, make a new line for them.
-		"""
-		if line_tokens:
-			lines.append(line_tokens)
-		self._newline(lines, line_tokens, ha, va)
-		if va == 'bottom':
-			self._remove_empty_line(lines, va)
+		tokens = annotation_.draw(annotation_text, x, y, wordspacing)
+		return tokens
 
 	def _get_best_ha(self, x):
 		"""
