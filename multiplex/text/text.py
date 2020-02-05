@@ -170,7 +170,12 @@ class TextAnnotation():
 		:type wordspacing: float
 		:param linespacing: The space between lines.
 		:type linespacing: float
+
+		:return: A list of lines, each containing a list of labels on that line.
+		:rtype: list of list of :class:`matplotlib.text.Text`
 		"""
+
+		labels = []
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
@@ -205,6 +210,10 @@ class TextAnnotation():
 				bb = util.get_bb(figure, axis, token)
 				offset += bb.width + wordspacing * 2
 				token.set_position((- wordspacing * 4 - offset, bb.y1))
+
+			labels.append(line_labels)
+
+		return labels
 
 	def _draw_token(self, text, style, offset, line, wordspacing, linespacing, *args, **kwargs):
 		"""
