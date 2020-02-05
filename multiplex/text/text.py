@@ -123,6 +123,18 @@ class TextAnnotation():
 		axis.axis('off')
 
 		"""
+		Gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
+		"""
+		if type(data) is str:
+			tokens = data.split()
+		else:
+			tokens = data
+
+		for i, token in enumerate(tokens):
+			if type(token) is str:
+				tokens[i] = { 'text': token }
+
+		"""
 		Validate the arguments.
 		All padding arguments should be non-negative.
 		The left-padding and the right-padding should not overlap.
@@ -139,14 +151,14 @@ class TextAnnotation():
 
 		annotation = Annotation(self.drawable)
 		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs)
-		lines = annotation.draw(data, (lpad, axis.get_xlim()[1] - rpad), 0,
+		lines = annotation.draw(tokens, (lpad, axis.get_xlim()[1] - rpad), 0,
 								 wordspacing=wordspacing, lineheight=lineheight,
 								 align=align, va='top', *args, **kwargs)
 
 		"""
 		Draw a legend if it is requested.
 		"""
-		labels = self._draw_legend(data, lines, wordspacing, linespacing, *args, **kwargs) if with_legend else [] * len(lines)
+		labels = self._draw_legend(tokens, lines, wordspacing, linespacing, *args, **kwargs) if with_legend else [] * len(lines)
 		drawn_lines = zip(labels, lines)
 		self._tighten(drawn_lines)
 

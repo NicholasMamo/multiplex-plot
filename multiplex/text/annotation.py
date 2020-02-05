@@ -102,14 +102,14 @@ class Annotation():
 		if type(x) is float:
 			x = (x, self.drawable.axis.get_xlim()[1])
 
+		"""
+		Gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
+		"""
 		if type(annotation) is str:
 			tokens = annotation.split()
 		else:
 			tokens = annotation
 
-		"""
-		If text tokens are provided, convert them into a dictionary.
-		"""
 		for i, token in enumerate(tokens):
 			if type(token) is str:
 				tokens[i] = { 'text': token }
