@@ -193,15 +193,6 @@ class Annotation():
 			self._get_alignment(align, last=True), x
 		)
 
-		"""
-		Re-draw the axis and the figure dimensions.
-		The axis and the figure are made to fit the text tightly.
-		"""
-		axis.set_ylim(-linespacing, lines * linespacing)
-		axis_height = axis.get_ylim()[1] - axis.get_ylim()[0]
-		axis.set_ylim(axis.get_ylim()[0] - axis_height * y, axis.get_ylim()[1])
-		axis.invert_yaxis()
-
 		return drawn_lines
 
 	def _get_linespacing(self, *args, **kwargs):
