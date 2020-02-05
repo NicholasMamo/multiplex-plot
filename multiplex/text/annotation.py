@@ -57,8 +57,8 @@ class Annotation():
 		Any other styling options, common to all tokens, should be provided as keyword arguments.
 
 		:param annotation: The text data.
-						   The visualization expects a `list` of tokens, or a `list` of `dict` instances as shown above.
-		:type annotation: list of str or list of dict
+						   The visualization expects a string, a `list` of tokens, or a `list` of `dict` instances as shown above.
+		:type annotation: str or list of str or list of dict
 		:param x: The x-position of the annotation.
 				  The function expects either a float or a tuple.
 				  If a float is given, it is taken to be the start x-position of the annotation.
@@ -91,14 +91,19 @@ class Annotation():
 		if type(x) is float:
 			x = (x, self.drawable.axis.get_xlim()[1])
 
+		if type(annotation) is str:
+			tokens = annotation.split()
+		else:
+			tokens = annotation
+
 		"""
 		If text tokens are provided, convert them into a dictionary.
 		"""
-		for i, token in enumerate(data):
+		for i, token in enumerate(tokens):
 			if type(token) is str:
-				data[i] = { 'text': token }
+				tokens[i] = { 'text': token }
 
-		return self._draw_tokens(data, wordspacing, lineheight, align,
+		return self._draw_tokens(tokens, wordspacing, lineheight, align,
 								 with_legend, lpad, rpad, tpad, *args, **kwargs)
 
 	def _newline(self, token, line, linespacing, line_start):
