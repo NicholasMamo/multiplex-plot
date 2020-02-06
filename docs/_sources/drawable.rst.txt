@@ -19,14 +19,18 @@ To start working with a :class:`Drawable`, create it from a normal plot:
 
 .. code-block:: python
 
-  viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+	import matplotlib.pyplot as plt
+	from multiplex import drawable
+	viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 
 If you want to plot on a particular axis, or a subplot, create it as follows instead:
 
 .. code-block:: python
 
-  figure, axis = plt.subplots(2, 1, figsize=(10, 10))
-  viz = drawable.Drawable(figure, axis[0])
+	import matplotlib.pyplot as plt
+	from multiplex import drawable
+	figure, axis = plt.subplots(2, 1, figsize=(10, 10))
+	viz = drawable.Drawable(figure, axis[0])
 
 To learn more about how Multiplex works, keep reading the documentation.
 If all you want is to get your hands dirty, take a look at the `examples <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_ directory.
