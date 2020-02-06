@@ -158,6 +158,132 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		self.assertRaises(ValueError, annotation.draw, text, (0, 2), 0, va='top', align='invalid')
 
+	def test_align_top_order(self):
+		"""
+		Test that when the vertical alignment is top, the order of tokens is still correct.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='top')
+
+		self.assertEqual('Memphis', lines[0][0].get_text())
+		self.assertEqual('ground.', lines[-1][-1].get_text())
+
+	def test_align_bottom_order(self):
+		"""
+		Test that when the vertical alignment is bottom, the order of tokens is still correct.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='bottom')
+
+		self.assertEqual('Memphis', lines[0][0].get_text())
+		self.assertEqual('ground.', lines[-1][-1].get_text())
+
+	def test_align_top(self):
+		"""
+		Test that when the alignment is top, all lines are below the provided y-coordinate.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='top')
+
+		bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
+		self.assertEqual(0, bb.y1)
+
+		for line in lines:
+			self.assertLessEqual(0, bb.y1)
+
+	def test_align_bottom(self):
+		"""
+		Test that when the alignment is top, all lines are above the provided y-coordinate.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='bottom')
+
+		bb = util.get_bb(viz.figure, viz.axis, lines[-1][-1])
+		self.assertEqual(0, bb.y0)
+
+		for line in lines:
+			self.assertGreaterEqual(0, bb.y0)
+
+	def test_align_top_line_alignment(self):
+		"""
+		Test that the lines all have the same vertical position when they are aligned to the top.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='top')
+
+		for line in lines:
+			bb = util.get_bb(viz.figure, viz.axis, line[0])
+			y0 = bb.y0
+
+			for token in line:
+				bb = util.get_bb(viz.figure, viz.axis, token)
+				self.assertEqual(y0, bb.y0)
+
+	def test_align_bottom_line_alignment(self):
+		"""
+		Test that the lines all have the same vertical position when they are aligned to the top.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='bottom')
+
+		for line in lines:
+			bb = util.get_bb(viz.figure, viz.axis, line[0])
+			y1 = bb.y1
+
+			for token in line:
+				bb = util.get_bb(viz.figure, viz.axis, token)
+				self.assertEqual(y1, bb.y1)
+
+	def test_align_top_lines_do_not_overlap(self):
+		"""
+		Test that when annotations are vertically aligned to the top, the lines do not overlap.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='top')
+
+		for i in range(0, len(lines) - 1):
+			bb0 = util.get_bb(viz.figure, viz.axis, lines[i][0])
+			bb1 = util.get_bb(viz.figure, viz.axis, lines[i + 1][0])
+
+			self.assertGreaterEqual(bb0.y0, bb1.y1)
+
+	def test_align_bottom_lines_do_not_overlap(self):
+		"""
+		Test that when annotations are vertically aligned to the bottom, the lines do not overlap.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='bottom')
+
+		for i in range(0, len(lines) - 1):
+			bb0 = util.get_bb(viz.figure, viz.axis, lines[i][0])
+			bb1 = util.get_bb(viz.figure, viz.axis, lines[i + 1][0])
+
+			self.assertGreaterEqual(bb0.y0, bb1.y1)
+
 	def _reconstruct_text(self, lines):
 		"""
 		Reconstruct the visualization text from a list of lines.
