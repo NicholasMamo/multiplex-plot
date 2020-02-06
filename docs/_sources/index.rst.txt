@@ -28,7 +28,7 @@ For this reason, Multiplex is built with the intent of making it as easy as poss
 
 .. note::
 
-	This websites documents all of Multiplex's functionality.
+	This website documents all of Multiplex's functionality.
 	If you want to get started right away, check out the `example notebooks <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_.
 
 Multiplex is aimed at data scientists who want to explore and explain data.
