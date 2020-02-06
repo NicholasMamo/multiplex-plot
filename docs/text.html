@@ -361,9 +361,9 @@ If the vertical alignment is <cite>top</cite>, the annotation grows down.</p></l
 </div>
 <div class="section" id="module-text.text">
 <span id="text-annotation"></span><h2>Text Annotation<a class="headerlink" href="#module-text.text" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> class is aimed to help you create text-only visualizations with ease.
+<p>The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> class is aimed to help you create text-only visualizations with ease.
 As a visualization, it takes care or organizing text, allowing you to create visualizations by providing as little information as a string.</p>
-<p>To start creating text visualizations, create a <code class="xref py py-class docutils literal notranslate"><span class="pre">text.Text</span></code> instance and call the <code class="xref py py-meth docutils literal notranslate"><span class="pre">text.Text.draw()</span></code> method.
+<p>To start creating text visualizations, create a <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> instance and call the <a class="reference internal" href="#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TextAnnotation.draw()</span></code></a> method.
 If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> class, just call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_text_annotation" title="drawable.Drawable.draw_text_annotation"><code class="xref py py-meth docutils literal notranslate"><span class="pre">drawable.Drawable.draw_text_annotation()</span></code></a> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> instance instead.</p>
 <p>This method expects, at the very least, a string to draw a visualization:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
@@ -385,7 +385,7 @@ Or, you can input a <cite>list</cite> of <cite>dict</cite> of tokens containing 
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Instructions on how the text should be formatted can be passed on to the <a class="reference internal" href="#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text.text.TextAnnotation.draw()</span></code></a> method.
+<p>Instructions on how the text should be formatted can be passed on to the <a class="reference internal" href="#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">TextAnnotation.draw()</span></code></a> method.
 Among others, these attributes include alignment and the line height.
 The text can also be styled by passing on any attributes supported by the <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code> class.
 The same attributes can be passed on to the <cite>style</cite> key in the code block above.</p>
@@ -397,7 +397,7 @@ The same attributes can be passed on to the <cite>style</cite> key in the code b
 <dt id="text.text.TextAnnotation">
 <em class="property">class </em><code class="sig-prename descclassname">text.text.</code><code class="sig-name descname">TextAnnotation</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class of visualization that allows text annotations.
-The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> is mainly concered with organizing text.</p>
+The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> is mainly concered with organizing text.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><p><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a>) – The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> where the text visualization will be drawn.</p>
