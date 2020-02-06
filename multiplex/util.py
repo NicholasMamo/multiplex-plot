@@ -235,6 +235,6 @@ def align(figure, axis, items, align='left', xpad=0,
 
 			for item in items:
 				bb = get_bb(figure, axis, item)
-				token.set_position((bb.x0 + offset, bb.y1 if va == 'top' else bb.y0))
+				item.set_position((bb.x0 + offset, bb.y1 if va == 'top' else bb.y0))
 	else:
 		raise ValueError("Unsupported alignment %s" % align)
