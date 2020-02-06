@@ -66,3 +66,28 @@ class TestTimeSeries(unittest.TestCase):
 		(line, label, _) = viz.draw_time_series([ x for x in range(0, 4) ],
 												[ y for y in range(5, 9) ], 'A')
 		self.assertEqual(line[0].get_color(), label.get_color())
+
+	def test_label_color(self):
+		"""
+		Test that when a label color is provided, it is used instead of the line' color.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		(line, label, _) = viz.draw_time_series([ x for x in range(0, 4) ],
+												[ y for y in range(5, 9) ],
+												'A', label_style={ 'color': '#FF4477' })
+		self.assertEqual('#FF4477', label.get_color())
+
+	def test_overlapping_labels(self):
+		"""
+		Test that when two labels overlap, the time series distributes them.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		(line, label_1, _) = viz.draw_time_series([ x for x in range(0, 4) ],
+												[ y for y in range(5, 9) ], 'A')
+		(line, label_2, _) = viz.draw_time_series([ x for x in range(0, 4) ],
+												[ y for y in range(5, 9) ], 'A')
+		self.assertEqual(label_1.get_position()[0], label_2.get_position()[0])
+		self.assertFalse(util.overlapping(viz.figure, viz.axis,
+										  label_1, label_2))
