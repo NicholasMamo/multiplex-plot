@@ -1,5 +1,5 @@
 """
-The :class:`text.annotation.Annotation` class is not quite a visualization, but it's an important class nevertheless.
+The :class:`Annotation` class is not quite a visualization, but it's an important class nevertheless.
 This class is used to draw text on any visualization or matplotlib plot.
 For example, it is used in the :class:`timeseries.timeseries.TimeSeries` visualization to draw text on visualizations and explain them better.
 You can also use it on any normal matplotlib plot as long as you wrap it around a :class:`drawable.Drawable`:
@@ -12,11 +12,11 @@ You can also use it on any normal matplotlib plot as long as you wrap it around 
 	annotation = Annotation(viz)
 	lines = annotation.draw('Hello world!', (0, 2), 0)
 
-The :class:`text.annotation.Annotation` class is most prominent in the :class:`text.text.TextAnnotation` class, described further down.
+The :class:`Annotation` class is most prominent in the :class:`text.text.TextAnnotation` class, described further down.
 Text visualizations actually revolve around the basic annotation and use it to create text-only visualizations.
 It also adds some extra functionality to annotations, such as legends.
 
-Look over the :class:`text.annotation.Annotation` class to learn more about what kind of annotations you can create.
+Look over the :class:`Annotation` class to learn more about what kind of annotations you can create.
 If you want to create text-only visualizations, skip ahead to the :class:`text.text.TextAnnotation` class.
 """
 
