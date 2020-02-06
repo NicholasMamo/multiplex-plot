@@ -169,17 +169,17 @@ class TextAnnotation():
 
 		return drawn_lines
 
-	def _draw_legend(self, data, tokens, wordspacing, linespacing, *args, **kwargs):
+	def _draw_legend(self, data, lines, wordspacing, linespacing, *args, **kwargs):
 		"""
-		Draw a legend by iterating through all the data points.
+		Draw a legend by iterating through all the lines.
 		The labels are drawn on the same line as the corresponding token.
 
 		:data: The text data as a dictionary.
 			   This is used to look for `label` attributes.
 		:type data: dict
-		:param tokens: The drawn tokens, separated by lines.
-		:type tokens: list of list of :class:`matplotlib.text.Text`
-		:param wordspacing: The space between words.
+		:param lines: The drawn lines.
+		:type lines: list of list of :class:`matplotlib.text.Text`
+		:param wordspacing: The space between tokens.
 		:type wordspacing: float
 		:param linespacing: The space between lines.
 		:type linespacing: float
@@ -192,32 +192,32 @@ class TextAnnotation():
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
-		lines = len(tokens)
 
+		"""
+		Iterate through each line, and then through each token in that line.
+		"""
 		drawn_labels = []
 		i = 0
-		for line, line_tokens in enumerate(tokens):
+		for line, line_tokens in enumerate(lines):
 			line_labels = []
 			for token in line_tokens:
-				text = data[i]
+				label, style = data[i].get('label', ''), data[i].get('style', { })
 				i += 1
 
 				"""
-				If the token has a label associated with it, draw it on the first instance.
-				The labels are ordered left-to-right according to when they appeared.
+				If the token has a label associated with it, draw it the first time it appears.
 				"""
-				label = text.get('label', '')
 				if label and label not in drawn_labels:
 					drawn_labels.append(label)
-					label = self._draw_token(
-						label, text.get('style', {}), 0, line,
-						wordspacing, linespacing, va='top', *args, **kwargs
-					)
-					line_labels.append(label)
-
+					token = self._draw_token(label, style, 0, line,
+											 wordspacing, linespacing, va='top',
+											 *args, **kwargs)
+					line_labels.append(token)
 
 			"""
-			Re-align the legend.
+			After drawing the labels on each line, re-align the legend.
+			The labels are aligned to the right.
+			They are reversed so that the first label appears on the left.
 			"""
 			util.align(figure, axis, line_labels[::-1], 'right', wordspacing * 4,
 					   (-1, - wordspacing * 4))
