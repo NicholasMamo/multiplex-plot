@@ -16,6 +16,7 @@ import string
 import sys
 
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
+import text_util
 import util
 
 class Annotation():
@@ -170,9 +171,10 @@ class Annotation():
 			When the vertical alignment is bottom, new text is always added to the same place.
 			New lines push previous lines up.
 			"""
-			text = self._draw_token(token.get('text'),
-									offset, y - len(drawn_lines) * linespacing if va == 'top' else y,
-									token.get('style', {}), wordspacing, linespacing, va=va, *args, **kwargs)
+			text = text_util.draw_token(figure, axis, token.get('text'), offset,
+										y - len(drawn_lines) * linespacing if va == 'top' else y,
+										token.get('style', {}), wordspacing, va=va,
+										*args, **kwargs)
 			line_tokens.append(text)
 
 			"""
@@ -202,52 +204,6 @@ class Annotation():
 				   align=util.get_alignment(align, end=True), xlim=x, va=va)
 
 		return drawn_lines
-
-	def _draw_token(self, text, x, y, style, wordspacing, linespacing, *args, **kwargs):
-		"""
-		Draw the token on the plot.
-
-		:param text: The text token to draw.
-		:type text: str
-		:param x: The x-position of the token.
-		:type x: int
-		:param y: The y-position of the token.
-		:type y: int
-		:param style: The style information for the token.
-		:type style: dict
-		:param offset: The token's offset.
-		:type offset: float
-		:param wordspacing: The space between words.
-		:type wordspacing: float
-		:param linespacing: The space betw.
-		:type linespacing: float
-
-		:return: The drawn text box.
-		:rtype: :class:`matplotlib.text.Text`
-		"""
-
-		axis = self.drawable.axis
-
-		kwargs.update(style)
-		"""
-		Some styling are set specifically for the bbox.
-		"""
-		bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' }
-		for arg in bbox_kwargs:
-			if arg in kwargs:
-				bbox_kwargs[arg] = kwargs.get(arg)
-				del kwargs[arg]
-
-		"""
-		The bbox's padding is calculated in pixels.
-		Therefore it is transformed from the provided axis coordinates to pixels.
-		"""
-		wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
-						  axis.transData.transform((0, 0))[0])
-		text = axis.text(x, y, text,
-						 bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
-						 *args, **kwargs)
-		return text
 
 	def _newline(self, line, previous_lines, linespacing, x, y, va):
 		"""

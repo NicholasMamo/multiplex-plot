@@ -30,6 +30,7 @@ import re
 
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '.'))
+import text_util
 import util
 
 from annotation import Annotation
@@ -209,9 +210,9 @@ class TextAnnotation():
 				"""
 				if label and label not in drawn_labels:
 					drawn_labels.append(label)
-					token = self._draw_token(label, style, 0, line,
-											 wordspacing, linespacing, va='top',
-											 *args, **kwargs)
+					token = text_util.draw_token(figure, axis, label, 0, line,
+												  style, wordspacing, va='top',
+												  *args, **kwargs)
 					line_labels.append(token)
 
 			"""
@@ -225,50 +226,6 @@ class TextAnnotation():
 			labels.append(line_labels)
 
 		return labels
-
-	def _draw_token(self, text, style, offset, line, wordspacing, linespacing, *args, **kwargs):
-		"""
-		Draw the token on the plot.
-
-		:param text: The text token to draw.
-		:type text: str
-		:param style: The style information for the token.
-		:type style: dict
-		:param offset: The token's offset.
-		:type offset: float
-		:param line: The line number of the token.
-		:type line: int
-		:param wordspacing: The space between words.
-		:type wordspacing: float
-		:param linespacing: The space between lines.
-		:type linespacing: float
-
-		:return: The drawn text box.
-		:rtype: :class:`matplotlib.text.Text`
-		"""
-
-		axis = self.drawable.axis
-
-		kwargs.update(style)
-		"""
-		Some styling are set specifically for the bbox.
-		"""
-		bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' }
-		for arg in bbox_kwargs:
-			if arg in kwargs:
-				bbox_kwargs[arg] = kwargs.get(arg)
-				del kwargs[arg]
-
-		"""
-		The bbox's padding is calculated in pixels.
-		Therefore it is transformed from the provided axis coordinates to pixels.
-		"""
-		wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
-						  axis.transData.transform((0, 0))[0])
-		text = axis.text(offset, line * linespacing, text,
-						 bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
-						 *args, **kwargs)
-		return text
 
 	def _tighten(self, drawn_lines):
 		"""
