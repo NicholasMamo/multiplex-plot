@@ -13,7 +13,6 @@ If you want to create text-only visualizations, skip ahead to the :class:`text.t
 
 import os
 import sys
-import re
 
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 import util
@@ -196,7 +195,7 @@ class Annotation():
 			if bb.x1 > x[1] and token.get('text') not in punctuation:
 				self._newline(line_tokens, drawn_lines, linespacing, x[0], y, va)
 				util.align(figure, axis, line_tokens, xpad=wordspacing,
-						   align=self._get_alignment(align), xlim=x, va=va)
+						   align=util.get_alignment(align), xlim=x, va=va)
 				offset, lines = x[0], lines + 1
 				line_tokens = [ text ]
 
@@ -207,7 +206,7 @@ class Annotation():
 		"""
 		drawn_lines.append(line_tokens)
 		util.align(figure, axis, line_tokens, xpad=wordspacing,
-				   align=self._get_alignment(align, last=True), xlim=x, va=va)
+				   align=util.get_alignment(align, end=True), xlim=x, va=va)
 
 		return drawn_lines
 
@@ -307,27 +306,3 @@ class Annotation():
 			bb = util.get_bb(figure, axis, token)
 			token.set_position((line_start, y - (len(previous_lines) + 1) * linespacing))
 			previous_lines.append(line)
-
-	def _get_alignment(self, align, last=False):
-		"""
-		Get the proper alignment value for the current line.
-
-		:param align: The provided alignment value.
-		:type align: str
-		:param last: A boolean indicating whether this is the last line.
-					 If it is the last line, alignments like `justify-left` transform into `left`.
-					 Otherwise, `justify` is returned.
-		:type last: bool
-
-		:return: The alignment value for the current line.
-		:rtype: str
-		"""
-
-		align = align.lower()
-		map = { 'start': 'left', 'end': 'right' }
-
-		alignment = re.findall('(justify)?-?(.+?)$', align)[0]
-		if last:
-			return 'left' if alignment[1] == 'justify' else map.get(alignment[1], alignment[1])
-		else:
-			return alignment[0] if alignment[0] else alignment[1]

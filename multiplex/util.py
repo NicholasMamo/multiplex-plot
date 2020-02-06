@@ -2,6 +2,8 @@
 A set of utility functions that are common to all types of visualizations.
 """
 
+import re
+
 def get_bb(figure, axis, component, transform=None):
 	"""
 	Get the bounding box of the given component.
@@ -103,6 +105,32 @@ def get_linespacing(figure, axis, wordspacing=0, *args, **kwargs):
 	height = bb.height
 	token.remove()
 	return height
+
+def get_alignment(align, end=False):
+	"""
+	Get the proper alignment value for the current line.
+	This is mainly used for justification values.
+	Since the last line of justified items is aligned differently, this function extracts the appropriate value.
+
+	:param align: The provided alignment value.
+	:type align: str
+	:param end: A boolean indicating whether this is the end of the group of items to be aligned.
+				 If it is the end line, alignments like `justify-left` transform into `left`.
+				 Otherwise, `justify` is returned.
+	:type end: bool
+
+	:return: The alignment value for the current line.
+	:rtype: str
+	"""
+
+	align = align.lower()
+	map = { 'start': 'left', 'end': 'right' }
+
+	alignment = re.findall('(justify)?-?(.+?)$', align)[0]
+	if end:
+		return 'left' if alignment[1] == 'justify' else map.get(alignment[1], alignment[1])
+	else:
+		return alignment[0] if alignment[0] else alignment[1]
 
 def align(figure, axis, items, align='left', xpad=0,
 		  xlim=None, va='top', *args, **kwargs):
