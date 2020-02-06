@@ -37,3 +37,32 @@ class TestTimeSeries(unittest.TestCase):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		self.assertRaises(ValueError, viz.draw_time_series, [ 1 ] * 4, [ 1 ] * 5)
+
+	def test_minimum_number_of_points(self):
+		"""
+		Test that the number of x-coordinates and y-coordinates must not be zero.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertRaises(ValueError, viz.draw_time_series, [ ], [ ])
+
+	def test_label(self):
+		"""
+		Test that when a label is provided to the time series, it is added at the end.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		(line, label, _) = viz.draw_time_series([ x for x in range(0, 4) ],
+												[ y for y in range(5, 9) ], 'A')
+		self.assertLessEqual(3, label.get_position()[0])
+		self.assertEqual(8, label.get_position()[1])
+
+	def test_default_label_color(self):
+		"""
+		Test that when a label is provided to the time series without a style, the default color is the same as the line's.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		(line, label, _) = viz.draw_time_series([ x for x in range(0, 4) ],
+												[ y for y in range(5, 9) ], 'A')
+		self.assertEqual(line[0].get_color(), label.get_color())

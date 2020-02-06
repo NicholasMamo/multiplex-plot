@@ -98,9 +98,20 @@ class TimeSeries(object):
 		:raises: ValueError
 		"""
 
+		"""
+		Validate the arguments.
+		A non-zero number of points need to be provided.
+		The number of x-coordinates and y-coordinates need to be equal.
+		"""
 		if len(x) != len(y):
 			raise ValueError("The number of x-coordinates and y-coordinates must be equal; received %d x-coordinates and %d y-coordinates" % (len(x), len(y)))
 
+		if not len(x) or not len(y):
+			raise ValueError("The time series needs a positive number of points")
+
+		"""
+		Plot the time series first.
+		"""
 		axis = self.drawable.axis
 		line = axis.plot(x, y, *args, **kwargs)
 
