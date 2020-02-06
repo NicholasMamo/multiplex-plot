@@ -62,7 +62,7 @@ class TestTextAnnotation(unittest.TestCase):
 			y = 0
 			bb = util.get_bb(viz.figure, viz.axis, tokens[0])
 			if i > 0:
-				self.assertLessEqual(y, bb.y0)
+				self.assertGreaterEqual(y, bb.y0)
 
 			y = bb.y1
 
