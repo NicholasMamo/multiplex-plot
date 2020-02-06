@@ -7,6 +7,18 @@ This class builds on matplotlib's plotting and introduces more functionality.
 
 For example, Multiplex time series do not have a legend by default.
 Instead, to aid readability, the line's label is added to the end of the plot.
+Creating a time series is very easy:
+
+.. code-block:: python
+
+	import matplotlib.pyplot as plt
+	from multiplex import drawable
+	viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+	viz.draw_time_series(range(0, 10), range(0, 10),
+	                     color='#F6B913', linewidth=2,
+	                     label='A', label_style={ 'fontweight': '500' })
+
+You can keep calling the :meth:`drawable.Drawable.draw_time_series` function on the same :class:`drawable.Drawable` instance to draw on the same plot.
 Multiplex also supports annotations, making it easier to tell a story through time series.
 
 To start creating time series visualizations, create a :class:`timeseries.timeseries.TimeSeries` instance and call the :meth:`timeseries.timeseries.TimeSeries.draw` method.
