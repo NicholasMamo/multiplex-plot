@@ -1,5 +1,5 @@
 """
-The :class:`timeseries.timeseries.TimeSeries` class borrows heavily from matplotlib's `plot` function.
+The :class:`TimeSeries` class borrows heavily from matplotlib's `plot` function.
 This class builds on matplotlib's plotting and introduces more functionality.
 
 .. image:: ../../examples/exports/3-time-series.png
@@ -21,7 +21,7 @@ Creating a time series is very easy:
 You can keep calling the :meth:`drawable.Drawable.draw_time_series` function on the same :class:`drawable.Drawable` instance to draw on the same plot.
 Multiplex also supports annotations, making it easier to tell a story through time series.
 
-To start creating time series visualizations, create a :class:`timeseries.timeseries.TimeSeries` instance and call the :meth:`timeseries.timeseries.TimeSeries.draw` method.
+To start creating time series visualizations, create a :class:`TimeSeries` instance and call the :meth:`TimeSeries.draw` method.
 If you are using the :class:`drawable.Drawable` class, just call the :meth:`drawable.Drawable.draw_time_series` method on a :class:`drawable.Drawable` instance instead.
 """
 
@@ -35,7 +35,7 @@ from text.annotation import Annotation
 
 class TimeSeries(object):
 	"""
-	The :class:`timeseries.timeseries.TimeSeries` class borrows heavily on matplotlib's `plot` function.
+	The :class:`TimeSeries` class borrows heavily on matplotlib's `plot` function.
 	This class builds on matplotlib's plotting and introduces more functionality.
 
 	For example, Multiplex's time series have no legend.
