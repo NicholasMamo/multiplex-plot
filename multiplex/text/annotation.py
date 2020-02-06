@@ -12,6 +12,7 @@ If you want to create text-only visualizations, skip ahead to the :class:`text.t
 """
 
 import os
+import string
 import sys
 
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
@@ -154,8 +155,6 @@ class Annotation():
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
-
 		"""
 		Go through each token and draw it on the axis.
 		"""
@@ -164,12 +163,6 @@ class Annotation():
 		offset, lines = x[0], 0
 		line_tokens = []
 		for token in tokens:
-			"""
-			If the token is a punctuation mark, do not add wordspacing to it.
-			"""
-			if token.get('text') in punctuation:
-				offset -= wordspacing * 1.5
-
 			"""
 			Draw the text token.
 			If the vertical alignment is top, the annotation grows downwards: one line after the other.
@@ -186,10 +179,10 @@ class Annotation():
 			If the token exceeds the x-limit, break it into a new line.
 			The offset is reset to the left, and a new line is added.
 			The token is moved to this new line.
-			Lines do not break on certain types of punctuation.
+			Lines do not break on punctuation marks.
 			"""
 			bb = util.get_bb(figure, axis, text)
-			if bb.x1 > x[1] and token.get('text') not in punctuation:
+			if bb.x1 > x[1] and token.get('text') not in string.punctuation:
 				self._newline(line_tokens, drawn_lines, linespacing, x[0], y, va)
 				util.align(figure, axis, line_tokens, xpad=wordspacing,
 						   align=util.get_alignment(align), xlim=x, va=va)
