@@ -195,10 +195,8 @@ class Annotation():
 			bb = util.get_bb(figure, axis, text)
 			if bb.x1 > x[1] and token.get('text') not in punctuation:
 				self._newline(line_tokens, drawn_lines, linespacing, x[0], y, va)
-				self._align(
-					line_tokens, lines, wordspacing, linespacing,
-					self._get_alignment(align), x_lim=x, va=va
-				)
+				util.align(figure, axis, line_tokens, xpad=wordspacing,
+						   align=self._get_alignment(align), xlim=x, va=va)
 				offset, lines = x[0], lines + 1
 				line_tokens = [ text ]
 
@@ -208,10 +206,8 @@ class Annotation():
 		Align the last line.
 		"""
 		drawn_lines.append(line_tokens)
-		self._align(
-			line_tokens, lines, wordspacing, linespacing,
-			self._get_alignment(align, last=True), x_lim=x, va=va
-		)
+		util.align(figure, axis, line_tokens, xpad=wordspacing,
+				   align=self._get_alignment(align, last=True), xlim=x, va=va)
 
 		return drawn_lines
 
@@ -335,129 +331,3 @@ class Annotation():
 			return 'left' if alignment[1] == 'justify' else map.get(alignment[1], alignment[1])
 		else:
 			return alignment[0] if alignment[0] else alignment[1]
-
-	def _align(self, tokens, line, wordspacing, linespacing, align='left',
-			   x_lim=None, va='top', *args, **kwargs):
-		"""
-		Organize the line tokens.
-		This function is used when the line overflows.
-
-		:param tokens: The list of tokens added to the line.
-		:type tokens: list of :class:`matplotlib.text.Text`
-		:param line: The line number of the tokens.
-		:type line: int
-		:param wordspacing: The space between words.
-		:type wordspacing: float
-		:param linespacing: The space between lines.
-		:type linespacing: float
-		:param align: The text's alignment.
-					  Possible values:
-
-					    - left
-					    - center
-					    - right
-					    - justify
-					    - justify-start (or justify-left)
-					    - justify-center
-					    - justify-end or (justify-right)
-		:type align: str
-		:param x_lim: The x-limit relative to which to align the tokens.
-					  If it is not given, the axis' x-limit is used instead.
-					  The x-limit is a tuple limiting the start and end.
-		:type x_lim: tuple
-		:param va: The vertical alignment, can be one of `top` or `bottom`.
-				   If the vertical alignment is `bottom`, the annotation grows up.
-				   If the vertical alignment is `top`, the annotation grows down.
-		:type va: str
-
-		:raises: ValueError
-		"""
-
-		figure = self.drawable.figure
-		axis = self.drawable.axis
-
-		punctuation = [ ',', '.', '?', '!', '\'', '"', ')' ]
-		x_lim = axis.get_xlim() if x_lim is None else x_lim
-
-		"""
-		If the text is left-aligned or justify, move the last token to the next line.
-
-		Otherwise, if the text is right-aligned, move the last token to the next line.
-		Then align all the tokens in the last line to the right.
-		"""
-		if align == 'left':
-			pass
-		elif align == 'justify':
-			"""
-			If the alignment is justified, add space between text tokens to fill the line.
-			"""
-			text_tokens = [ token for token in tokens if token.get_text() not in punctuation ]
-
-			"""
-			Calculate the total space between tokens.
-
-			Use this space to calculate the total projected space after justification.
-			The process therefore first calculates the space between tokens.
-			Then, it calculates the empty space to fill the line.
-			"""
-			space = 0
-			for i in range(len(text_tokens) - 1):
-				space += (util.get_bb(figure, axis, text_tokens[i + 1]).x0 -
-						  util.get_bb(figure, axis, text_tokens[i]).x1)
-
-			last = util.get_bb(figure, axis, tokens[-1])
-			space = space + x_lim[1] - last.x1
-			space = space / (len(text_tokens) - 1)
-
-			wordspacing_px = (axis.transData.transform((space, 0))[0] -
-							  axis.transData.transform((0, 0))[0])
-
-			"""
-			Re-position the tokens.
-			"""
-			offset = x_lim[0]
-			for token in tokens:
-				if token.get_text() in punctuation:
-					bb = util.get_bb(figure, axis, token)
-					token.set_position((offset - space * 1.25, bb.y1 if va == 'top' else bb.y0))
-				else:
-					bb = util.get_bb(figure, axis, token)
-					token.set_position((offset, bb.y1 if va == 'top' else bb.y0))
-					bb = token.get_bbox_patch()
-					token.set_bbox(dict(
-						facecolor=bb.get_facecolor(), edgecolor=bb.get_edgecolor(),
-						pad=wordspacing_px / 2.))
-					bb = util.get_bb(figure, axis, token)
-					offset += bb.width + space
-		elif align == 'right':
-			if len(tokens):
-				"""
-				Start moving the tokens to the back of the line in reverse.
-				"""
-
-				offset = 0
-				for token in tokens[::-1]:
-					bb = util.get_bb(figure, axis, token)
-					offset += bb.width
-					token.set_position((x_lim[1] - offset, bb.y1 if va == 'top' else bb.y0))
-
-					"""
-					Do not add to the offset if the token is a punctuation mark.
-					"""
-					if token.get_text() not in punctuation:
-						offset += wordspacing
-		elif align == 'center':
-			if len(tokens):
-				"""
-				Calculate the space that is left in the line.
-				Then, halve it and move all tokens by that value.
-				"""
-
-				bb = util.get_bb(figure, axis, tokens[-1])
-				offset = (x_lim[1] - bb.x1)/2.
-
-				for token in tokens:
-					bb = util.get_bb(figure, axis, token)
-					token.set_position((bb.x0 + offset, bb.y1 if va == 'top' else bb.y0))
-		else:
-			raise ValueError("Unsupported alignment %s" % align)
