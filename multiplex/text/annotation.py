@@ -253,20 +253,25 @@ class Annotation():
 						 *args, **kwargs)
 		return text
 
-	def _newline(self, line, previous_lines, linespacing, line_start, y, va):
+	def _newline(self, line, previous_lines, linespacing, x, y, va):
 		"""
 		Create a new line with the given token.
 
-		:param token: The text token to move to the next line.
-		:type token: :class:`matplotlib.text.Text`
+		If the vertical alignment is top, the text grows downwards.
+		Therefore the last token added to the line is added to a new line.
+
+		If the vertical alignment is bottom, the text grows upwards.
+		Therefore all lines are pushed up by one line.
+		The last token added to the line is moved to the start of the line.
+
 		:param line: The latest line.
 		:type line: list of :class:`matplotlib.text.Text`
 		:param previous_lines: The previously-drawn lines.
-		:type previous_lines: list  of list of :class:`matplotlib.text.Text`
+		:type previous_lines: list of list of :class:`matplotlib.text.Text`
 		:param linespacing: The space between lines.
 		:type linespacing: float
-		:param line_start: The x-coordinate where the line starts.
-		:type line_start: float
+		:param x: The x-coordinate where the line starts.
+		:type x: float
 		:param y: The starting y-position of the annotation.
 		:type y: float
 		:param va: The vertical alignment, can be one of `top` or `bottom`.
@@ -278,18 +283,24 @@ class Annotation():
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
+		"""
+		Remove the last token added to the line.
+		This token will make up the new line.
+		The line that was being edited, without this token, is added to the list of previous lines—it is 'retired'.
+		"""
+		token = line.pop(-1)
+		bb = util.get_bb(figure, axis, token)
+		previous_lines.append(line)
+
 		if va == 'bottom':
 			"""
-			Move the token into a new line.
+			Move the last token to the start of the line.
 			"""
-			token = line.pop(-1)
-			bb = util.get_bb(figure, axis, token)
-			token.set_position((line_start, y))
+			token.set_position((x, y))
 
 			"""
 			Go through the previous lines and push them up.
 			"""
-			previous_lines.append(line)
 			for line, previous_line in enumerate(previous_lines[::-1]):
 				for token in previous_line:
 					position = token.get_position()
@@ -297,9 +308,6 @@ class Annotation():
 					token.set_position((position[0], y + (line + 1) * linespacing))
 		elif va == 'top':
 			"""
-			Make a new line out of the last token.
+			Move the last token to a new line.
 			"""
-			token = line.pop(-1)
-			bb = util.get_bb(figure, axis, token)
-			token.set_position((line_start, y - (len(previous_lines) + 1) * linespacing))
-			previous_lines.append(line)
+			token.set_position((x, y - (len(previous_lines) + 1) * linespacing))
