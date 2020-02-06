@@ -120,19 +120,6 @@ class TextAnnotation():
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
-		axis.axis('off')
-
-		"""
-		Gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
-		"""
-		if type(data) is str:
-			tokens = data.split()
-		else:
-			tokens = data
-
-		for i, token in enumerate(tokens):
-			if type(token) is str:
-				tokens[i] = { 'text': token }
 
 		"""
 		Validate the arguments.
@@ -141,14 +128,23 @@ class TextAnnotation():
 		"""
 		if lpad < 0:
 			raise ValueError("The left padding should be between 0 and 1, received %d" % lpad)
+
 		if rpad < 0:
 			raise ValueError("The right padding should be between 0 and 1, received %d" % rpad)
 
 		if lpad + rpad >= 1:
 			raise ValueError("The left and right padding should not overlap, received %d left padding and %d right padding" % (lpad, rpad))
 
+		"""
+		Gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
+		"""
+		tokens = data.split() if type(data) is str else data
+		tokens = [ { 'text': token } if type(token) is str else token for token in tokens ]
+
+		"""
+		Draw the text as an annotation first.
+		"""
 		annotation = Annotation(self.drawable)
-		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs)
 		lines = annotation.draw(tokens, (lpad, axis.get_xlim()[1] - rpad), 0,
 								 wordspacing=wordspacing, lineheight=lineheight,
 								 align=align, va='top', *args, **kwargs)
@@ -156,14 +152,19 @@ class TextAnnotation():
 		"""
 		Draw a legend if it is requested.
 		"""
-		labels = self._draw_legend(tokens, lines, wordspacing, linespacing, *args, **kwargs) if with_legend else [] * len(lines)
-		drawn_lines = zip(labels, lines)
-		self._tighten(drawn_lines)
+		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs)
+		labels = self._draw_legend(tokens, lines, wordspacing, linespacing,
+								   *args, **kwargs) if with_legend else [] * len(lines)
 
 		"""
-		Re-draw the axis and the figure dimensions.
-		The axis and the figure are made to fit the text tightly.
+		The entire visualization is shifted so that the legends start at x-coordinate 0.
+		This way, the title is aligned with the visualization.
+		This process is meant to tighten the layout.
+		The axis is turned off since it has no purpose, and the y-limit is re-calculated.
 		"""
+		drawn_lines = zip(labels, lines)
+		self._tighten(drawn_lines)
+		axis.axis('off')
 		axis.set_ylim(- len(lines) * linespacing, tpad + linespacing)
 
 		return drawn_lines
