@@ -155,13 +155,13 @@ class Annotation():
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
+		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs) * lineheight
+
 		"""
 		Go through each token and draw it on the axis.
 		"""
-		drawn_lines = []
-		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs) * lineheight
+		drawn_lines, line_tokens = [], []
 		offset = x[0]
-		line_tokens = []
 		for token in tokens:
 			"""
 			Draw the text token.
@@ -171,8 +171,8 @@ class Annotation():
 			New lines push previous lines up.
 			"""
 			text = self._draw_token(token.get('text'),
-				offset, y - len(drawn_lines) * linespacing if va == 'top' else y,
-				token.get('style', {}), wordspacing, linespacing, va=va, *args, **kwargs)
+									offset, y - len(drawn_lines) * linespacing if va == 'top' else y,
+									token.get('style', {}), wordspacing, linespacing, va=va, *args, **kwargs)
 			line_tokens.append(text)
 
 			"""
@@ -180,6 +180,9 @@ class Annotation():
 			The offset is reset to the left, and a new line is added.
 			The token is moved to this new line.
 			Lines do not break on punctuation marks.
+
+			Note that lists are passed by reference.
+			Therefore when the last token is removed from drawn lines when create a new line, the change is reflected here.
 			"""
 			bb = util.get_bb(figure, axis, text)
 			if bb.x1 > x[1] and token.get('text') not in string.punctuation:
