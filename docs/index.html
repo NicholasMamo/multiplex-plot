@@ -195,7 +195,9 @@ All of this can be done in a handful of lines:</p>
 5
 6
 7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;styles&#39;</span><span class="p">,</span> <span class="s2">&quot;multiplex.style&quot;</span><span class="p">))</span>
 <span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
 <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit lacus pharetra augue sodales, id porta purus porta. Nam ut euismod risus&#39;</span>
@@ -205,9 +207,9 @@ All of this can be done in a handful of lines:</p>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>The first three lines are standard: they import Multiplex and its style, and create the visualization, which uses the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> class.
-The emphasized lines are all you need to do to draw and style the text, and set the title and caption.
-It takes just 7 lines to create a text-only visualization, including styling.</p>
+<p>The first four lines are standard: they import matplotlib, Multiplex and its style, and create the visualization, which uses the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a> class.
+The next lines are all you need to do to draw and style the text, and set the title and caption.
+It takes just 9 lines to create a text-only visualization, including styling.</p>
 <p>Multiplex abstracts the tedious process of manually programming which elements go where, and lets you create beautiful visualizations with ease.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>

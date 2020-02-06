@@ -49,6 +49,7 @@ All of this can be done in a handful of lines:
 .. code-block:: python
 	:linenos:
 
+	import matplotlib.pyplot as plt
 	from multiplex import drawable
 	plt.style.use(os.path.join(sys.path[0], '..', 'styles', "multiplex.style"))
 	viz = drawable.Drawable(plt.figure(figsize=(10, 1)))
@@ -58,9 +59,9 @@ All of this can be done in a handful of lines:
 	viz.set_caption("It doesn't take much to create text visualizations!")
 	plt.show()
 
-The first three lines are standard: they import Multiplex and its style, and create the visualization, which uses the :class:`drawable.Drawable` class.
-The emphasized lines are all you need to do to draw and style the text, and set the title and caption.
-It takes just 7 lines to create a text-only visualization, including styling.
+The first four lines are standard: they import matplotlib, Multiplex and its style, and create the visualization, which uses the :class:`drawable.Drawable` class.
+The next lines are all you need to do to draw and style the text, and set the title and caption.
+It takes just 9 lines to create a text-only visualization, including styling.
 
 Multiplex abstracts the tedious process of manually programming which elements go where, and lets you create beautiful visualizations with ease.
 
