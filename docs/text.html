@@ -174,7 +174,7 @@
 <h1>2. Text Visualizations<a class="headerlink" href="#text-visualizations" title="Permalink to this headline">¶</a></h1>
 <p>Text visualizations are tools to help you tell your story better.
 These types of visualizations give you the comfort of organizing text so that you can focus instead on the narrative.
-For example, the below visualization, created using the <code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.TextAnnotation</span></code> class, highlights the named entities:</p>
+For example, the below visualization, created using the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> class, highlights the named entities:</p>
 <img alt="_images/2-text-annotation.png" class="example inline" src="_images/2-text-annotation.png" />
 <p>Keep reading to learn more about text visualizations.</p>
 <div class="admonition note">
@@ -184,10 +184,18 @@ For example, the below visualization, created using the <code class="xref py py-
 <span class="target" id="module-text"></span><div class="section" id="module-text.annotation">
 <span id="annotation"></span><h2>Annotation<a class="headerlink" href="#module-text.annotation" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.Annotation</span></code></a> class is not quite a visualization, but it’s an important class nevertheless.
-The <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.Annotation</span></code></a> class is used to draw text on visualizations.
-For example, it is used in the <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> visualization to draw text on visualizations and explain them better.</p>
+This class is used to draw text on any visualization or matplotlib plot.
+For example, it is used in the <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">timeseries.timeseries.TimeSeries</span></code></a> visualization to draw text on visualizations and explain them better.
+You can also use it on any normal matplotlib plot as long as you wrap it around a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">drawable.Drawable</span></code></a>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">annotation</span> <span class="o">=</span> <span class="n">Annotation</span><span class="p">(</span><span class="n">viz</span><span class="p">)</span>
+<span class="n">lines</span> <span class="o">=</span> <span class="n">annotation</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="s1">&#39;Hello world!&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>The <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.Annotation</span></code></a> class is most prominent in the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> class, described further down.
-The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> visualization actually revolves around the annotation and is used to create text-only visualizations.
+Text visualizations actually revolve around the basic annotation and use it to create text-only visualizations.
 It also adds some extra functionality to annotations, such as legends.</p>
 <p>Look over the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.annotation.Annotation</span></code></a> class to learn more about what kind of annotations you can create.
 If you want to create text-only visualizations, skip ahead to the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text.text.TextAnnotation</span></code></a> class.</p>

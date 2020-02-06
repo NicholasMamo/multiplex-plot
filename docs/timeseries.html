@@ -257,6 +257,12 @@ This dictionary is over-written by any annotation-specific style.
 A special key, <cite>wordspacing</cite>, can be set to determine the spacing between words in the annotation.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple made up of the drawn plot, label and annotations.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p>ValueError</p>
 </dd>
@@ -408,36 +414,6 @@ The vertcial alignment is either <cite>top</cite> or <cite>bottom</cite>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the annotation.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._newline">
-<code class="sig-name descname">_newline</code><span class="sig-paren">(</span><em class="sig-param">lines</em>, <em class="sig-param">line_tokens</em>, <em class="sig-param">ha</em>, <em class="sig-param">va</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._newline" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a new line.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>lines</strong> (list of lists of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – A list of lines, each containing tokens.</p></li>
-<li><p><strong>line_tokens</strong> (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The tokens in the current line, which will be ‘retired’.</p></li>
-<li><p><strong>ha</strong> (<em>str</em>) – The horizontal alignment: ‘left’ or ‘right’.</p></li>
-<li><p><strong>va</strong> (<em>str</em>) – The vertical alignment: ‘top’ or ‘bottom’.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="timeseries.timeseries.TimeSeries._remove_empty_line">
-<code class="sig-name descname">_remove_empty_line</code><span class="sig-paren">(</span><em class="sig-param">lines</em>, <em class="sig-param">va</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries._remove_empty_line" title="Permalink to this definition">¶</a></dt>
-<dd><p>Remove the last empty line from the annotation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>lines</strong> (list of lists of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – A list of lines, each containing tokens.</p></li>
-<li><p><strong>va</strong> (<em>str</em>) – The vertical alignment: ‘top’ or ‘bottom’.</p></li>
-</ul>
 </dd>
 </dl>
 </dd></dl>
