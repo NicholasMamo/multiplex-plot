@@ -272,23 +272,22 @@ class TextAnnotation():
 
 	def _tighten(self, drawn_lines):
 		"""
-		Move the plot so that it starts from x- and y-coordinate 0.
-		This offsets the legend labels so that they start at 0.
+		Move the text visualization so that it starts from x- and y-coordinate 0.
 
 		:param drawn_lines: A list of drawn lines.
-						   The function expects lines to be tuples of legend labels and tokens.
+						   The function expects lines to be tuples.
+						   The first value of each tuple should be the legend labels.
+						   The second value of each tuple should be the tokens.
 		:type drawn_lines: list of float
 		"""
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
-		drawn_lines = list(drawn_lines)
 
 		"""
 		Calculate the necessary offset.
 		"""
-		x_offset = 0
-		y_offset = 0
+		x_offset, y_offset = 0, 0
 		for (labels, tokens) in drawn_lines:
 			for label in labels:
 				bb = util.get_bb(figure, axis, label)
@@ -296,7 +295,7 @@ class TextAnnotation():
 				y_offset = min(y_offset, bb.y0)
 
 		"""
-		Move all tokens by this offset.
+		Move all labels and tokens by this offset.
 		"""
 		for (labels, tokens) in drawn_lines:
 			for token in labels + tokens:
