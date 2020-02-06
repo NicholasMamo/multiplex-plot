@@ -102,12 +102,16 @@ class TimeSeries(object):
 		Validate the arguments.
 		A non-zero number of points need to be provided.
 		The number of x-coordinates and y-coordinates need to be equal.
+		If annotations are given, the number must equal the number of points, even if some are empty.
 		"""
 		if len(x) != len(y):
 			raise ValueError("The number of x-coordinates and y-coordinates must be equal; received %d x-coordinates and %d y-coordinates" % (len(x), len(y)))
 
 		if not len(x) or not len(y):
 			raise ValueError("The time series needs a positive number of points")
+
+		if annotations and len(annotations) != len(x):
+			raise ValueError("The number of annotations must be equal to the number of points; received %d annotations and %d points" % (len(annotations), len(x)))
 
 		"""
 		Plot the time series first.
@@ -122,10 +126,8 @@ class TimeSeries(object):
 		"""
 		if label is not None and len(x) and len(y):
 			default_label_style = { 'color': line[0].get_color() }
-			label_style = {} if label_style is None else label_style
-			default_label_style.update(label_style)
+			default_label_style.update(label_style or { })
 			label = self._draw_label(label, x[-1], y[-1], default_label_style)
-
 			self._labels.append(label)
 			self._arrange_labels()
 
@@ -134,11 +136,6 @@ class TimeSeries(object):
 		"""
 		drawn_annotations = []
 		if annotations:
-			if len(annotations) != len(x):
-				raise ValueError("The number of annotations must be equal to the number of points; received %d annotations and %d points" % (len(annotations), len(x)))
-			if len(annotations) != len(y):
-				raise ValueError("The number of annotations must be equal to the number of points; received %d annotations and %d points" % (len(annotations), len(y)))
-
 			"""
 			By default, the annotations' markers have the same color as the plot.
 			However, this may be over-written by the marker style.
@@ -147,19 +144,13 @@ class TimeSeries(object):
 				'color': line[0].get_color(),
 				'marker': 'o', 'markersize': 8
 			}
-			marker_style = {} if marker_style is None else marker_style
-			default_marker_style.update(marker_style)
+			default_marker_style.update(marker_style or { })
 
-			"""
-			By default, the annotations have the same color as the plot.
-			However, this may be over-written by the annotation style.
-			The default wordpsacing is based on the plot width.
-			"""
-			x_lim = axis.get_xlim()
-			x_lim_width = x_lim[1] - x_lim[0]
-			default_annotation_style = { 'color': line[0].get_color(), 'wordspacing': x_lim_width/250. }
-			annotation_style = {} if annotation_style is None else annotation_style
-			default_annotation_style.update(annotation_style)
+			xlim_width = abs(axis.get_xlim()[1] - axis.get_xlim()[0])
+			default_annotation_style = {
+				'color': line[0].get_color(), 'wordspacing': xlim_width/250.
+			}
+			default_annotation_style.update(annotation_style or { })
 
 			"""
 			Draw the annotations separately.
@@ -189,9 +180,7 @@ class TimeSeries(object):
 		:rtype: :class:`matplotlib.text.Text`
 		"""
 
-		axis = self.drawable.axis
-		text = axis.text(x * 1.01, y, label, va='center', *args, **kwargs)
-		return text
+		return self.drawable.axis.text(x * 1.01, y, label, va='center', *args, **kwargs)
 
 	def _arrange_labels(self):
 		"""
@@ -363,15 +352,14 @@ class TimeSeries(object):
 		"""
 		Add some padding to the annotations based on the horizontal alignment.
 		"""
-		x_lim = axis.get_xlim()
-		x_lim_width = x_lim[1] - x_lim[0]
-		x_pad = x_lim_width * 0.01
+		xlim_width = abs(axis.get_xlim()[1] - axis.get_xlim()[0])
+		x_pad = xlim_width * 0.01
 		if ha == 'left':
-			x = (x + x_pad, x + x_lim_width * 0.15)
+			x = (x + x_pad, x + xlim_width * 0.15)
 		elif ha == 'right':
-			x = (x - x_lim_width * 0.15, x - x_pad)
+			x = (x - xlim_width * 0.15, x - x_pad)
 		elif ha == 'center':
-			x = (x - x_lim_width * 0.15 / 2., x + x_lim_width * 0.15 / 2.)
+			x = (x - xlim_width * 0.15 / 2., x + xlim_width * 0.15 / 2.)
 		else:
 			raise ValueError(f"Unsupported horizontal alignment: {ha}")
 
@@ -407,10 +395,10 @@ class TimeSeries(object):
 		If the x-coordinate is within less than or equal to 10% of the x-axis start, plot the annotation on the right.
 		Otherwise, plot it on the left.
 		"""
-		x_lim = axis.get_xlim()
-		x_lim_width = x_lim[1] - x_lim[0]
+		xlim = axis.get_xlim()
+		xlim_width = xlim[1] - xlim[0]
 
-		if (x - x_lim[0])/x_lim_width <= 0.1:
+		if (x - xlim[0])/xlim_width <= 0.1:
 			return 'left' # the annotation is on the right
 		else:
 			return 'right' # the annotation is on the left
@@ -431,10 +419,10 @@ class TimeSeries(object):
 		If the y-coordinate is within less than or equal to 10% of the y-axis start, plot the annotation on the top.
 		Otherwise, plot it on the bottom.
 		"""
-		y_lim = axis.get_ylim()
-		y_lim_width = y_lim[1] - y_lim[0]
+		ylim = axis.get_ylim()
+		ylim_width = ylim[1] - ylim[0]
 
-		if (y - y_lim[0])/y_lim_width >= 0.9:
+		if (y - ylim[0])/ylim_width >= 0.9:
 			return 'top' # the annotation is at the bottom
 		else:
 			return 'bottom' # the annotation is at the top
