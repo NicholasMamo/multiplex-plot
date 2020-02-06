@@ -11,12 +11,12 @@ Creating a time series is very easy:
 
 .. code-block:: python
 
-	import matplotlib.pyplot as plt
-	from multiplex import drawable
-	viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-	viz.draw_time_series(range(0, 10), range(0, 10),
-	                     color='#F6B913', linewidth=2,
-	                     label='A', label_style={ 'fontweight': '500' })
+    import matplotlib.pyplot as plt
+    from multiplex import drawable
+    viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+    viz.draw_time_series(range(0, 10), range(0, 10),
+                         color='#F6B913', linewidth=2,
+                         label='A', label_style={ 'fontweight': '500' })
 
 You can keep calling the :meth:`drawable.Drawable.draw_time_series` function on the same :class:`drawable.Drawable` instance to draw on the same plot.
 Multiplex also supports annotations, making it easier to tell a story through time series.

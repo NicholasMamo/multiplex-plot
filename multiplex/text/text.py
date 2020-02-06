@@ -9,13 +9,13 @@ This method expects, at the very least, a string to draw a visualization:
 
 .. code-block:: python
 
-	import matplotlib.pyplot as plt
-	from multiplex import drawable
-	viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-	text = 'Hello world!'
-	viz.draw_text_annotation(text, align='justify',
-                        	 fontfamily='serif', alpha=0.9,
-							 lineheight=1.25, lpad=0.1, rpad=0.1)
+    import matplotlib.pyplot as plt
+    from multiplex import drawable
+    viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+    text = 'Hello world!'
+    viz.draw_text_annotation(text, align='justify',
+                             fontfamily='serif', alpha=0.9,
+                             lineheight=1.25, lpad=0.1, rpad=0.1)
 
 However, you can create richer text visualizations by providing additional parameters.
 For example, instead of a string, you can provide a `list` of text tokens to split them however you want.
