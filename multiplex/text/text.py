@@ -5,7 +5,18 @@ As a visualization, it takes care or organizing text, allowing you to create vis
 To start creating text visualizations, create a :class:`text.Text` instance and call the :meth:`text.Text.draw` method.
 If you are using the :class:`drawable.Drawable` class, just call the :meth:`drawable.Drawable.draw_text_annotation` method on a :class:`drawable.Drawable` instance instead.
 
-This method expects, at the very least, a string to draw a visualization.
+This method expects, at the very least, a string to draw a visualization:
+
+.. code-block:: python
+
+	import matplotlib.pyplot as plt
+	from multiplex import drawable
+	viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+	text = 'Hello world!'
+	viz.draw_text_annotation(text, align='justify',
+                        	 fontfamily='serif', alpha=0.9,
+							 lineheight=1.25, lpad=0.1, rpad=0.1)
+
 However, you can create richer text visualizations by providing additional parameters.
 For example, instead of a string, you can provide a `list` of text tokens to split them however you want.
 Or, you can input a `list` of `dict` of tokens containing at least a `text` attribute and any of the other keys:
@@ -22,6 +33,10 @@ Instructions on how the text should be formatted can be passed on to the :meth:`
 Among others, these attributes include alignment and the line height.
 The text can also be styled by passing on any attributes supported by the :class:`matplotlib.text.Text` class.
 The same attributes can be passed on to the `style` key in the code block above.
+
+.. note::
+
+	More complex text visualization examples are in the `tutorial Jupyter Notebook <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb>`_.
 """
 
 import os
