@@ -242,6 +242,70 @@ This is used to be able to create the padding around words.</p></li>
 </dl>
 </dd></dl>
 
+<dl class="function">
+<dt id="util.get_alignment">
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_alignment</code><span class="sig-paren">(</span><em class="sig-param">align</em>, <em class="sig-param">end=False</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_alignment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the proper alignment value for the current line.
+This is mainly used for justification values.
+Since the last line of justified items is aligned differently, this function extracts the appropriate value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>align</strong> (<em>str</em>) – The provided alignment value.</p></li>
+<li><p><strong>end</strong> (<em>bool</em>) – A boolean indicating whether this is the end of the group of items to be aligned.
+If it is the end line, alignments like <cite>justify-left</cite> transform into <cite>left</cite>.
+Otherwise, <cite>justify</cite> is returned.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The alignment value for the current line.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="util.align">
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">align</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">items</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">xpad=0</em>, <em class="sig-param">xlim=None</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.align" title="Permalink to this definition">¶</a></dt>
+<dd><p>Organize the given objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
+This is used to get the figure renderer.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>items</strong> (<em>list of objcet</em>) – The list of objects to organize.</p></li>
+<li><p><strong>align</strong> (<em>str</em>) – <p>The text’s alignment.
+Possible values:</p>
+<blockquote>
+<div><ul>
+<li><p>left</p></li>
+<li><p>center</p></li>
+<li><p>right</p></li>
+<li><p>justify</p></li>
+<li><p>justify-start (or justify-left)</p></li>
+<li><p>justify-center</p></li>
+<li><p>justify-end or (justify-right)</p></li>
+</ul>
+</div></blockquote>
+</p></li>
+<li><p><strong>xpad</strong> (<em>float</em>) – The space between objects.</p></li>
+<li><p><strong>xlim</strong> (<em>tuple</em>) – The x-limit relative to which to align the objects.
+If it is not given, the axis’ x-limit is used instead.
+The x-limit is a tuple limiting the start and end.</p></li>
+<li><p><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite> or <cite>bottom</cite>.
+If the vertical alignment is <cite>bottom</cite>, the annotation grows up.
+If the vertical alignment is <cite>top</cite>, the annotation grows down.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p>ValueError</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 
 
