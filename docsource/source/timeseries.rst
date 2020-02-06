@@ -6,6 +6,11 @@
    :description: Python time series visualizations that make it easier to create and annotate time series to tell a story through data
    :keywords: Multiplex, Python, visualizations, time series, big data, data mining
 
+.. automodule:: timeseries
+  :members:
+  :private-members:
+  :special-members:
+
 Time series are among the most common types of visualizations, and with good reason.
 They are easy to create because they are simple, which means that they are also intuitive.
 All too often, we rely on that simplicity to tell a story.
@@ -16,11 +21,6 @@ Keep reading to learn more about time series visualizations.
 .. note::
 
 	Check out the `time series tutorial Jupyter Notebook <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20Series.ipynb>`_.
-
-.. automodule:: timeseries
-   :members:
-   :private-members:
-   :special-members:
 
 
 Time Series
