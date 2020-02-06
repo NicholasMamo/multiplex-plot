@@ -163,9 +163,36 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-    <div class="section" id="module-util">
-<span id="utilities"></span><h1>Utilities<a class="headerlink" href="#module-util" title="Permalink to this headline">¶</a></h1>
-<p>A set of utility functions that are common to all types of visualizations.</p>
+    <div class="section" id="module-text_util">
+<span id="utilities"></span><h1>Utilities<a class="headerlink" href="#module-text_util" title="Permalink to this headline">¶</a></h1>
+<p>A set of utility functions to help create text visualizations.</p>
+<dl class="function">
+<dt id="text_util.draw_token">
+<code class="sig-prename descclassname">text_util.</code><code class="sig-name descname">draw_token</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">text</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">style</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text_util.draw_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the token on the plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
+This is used to get the figure renderer.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>text</strong> (<em>str</em>) – The text token to draw.</p></li>
+<li><p><strong>x</strong> (<em>int</em>) – The x-position of the token.</p></li>
+<li><p><strong>y</strong> (<em>int</em>) – The y-position of the token.</p></li>
+<li><p><strong>style</strong> (<em>dict</em>) – The style information for the token.</p></li>
+<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The drawn text box.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<span class="target" id="module-util"></span><p>A set of utility functions that are common to all types of visualizations.</p>
 <dl class="function">
 <dt id="util.get_bb">
 <code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_bb</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">component</em>, <em class="sig-param">transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_bb" title="Permalink to this definition">¶</a></dt>

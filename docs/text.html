@@ -318,42 +318,21 @@ Each line is made up of the text tokens.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.annotation.Annotation._draw_token">
-<code class="sig-name descname">_draw_token</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">style</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation._draw_token" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw the token on the plot.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<em>str</em>) – The text token to draw.</p></li>
-<li><p><strong>x</strong> (<em>int</em>) – The x-position of the token.</p></li>
-<li><p><strong>y</strong> (<em>int</em>) – The y-position of the token.</p></li>
-<li><p><strong>style</strong> (<em>dict</em>) – The style information for the token.</p></li>
-<li><p><strong>offset</strong> (<em>float</em>) – The token’s offset.</p></li>
-<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
-<li><p><strong>linespacing</strong> (<em>float</em>) – The space betw.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The drawn text box.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="text.annotation.Annotation._newline">
-<code class="sig-name descname">_newline</code><span class="sig-paren">(</span><em class="sig-param">line</em>, <em class="sig-param">previous_lines</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">line_start</em>, <em class="sig-param">y</em>, <em class="sig-param">va</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation._newline" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_newline</code><span class="sig-paren">(</span><em class="sig-param">line</em>, <em class="sig-param">previous_lines</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">va</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation._newline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a new line with the given token.</p>
+<p>If the vertical alignment is top, the text grows downwards.
+Therefore the last token added to the line is added to a new line.</p>
+<p>If the vertical alignment is bottom, the text grows upwards.
+Therefore all lines are pushed up by one line.
+The last token added to the line is moved to the start of the line.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>token</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The text token to move to the next line.</p></li>
 <li><p><strong>line</strong> (list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The latest line.</p></li>
-<li><p><strong>previous_lines</strong> (list  of list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The previously-drawn lines.</p></li>
+<li><p><strong>previous_lines</strong> (list of list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The previously-drawn lines.</p></li>
 <li><p><strong>linespacing</strong> (<em>float</em>) – The space between lines.</p></li>
-<li><p><strong>line_start</strong> (<em>float</em>) – The x-coordinate where the line starts.</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – The x-coordinate where the line starts.</p></li>
 <li><p><strong>y</strong> (<em>float</em>) – The starting y-position of the annotation.</p></li>
 <li><p><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite> or <cite>bottom</cite>.
 If the vertical alignment is <cite>bottom</cite>, the annotation grows up.
@@ -482,8 +461,8 @@ The second list in each tuple is the list of actual tokens.</p>
 
 <dl class="method">
 <dt id="text.text.TextAnnotation._draw_legend">
-<code class="sig-name descname">_draw_legend</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">tokens</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._draw_legend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw a legend by iterating through all the data points.
+<code class="sig-name descname">_draw_legend</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">lines</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._draw_legend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a legend by iterating through all the lines.
 The labels are drawn on the same line as the corresponding token.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Data</dt>
@@ -492,8 +471,8 @@ This is used to look for <cite>label</cite> attributes.</p>
 </dd>
 <dt class="field-even">Parameters</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>tokens</strong> (list of list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The drawn tokens, separated by lines.</p></li>
-<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
+<li><p><strong>lines</strong> (list of list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code>) – The drawn lines.</p></li>
+<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between tokens.</p></li>
 <li><p><strong>linespacing</strong> (<em>float</em>) – The space between lines.</p></li>
 </ul>
 </dd>
@@ -507,38 +486,15 @@ This is used to look for <cite>label</cite> attributes.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="text.text.TextAnnotation._draw_token">
-<code class="sig-name descname">_draw_token</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">style</em>, <em class="sig-param">offset</em>, <em class="sig-param">line</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">linespacing</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._draw_token" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw the token on the plot.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<em>str</em>) – The text token to draw.</p></li>
-<li><p><strong>style</strong> (<em>dict</em>) – The style information for the token.</p></li>
-<li><p><strong>offset</strong> (<em>float</em>) – The token’s offset.</p></li>
-<li><p><strong>line</strong> (<em>int</em>) – The line number of the token.</p></li>
-<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
-<li><p><strong>linespacing</strong> (<em>float</em>) – The space between lines.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The drawn text box.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
 <dt id="text.text.TextAnnotation._tighten">
 <code class="sig-name descname">_tighten</code><span class="sig-paren">(</span><em class="sig-param">drawn_lines</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation._tighten" title="Permalink to this definition">¶</a></dt>
-<dd><p>Move the plot so that it starts from x- and y-coordinate 0.
-This offsets the legend labels so that they start at 0.</p>
+<dd><p>Move the text visualization so that it starts from x- and y-coordinate 0.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>drawn_lines</strong> (<em>list of float</em>) – A list of drawn lines.
-The function expects lines to be tuples of legend labels and tokens.</p>
+The function expects lines to be tuples.
+The first value of each tuple should be the legend labels.
+The second value of each tuple should be the tokens.</p>
 </dd>
 </dl>
 </dd></dl>
