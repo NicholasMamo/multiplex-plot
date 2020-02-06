@@ -26,7 +26,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		lines = viz.draw_text_annotation(text.split())
+		lines = viz.draw_text_annotation(text)
 
 		drawn_text = self._reconstruct_text(lines)
 		self.assertEqual(text, drawn_text)
@@ -38,7 +38,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		lines = viz.draw_text_annotation(text.split())
+		lines = viz.draw_text_annotation(text)
 
 		for _, tokens in lines:
 			y = 0
@@ -56,7 +56,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		lines = viz.draw_text_annotation(text.split())
+		lines = viz.draw_text_annotation(text)
 
 		for i, (_, tokens) in enumerate(lines):
 			y = 0
@@ -73,7 +73,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		lines = viz.draw_text_annotation(text.split(), align='left')
+		lines = viz.draw_text_annotation(text, align='left')
 
 		x = 0
 		for i, (_, tokens) in enumerate(lines):
@@ -90,7 +90,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		lines = viz.draw_text_annotation(text.split(), align='right')
+		lines = viz.draw_text_annotation(text, align='right')
 
 		x = 0
 		for i, (_, tokens) in enumerate(lines):
@@ -107,7 +107,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		lines = viz.draw_text_annotation(text.split(), align='center')
+		lines = viz.draw_text_annotation(text, align='center')
 
 		x = 0
 		for i, (_, tokens) in enumerate(lines[:-1]):
@@ -127,7 +127,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		lines = viz.draw_text_annotation(text.split(), align='justify')
+		lines = viz.draw_text_annotation(text, align='justify')
 
 		x = 0
 		for i, (_, tokens) in enumerate(lines[:-1]): # skip the last line as it is not justified
@@ -146,7 +146,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		lines = viz.draw_text_annotation(text.split(), align='justify-start')
+		lines = viz.draw_text_annotation(text, align='justify-start')
 
 		bb = util.get_bb(viz.figure, viz.axis, lines[0][-1][0])
 		self.assertEqual(0, bb.x0)
@@ -158,7 +158,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		lines = viz.draw_text_annotation(text.split(), align='justify-end')
+		lines = viz.draw_text_annotation(text, align='justify-end')
 
 		bb = util.get_bb(viz.figure, viz.axis, lines[0][-1][-1])
 		self.assertEqual(viz.axis.get_xlim()[1], bb.x1)
@@ -170,7 +170,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		lines = viz.draw_text_annotation(text.split(), align='justify-center')
+		lines = viz.draw_text_annotation(text, align='justify-center')
 
 		x = 0
 		for i, (_, tokens) in enumerate(lines):
@@ -189,7 +189,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), align='invalid')
+		self.assertRaises(ValueError, viz.draw_text_annotation, text, align='invalid')
 
 	def test_with_legend(self):
 		"""
@@ -197,7 +197,7 @@ class TestTextAnnotation(unittest.TestCase):
 		"""
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
-		tokens = text.split()
+		tokens = text
 		for i, token in enumerate(tokens):
 			if token == 'Memphis':
 				tokens[i] = {
@@ -215,7 +215,7 @@ class TestTextAnnotation(unittest.TestCase):
 		"""
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
-		tokens = text.split()
+		tokens = text
 		for i, token in enumerate(tokens):
 			if token == 'Memphis':
 				tokens[i] = {
@@ -238,18 +238,18 @@ class TestTextAnnotation(unittest.TestCase):
 		"""
 		The left padding cannot be negative.
 		"""
-		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), lpad=-0.1)
+		self.assertRaises(ValueError, viz.draw_text_annotation, text, lpad=-0.1)
 
 		"""
 		A left padding of 0 is allowed.
 		"""
-		lines = viz.draw_text_annotation(text.split(), lpad=0)
+		lines = viz.draw_text_annotation(text, lpad=0)
 		self.assertTrue(len(lines))
 
 		"""
 		The left padding cannot be greater or equal to 1.
 		"""
-		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), lpad=1)
+		self.assertRaises(ValueError, viz.draw_text_annotation, text, lpad=1)
 
 	def test_rpad_bounds(self):
 		"""
@@ -262,42 +262,49 @@ class TestTextAnnotation(unittest.TestCase):
 		"""
 		The right padding cannot be negative.
 		"""
-		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), rpad=-0.1)
+		self.assertRaises(ValueError, viz.draw_text_annotation, text, rpad=-0.1)
 
 		"""
 		A right padding of 0 is allowed.
 		"""
-		lines = viz.draw_text_annotation(text.split(), rpad=0)
+		lines = viz.draw_text_annotation(text, rpad=0)
 		self.assertTrue(len(lines))
 
 		"""
 		The right padding cannot be greater or equal to 1.
 		"""
-		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), rpad=1)
+		self.assertRaises(ValueError, viz.draw_text_annotation, text, rpad=1)
 
 	def test_tpad_bounds(self):
 		"""
-		Test that the top padding has a lower-bound of 0.
+		Test that the top padding has no lower or upper bounds.
 		"""
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 
 		"""
-		The top padding cannot be negative.
+		The top padding can be negative.
 		"""
-		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), tpad=-0.1)
+		lines = viz.draw_text_annotation(text, tpad=-0.1)
+		self.assertTrue(len(lines))
 
 		"""
 		A top padding of 0 is allowed.
 		"""
-		lines = viz.draw_text_annotation(text.split(), tpad=0)
+		lines = viz.draw_text_annotation(text, tpad=0)
 		self.assertTrue(len(lines))
 
 		"""
 		A top padding of 1 is allowed.
 		"""
-		lines = viz.draw_text_annotation(text.split(), tpad=1)
+		lines = viz.draw_text_annotation(text, tpad=1)
+		self.assertTrue(len(lines))
+
+		"""
+		A top padding greater than 1 is allowed.
+		"""
+		lines = viz.draw_text_annotation(text, tpad=1.1)
 		self.assertTrue(len(lines))
 
 	def test_xpad_bounds(self):
@@ -307,7 +314,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		self.assertRaises(ValueError, viz.draw_text_annotation, text.split(), lpad=0.5, rpad=0.5)
+		self.assertRaises(ValueError, viz.draw_text_annotation, text, lpad=0.5, rpad=0.5)
 
 	def _reconstruct_text(self, lines):
 		"""
@@ -315,8 +322,10 @@ class TestTextAnnotation(unittest.TestCase):
 		The method expects nested lists.
 		Each high-level list is a tuple, where the second element is a list of tokens.
 
-		:param lines: A list of lists, each list a line of tokens.
-		:type lines: list of list
+		:param lines: A list of lists, representing lines, and each list being a tuple.
+					  Each tuple's first element is the legend.
+					  Each tuple's second element is the list of tokens.
+		:type lines: list of list of tuple
 
 		:return: The re-constructed text.
 		:rtype: str

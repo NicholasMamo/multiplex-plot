@@ -163,7 +163,7 @@ class TextAnnotation():
 		This process is meant to tighten the layout.
 		The axis is turned off since it has no purpose, and the y-limit is re-calculated.
 		"""
-		drawn_lines = zip(labels, lines)
+		drawn_lines = list(zip(labels, lines))
 		self._tighten(drawn_lines)
 		axis.axis('off')
 		axis.set_ylim(- len(lines) * linespacing, tpad + linespacing)
