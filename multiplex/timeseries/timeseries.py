@@ -92,6 +92,9 @@ class TimeSeries(object):
 								 A special key, `wordspacing`, can be set to determine the spacing between words in the annotation.
 		:type annotation_style: dict or None
 
+		:return: A tuple made up of the drawn plot, label and annotations.
+		:rtype: tuple
+
 		:raises: ValueError
 		"""
 
@@ -99,7 +102,7 @@ class TimeSeries(object):
 			raise ValueError("The number of x-coordinates and y-coordinates must be equal; received %d x-coordinates and %d y-coordinates" % (len(x), len(y)))
 
 		axis = self.drawable.axis
-		plot = axis.plot(x, y, *args, **kwargs)
+		line = axis.plot(x, y, *args, **kwargs)
 
 		# TODO: Add support for pandas Series
 
@@ -107,7 +110,7 @@ class TimeSeries(object):
 		Draw the label at the end of the line.
 		"""
 		if label is not None and len(x) and len(y):
-			default_label_style = { 'color': plot[0].get_color() }
+			default_label_style = { 'color': line[0].get_color() }
 			label_style = {} if label_style is None else label_style
 			default_label_style.update(label_style)
 			label = self._draw_label(label, x[-1], y[-1], default_label_style)
@@ -118,6 +121,7 @@ class TimeSeries(object):
 		"""
 		Draw the annotations.
 		"""
+		drawn_annotations = []
 		if annotations:
 			if len(annotations) != len(x):
 				raise ValueError("The number of annotations must be equal to the number of points; received %d annotations and %d points" % (len(annotations), len(x)))
@@ -129,7 +133,7 @@ class TimeSeries(object):
 			However, this may be over-written by the marker style.
 			"""
 			default_marker_style = {
-				'color': plot[0].get_color(),
+				'color': line[0].get_color(),
 				'marker': 'o', 'markersize': 8
 			}
 			marker_style = {} if marker_style is None else marker_style
@@ -142,7 +146,7 @@ class TimeSeries(object):
 			"""
 			x_lim = axis.get_xlim()
 			x_lim_width = x_lim[1] - x_lim[0]
-			default_annotation_style = { 'color': plot[0].get_color(), 'wordspacing': x_lim_width/250. }
+			default_annotation_style = { 'color': line[0].get_color(), 'wordspacing': x_lim_width/250. }
 			annotation_style = {} if annotation_style is None else annotation_style
 			default_annotation_style.update(annotation_style)
 
@@ -152,7 +156,12 @@ class TimeSeries(object):
 			"""
 			for (x, y, annotation) in zip(x, y, annotations):
 				if annotation:
-					self._draw_annotation(x, y, annotation, default_marker_style, default_annotation_style)
+					annotation_tokens = self._draw_annotation(x, y, annotation,
+															  default_marker_style,
+															  default_annotation_style)
+					drawn_annotations.append(annotation_tokens)
+
+		return (line, label, drawn_annotations)
 
 	def _draw_label(self, label, x, y, *args, **kwargs):
 		"""

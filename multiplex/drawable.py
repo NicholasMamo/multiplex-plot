@@ -212,10 +212,9 @@ class Drawable():
 		Draw a time series visualization on this :class:`Drawable`.
 		The arguments and keyword arguments are those supported by :meth:`text.annotation.TextAnnotation.draw` method.
 
-		:return: The time series object.
-		:rtype: :class:`timeseries.timeseries.TimeSeries`
+		:return: A tuple made up of the drawn plot, label and annotations.
+		:rtype: tuple
 		"""
 
 		self._time_series = self._time_series if self._time_series is not None else TimeSeries(self)
-		self._time_series.draw(*args, **kwargs)
-		return self._time_series
+		return self._time_series.draw(*args, **kwargs)
