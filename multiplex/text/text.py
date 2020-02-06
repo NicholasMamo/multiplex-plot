@@ -216,14 +216,12 @@ class TextAnnotation():
 					)
 					line_labels.append(label)
 
+
 			"""
 			Re-align the legend.
 			"""
-			offset = 0
-			for token in line_labels[::-1]:
-				bb = util.get_bb(figure, axis, token)
-				offset += bb.width + wordspacing * 2
-				token.set_position((- wordspacing * 4 - offset, bb.y1))
+			util.align(figure, axis, line_labels[::-1], 'right', wordspacing * 4,
+					   (-1, - wordspacing * 4))
 
 			labels.append(line_labels)
 
