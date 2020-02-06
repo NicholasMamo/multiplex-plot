@@ -172,17 +172,14 @@ class Annotation():
 
 			"""
 			Draw the text token.
+			If the vertical alignment is top, the annotation grows downwards: one line after the other.
+			If the vertical alignment is bottom, the annotation grows upwards.
+			When the vertical alignment is bottom, new text is always added to the same place.
+			New lines push previous lines up.
 			"""
-			if va == 'top':
-				text = self._draw_token(
-					token.get('text'), offset, y - lines * linespacing,
-					token.get('style', {}), wordspacing, linespacing, va=va, *args, **kwargs
-				)
-			elif va == 'bottom':
-				text = self._draw_token(
-					token.get('text'), offset, y,
-					token.get('style', {}), wordspacing, linespacing, va=va, *args, **kwargs
-				)
+			text = self._draw_token(token.get('text'),
+				offset, y - lines * linespacing if va == 'top' else y,
+				token.get('style', {}), wordspacing, linespacing, va=va, *args, **kwargs)
 			line_tokens.append(text)
 
 			"""
