@@ -160,7 +160,7 @@ class Annotation():
 		"""
 		drawn_lines = []
 		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs) * lineheight
-		offset, lines = x[0], 0
+		offset = x[0]
 		line_tokens = []
 		for token in tokens:
 			"""
@@ -171,7 +171,7 @@ class Annotation():
 			New lines push previous lines up.
 			"""
 			text = self._draw_token(token.get('text'),
-				offset, y - lines * linespacing if va == 'top' else y,
+				offset, y - len(drawn_lines) * linespacing if va == 'top' else y,
 				token.get('style', {}), wordspacing, linespacing, va=va, *args, **kwargs)
 			line_tokens.append(text)
 
@@ -186,7 +186,7 @@ class Annotation():
 				self._newline(line_tokens, drawn_lines, linespacing, x[0], y, va)
 				util.align(figure, axis, line_tokens, xpad=wordspacing,
 						   align=util.get_alignment(align), xlim=x, va=va)
-				offset, lines = x[0], lines + 1
+				offset = x[0]
 				line_tokens = [ text ]
 
 			offset += bb.width + wordspacing
