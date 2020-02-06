@@ -155,7 +155,7 @@ class TextAnnotation():
 		"""
 		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs)
 		labels = self._draw_legend(tokens, lines, wordspacing, linespacing,
-								   *args, **kwargs) if with_legend else [] * len(lines)
+								   *args, **kwargs) if with_legend else [ [] ] * len(lines)
 
 		"""
 		The entire visualization is shifted so that the legends start at x-coordinate 0.

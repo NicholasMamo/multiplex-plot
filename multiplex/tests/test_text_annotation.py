@@ -197,7 +197,7 @@ class TestTextAnnotation(unittest.TestCase):
 		"""
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
-		tokens = text
+		tokens = text.split()
 		for i, token in enumerate(tokens):
 			if token == 'Memphis':
 				tokens[i] = {
@@ -215,7 +215,7 @@ class TestTextAnnotation(unittest.TestCase):
 		"""
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
-		tokens = text
+		tokens = text.split()
 		for i, token in enumerate(tokens):
 			if token == 'Memphis':
 				tokens[i] = {
