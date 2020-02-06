@@ -303,4 +303,4 @@ class Annotation():
 			"""
 			Move the last token to a new line.
 			"""
-			token.set_position((x, y - (len(previous_lines) + 1) * linespacing))
+			token.set_position((x, y - len(previous_lines) * linespacing))
