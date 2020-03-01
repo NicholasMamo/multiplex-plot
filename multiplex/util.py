@@ -52,6 +52,21 @@ def overlapping(figure, axis, c1, c2, *args, **kwargs):
 
 	bb1, bb2 = get_bb(figure, axis, c1, *args, **kwargs), get_bb(figure, axis, c2, *args, **kwargs)
 
+	return overlapping_bb(b1, b2)
+
+def overlapping_bb(bb1, bb2):
+	"""
+	Check whether the two given bounding boxes overlap.
+
+	:param bb1: The first bounding box.
+	:type bb1: :class:`matplotlib.transforms.Bbox`
+	:param bb2: The second bounding box.
+	:type bb2: :class:`matplotlib.transforms.Bbox`
+
+	:return: A boolean indicating whether the two bounding boxes overlap.
+	:rtype: bool
+	"""
+
 	return (
 		(bb2.x0 < bb1.x0 < bb2.x1 or bb2.x0 < bb1.x1 < bb2.x1) and
 		(bb2.y0 < bb1.y0 < bb2.y1 or bb2.y0 < bb1.y1 < bb2.y1) or
