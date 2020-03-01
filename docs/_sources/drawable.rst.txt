@@ -43,3 +43,13 @@ Drawable
    :members:
    :private-members:
    :special-members:
+
+Visualizations
+==============
+
+Multiplex also contains visualization types to help you get started creating new types of visualizations.
+
+.. automodule:: labelled
+   :members:
+   :private-members:
+   :special-members:
