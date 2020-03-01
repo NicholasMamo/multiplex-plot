@@ -46,7 +46,7 @@ class LabelledVisualization(Visualization):
 		"""
 
 		annotation = Annotation(self.drawable)
-		annotation.draw(label, x * 1.01, y, *args, **kwargs)
+		annotation.draw(label, x * 1.01, y, va='center', *args, **kwargs)
 		self.labels.append(annotation)
 		self._arrange_labels()
 
