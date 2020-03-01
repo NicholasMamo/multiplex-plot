@@ -45,8 +45,9 @@ class LabelledVisualization(Visualization):
 		:type y: float
 		"""
 
-		label = self.drawable.axis.text(x * 1.01, y, label, va='center', *args, **kwargs)
-		self.labels.append(label)
+		annotation = Annotation(self.drawable)
+		annotation.draw(label, x * 1.01, y, *args, **kwargs)
+		self.labels.append(annotation)
 		self._arrange_labels()
 
 	def _arrange_labels(self):
