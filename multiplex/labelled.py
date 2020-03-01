@@ -11,7 +11,10 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 import util
 
-class LabelledVisualization(object):
+from visualization import Visualization
+from text.text import Annotation
+
+class LabelledVisualization(Visualization):
 	"""
 	The labelled visualization adds functionality to visualizations that use labels.
 	Labels are normal :class:`~text.text.TextAnnotation`.
@@ -22,11 +25,12 @@ class LabelledVisualization(object):
 	:vartype labels: list of :class:`~text.text.TextAnnotation`
 	"""
 
-	def __init__(self):
+	def __init__(self, *args, **kwargs):
 		"""
 		Create the labelled visualization by initializing the list of annotations that make up the labels.
 		"""
 
+		super(LabelledVisualization, self).__init__(*args, **kwargs)
 		self.labels = [ ]
 
 	def draw_label(self, label, x, y, *args, **kwargs):
