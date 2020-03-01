@@ -83,7 +83,7 @@ class LabelledVisualization(Visualization):
 
 		labels = sorted(self.labels, key=lambda label: label.get_virtual_bb().y0)
 
-		overlapping_labels = []
+		overlapping_labels = [ ]
 		for label in labels:
 			assigned = False
 
@@ -93,7 +93,7 @@ class LabelledVisualization(Visualization):
 			That group would have to be distributed entirely.
 			"""
 			for group in overlapping_labels:
-				if (any([ util.overlapping(figure, axis, label, other) for other in group ])):
+				if (any([ util.overlapping_bb(label.get_virtual_bb(), other.get_virtual_bb()) for other in group ])):
 					group.append(label)
 					assigned = True
 					break
@@ -131,12 +131,11 @@ class LabelledVisualization(Visualization):
 		The initial offset is calculated as the distance that the first label needs to move.
 		Subsequently, the offset is calculated by adding the height of each label.
 		"""
-		labels = sorted(labels, key=lambda x: util.get_bb(figure, axis, x).y0)
+		labels = sorted(labels, key=lambda label: label.get_virtual_bb().y0)
 		y0 = middle - total_height / 2.
 		for label in labels:
-			position = label.get_position()
-			bb = util.get_bb(figure, axis, label)
-			label.set_position((position[0], y0 + bb.height / 2.))
+			bb = label.get_virtual_bb()
+			label.set_position((bb.x0, y0 + bb.height / 2.))
 			y0 += bb.height
 
 	def _get_total_height(self, labels):
@@ -153,7 +152,7 @@ class LabelledVisualization(Visualization):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		return sum([ util.get_bb(figure, axis, label).height for label in labels ])
+		return sum([ label.get_virtual_bb().height for label in labels ])
 
 	def _get_middle(self, labels):
 		"""
@@ -170,7 +169,7 @@ class LabelledVisualization(Visualization):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		labels = sorted(labels, key=lambda x: util.get_bb(figure, axis, x).y0)
-		bb0, bb1 = util.get_bb(figure, axis, labels[0]), util.get_bb(figure, axis, labels[-1])
+		labels = sorted(labels, key=lambda label: label.get_virtual_bb().y0)
+		bb0, bb1 = labels[0].get_virtual_bb(), labels[-1].get_virtual_bb()
 
 		return (bb0.y0 + bb1.y1) / 2.
