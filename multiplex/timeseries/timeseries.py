@@ -49,7 +49,7 @@ class TimeSeries(LabelledVisualization):
 		Initialize the time series.
 		"""
 
-		super(TimeSeries, self).__init__(*args, **kwargs)
+		super().__init__(*args, **kwargs)
 
 	def draw(self, x, y, label=None, label_style=None, annotations=None,
 			 marker_style=None, annotation_style=None, *args, **kwargs):
