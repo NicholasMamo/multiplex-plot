@@ -230,9 +230,9 @@ class TimeSeries(LabelledVisualization):
 			raise ValueError(f"Unsupported vertical alignment: {va}")
 
 		annotation_text = annotation if type(annotation) is str else annotation.get('text')
-		annotation_ = Annotation(self.drawable)
+		annotation = Annotation(self.drawable)
 		wordspacing = annotation_style.pop('wordspacing')
-		tokens = annotation_.draw(annotation_text, x, y, wordspacing, *args, **annotation_style)
+		tokens = annotation.draw(annotation_text, x, y, wordspacing, *args, **annotation_style)
 		return tokens
 
 	def _get_best_ha(self, x):
