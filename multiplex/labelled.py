@@ -30,7 +30,7 @@ class LabelledVisualization(Visualization):
 		Create the labelled visualization by initializing the list of annotations that make up the labels.
 		"""
 
-		super(LabelledVisualization, self).__init__(*args, **kwargs)
+		super().__init__(*args, **kwargs)
 		self.labels = [ ]
 
 	def draw_label(self, label, x, y, *args, **kwargs):
