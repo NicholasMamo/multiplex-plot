@@ -130,7 +130,7 @@ class Annotation():
 				tokens[i] = { 'text': token }
 
 		tokens = self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs)
-		self.tokens.append(tokens)
+		self.tokens.extend(tokens)
 		return tokens
 
 	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs):
