@@ -339,3 +339,15 @@ class Annotation():
 			Move the last token to a new line.
 			"""
 			token.set_position((x, y - len(previous_lines) * linespacing))
+
+	def __repr__(self):
+		"""
+		Get the annotation as text.
+		The representation is the concatenated text.
+
+		:return: The text representation of the annotation, made up of the annotation text.
+		:rtype: str
+		"""
+
+		lines = [ ' '.join([ token.get_text() for token in line ]) for line in self.tokens ]
+		return ' '.join(lines)
