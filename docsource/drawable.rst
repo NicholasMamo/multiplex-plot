@@ -6,7 +6,7 @@
    :description: Multiplex: visualizations that tell stories
    :keywords: Multiplex, Python, visualizations, data science
 
-.. image:: ../../examples/exports/1-time-series.png
+.. image:: ../examples/exports/1-time-series.png
    :class: example
 
 All of Multiplex's visualizations revolve around the :class:`~drawable.Drawable` class.

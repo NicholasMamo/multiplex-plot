@@ -11,11 +11,11 @@
    :description: Multiplex: visualizations that tell stories
    :keywords: Multiplex, Python, visualizations, data science
 
-.. image:: ../../assets/logo.png
+.. image:: ../assets/logo.png
    :class: multiplex-logo
    :width: 400
 
-.. image:: ../../examples/exports/3-time-series.png
+.. image:: ../examples/exports/3-time-series.png
    :class: example
 
 *********
