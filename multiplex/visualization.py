@@ -1,5 +1,5 @@
 """
-A simple visualization is made up of :class:`~drawable.Drawable`.
+All types of visualizations are made up of :class:`~drawable.Drawable`.
 """
 
 class Visualization(object):

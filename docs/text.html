@@ -395,27 +395,9 @@ The same attributes can be passed on to the <cite>style</cite> key in the code b
 </div>
 <dl class="class">
 <dt id="text.text.TextAnnotation">
-<em class="property">class </em><code class="sig-prename descclassname">text.text.</code><code class="sig-name descname">TextAnnotation</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">text.text.</code><code class="sig-name descname">TextAnnotation</code><span class="sig-paren">(</span><em class="sig-param">drawable</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>A class of visualization that allows text annotations.
 The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> is mainly concered with organizing text.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables</dt>
-<dd class="field-odd"><p><a class="reference internal" href="drawable.html#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the text visualization will be drawn.</p>
-</dd>
-</dl>
-<dl class="method">
-<dt id="text.text.TextAnnotation.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the text annotation with the figure and axis.
-The figure is used to get the renderer.
-The visualization is drawn on the given axis.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>drawable</strong> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the text visualization will be drawn.</p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="method">
 <dt id="text.text.TextAnnotation.draw">
 <code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">wordspacing=0.005</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">with_legend=True</em>, <em class="sig-param">lpad=0</em>, <em class="sig-param">rpad=0</em>, <em class="sig-param">tpad=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
@@ -518,12 +500,6 @@ The first value of each tuple should be the legend labels.
 The second value of each tuple should be the tokens.</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="text.text.TextAnnotation.__weakref__">
-<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#text.text.TextAnnotation.__weakref__" title="Permalink to this definition">¶</a></dt>
-<dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
 </dd></dl>

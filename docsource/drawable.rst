@@ -49,6 +49,11 @@ Visualizations
 
 Multiplex also contains visualization types to help you get started creating new types of visualizations.
 
+.. automodule:: visualization
+   :members:
+   :private-members:
+   :special-members:
+
 .. automodule:: labelled
    :members:
    :private-members:
