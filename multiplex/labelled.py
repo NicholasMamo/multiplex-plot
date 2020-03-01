@@ -81,7 +81,7 @@ class LabelledVisualization(Visualization):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		labels = sorted(self.labels, key=lambda x: util.get_bb(figure, axis, x).y0)
+		labels = sorted(self.labels, key=lambda label: label.get_virtual_bb().y0)
 
 		overlapping_labels = []
 		for label in labels:
