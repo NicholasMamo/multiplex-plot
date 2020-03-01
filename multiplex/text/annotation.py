@@ -183,7 +183,7 @@ class Annotation():
 		Calculate the offset by which every token needs to be moved.
 		"""
 		bb = self.get_virtual_bb()
-		offset = (bb.x0 - position[0], bb.y0 - position[1])
+		offset = (bb.x0 - position[0], bb.y1 - position[1])
 
 		"""
 		Go through each token and move them individually.
@@ -191,7 +191,7 @@ class Annotation():
 		for line in self.tokens:
 			for token in line:
 				bb = util.get_bb(figure, axis, token)
-				token.set_position((bb.x0 - offset[0], bb.y0 - offset[1]))
+				token.set_position((bb.x0 - offset[0], bb.y1 - offset[1]))
 
 	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs):
 		"""

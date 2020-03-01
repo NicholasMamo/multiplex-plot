@@ -132,17 +132,20 @@ class LabelledVisualization(Visualization):
 		middle = self._get_middle(labels)
 
 		"""
-		Sort the labels in ascending order of position (y-coordinate).
+		Sort the labels in descending order of position (y-coordinate).
+		This is because the labels grow downwards.
 		Then, move the labels one by one.
+
 		The initial offset is calculated as the distance that the first label needs to move.
 		Subsequently, the offset is calculated by adding the height of each label.
 		"""
-		labels = sorted(labels, key=lambda label: label.get_virtual_bb().y0)
-		y0 = middle - total_height / 2.
+		labels = sorted(labels, key=lambda label: label.get_virtual_bb().y1, reverse=True)
+
+		y1 = middle + total_height / 2.
 		for label in labels:
 			bb = label.get_virtual_bb()
-			label.set_position((bb.x0, y0 + bb.height))
-			y0 += bb.height
+			label.set_position((bb.x0, y1))
+			y1 -= bb.height
 
 	def _get_total_height(self, labels):
 		"""
