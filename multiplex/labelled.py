@@ -45,8 +45,14 @@ class LabelledVisualization(Visualization):
 		:type y: float
 		"""
 
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+		xlim_width = abs(axis.get_xlim()[1] - axis.get_xlim()[0])
+		linespacing = util.get_linespacing(figure, axis)
+
 		annotation = Annotation(self.drawable)
-		annotation.draw(label, x * 1.01, y, va='center', *args, **kwargs)
+		annotation.draw(label, (x * 1.01, x * 1.01 + xlim_width * 0.2),
+						y + linespacing / 2., *args, **kwargs)
 		self.labels.append(annotation)
 		self._arrange_labels()
 
