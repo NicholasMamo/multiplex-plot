@@ -42,23 +42,14 @@ class TimeSeries(LabelledVisualization):
 	For example, Multiplex's time series have no legend.
 	Instead, it adds a label at the end of the time series for readability.
 	Multiplex also makes it easy to annotate points on the time series with descriptions to explain their significance.
-
-	:ivar drawable: The :class:`~drawable.Drawable` where the time series visualization will be drawn.
-	:vartype drawable: :class:`~drawable.Drawable`
 	"""
 
-	def __init__(self, drawable):
+	def __init__(self, *args, **kwargs):
 		"""
-		Initialize the text annotation with the figure and axis.
-		The figure is used to get the renderer.
-		The visualization is drawn on the given axis.
-
-		:param drawable: The :class:`~drawable.Drawable` where the time series visualization will be drawn.
-		:type drawable: :class:`~drawable.Drawable`
+		Initialize the time series.
 		"""
 
-		super(TimeSeries, self).__init__()
-		self.drawable = drawable
+		super(TimeSeries, self).__init__(*args, **kwargs)
 
 	def draw(self, x, y, label=None, label_style=None, annotations=None,
 			 marker_style=None, annotation_style=None, *args, **kwargs):
