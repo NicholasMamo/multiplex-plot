@@ -133,6 +133,42 @@ class Annotation():
 		self.tokens.extend(tokens)
 		return tokens
 
+	def get_virtual_bb(self, transform=None):
+		"""
+		Get the bounding box of the entire annotation.
+		This is called a virtual bounding box because it is not a real bounding box.
+		Rather, it is a bounding box that covers all of the bounding boxes of the annotation's tokens.
+
+		:param transform: The bounding box transformation.
+						  If `None` is given, the data transformation is used.
+		:type transform: None or :class:`matplotlib.transforms.TransformNode`
+
+		:return: The bounding box of the annotation.
+		:rtype: :class:`matplotlib.transforms.Bbox`
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		transform = axis.transData if transform is None else transform
+		renderer = figure.canvas.get_renderer()
+
+		"""
+		Go through all the lines and their tokens and get their bounding boxes.
+		Compare them with the virtual bounding box and update it as need be.
+		"""
+		x0, y0, x1, y1 = None, None, None, None
+		for line in self.tokens:
+			for token in line:
+				bb = util.get_bb(figure, axis, token, transform)
+				x0 = bb.x0 if x0 is None or bb.x0 < x0 else x0
+				y0 = bb.y0 if y0 is None or bb.y0 < y0 else y0
+				x1 = bb.x1 if x1 is None or bb.x1 > x1 else x1
+				y1 = bb.y1 if y1 is None or bb.y1 > y1 else y1
+
+		return Bbox(((x0, y0), (x1, y1)))
+
+
 	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs):
 		"""
 		Draw the tokens on the plot.
@@ -279,38 +315,3 @@ class Annotation():
 			Move the last token to a new line.
 			"""
 			token.set_position((x, y - len(previous_lines) * linespacing))
-
-	def get_virtual_bb(self, transform=None):
-		"""
-		Get the bounding box of the entire annotation.
-		This is called a virtual bounding box because it is not a real bounding box.
-		Rather, it is a bounding box that covers all of the bounding boxes of the annotation's tokens.
-
-		:param transform: The bounding box transformation.
-						  If `None` is given, the data transformation is used.
-		:type transform: None or :class:`matplotlib.transforms.TransformNode`
-
-		:return: The bounding box of the annotation.
-		:rtype: :class:`matplotlib.transforms.Bbox`
-		"""
-
-		figure = self.drawable.figure
-		axis = self.drawable.axis
-
-		transform = axis.transData if transform is None else transform
-		renderer = figure.canvas.get_renderer()
-
-		"""
-		Go through all the lines and their tokens and get their bounding boxes.
-		Compare them with the virtual bounding box and update it as need be.
-		"""
-		x0, y0, x1, y1 = None, None, None, None
-		for line in self.tokens:
-			for token in line:
-				bb = util.get_bb(figure, axis, token, transform)
-				x0 = bb.x0 if x0 is None or bb.x0 < x0 else x0
-				y0 = bb.y0 if y0 is None or bb.y0 < y0 else y0
-				x1 = bb.x1 if x1 is None or bb.x1 > x1 else x1
-				y1 = bb.y1 if y1 is None or bb.y1 > y1 else y1
-
-		return Bbox(((x0, y0), (x1, y1)))
