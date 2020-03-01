@@ -168,6 +168,30 @@ class Annotation():
 
 		return Bbox(((x0, y0), (x1, y1)))
 
+	def set_position(self, position, *args, **kwargs):
+		"""
+		Move the annotation to the given position.
+
+		:param position: A tuple made up of the new x and y coordinates.
+		:type position: tuple
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		"""
+		Calculate the offset by which every token needs to be moved.
+		"""
+		bb = self.get_virtual_bb()
+		offset = (bb.x0 - position[0], bb.y0 - position[1])
+
+		"""
+		Go through each token and move them individually.
+		"""
+		for line in self.tokens:
+			for token in line:
+				bb = util.get_bb(figure, axis, token)
+				token.set_position((bb.x0 - offset[0], bb.y0 - offset[1]))
 
 	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs):
 		"""
