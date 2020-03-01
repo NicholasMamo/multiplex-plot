@@ -36,6 +36,8 @@ class Annotation():
 
 	:ivar drawable: The :class:`~drawable.Drawable` where the time series visualization will be drawn.
 	:vartype drawable: :class:`~drawable.Drawable`
+	:ivar tokens: The tokens drawn by the annotation.
+	:vartype tokens: list of :class:`matplotlib.text.Text`
 	"""
 
 	def __init__(self, drawable):
@@ -49,6 +51,7 @@ class Annotation():
 		"""
 
 		self.drawable = drawable
+		self.tokens = [ ]
 
 	def draw(self, annotation, x, y, wordspacing=0.005, lineheight=1.25,
 			 align='left', va='top', *args, **kwargs):
@@ -124,7 +127,9 @@ class Annotation():
 			if type(token) is str:
 				tokens[i] = { 'text': token }
 
-		return self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs)
+		tokens = self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs)
+		self.tokens.append(tokens)
+		return tokens
 
 	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs):
 		"""
