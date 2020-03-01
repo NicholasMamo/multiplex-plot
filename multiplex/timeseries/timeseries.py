@@ -127,7 +127,7 @@ class TimeSeries(LabelledVisualization):
 		if label is not None and len(x) and len(y):
 			default_label_style = { 'color': line[0].get_color() }
 			default_label_style.update(label_style or { })
-			self.draw_label(label, x[-1], y[-1], default_label_style)
+			self.draw_label(label, x[-1], y[-1], **default_label_style)
 
 		"""
 		Draw the annotations.
