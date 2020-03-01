@@ -141,7 +141,7 @@ class LabelledVisualization(Visualization):
 		y0 = middle - total_height / 2.
 		for label in labels:
 			bb = label.get_virtual_bb()
-			label.set_position((bb.x0, y0 + bb.height / 2.))
+			label.set_position((bb.x0, y0 + bb.height))
 			y0 += bb.height
 
 	def _get_total_height(self, labels):
