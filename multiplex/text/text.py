@@ -49,27 +49,13 @@ import text_util
 import util
 
 from annotation import Annotation
+from visualization import Visualization
 
-class TextAnnotation():
+class TextAnnotation(Visualization):
 	"""
 	A class of visualization that allows text annotations.
 	The :class:`~TextAnnotation` is mainly concered with organizing text.
-
-	:ivar drawable: The :class:`~drawable.Drawable` where the text visualization will be drawn.
-	:vartype drawable: :class:`~drawable.Drawable`
 	"""
-
-	def __init__(self, drawable):
-		"""
-		Initialize the text annotation with the figure and axis.
-		The figure is used to get the renderer.
-		The visualization is drawn on the given axis.
-
-		:param drawable: The :class:`~drawable.Drawable` where the text visualization will be drawn.
-		:type drawable: :class:`~drawable.Drawable`
-		"""
-
-		self.drawable = drawable
 
 	def draw(self, data, wordspacing=0.005, lineheight=1.25,
 			 align='left', with_legend=True, lpad=0, rpad=0, tpad=0, *args, **kwargs):
