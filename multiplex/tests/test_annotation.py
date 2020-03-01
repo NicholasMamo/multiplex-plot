@@ -284,6 +284,54 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertGreaterEqual(bb0.y0, bb1.y1)
 
+	def test_get_virtual_bb_single_token(self):
+		"""
+		Test that the virtual bounding box of an annotation with one token is equivalent to the bounding box of a single token.
+		"""
+
+		text = 'Memphis'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		tokens = annotation.draw(text, (0, 1), 0)
+		bb = util.get_bb(viz.figure, viz.axis, tokens[0][0])
+		virtual_bb = annotation.get_virtual_bb()
+		self.assertEqual(bb.x0, virtual_bb.x0)
+		self.assertEqual(bb.y0, virtual_bb.y0)
+		self.assertEqual(bb.x1, virtual_bb.x1)
+		self.assertEqual(bb.y1, virtual_bb.y1)
+
+	def test_get_virtual_bb_line(self):
+		"""
+		Test that the virtual bounding box of an annotation with one line spans the entire line.
+		"""
+
+		text = 'Memphis Depay  plays for Olympique Lyonnais'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		tokens = annotation.draw(text, (0, 1), 0)
+		self.assertEqual(1, len(tokens))
+		virtual_bb = annotation.get_virtual_bb()
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][0]).x0, virtual_bb.x0)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][0]).y0, virtual_bb.y0)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][-1]).x1, virtual_bb.x1)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][-1]).y1, virtual_bb.y1)
+
+	def test_get_virtual_bb_multiple_lines(self):
+		"""
+		Test that the virtual bounding box of an annotation with multiple lines spans the entire block.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		tokens = annotation.draw(text, (0, 1), 0)
+		self.assertGreater(len(tokens), 1)
+		virtual_bb = annotation.get_virtual_bb()
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][0]).x0, virtual_bb.x0)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[-1][-1]).y0, virtual_bb.y0)
+		self.assertEqual(max(util.get_bb(viz.figure, viz.axis, tokens[line][-1]).x1 for line in range(0, len(tokens))), virtual_bb.x1)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][0]).y1, virtual_bb.y1)
+
 	def _reconstruct_text(self, lines):
 		"""
 		Reconstruct the visualization text from a list of lines.
