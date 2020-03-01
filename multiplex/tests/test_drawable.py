@@ -1,5 +1,5 @@
 """
-Unit tests for the :class:`Drawable` class.
+Unit tests for the :class:`~Drawable` class.
 """
 
 import matplotlib.pyplot as plt
@@ -15,7 +15,7 @@ import drawable
 
 class TestDrawable(unittest.TestCase):
 	"""
-	Unit tests for the :class:`Drawable` class.
+	Unit tests for the :class:`~Drawable` class.
 	"""
 
 	def test_caption(self):

@@ -1,5 +1,5 @@
 """
-The :class:`TimeSeries` class borrows heavily from matplotlib's `plot` function.
+The :class:`~TimeSeries` class borrows heavily from matplotlib's `plot` function.
 This class builds on matplotlib's plotting and introduces more functionality.
 
 .. image:: ../../examples/exports/3-time-series.png
@@ -18,11 +18,11 @@ Creating a time series is very easy:
                          color='#F6B913', linewidth=2,
                          label='A', label_style={ 'fontweight': '500' })
 
-You can keep calling the :meth:`drawable.Drawable.draw_time_series` function on the same :class:`drawable.Drawable` instance to draw on the same plot.
+You can keep calling the :meth:`~drawable.Drawable.draw_time_series` function on the same :class:`~drawable.Drawable` instance to draw on the same plot.
 Multiplex also supports annotations, making it easier to tell a story through time series.
 
-To start creating time series visualizations, create a :class:`TimeSeries` instance and call the :meth:`TimeSeries.draw` method.
-If you are using the :class:`drawable.Drawable` class, just call the :meth:`drawable.Drawable.draw_time_series` method on a :class:`drawable.Drawable` instance instead.
+To start creating time series visualizations, create a :class:`~TimeSeries` instance and call the :meth:`~TimeSeries.draw` method.
+If you are using the :class:`~drawable.Drawable` class, just call the :meth:`~drawable.Drawable.draw_time_series` method on a :class:`~drawable.Drawable` instance instead.
 """
 
 import os
@@ -35,15 +35,15 @@ from text.annotation import Annotation
 
 class TimeSeries(object):
 	"""
-	The :class:`TimeSeries` class borrows heavily on matplotlib's `plot` function.
+	The :class:`~TimeSeries` class borrows heavily on matplotlib's `plot` function.
 	This class builds on matplotlib's plotting and introduces more functionality.
 
 	For example, Multiplex's time series have no legend.
 	Instead, it adds a label at the end of the time series for readability.
 	Multiplex also makes it easy to annotate points on the time series with descriptions to explain their significance.
 
-	:ivar drawable: The :class:`drawable.Drawable` where the time series visualization will be drawn.
-	:vartype drawable: :class:`drawable.Drawable`
+	:ivar drawable: The :class:`~drawable.Drawable` where the time series visualization will be drawn.
+	:vartype drawable: :class:`~drawable.Drawable`
 	:ivar _labels: The labels in the time series.
 				   This list is used to ensure that labels do not overlap.
 	:vartype _labels: list of :class:`matplotlib.text.Text`
@@ -55,8 +55,8 @@ class TimeSeries(object):
 		The figure is used to get the renderer.
 		The visualization is drawn on the given axis.
 
-		:param drawable: The :class:`drawable.Drawable` where the time series visualization will be drawn.
-		:type drawable: :class:`drawable.Drawable`
+		:param drawable: The :class:`~drawable.Drawable` where the time series visualization will be drawn.
+		:type drawable: :class:`~drawable.Drawable`
 		"""
 
 		self.drawable = drawable
@@ -66,8 +66,8 @@ class TimeSeries(object):
 	def draw(self, x, y, label=None, label_style=None, annotations=None,
 			 marker_style=None, annotation_style=None, *args, **kwargs):
 		"""
-		Draw a time series on the :class:`drawable.Drawable`.
-		The arguments and keyword arguments are passed on to the :meth:`matplotlib.pyplot.plot` method.
+		Draw a time series on the :class:`~drawable.Drawable`.
+		The arguments and keyword arguments are passed on to the :meth:`~matplotlib.pyplot.plot` method.
 		Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.
 
 		:param x: The list of x-coordinates to plot.

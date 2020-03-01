@@ -1,9 +1,9 @@
 """
-All of Multiplex's visualizations revolve around the :class:`Drawable` class.
-A :class:`Drawable` is nothing more than a class that wraps a matplotlib figure and an axis.
-All of the functions that you would call on a matplotlib axis, you can call on the :class:`Drawable`.
-The :class:`Drawable` instance re-routes unknown functions to the matplotlib axis.
-However, the :class:`Drawable` also comes with new visualizations to help you explore or explain data faster.
+All of Multiplex's visualizations revolve around the :class:`~Drawable` class.
+A :class:`~Drawable` is nothing more than a class that wraps a matplotlib figure and an axis.
+All of the functions that you would call on a matplotlib axis, you can call on the :class:`~Drawable`.
+The :class:`~Drawable` instance re-routes unknown functions to the matplotlib axis.
+However, the :class:`~Drawable` also comes with new visualizations to help you explore or explain data faster.
 """
 
 import matplotlib.pyplot as plt
@@ -18,38 +18,38 @@ import util
 
 class Drawable():
 	"""
-	The :class:`Drawable` class wraps a matplotlib figure and axis to provide additional functionality.
+	The :class:`~Drawable` class wraps a matplotlib figure and axis to provide additional functionality.
 	If no axis is given, the default plot axis (:code:`plt.gca()`) is used.
-	The :class:`Drawable` class can be used as a normal :class:`matplotlib.axis.Axis` object with additional functionality.
-	The axis functionality can be called on the :class:`Drawable` class.
-	The :class:`Drawable` instance re-routes method and attribute calls to the :class:`matplotlib.axis.Axis` instance.
+	The :class:`~Drawable` class can be used as a normal :class:`matplotlib.axis.Axis` object with additional functionality.
+	The axis functionality can be called on the :class:`~Drawable` class.
+	The :class:`~Drawable` instance re-routes method and attribute calls to the :class:`matplotlib.axis.Axis` instance.
 
-	To create a :class:`Drawable` instance from a normal plot:
+	To create a :class:`~Drawable` instance from a normal plot:
 
 	.. code-block:: python
 
 	  viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 
-	To create a :class:`Drawable` instance from an axis, or a subplot:
+	To create a :class:`~Drawable` instance from an axis, or a subplot:
 
 	.. code-block:: python
 
 	  figure, axis = plt.subplots(2, 1, figsize=(10, 10))
 	  viz = drawable.Drawable(figure, axis[0])
 
-	:ivar figure: The figure that the :class:`Drawable` class wraps.
+	:ivar figure: The figure that the :class:`~Drawable` class wraps.
 	:vartype figure: :class:`matplotlib.figure.Figure`
 	:ivar axis: The axis where the drawable will draw.
 	:vartype axis: :class:`matplotlib.axis.Axis`
 	:ivar _time_series: The time series object that is being used.
-	:vartype _time_series: :class:`timeseries.timeseries.TimeSeries`
+	:vartype _time_series: :class:`~timeseries.timeseries.TimeSeries`
 	"""
 
 	def __init__(self, figure, axis=None):
 		"""
 		Create the drawable with the figure.
 
-		:param figure: The figure that the :class:`Drawable` class wraps.
+		:param figure: The figure that the :class:`~Drawable` class wraps.
 					   This is mainly used to get the figure renderer.
 		:type figure: :class:`matplotlib.figure.Figure`
 		:param axis: The axis (or subplot) where to plot visualizations.
@@ -165,7 +165,7 @@ class Drawable():
 		"""
 		Get an attribute indicated by `name` from the class.
 		If it gets to this point, then the attribute does not exist.
-		Instead, it is retrieved from the :class:`Drawable` axis.
+		Instead, it is retrieved from the :class:`~Drawable` axis.
 
 		:param name: The name of the attribute.
 		:type name: str
@@ -194,8 +194,8 @@ class Drawable():
 
 	def draw_text_annotation(self, *args, **kwargs):
 		"""
-		Draw a text annotation visualization on this :class:`Drawable`.
-		The arguments and keyword arguments are those supported by :meth:`text.annotation.TextAnnotation.draw` method.
+		Draw a text annotation visualization on this :class:`~Drawable`.
+		The arguments and keyword arguments are those supported by :meth:`~text.annotation.TextAnnotation.draw` method.
 
 		:return: The drawn text annotation's lines.
 				 Each line is made up of tuples of lists.
@@ -209,8 +209,8 @@ class Drawable():
 
 	def draw_time_series(self, *args, **kwargs):
 		"""
-		Draw a time series visualization on this :class:`Drawable`.
-		The arguments and keyword arguments are those supported by :meth:`text.annotation.TextAnnotation.draw` method.
+		Draw a time series visualization on this :class:`~Drawable`.
+		The arguments and keyword arguments are those supported by :meth:`~text.annotation.TextAnnotation.draw` method.
 
 		:return: A tuple made up of the drawn plot, label and annotations.
 		:rtype: tuple

@@ -1,8 +1,8 @@
 """
-The :class:`Annotation` class is not quite a visualization, but it's an important class nevertheless.
+The :class:`~Annotation` class is not quite a visualization, but it's an important class nevertheless.
 This class is used to draw text on any visualization or matplotlib plot.
-For example, it is used in the :class:`timeseries.timeseries.TimeSeries` visualization to draw text on visualizations and explain them better.
-You can also use it on any normal matplotlib plot as long as you wrap it around a :class:`drawable.Drawable`:
+For example, it is used in the :class:`~timeseries.timeseries.TimeSeries` visualization to draw text on visualizations and explain them better.
+You can also use it on any normal matplotlib plot as long as you wrap it around a :class:`~drawable.Drawable`:
 
 .. code-block:: python
 
@@ -12,12 +12,12 @@ You can also use it on any normal matplotlib plot as long as you wrap it around 
 	annotation = Annotation(viz)
 	lines = annotation.draw('Hello world!', (0, 2), 0)
 
-The :class:`Annotation` class is most prominent in the :class:`text.text.TextAnnotation` class, described further down.
+The :class:`~Annotation` class is most prominent in the :class:`~text.text.TextAnnotation` class, described further down.
 Text visualizations actually revolve around the basic annotation and use it to create text-only visualizations.
 It also adds some extra functionality to annotations, such as legends.
 
-Look over the :class:`Annotation` class to learn more about what kind of annotations you can create.
-If you want to create text-only visualizations, skip ahead to the :class:`text.text.TextAnnotation` class.
+Look over the :class:`~Annotation` class to learn more about what kind of annotations you can create.
+If you want to create text-only visualizations, skip ahead to the :class:`~text.text.TextAnnotation` class.
 """
 
 import os
@@ -32,10 +32,10 @@ class Annotation():
 	"""
 	An annotation is a text-only description that is added to visualizations.
 	Therefore it is not a visualization in and of itself.
-	Text-only visualizations can be created using the :class:`text.text.TextAnnotation` class.
+	Text-only visualizations can be created using the :class:`~text.text.TextAnnotation` class.
 
-	:ivar drawable: The :class:`drawable.Drawable` where the time series visualization will be drawn.
-	:vartype drawable: :class:`drawable.Drawable`
+	:ivar drawable: The :class:`~drawable.Drawable` where the time series visualization will be drawn.
+	:vartype drawable: :class:`~drawable.Drawable`
 	"""
 
 	def __init__(self, drawable):
@@ -44,8 +44,8 @@ class Annotation():
 		The figure is used to get the renderer.
 		The visualization is drawn on the given axis.
 
-		:param drawable: The :class:`drawable.Drawable` where the text visualization will be drawn.
-		:type drawable: :class:`drawable.Drawable`
+		:param drawable: The :class:`~drawable.Drawable` where the text visualization will be drawn.
+		:type drawable: :class:`~drawable.Drawable`
 		"""
 
 		self.drawable = drawable

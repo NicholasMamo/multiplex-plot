@@ -1,5 +1,5 @@
 """
-Unit tests for the :class:`text.text.TextAnnotation` class.
+Unit tests for the :class:`~text.text.TextAnnotation` class.
 """
 
 import matplotlib.pyplot as plt
@@ -16,7 +16,7 @@ import util
 
 class TestTextAnnotation(unittest.TestCase):
 	"""
-	Unit tests for the :class:`text.text.TextAnnotation` class.
+	Unit tests for the :class:`~text.text.TextAnnotation` class.
 	"""
 
 	def test_text(self):
@@ -184,7 +184,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 	def test_align_invalid(self):
 		"""
-		Test that when an invalid alignment is given, a :class:`ValueError` is raised.
+		Test that when an invalid alignment is given, a :class:`~ValueError` is raised.
 		"""
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'

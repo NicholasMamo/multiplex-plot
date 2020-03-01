@@ -42,7 +42,7 @@ If Multiplex is based on matplotlib, why not use matplotlib directly?
 Multiplex does not replace matplotlib: anything you can do with Multiplex, you can also do with matplotlib, and vice-versa.
 What Multiplex does is make it easier to create visualizations with matplotlib.
 
-For example, the :class:`text.text.TextAnnotation` class lets you create text visualizations by providing just a string.
+For example, the :class:`~text.text.TextAnnotation` class lets you create text visualizations by providing just a string.
 You can then style that string, such as by specifying alignment options or by highlighting parts of the text.
 All of this can be done in a handful of lines:
 
@@ -59,7 +59,7 @@ All of this can be done in a handful of lines:
 	viz.set_caption("It doesn't take much to create text visualizations!")
 	plt.show()
 
-The first four lines are standard: they import matplotlib, Multiplex and its style, and create the visualization, which uses the :class:`drawable.Drawable` class.
+The first four lines are standard: they import matplotlib, Multiplex and its style, and create the visualization, which uses the :class:`~drawable.Drawable` class.
 The next lines are all you need to do to draw and style the text, and set the title and caption.
 It takes just 9 lines to create a text-only visualization, including styling.
 

@@ -1,5 +1,5 @@
 """
-Unit tests for the :class:`timeseries.timeseries.TimeSeries` class.
+Unit tests for the :class:`~timeseries.timeseries.TimeSeries` class.
 """
 
 import matplotlib.pyplot as plt
@@ -16,7 +16,7 @@ import util
 
 class TestTimeSeries(unittest.TestCase):
 	"""
-	Unit tests for the :class:`timeseries.timeseries.TimeSeries` class.
+	Unit tests for the :class:`~timeseries.timeseries.TimeSeries` class.
 	"""
 
 	def test_invalid_annotations(self):
