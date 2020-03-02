@@ -191,7 +191,7 @@ class TimeSeries(LabelledVisualization):
 								 A special key, `wordspacing`, can be set to determine the spacing between words in the annotation.
 		:type annotation_style: dict
 
-		:raises ValueError: When the horizontal alignment is unknown.
+		:raises ValueError: When the given horizontal alignment is not supported.
 		"""
 
 		figure = self.drawable.figure

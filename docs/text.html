@@ -309,7 +309,7 @@ If <cite>None</cite> is given, the data transformation is used.</p>
 
 <dl class="method">
 <dt id="text.annotation.Annotation.set_position">
-<code class="sig-name descname">set_position</code><span class="sig-paren">(</span><em class="sig-param">position</em>, <em class="sig-param">va</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.set_position" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_position</code><span class="sig-paren">(</span><em class="sig-param">position</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.set_position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the annotation to the given position.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -320,6 +320,9 @@ If the vertical alignment is <cite>top</cite>, the given y-coordinate becomes th
 If the vertical alignment is <cite>center</cite>, the given y-coordinate becomes the center point of the annotation.
 If the vertical alignment is <cite>bottom</cite>, the given y-coordinate becomes the lowest point of the annotation.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – When the given vertical alignment is not supported.</p>
 </dd>
 </dl>
 </dd></dl>
