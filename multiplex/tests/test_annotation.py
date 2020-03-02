@@ -20,6 +20,24 @@ class TestAnnotation(unittest.TestCase):
 	Unit tests for the :class:`~text.annotation.Annotation` class.
 	"""
 
+	def temporary_plot(f):
+		"""
+		The temporary plot decorator function removes the plot after every test.
+		In this way, the memory of the plot is freed.
+		"""
+
+		def wrapper(*args, **kwargs):
+			"""
+			Call the test function with any arguments and keyword arguments.
+			Immediately after, close the plot to free the memory.
+			"""
+
+			f(*args, **kwargs)
+			plt.close()
+
+		return wrapper
+
+	@temporary_plot
 	def test_text(self):
 		"""
 		Test that the text is written correctly.
@@ -33,6 +51,7 @@ class TestAnnotation(unittest.TestCase):
 		drawn_text = self._reconstruct_text(lines)
 		self.assertEqual(text, drawn_text)
 
+	@temporary_plot
 	def test_align_left(self):
 		"""
 		Test that when aligning text left, all lines start at the same x-coordinate.
@@ -43,6 +62,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		lines = annotation.draw(text, (0, 2), 0, align='left', va='top')
 
+	@temporary_plot
 	def test_align_right(self):
 		"""
 		Test that when aligning text right, all lines end at the same x-coordinate.
@@ -61,6 +81,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(bb.x1, 5))
 
+	@temporary_plot
 	def test_align_center(self):
 		"""
 		Test that when centering text, all of the lines' centers are the same.
@@ -81,6 +102,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(center, 5))
 
+	@temporary_plot
 	def test_align_justify(self):
 		"""
 		Test that when justifying text, all lines start and end at the same x-coordinate.
@@ -102,6 +124,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(center, 5))
 
+	@temporary_plot
 	def test_align_justify_left(self):
 		"""
 		Test that when justifying text with the last line being left-aligned, the last line starts at x-coordinate 0.
@@ -115,6 +138,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
 		self.assertEqual(0, bb.x0)
 
+	@temporary_plot
 	def test_align_justify_right(self):
 		"""
 		Test that when justifying text with the last line being right-aligned, the last line ends at the farthest right.
@@ -128,6 +152,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = util.get_bb(viz.figure, viz.axis, lines[0][-1])
 		self.assertEqual(2, round(bb.x1, 5))
 
+	@temporary_plot
 	def test_align_justify_center(self):
 		"""
 		Test that when justifying text with the last line centered, all lines have the exact same center.
@@ -148,6 +173,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(center, 5))
 
+	@temporary_plot
 	def test_align_invalid(self):
 		"""
 		Test that when an invalid alignment is given, a :class:`~ValueError` is raised.
@@ -158,6 +184,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		self.assertRaises(ValueError, annotation.draw, text, (0, 2), 0, va='top', align='invalid')
 
+	@temporary_plot
 	def test_align_top_order(self):
 		"""
 		Test that when the vertical alignment is top, the order of tokens is still correct.
@@ -171,6 +198,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertEqual('Memphis', lines[0][0].get_text())
 		self.assertEqual('ground.', lines[-1][-1].get_text())
 
+	@temporary_plot
 	def test_align_bottom_order(self):
 		"""
 		Test that when the vertical alignment is bottom, the order of tokens is still correct.
@@ -184,6 +212,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertEqual('Memphis', lines[0][0].get_text())
 		self.assertEqual('ground.', lines[-1][-1].get_text())
 
+	@temporary_plot
 	def test_align_top(self):
 		"""
 		Test that when the alignment is top, all lines are below the provided y-coordinate.
@@ -200,6 +229,7 @@ class TestAnnotation(unittest.TestCase):
 		for line in lines:
 			self.assertLessEqual(0, bb.y1)
 
+	@temporary_plot
 	def test_align_bottom(self):
 		"""
 		Test that when the alignment is top, all lines are above the provided y-coordinate.
@@ -216,6 +246,7 @@ class TestAnnotation(unittest.TestCase):
 		for line in lines:
 			self.assertGreaterEqual(0, bb.y0)
 
+	@temporary_plot
 	def test_align_top_line_alignment(self):
 		"""
 		Test that the lines all have the same vertical position when they are aligned to the top.
@@ -234,6 +265,7 @@ class TestAnnotation(unittest.TestCase):
 				bb = util.get_bb(viz.figure, viz.axis, token)
 				self.assertEqual(y0, bb.y0)
 
+	@temporary_plot
 	def test_align_bottom_line_alignment(self):
 		"""
 		Test that the lines all have the same vertical position when they are aligned to the top.
@@ -252,6 +284,7 @@ class TestAnnotation(unittest.TestCase):
 				bb = util.get_bb(viz.figure, viz.axis, token)
 				self.assertEqual(y1, bb.y1)
 
+	@temporary_plot
 	def test_align_top_lines_do_not_overlap(self):
 		"""
 		Test that when annotations are vertically aligned to the top, the lines do not overlap.
@@ -268,6 +301,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertGreaterEqual(bb0.y0, bb1.y1)
 
+	@temporary_plot
 	def test_align_bottom_lines_do_not_overlap(self):
 		"""
 		Test that when annotations are vertically aligned to the bottom, the lines do not overlap.
@@ -284,6 +318,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertGreaterEqual(bb0.y0, bb1.y1)
 
+	@temporary_plot
 	def test_get_virtual_bb_single_token(self):
 		"""
 		Test that the virtual bounding box of an annotation with one token is equivalent to the bounding box of a single token.
@@ -300,6 +335,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertEqual(bb.x1, virtual_bb.x1)
 		self.assertEqual(bb.y1, virtual_bb.y1)
 
+	@temporary_plot
 	def test_get_virtual_bb_line(self):
 		"""
 		Test that the virtual bounding box of an annotation with one line spans the entire line.
@@ -316,6 +352,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][-1]).x1, virtual_bb.x1)
 		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][-1]).y1, virtual_bb.y1)
 
+	@temporary_plot
 	def test_get_virtual_bb_multiple_lines(self):
 		"""
 		Test that the virtual bounding box of an annotation with multiple lines spans the entire block.
