@@ -131,14 +131,15 @@ class LabelledVisualization(Visualization):
 		middle = self._get_middle(labels)
 
 		"""
-		Sort the labels in descending order of position (y-coordinate).
-		This is because the labels grow downwards.
-		Then, move the labels one by one.
+		Sort the labels in descending order of position.
+		Since labels are centered around the last point, the sorting is based on the center of labels.
+		The labels are moved one by one.
 
 		The initial offset is calculated as the distance that the first label needs to move.
 		Subsequently, the offset is calculated by adding the height of each label.
 		"""
-		labels = sorted(labels, key=lambda label: label.get_virtual_bb().y1, reverse=True)
+		labels = sorted(labels, reverse=True,
+						key=lambda label: (label.get_virtual_bb().y0 + label.get_virtual_bb().y1)/2.)
 
 		y1 = middle + total_height / 2.
 		for label in labels:
