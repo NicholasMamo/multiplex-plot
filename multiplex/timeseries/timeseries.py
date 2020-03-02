@@ -226,7 +226,7 @@ class TimeSeries(LabelledVisualization):
 			y -= y_pad
 		elif va == 'bottom':
 			y += y_pad
-		else:
+		elif va != 'center':
 			raise ValueError(f"Unsupported vertical alignment: {va}")
 
 		annotation_text = annotation if type(annotation) is str else annotation.get('text')
