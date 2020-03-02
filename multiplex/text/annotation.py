@@ -176,12 +176,19 @@ class Annotation():
 
 		return Bbox(((x0, y0), (x1, y1)))
 
-	def set_position(self, position, *args, **kwargs):
+	def set_position(self, position, va='top', *args, **kwargs):
 		"""
 		Move the annotation to the given position.
 
 		:param position: A tuple made up of the new x and y coordinates.
 		:type position: tuple
+		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
+				   If the vertical alignment is `top`, the given y-coordinate becomes the highest point of the annotation.
+				   If the vertical alignment is `center`, the given y-coordinate becomes the center point of the annotation.
+				   If the vertical alignment is `bottom`, the given y-coordinate becomes the lowest point of the annotation.
+		:type va: str
+
+		:raises ValueError: When the given vertical alignment is not supported.
 		"""
 
 		figure = self.drawable.figure
@@ -189,9 +196,20 @@ class Annotation():
 
 		"""
 		Calculate the offset by which every token needs to be moved.
+		The offset depends on the vertical alignment.
 		"""
 		bb = self.get_virtual_bb()
-		offset = (bb.x0 - position[0], bb.y1 - position[1])
+		offset_x = bb.x0 - position[0]
+		if va == 'top':
+			offset_y = bb.y1 - position[1]
+		elif va == 'center':
+			offset_y = (bb.y1 + bb.y0) / 2. - position[1]
+		elif va == 'bottom':
+			offset_y = bb.y0 - position[1]
+		else:
+			raise ValueError(f"Unsupported vertical alignment: {va}")
+
+		offset = (offset_x, offset_y)
 
 		"""
 		Go through each token and move them individually.

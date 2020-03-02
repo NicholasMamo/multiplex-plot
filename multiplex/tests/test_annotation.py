@@ -439,6 +439,148 @@ class TestAnnotation(unittest.TestCase):
 		bb = util.get_bb(viz.figure, viz.axis, lines[math.floor(len(lines) / 2)][0])
 		self.assertEqual(0, round((bb.y1 + bb.y0) / 2., 10))
 
+	@temporary_plot
+	def test_set_position_top(self):
+		"""
+		Test that when moving an annotation with a `top` vertical alignment, the top of the first line is the given position.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, va='top')
+		annotation.set_position((0, 2), va='top')
+		lines = annotation.tokens
+		for token in lines[0]:
+			self.assertEqual(2, util.get_bb(viz.figure, viz.axis, token).y1)
+
+	@temporary_plot
+	def test_set_position_top_below(self):
+		"""
+		Test that when moving an annotation with a `top` vertical alignment, all lines are below the given position.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, va='top')
+		annotation.set_position((0, 2), va='top')
+		lines = annotation.tokens
+		for line in lines:
+			for token in line:
+				self.assertGreaterEqual(2, util.get_bb(viz.figure, viz.axis, token).y1)
+
+	@temporary_plot
+	def test_set_position_center(self):
+		"""
+		Test that when moving an annotation with a `center` vertical alignment, the block is centered around that
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, va='top')
+		annotation.set_position((0, 2), va='center')
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(2, (bb.y1 + bb.y0)/2.)
+
+	@temporary_plot
+	def test_set_position_center_multiple_even_lines(self):
+		"""
+		Test that when centering multiple even lines, the block is centered.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground. Depay began his professional career with PSV Eindhoven.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, va='top')
+		annotation.set_position((0, 2), va='center')
+		lines = annotation.tokens
+		self.assertGreater(len(lines), 1)
+		self.assertFalse(len(lines) % 2)
+		tokens = [ tokens[0] for tokens in lines ]
+		bb1 = util.get_bb(viz.figure, viz.axis, tokens[0])
+		bb2 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		self.assertEqual(2, round((bb1.y1 + bb2.y0) / 2., 10))
+
+	@temporary_plot
+	def test_set_position_center_multiple_odd_lines(self):
+		"""
+		Test that when centering multiple odd lines, the block is centered.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='top')
+		annotation.set_position((0, 2), va='center')
+		lines = annotation.tokens
+		self.assertGreater(len(lines), 1)
+		self.assertTrue(len(lines) % 2)
+		tokens = [ tokens[0] for tokens in lines ]
+		bb1 = util.get_bb(viz.figure, viz.axis, tokens[0])
+		bb2 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		self.assertEqual(2, round((bb1.y1 + bb2.y0) / 2., 10))
+
+		"""
+		Check that the middle line is centered.
+		"""
+		bb = util.get_bb(viz.figure, viz.axis, lines[math.floor(len(lines) / 2)][0])
+		self.assertEqual(2, round((bb.y1 + bb.y0) / 2., 10))
+
+	@temporary_plot
+	def test_set_position_bottom(self):
+		"""
+		Test that when moving an annotation with a `bottom` vertical alignment, the bottom of the last line is the given position.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, va='top')
+		annotation.set_position((0, 2), va='bottom')
+		lines = annotation.tokens
+		for token in lines[-1]:
+			self.assertEqual(2, util.get_bb(viz.figure, viz.axis, token).y0)
+
+	@temporary_plot
+	def test_set_position_bottom_above(self):
+		"""
+		Test that when moving an annotation with a `bottom` vertical alignment, all lines are above the given position.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, va='top')
+		annotation.set_position((0, 2), va='bottom')
+		lines = annotation.tokens
+		for line in lines:
+			for token in line:
+				self.assertLessEqual(2, util.get_bb(viz.figure, viz.axis, token).y0)
+
+	@temporary_plot
+	def test_set_position_invalid_vertical_alignment(self):
+		"""
+		Test that when setting the position of an annotation with an invalid vertical alignment, a ValueError is raised.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, va='top')
+		self.assertRaises(ValueError, annotation.set_position, (0, 2), va='invalid')
+
+	@temporary_plot
+	def test_set_position_no_tokens(self):
+		"""
+		Test that when setting the position of an annotation with no tokens, nothing changes.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		self.assertEqual(None, annotation.set_position((0, 0)))
+
 	def _reconstruct_text(self, lines):
 		"""
 		Reconstruct the visualization text from a list of lines.
