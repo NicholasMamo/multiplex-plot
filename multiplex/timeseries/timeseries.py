@@ -95,7 +95,9 @@ class TimeSeries(LabelledVisualization):
 		:return: A tuple made up of the drawn plot, label and annotations.
 		:rtype: tuple
 
-		:raises: ValueError
+		:raises ValueError: When the number of x-coordinates and y-coordinates are not equal.
+		:raises ValueError: When no x-coordinates or no y-coordinates are given.
+		:raises ValueError: When the number of annotations, if given, are not equal to the number of points.
 		"""
 
 		"""
@@ -189,7 +191,7 @@ class TimeSeries(LabelledVisualization):
 								 A special key, `wordspacing`, can be set to determine the spacing between words in the annotation.
 		:type annotation_style: dict
 
-		:raises: ValueError
+		:raises ValueError: When the horizontal alignment is unknown.
 		"""
 
 		figure = self.drawable.figure

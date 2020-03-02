@@ -244,6 +244,26 @@ Its bounding box will be compared to the first component.</p></li>
 </dd></dl>
 
 <dl class="function">
+<dt id="util.overlapping_bb">
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">overlapping_bb</code><span class="sig-paren">(</span><em class="sig-param">bb1</em>, <em class="sig-param">bb2</em><span class="sig-paren">)</span><a class="headerlink" href="#util.overlapping_bb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check whether the two given bounding boxes overlap.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bb1</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.Bbox</span></code>) – The first bounding box.</p></li>
+<li><p><strong>bb2</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.Bbox</span></code>) – The second bounding box.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A boolean indicating whether the two bounding boxes overlap.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="util.get_linespacing">
 <code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_linespacing</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">wordspacing=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_linespacing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the line spacing of text tokens.
