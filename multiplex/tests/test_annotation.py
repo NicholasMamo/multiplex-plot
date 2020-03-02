@@ -2,6 +2,7 @@
 Unit tests for the :class:`~text.annotation.Annotation` class.
 """
 
+import math
 import matplotlib.pyplot as plt
 import os
 import sys
@@ -74,8 +75,8 @@ class TestAnnotation(unittest.TestCase):
 		lines = annotation.draw(text, (0, 2), 0, align='right', va='top')
 
 		x = 0
-		for i, tokens in enumerate(lines):
-			bb = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		for i, lines in enumerate(lines):
+			bb = util.get_bb(viz.figure, viz.axis, lines[-1])
 			if i == 0:
 				x = bb.x1
 
@@ -93,9 +94,9 @@ class TestAnnotation(unittest.TestCase):
 		lines = annotation.draw(text, (0, 2), 0, align='center', va='top')
 
 		x = 0
-		for i, tokens in enumerate(lines[:-1]):
-			bb0 = util.get_bb(viz.figure, viz.axis, tokens[0])
-			bb1 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		for i, lines in enumerate(lines[:-1]):
+			bb0 = util.get_bb(viz.figure, viz.axis, lines[0])
+			bb1 = util.get_bb(viz.figure, viz.axis, lines[-1])
 			center = (bb0.x0 + bb1.x1) / 2.
 			if i == 0:
 				x = center
@@ -115,9 +116,9 @@ class TestAnnotation(unittest.TestCase):
 		lines = annotation.draw(text, (0, 2), 0, align='justify', va='top')
 
 		x = 0
-		for i, tokens in enumerate(lines[:-1]): # skip the last line as it is not justified
-			bb0 = util.get_bb(viz.figure, viz.axis, tokens[0])
-			bb1 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		for i, lines in enumerate(lines[:-1]): # skip the last line as it is not justified
+			bb0 = util.get_bb(viz.figure, viz.axis, lines[0])
+			bb1 = util.get_bb(viz.figure, viz.axis, lines[-1])
 			center = (bb0.x0 + bb1.x1) / 2.
 			if i == 0:
 				x = center
@@ -164,9 +165,9 @@ class TestAnnotation(unittest.TestCase):
 		lines = annotation.draw(text, (0, 1), 0, align='justify-center', va='top')
 
 		x = 0
-		for i, tokens in enumerate(lines):
-			bb0 = util.get_bb(viz.figure, viz.axis, tokens[0])
-			bb1 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		for i, lines in enumerate(lines):
+			bb0 = util.get_bb(viz.figure, viz.axis, lines[0])
+			bb1 = util.get_bb(viz.figure, viz.axis, lines[-1])
 			center = (bb0.x0 + bb1.x1) / 2.
 			if i == 0:
 				x = center
@@ -187,7 +188,7 @@ class TestAnnotation(unittest.TestCase):
 	@temporary_plot
 	def test_align_top_order(self):
 		"""
-		Test that when the vertical alignment is top, the order of tokens is still correct.
+		Test that when the vertical alignment is top, the order of lines is still correct.
 		"""
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
@@ -201,7 +202,7 @@ class TestAnnotation(unittest.TestCase):
 	@temporary_plot
 	def test_align_bottom_order(self):
 		"""
-		Test that when the vertical alignment is bottom, the order of tokens is still correct.
+		Test that when the vertical alignment is bottom, the order of lines is still correct.
 		"""
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
@@ -327,8 +328,8 @@ class TestAnnotation(unittest.TestCase):
 		text = 'Memphis'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
-		tokens = annotation.draw(text, (0, 1), 0)
-		bb = util.get_bb(viz.figure, viz.axis, tokens[0][0])
+		lines = annotation.draw(text, (0, 1), 0)
+		bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
 		virtual_bb = annotation.get_virtual_bb()
 		self.assertEqual(bb.x0, virtual_bb.x0)
 		self.assertEqual(bb.y0, virtual_bb.y0)
@@ -341,16 +342,16 @@ class TestAnnotation(unittest.TestCase):
 		Test that the virtual bounding box of an annotation with one line spans the entire line.
 		"""
 
-		text = 'Memphis Depay  plays for Olympique Lyonnais'
+		text = 'Memphis Depay plays for Olympique Lyonnais'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
-		tokens = annotation.draw(text, (0, 1), 0)
-		self.assertEqual(1, len(tokens))
+		lines = annotation.draw(text, (0, 1), 0)
+		self.assertEqual(1, len(lines))
 		virtual_bb = annotation.get_virtual_bb()
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][0]).x0, virtual_bb.x0)
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][0]).y0, virtual_bb.y0)
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][-1]).x1, virtual_bb.x1)
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][-1]).y1, virtual_bb.y1)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][0]).x0, virtual_bb.x0)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][0]).y0, virtual_bb.y0)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][-1]).x1, virtual_bb.x1)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][-1]).y1, virtual_bb.y1)
 
 	@temporary_plot
 	def test_get_virtual_bb_multiple_lines(self):
@@ -361,13 +362,82 @@ class TestAnnotation(unittest.TestCase):
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
-		tokens = annotation.draw(text, (0, 1), 0)
-		self.assertGreater(len(tokens), 1)
+		lines = annotation.draw(text, (0, 1), 0)
+		self.assertGreater(len(lines), 1)
 		virtual_bb = annotation.get_virtual_bb()
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][0]).x0, virtual_bb.x0)
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[-1][-1]).y0, virtual_bb.y0)
-		self.assertEqual(max(util.get_bb(viz.figure, viz.axis, tokens[line][-1]).x1 for line in range(0, len(tokens))), virtual_bb.x1)
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, tokens[0][0]).y1, virtual_bb.y1)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][0]).x0, virtual_bb.x0)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[-1][-1]).y0, virtual_bb.y0)
+		self.assertEqual(max(util.get_bb(viz.figure, viz.axis, lines[line][-1]).x1 for line in range(0, len(lines))), virtual_bb.x1)
+		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][0]).y1, virtual_bb.y1)
+
+	@temporary_plot
+	def test_center_one_token(self):
+		"""
+		Test that when centering a single token, the middle of the annotation is equivalent to the middle coordinate of the token.
+		"""
+
+		text = 'Memphis'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='center')
+		bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
+		self.assertEqual(0, (bb.y1 + bb.y0) / 2.)
+		virtual_bb = annotation.get_virtual_bb()
+		self.assertEqual(0, (virtual_bb.y1 + virtual_bb.y0) / 2.)
+
+	@temporary_plot
+	def test_center_one_line(self):
+		"""
+		Test that when centering a single line, each token in that line is centered.
+		"""
+
+		text = 'Memphis Depay  plays for Olympique Lyonnais'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='center')
+		for token in lines[0]:
+			bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
+			self.assertEqual(0, (bb.y1 + bb.y0) / 2.)
+
+	@temporary_plot
+	def test_center_multiple_even_lines(self):
+		"""
+		Test that when centering multiple even lines, the block is centered.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground. Depay began his professional career with PSV Eindhoven.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='center')
+		self.assertGreater(len(lines), 1)
+		self.assertFalse(len(lines) % 2)
+		tokens = [ tokens[0] for tokens in lines ]
+		bb1 = util.get_bb(viz.figure, viz.axis, tokens[0])
+		bb2 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		self.assertEqual(0, round((bb1.y1 + bb2.y0) / 2., 10))
+
+	@temporary_plot
+	def test_center_multiple_odd_lines(self):
+		"""
+		Test that when centering multiple odd lines, the block is centered.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		lines = annotation.draw(text, (0, 1), 0, va='center')
+		self.assertGreater(len(lines), 1)
+		self.assertTrue(len(lines) % 2)
+		tokens = [ tokens[0] for tokens in lines ]
+		bb1 = util.get_bb(viz.figure, viz.axis, tokens[0])
+		bb2 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		self.assertEqual(0, round((bb1.y1 + bb2.y0) / 2., 10))
+
+		"""
+		Check that the middle line is centered.
+		"""
+		bb = util.get_bb(viz.figure, viz.axis, lines[math.floor(len(lines) / 2)][0])
+		self.assertEqual(0, round((bb.y1 + bb.y0) / 2., 10))
 
 	def _reconstruct_text(self, lines):
 		"""

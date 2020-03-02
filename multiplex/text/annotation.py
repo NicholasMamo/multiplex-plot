@@ -104,9 +104,10 @@ class Annotation():
 					    - justify-center
 					    - justify-end or (justify-right)
 		:type align: str
-		:param va: The vertical alignment, can be one of `top` or `bottom`.
-				   If the vertical alignment is `bottom`, the annotation grows up.
+		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
 				   If the vertical alignment is `top`, the annotation grows down.
+				   If the vertical alignment is `center`, the annotation is centered around the given y-coordinate.
+				   If the vertical alignment is `bottom`, the annotation grows up.
 		:type va: str
 
 		:return: The drawn annotation's lines.
@@ -131,6 +132,13 @@ class Annotation():
 
 		tokens = self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs)
 		self.tokens.extend(tokens)
+
+		"""
+		If the vertical alignment is meant to be centered, center the annotation now.
+		"""
+		if va == 'center':
+			self._center(x[0], y)
+
 		return tokens
 
 	def get_virtual_bb(self, transform=None):
@@ -246,7 +254,12 @@ class Annotation():
 			If the vertical alignment is bottom, the annotation grows upwards.
 			When the vertical alignment is bottom, new text is always added to the same place.
 			New lines push previous lines up.
+
+			Note that the center alignment is not considered here.
+			There is no way of knowing how many lines there will be in advance.
+			Therefore lines are centered at a later stage.
 			"""
+			va = 'top' if va == 'center' else va
 			text = text_util.draw_token(figure, axis, token.get('text'), offset,
 										y - len(drawn_lines) * linespacing if va == 'top' else y,
 										token.get('style', {}), wordspacing, va=va,
@@ -339,6 +352,24 @@ class Annotation():
 			Move the last token to a new line.
 			"""
 			token.set_position((x, y - len(previous_lines) * linespacing))
+
+	def _center(self, x, y):
+		"""
+		Center the annotation around the given y-coordinate.
+
+		.. note::
+
+			This function centers all lines in the annotation.
+
+		:param x: The x-coordinate of the lines.
+		:type x: float
+		:param y: The y-coordinate of the center.
+				  The annotation's lines will be centered around this coordinate.
+		:type y: float
+		"""
+
+		bb = self.get_virtual_bb()
+		self.set_position((x, y + bb.height / 2.))
 
 	def __repr__(self):
 		"""
