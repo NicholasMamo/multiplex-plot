@@ -176,30 +176,48 @@ class Annotation():
 
 		return Bbox(((x0, y0), (x1, y1)))
 
-	def set_position(self, position, va='top', *args, **kwargs):
+	def set_position(self, position, ha='left', va='top', *args, **kwargs):
 		"""
 		Move the annotation to the given position.
 
 		:param position: A tuple made up of the new x and y coordinates.
 		:type position: tuple
+		:param ha: The horizontal alignment, can be one of `left`, `center` or `right`.
+				   If the horizontal alignment is `left`, the given x-coordinate becomes the leftmost point of the annotation.
+				   If the horizontal alignment is `center`, the given x-coordinate becomes the center point of the annotation.
+				   If the horizontal alignment is `right`, the given x-coordinate becomes the rightmost point of the annotation.
+		:type ha: str
 		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
 				   If the vertical alignment is `top`, the given y-coordinate becomes the highest point of the annotation.
 				   If the vertical alignment is `center`, the given y-coordinate becomes the center point of the annotation.
 				   If the vertical alignment is `bottom`, the given y-coordinate becomes the lowest point of the annotation.
 		:type va: str
 
+		:raises ValueError: When the given horizontal alignment is not supported.
 		:raises ValueError: When the given vertical alignment is not supported.
 		"""
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
+		bb = self.get_virtual_bb()
 		"""
-		Calculate the offset by which every token needs to be moved.
+		Calculate the x-offset by which every token needs to be moved.
+		The offset depends on the horizontal alignment.
+		"""
+		if ha == 'left':
+			offset_x = bb.x0 - position[0]
+		elif ha == 'center':
+			offset_x = (bb.x0 + bb.x1) / 2. - position[0]
+		elif ha == 'right':
+			offset_x = bb.x1 - position[0]
+		else:
+			raise ValueError(f"Unsupported horizontal alignment: {ha}")
+
+		"""
+		Calculate the y-offset by which every token needs to be moved.
 		The offset depends on the vertical alignment.
 		"""
-		bb = self.get_virtual_bb()
-		offset_x = bb.x0 - position[0]
 		if va == 'top':
 			offset_y = bb.y1 - position[1]
 		elif va == 'center':

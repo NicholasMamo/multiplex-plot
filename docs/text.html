@@ -309,12 +309,16 @@ If <cite>None</cite> is given, the data transformation is used.</p>
 
 <dl class="method">
 <dt id="text.annotation.Annotation.set_position">
-<code class="sig-name descname">set_position</code><span class="sig-paren">(</span><em class="sig-param">position</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.set_position" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_position</code><span class="sig-paren">(</span><em class="sig-param">position</em>, <em class="sig-param">ha='left'</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.set_position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the annotation to the given position.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>position</strong> (<em>tuple</em>) – A tuple made up of the new x and y coordinates.</p></li>
+<li><p><strong>ha</strong> (<em>str</em>) – The horizontal alignment, can be one of <cite>left</cite>, <cite>center</cite> or <cite>right</cite>.
+If the horizontal alignment is <cite>left</cite>, the given x-coordinate becomes the leftmost point of the annotation.
+If the horizontal alignment is <cite>center</cite>, the given x-coordinate becomes the center point of the annotation.
+If the horizontal alignment is <cite>right</cite>, the given x-coordinate becomes the rightmost point of the annotation.</p></li>
 <li><p><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite>, <cite>center</cite> or <cite>bottom</cite>.
 If the vertical alignment is <cite>top</cite>, the given y-coordinate becomes the highest point of the annotation.
 If the vertical alignment is <cite>center</cite>, the given y-coordinate becomes the center point of the annotation.
@@ -322,7 +326,10 @@ If the vertical alignment is <cite>bottom</cite>, the given y-coordinate becomes
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – When the given vertical alignment is not supported.</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – When the given horizontal alignment is not supported.</p></li>
+<li><p><strong>ValueError</strong> – When the given vertical alignment is not supported.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
