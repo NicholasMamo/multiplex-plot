@@ -236,8 +236,9 @@ def align(figure, axis, items, align='left', xpad=0,
 			offset = 0
 			for item in items[::-1]:
 				bb = get_bb(figure, axis, item)
-				offset += bb.width + xpad
+				offset += bb.width
 				item.set_position((xlim[1] - offset, bb.y1 if va == 'top' else bb.y0))
+				offset += xpad
 	elif align == 'center':
 		if len(items):
 			"""

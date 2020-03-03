@@ -647,7 +647,7 @@ class TestAnnotation(unittest.TestCase):
 		lines = annotation.tokens
 		for line in lines:
 			for token in line:
-				self.assertGreaterEqual(2, util.get_bb(viz.figure, viz.axis, token).x1)
+				self.assertGreaterEqual(2, round(util.get_bb(viz.figure, viz.axis, token).x1, 10))
 
 	@temporary_plot
 	def test_set_position_invalid_horizontal_alignment(self):
