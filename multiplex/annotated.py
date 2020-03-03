@@ -18,6 +18,15 @@ class AnnotatedVisualization(Visualization):
 	"""
 	Annotated visualizations use the most basic of explanations—text—to describe graphics.
 	The annotations use :class:`~text.text.TextAnnotation` to draw text on the plot.
+
+	:ivar annotations: The annotations in the visualization.
+	:vartype annotations: list of :class:`~text.text.TextAnnotation`
 	"""
 
-	pass
+	def __init__(self, *args, **kwargs):
+		"""
+		Create the annotated visualization by initializing the list of annotations.
+		"""
+
+		super().__init__(*args, **kwargs)
+		self.annotations = [ ]
