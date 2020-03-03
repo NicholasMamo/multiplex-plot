@@ -11,8 +11,8 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 import util
 
-from visualization import Visualization
 from text.text import Annotation
+from visualization import Visualization
 
 class AnnotatedVisualization(Visualization):
 	"""
@@ -30,3 +30,23 @@ class AnnotatedVisualization(Visualization):
 
 		super().__init__(*args, **kwargs)
 		self.annotations = [ ]
+
+	def annotate(self, text, x, y, *args, **kwargs):
+		"""
+		Add an annotation to the plot.
+		Any additional arguments and keyword arguments are passed on to the annotation's :meth:`~text.text.TextAnnotation.draw` function.
+		For example, the `va` can be provided to specify the vertical alignment.
+		The `align` parameter can be used to specify the text's alignment.
+
+		:param text: The text of the annotation to draw.
+		:type text: str
+		:param x: A tuple containing the start and end x-coordinates of the annotation.
+		:type x: tuple
+		:param y: The y-coordinate of the annotation.
+		:type y: float
+		"""
+
+		annotation = Annotation(self.drawable)
+		tokens = annotation.draw(text, x, y, *args, **kwargs)
+		self.annotations.append(annotation)
+		return tokens
