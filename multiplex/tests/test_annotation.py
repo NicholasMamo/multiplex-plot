@@ -671,6 +671,139 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		self.assertEqual(None, annotation.set_position((0, 0)))
 
+	@temporary_plot
+	def test_x_pad_left(self):
+		"""
+		Test that when padding is applied with `left` alignment, the block moves to the right.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, pad=0.2, align='left')
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(0.2, round(bb.x0, 10))
+
+	@temporary_plot
+	def test_x_pad_center(self):
+		"""
+		Test that when padding is applied with `center` alignment, the block is narrower.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, pad=0.2, align='center')
+		bb = annotation.get_virtual_bb()
+		self.assertLessEqual(0.2, round(bb.x0, 10))
+		self.assertGreaterEqual(0.8, round(bb.x1, 10))
+
+	@temporary_plot
+	def test_x_pad_right(self):
+		"""
+		Test that when padding is applied with `right` alignment, the block moves to the left.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, pad=0.2, align='right')
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(0.8, round(bb.x1, 10))
+
+	@temporary_plot
+	def test_x_pad_justify_start(self):
+		"""
+		Test that when padding is applied with `justify-start` alignment, the block moves to the right.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, pad=0.2, align='justify-start')
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(0.2, round(bb.x0, 10))
+
+	@temporary_plot
+	def test_x_pad_justify_center(self):
+		"""
+		Test that when padding is applied with `justify-center` alignment, the block is narrower.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, pad=0.2, align='justify-center')
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(0.2, round(bb.x0, 10))
+		self.assertGreaterEqual(0.8, round(bb.x1, 10))
+
+	@temporary_plot
+	def test_x_pad_justify_end(self):
+		"""
+		Test that when padding is applied with `justify-end` alignment, the block moves to the left.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, pad=0.2, align='justify-end')
+		bb = annotation.get_virtual_bb()
+		self.assertGreaterEqual(0.8, round(bb.x1, 10))
+
+	@temporary_plot
+	def test_x_pad_equal(self):
+		"""
+		Test that when applying padding, the block is equally-narrower on both sides.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, pad=0.2, align='left')
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(0.2, round(bb.x0, 10))
+		self.assertGreaterEqual(0.8, round(bb.x1, 10))
+
+	@temporary_plot
+	def test_y_pad_top(self):
+		"""
+		Test that when applying padding with `top` vertical alignment, the block moves down.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, pad=0.2, va='top')
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(-0.2, round(bb.y1, 10))
+
+	@temporary_plot
+	def test_y_pad_center(self):
+		"""
+		Test that when applying padding with `center` vertical alignment, the block remains in place.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, pad=0.2, va='center')
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(0, round((bb.y0 + bb.y1)/2., 10))
+
+	@temporary_plot
+	def test_y_pad_bottom(self):
+		"""
+		Test that when applying padding with `bottom` vertical alignment, the block moves up.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 1), 0, pad=0.2, va='bottom')
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(0.2, round(bb.y0, 10))
+
 	def _reconstruct_text(self, lines):
 		"""
 		Reconstruct the visualization text from a list of lines.

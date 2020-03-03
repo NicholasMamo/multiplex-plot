@@ -56,7 +56,7 @@ class Annotation():
 		self.tokens = [ ]
 
 	def draw(self, annotation, x, y, wordspacing=0.005, lineheight=1.25,
-			 align='left', va='top', *args, **kwargs):
+			 align='left', va='top', pad=0, *args, **kwargs):
 		"""
 		Draw the text annotation visualization.
 		The method receives text as a list of tokens and draws them as text.
@@ -109,6 +109,11 @@ class Annotation():
 				   If the vertical alignment is `center`, the annotation is centered around the given y-coordinate.
 				   If the vertical alignment is `bottom`, the annotation grows up.
 		:type va: str
+		:param pad: The amount of padding applied to the annotation.
+					The padding is applied to all sides of the annotation.
+					Note that the padding decreases the width of the annotation.
+					In CSS terms, the box-sizing is the border box.
+		:type pad: float
 
 		:return: The drawn annotation's lines.
 				 The second list in each tuple is the list of actual tokens.
@@ -117,6 +122,8 @@ class Annotation():
 
 		if type(x) is float or type(x) is int:
 			x = (x, self.drawable.axis.get_xlim()[1])
+
+		x, y = self._pad(x, y, pad, va)
 
 		"""
 		Gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
@@ -402,6 +409,69 @@ class Annotation():
 
 		bb = self.get_virtual_bb()
 		self.set_position((x, y + bb.height / 2.))
+
+	def _pad(self, x, y, pad, va):
+		"""
+		Apply the padding to the given coordinates.
+		The way the horizontal padding is applied depends on the alignment.
+		The way the vertical padding is applied depends on the vertical alignment.
+
+		:param x: The x-coordinate as a tuple, representing the bounds of the annotation.
+		:type x: tuple
+		:param y: The starting y-position of the annotation.
+		:type y: float
+		:param pad: The amount of padding applied to the annotation.
+		:type pad: float
+		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
+				   If the vertical alignment is `top`, the annotation grows down.
+				   If the vertical alignment is `center`, the annotation is centered around the given y-coordinate.
+				   If the vertical alignment is `bottom`, the annotation grows up.
+		:type va: str
+		"""
+
+		x = self._x_pad(x, pad)
+		y = self._y_pad(y, pad, va)
+		return x, y
+
+	def _x_pad(self, x, pad):
+		"""
+		Calculate the x-padding.
+		The way that the padding is applied depends on the alignment of the text.
+
+		:param x: The x-coordinate as a tuple, representing the bounds of the annotation.
+		:type x: tuple
+		:param pad: The padding applied to the annotation.
+					The padding is taken to be a fraction of the axis width.
+		:type pad: float
+
+		:return: The new x-coordinate tuple with padding applied.
+		:rtype: tuple
+		"""
+
+		return (x[0] + pad, x[1] - pad)
+
+	def _y_pad(self, y, pad, va):
+		"""
+		Calculate the x-padding.
+		The way that the padding is applied depends on the alignment of the text.
+
+		:param y: The starting y-position of the annotation.
+		:type y: float
+		:param pad: The padding applied to the annotation.
+					The padding is taken to be a fraction of the axis width.
+		:type pad: float
+		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
+				   If the vertical alignment is `top`, the annotation grows down.
+				   If the vertical alignment is `center`, the annotation is centered around the given y-coordinate.
+				   If the vertical alignment is `bottom`, the annotation grows up.
+		:type va: str
+		"""
+
+		return {
+			'top': y - pad,
+			'center': y,
+			'bottom': y + pad
+		}[va]
 
 	def __repr__(self):
 		"""
