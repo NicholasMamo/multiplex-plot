@@ -30,10 +30,9 @@ import sys
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 import util
 
-from annotated import AnnotatedVisualization
 from labelled import LabelledVisualization
 
-class TimeSeries(AnnotatedVisualization, LabelledVisualization):
+class TimeSeries(LabelledVisualization):
 	"""
 	The :class:`~TimeSeries` class borrows heavily on matplotlib's `plot` function.
 	This class builds on matplotlib's plotting and introduces more functionality.

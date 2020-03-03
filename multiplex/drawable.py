@@ -12,6 +12,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+from text.annotation import Annotation
 from text.text import TextAnnotation
 from timeseries.timeseries import TimeSeries
 import util
@@ -43,6 +44,8 @@ class Drawable():
 	:vartype axis: :class:`matplotlib.axis.Axis`
 	:ivar _time_series: The time series object that is being used.
 	:vartype _time_series: :class:`~timeseries.timeseries.TimeSeries`
+	:ivar _annotations: The annotations in the visualization.
+	:vartype _annotations: list of :class:`~text.text.TextAnnotation`
 	"""
 
 	def __init__(self, figure, axis=None):
@@ -60,6 +63,7 @@ class Drawable():
 		self.figure = figure
 		self.axis = plt.gca() if axis is None else axis
 
+		self._annotations = [ ]
 		self._time_series = None
 
 	def set_caption(self, caption, alpha=0.8, ha='left', va='bottom',
@@ -218,3 +222,23 @@ class Drawable():
 
 		self._time_series = self._time_series if self._time_series is not None else TimeSeries(self)
 		return self._time_series.draw(*args, **kwargs)
+
+	def annotate(self, text, x, y, *args, **kwargs):
+		"""
+		Add an annotation to the plot.
+		Any additional arguments and keyword arguments are passed on to the annotation's :meth:`~text.text.TextAnnotation.draw` function.
+		For example, the `va` can be provided to specify the vertical alignment.
+		The `align` parameter can be used to specify the text's alignment.
+
+		:param text: The text of the annotation to draw.
+		:type text: str
+		:param x: A tuple containing the start and end x-coordinates of the annotation.
+		:type x: tuple
+		:param y: The y-coordinate of the annotation.
+		:type y: float
+		"""
+
+		annotation = Annotation(self)
+		tokens = annotation.draw(text, x, y, *args, **kwargs)
+		self._annotations.append(annotation)
+		return tokens
