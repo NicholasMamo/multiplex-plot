@@ -121,11 +121,7 @@ class Annotation():
 		"""
 		Gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
 		"""
-		if type(annotation) is str:
-			tokens = annotation.split()
-		else:
-			tokens = annotation
-
+		tokens = annotation.split() if type(annotation) is str else annotation
 		for i, token in enumerate(tokens):
 			if type(token) is str:
 				tokens[i] = { 'text': token }
