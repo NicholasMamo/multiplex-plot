@@ -115,7 +115,7 @@ class Annotation():
 		:rtype: list of :class:`matplotlib.text.Text`
 		"""
 
-		if type(x) is float:
+		if type(x) is float or type(x) is int:
 			x = (x, self.drawable.axis.get_xlim()[1])
 
 		"""
