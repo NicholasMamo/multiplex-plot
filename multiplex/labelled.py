@@ -20,14 +20,14 @@ class LabelledVisualization(Visualization):
 	Labels are normal :class:`~text.text.TextAnnotation`.
 	This class adds functionality to distribute overlapping labels.
 
-	:ivar labels: The labels in the time series.
+	:ivar labels: The labels in the visualizations.
 				  This list is used to ensure that labels do not overlap.
 	:vartype labels: list of :class:`~text.text.TextAnnotation`
 	"""
 
 	def __init__(self, *args, **kwargs):
 		"""
-		Create the labelled visualization by initializing the list of annotations that make up the labels.
+		Create the labelled visualization by initializing the list of labels.
 		"""
 
 		super().__init__(*args, **kwargs)
