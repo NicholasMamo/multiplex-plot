@@ -19,7 +19,6 @@ Creating a time series is very easy:
                          label='A', label_style={ 'fontweight': '500' })
 
 You can keep calling the :meth:`~drawable.Drawable.draw_time_series` function on the same :class:`~drawable.Drawable` instance to draw on the same plot.
-Multiplex also supports annotations, making it easier to tell a story through time series.
 
 To start creating time series visualizations, create a :class:`~TimeSeries` instance and call the :meth:`~TimeSeries.draw` method.
 If you are using the :class:`~drawable.Drawable` class, just call the :meth:`~drawable.Drawable.draw_time_series` method on a :class:`~drawable.Drawable` instance instead.
@@ -31,10 +30,10 @@ import sys
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 import util
 
-from text.annotation import Annotation
+from annotated import AnnotatedVisualization
 from labelled import LabelledVisualization
 
-class TimeSeries(LabelledVisualization):
+class TimeSeries(AnnotatedVisualization, LabelledVisualization):
 	"""
 	The :class:`~TimeSeries` class borrows heavily on matplotlib's `plot` function.
 	This class builds on matplotlib's plotting and introduces more functionality.
@@ -51,8 +50,7 @@ class TimeSeries(LabelledVisualization):
 
 		super().__init__(*args, **kwargs)
 
-	def draw(self, x, y, label=None, label_style=None, annotations=None,
-			 marker_style=None, annotation_style=None, *args, **kwargs):
+	def draw(self, x, y, label=None, label_style=None, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`~drawable.Drawable`.
 		The arguments and keyword arguments are passed on to the :meth:`~matplotlib.pyplot.plot` method.
@@ -69,51 +67,24 @@ class TimeSeries(LabelledVisualization):
 		:type label: str or None
 		:param label_style: The style of the label.
 		:type label_style: dict or None
-		:param annotations: A list of annotations.
-							If a list of annotations is given, it must be equal to the number of points.
-							The annotations can either be simple strings, or dictionaries.
-							With dictionaries, you can style each annotation separately.
-							If no dictionary is given, then a default style is used.
-							Dictionaries must have the following format:
 
-							.. code-block:: python
-
-								{
-								  'marker_style': { },
-								  'annotation_style': { },
-								  'text': 'annotation',
-								}
-		:type annotations: list of dict or list of str
-		:param marker_style: A dictionary containing the style that should be applied in general to all annotation markers.
-							 This dictionary is over-written by any annotation-specific style.
-		:type marker_style: dict or None
-		:param annotation_style: A dictionary containing the style that should be applied in general to the annotation text.
-								 This dictionary is over-written by any annotation-specific style.
-								 A special key, `wordspacing`, can be set to determine the spacing between words in the annotation.
-		:type annotation_style: dict or None
-
-		:return: A tuple made up of the drawn plot, label and annotations.
+		:return: A tuple made up of the drawn plot and label.
 		:rtype: tuple
 
 		:raises ValueError: When the number of x-coordinates and y-coordinates are not equal.
 		:raises ValueError: When no x-coordinates or no y-coordinates are given.
-		:raises ValueError: When the number of annotations, if given, are not equal to the number of points.
 		"""
 
 		"""
 		Validate the arguments.
 		A non-zero number of points need to be provided.
 		The number of x-coordinates and y-coordinates need to be equal.
-		If annotations are given, the number must equal the number of points, even if some are empty.
 		"""
 		if len(x) != len(y):
 			raise ValueError("The number of x-coordinates and y-coordinates must be equal; received %d x-coordinates and %d y-coordinates" % (len(x), len(y)))
 
 		if not len(x) or not len(y):
 			raise ValueError("The time series needs a positive number of points")
-
-		if annotations and len(annotations) != len(x):
-			raise ValueError("The number of annotations must be equal to the number of points; received %d annotations and %d points" % (len(annotations), len(x)))
 
 		"""
 		Plot the time series first.
@@ -131,156 +102,4 @@ class TimeSeries(LabelledVisualization):
 			default_label_style.update(label_style or { })
 			self.draw_label(label, x[-1], y[-1], **default_label_style)
 
-		"""
-		Draw the annotations.
-		"""
-		drawn_annotations = []
-		if annotations:
-			"""
-			By default, the annotations' markers have the same color as the plot.
-			However, this may be over-written by the marker style.
-			"""
-			default_marker_style = {
-				'color': line[0].get_color(),
-				'marker': 'o', 'markersize': 8
-			}
-			default_marker_style.update(marker_style or { })
-
-			xlim_width = abs(axis.get_xlim()[1] - axis.get_xlim()[0])
-			default_annotation_style = {
-				'color': line[0].get_color(), 'wordspacing': xlim_width/250.
-			}
-			default_annotation_style.update(annotation_style or { })
-
-			"""
-			Draw the annotations separately.
-			Annotations that are empty (or `None`) are skipped.
-			"""
-			for (x, y, annotation) in zip(x, y, annotations):
-				if annotation:
-					annotation_tokens = self._draw_annotation(x, y, annotation,
-															  default_marker_style,
-															  default_annotation_style)
-					drawn_annotations.append(annotation_tokens)
-
-		return (line, label, drawn_annotations)
-
-	def _draw_annotation(self, x, y, annotation, marker_style, annotation_style, *args, **kwargs):
-		"""
-		Draw the annotation at the given coordinates.
-
-		:param annotation: The annotation to draw.
-						   The function accepts either a string or a dictionary.
-						   If a dictionary is provided, it must have the following format:
-
-						   .. code-block:: python
-
-							   {
-								 'marker_style': { },
-								 'annotation_style': { },
-								 'text': 'annotation',
-							   }
-		:type annotation: str or dict
-		:param x: The x-coordinate of the annotation.
-		:type x: float
-		:param y: The y-coordinate of the annotation.
-		:type y: float
-		:param marker_style: A dictionary containing the style that should be applied to the annotation marker.
-		:type marker_style: dict
-		:param annotation_style: A dictionary containing the style that should be applied to the annotations.
-								 A special key, `wordspacing`, can be set to determine the spacing between words in the annotation.
-		:type annotation_style: dict
-
-		:raises ValueError: When the given horizontal alignment is not supported.
-		"""
-
-		figure = self.drawable.figure
-		axis = self.drawable.axis
-
-		marker_style.update(annotation.get('marker_style', {}))
-		axis.plot(x, y, *args, **marker_style)
-
-		"""
-		Calculate the best horizontal and vertical alignments.
-		"""
-		annotation_style.update(annotation.get('annotation_style', {}))
-		ha, va = annotation_style.pop('ha', self._get_best_ha(x)), annotation_style.pop('va', self._get_best_va(y))
-		annotation_style['va'] = va
-
-		"""
-		Add some padding to the annotations based on the horizontal alignment.
-		"""
-		xlim_width = abs(axis.get_xlim()[1] - axis.get_xlim()[0])
-		x_pad = xlim_width * 0.01
-		if ha == 'left':
-			x = (x + x_pad, x + xlim_width * 0.15)
-		elif ha == 'right':
-			x = (x - xlim_width * 0.15, x - x_pad)
-		elif ha == 'center':
-			x = (x - xlim_width * 0.15 / 2., x + xlim_width * 0.15 / 2.)
-		else:
-			raise ValueError(f"Unsupported horizontal alignment: {ha}")
-
-		y_lim = axis.get_ylim()
-		y_lim_width = y_lim[1] - y_lim[0]
-		y_pad = y_lim_width * 0.01
-		if va == 'top':
-			y -= y_pad
-		elif va == 'bottom':
-			y += y_pad
-		elif va != 'center':
-			raise ValueError(f"Unsupported vertical alignment: {va}")
-
-		annotation_text = annotation if type(annotation) is str else annotation.get('text')
-		annotation = Annotation(self.drawable)
-		wordspacing = annotation_style.pop('wordspacing')
-		tokens = annotation.draw(annotation_text, x, y, wordspacing, *args, **annotation_style)
-		return tokens
-
-	def _get_best_ha(self, x):
-		"""
-		Get the best horizontal alignment for the annotation.
-		The horizontal alignment is either `left` or `right`.
-
-		:param x: The x-coordinate of the annotation.
-		:type x: float
-		"""
-
-		axis = self.drawable.axis
-
-		"""
-		Get the x-limit.
-		If the x-coordinate is within less than or equal to 10% of the x-axis start, plot the annotation on the right.
-		Otherwise, plot it on the left.
-		"""
-		xlim = axis.get_xlim()
-		xlim_width = xlim[1] - xlim[0]
-
-		if (x - xlim[0])/xlim_width <= 0.1:
-			return 'left' # the annotation is on the right
-		else:
-			return 'right' # the annotation is on the left
-
-	def _get_best_va(self, y):
-		"""
-		Get the best vertcial alignment for the annotation.
-		The vertcial alignment is either `top` or `bottom`.
-
-		:param y: The y-coordinate of the annotation.
-		:type y: float
-		"""
-
-		axis = self.drawable.axis
-
-		"""
-		Get the y-limit.
-		If the y-coordinate is within less than or equal to 10% of the y-axis start, plot the annotation on the top.
-		Otherwise, plot it on the bottom.
-		"""
-		ylim = axis.get_ylim()
-		ylim_width = ylim[1] - ylim[0]
-
-		if (y - ylim[0])/ylim_width >= 0.9:
-			return 'top' # the annotation is at the bottom
-		else:
-			return 'bottom' # the annotation is at the top
+		return (line, label)
