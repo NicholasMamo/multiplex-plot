@@ -354,7 +354,7 @@ text.color : C0
 axes.facecolor     : C2   ## axes background color
 axes.edgecolor     : (0.212, 0.271, 0.31, 0.5)   ## axes edge color
 axes.linewidth     : 1     ## edge linewidth
-#axes.grid          : False   ## display grid or not
+axes.grid          : False   ## display grid or not
 #axes.grid.axis     : both    ## which axis the grid should apply to
 #axes.grid.which    : major   ## gridlines at {major, minor, both} ticks
 #axes.titlelocation : center  ## alignment of the title: {left, right, center}
