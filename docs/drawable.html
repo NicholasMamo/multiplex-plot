@@ -326,7 +326,7 @@ The arguments and keyword arguments are those supported by <code class="xref py 
 
 <dl class="method">
 <dt id="drawable.Drawable.annotate">
-<code class="sig-name descname">annotate</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">marker=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.annotate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">annotate</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">marker=None</em>, <em class="sig-param">pad=0.01</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.annotate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add an annotation to the plot.
 Any additional arguments and keyword arguments are passed on to the annotation’s <a class="reference internal" href="text.html#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code></a> function.
 For example, the <cite>va</cite> can be provided to specify the vertical alignment.
@@ -339,6 +339,7 @@ The <cite>align</cite> parameter can be used to specify the text’s alignment.<
 <li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the annotation.</p></li>
 <li><p><strong>marker</strong> (<em>None</em><em> or </em><em>dict</em>) – The marker style.
 If it is not given, no marker is drawn.</p></li>
+<li><p><strong>pad</strong> (<em>float</em>) – The amount of padding applied to the annotation.</p></li>
 </ul>
 </dd>
 </dl>
