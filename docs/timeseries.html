@@ -101,7 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="drawable.html">1. Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text.html">2. Text Visualizations</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">3. Time Series</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Time Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-timeseries.timeseries">Time Series</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
@@ -180,8 +180,74 @@ Multiplex’s time series makes it easier for data to tell a story clearly.</p>
 <p class="admonition-title">Note</p>
 <p>Check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20Series.ipynb">time series tutorial Jupyter Notebook</a>.</p>
 </div>
-<div class="section" id="id1">
-<h2>Time Series<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-timeseries.timeseries">
+<span id="id1"></span><h2>Time Series<a class="headerlink" href="#module-timeseries.timeseries" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a> class borrows heavily from matplotlib’s <cite>plot</cite> function.
+This class builds on matplotlib’s plotting and introduces more functionality.</p>
+<img alt="_images/3-time-series.png" class="example" src="_images/3-time-series.png" />
+<p>For example, Multiplex time series do not have a legend by default.
+Instead, to aid readability, the line’s label is added to the end of the plot.
+Creating a time series is very easy:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_time_series</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                     <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#F6B913&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                     <span class="n">label</span><span class="o">=</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="n">label_style</span><span class="o">=</span><span class="p">{</span> <span class="s1">&#39;fontweight&#39;</span><span class="p">:</span> <span class="s1">&#39;500&#39;</span> <span class="p">})</span>
+</pre></div>
+</div>
+<p>You can keep calling the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw_time_series()</span></code></a> function on the same <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance to draw on the same plot.</p>
+<p>To start creating time series visualizations, create a <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a> instance and call the <a class="reference internal" href="#timeseries.timeseries.TimeSeries.draw" title="timeseries.timeseries.TimeSeries.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code></a> method.
+If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class, just call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw_time_series()</span></code></a> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance instead.</p>
+<dl class="class">
+<dt id="timeseries.timeseries.TimeSeries">
+<em class="property">class </em><code class="sig-prename descclassname">timeseries.timeseries.</code><code class="sig-name descname">TimeSeries</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a> class borrows heavily on matplotlib’s <cite>plot</cite> function.
+This class builds on matplotlib’s plotting and introduces more functionality.</p>
+<p>For example, Multiplex’s time series have no legend.
+Instead, it adds a label at the end of the time series for readability.
+Multiplex also makes it easy to annotate points on the time series with descriptions to explain their significance.</p>
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the time series.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="timeseries.timeseries.TimeSeries.draw">
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">label=None</em>, <em class="sig-param">label_style=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a time series on the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+The arguments and keyword arguments are passed on to the <code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code> method.
+Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>list of float</em>) – The list of x-coordinates to plot.
+The x-coordinates must have the same number of points as the y-coordinates.</p></li>
+<li><p><strong>y</strong> (<em>list of float</em>) – The list of corresponding y-coordinates to plot.
+The y-coordinates must have the same number of points as the x-coordinates.</p></li>
+<li><p><strong>label</strong> (<em>str</em><em> or </em><em>None</em>) – The plot’s label.
+If given, the label is drawn at the end of the line.</p></li>
+<li><p><strong>label_style</strong> (<em>dict</em><em> or </em><em>None</em>) – The style of the label.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple made up of the drawn plot and label.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – When the number of x-coordinates and y-coordinates are not equal.</p></li>
+<li><p><strong>ValueError</strong> – When no x-coordinates or no y-coordinates are given.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 

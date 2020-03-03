@@ -223,7 +223,7 @@ class Drawable():
 		self._time_series = self._time_series if self._time_series is not None else TimeSeries(self)
 		return self._time_series.draw(*args, **kwargs)
 
-	def annotate(self, text, x, y, *args, **kwargs):
+	def annotate(self, text, x, y, marker=None, *args, **kwargs):
 		"""
 		Add an annotation to the plot.
 		Any additional arguments and keyword arguments are passed on to the annotation's :meth:`~text.text.TextAnnotation.draw` function.
@@ -236,9 +236,27 @@ class Drawable():
 		:type x: tuple
 		:param y: The y-coordinate of the annotation.
 		:type y: float
+		:param marker: The marker style.
+					   If it is not given, no marker is drawn.
+		:type marker: None or dict
 		"""
 
 		annotation = Annotation(self)
 		tokens = annotation.draw(text, x, y, *args, **kwargs)
 		self._annotations.append(annotation)
+
+		"""
+		Draw the marker if it is given.
+		The color is obtained from the kwargs if a marker color is not given.
+		The point of the marker is based on the alignment of the annotation.
+		"""
+		if marker is not None:
+			marker['color'] = marker.get('color', kwargs.get('color'))
+			if kwargs.get('align', 'left') == 'left':
+				self.axis.plot(x[0], y, *args, **marker)
+			elif kwargs.get('align') == 'right':
+				self.axis.plot(x[1], y, *args, **marker)
+			elif kwargs.get('align') == 'center':
+				self.axis.plot((x[0] + x[1])/2., y, *args, **marker)
+
 		return tokens

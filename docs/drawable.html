@@ -99,7 +99,7 @@
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">1. Getting started</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#drawable">Drawable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-drawable">Drawable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#visualizations">Visualizations</a></li>
 </ul>
 </li>
@@ -173,12 +173,12 @@
     <div class="section" id="getting-started">
 <h1>1. Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h1>
 <img alt="_images/1-time-series.png" class="example" src="_images/1-time-series.png" />
-<p>All of Multiplex’s visualizations revolve around the <code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code> class.
-A <code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code> is nothing more than a class that wraps a matplotlib figure and an axis.
-All of the functions that you would call on a matplotlib axis, you can call on the <code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code>.
-The <code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code> instance re-routes unknown functions to the matplotlib axis.
-However, the <code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code> also comes with new visualizations to help you explore or explain data faster.</p>
-<p>To start working with a <code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code>, create it from a normal plot:</p>
+<p>All of Multiplex’s visualizations revolve around the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class.
+A <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> is nothing more than a class that wraps a matplotlib figure and an axis.
+All of the functions that you would call on a matplotlib axis, you can call on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance re-routes unknown functions to the matplotlib axis.
+However, the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> also comes with new visualizations to help you explore or explain data faster.</p>
+<p>To start working with a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>, create it from a normal plot:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
 <span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)))</span>
@@ -194,20 +194,176 @@ However, the <code class="xref py py-class docutils literal notranslate"><span c
 <p>To learn more about how Multiplex works, keep reading the documentation.
 If all you want is to get your hands dirty, take a look at the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/tree/master/examples">examples</a> directory.
 Happy visualizing!</p>
-<div class="section" id="drawable">
-<h2>Drawable<a class="headerlink" href="#drawable" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-drawable">
+<span id="drawable"></span><h2>Drawable<a class="headerlink" href="#module-drawable" title="Permalink to this headline">¶</a></h2>
+<p>All of Multiplex’s visualizations revolve around the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class.
+A <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> is nothing more than a class that wraps a matplotlib figure and an axis.
+All of the functions that you would call on a matplotlib axis, you can call on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance re-routes unknown functions to the matplotlib axis.
+However, the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> also comes with new visualizations to help you explore or explain data faster.</p>
+<dl class="class">
+<dt id="drawable.Drawable">
+<em class="property">class </em><code class="sig-prename descclassname">drawable.</code><code class="sig-name descname">Drawable</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis=None</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps a matplotlib figure and axis to provide additional functionality.
+If no axis is given, the default plot axis (<code class="code docutils literal notranslate"><span class="pre">plt.gca()</span></code>) is used.
+The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class can be used as a normal <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code> object with additional functionality.
+The axis functionality can be called on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class.
+The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance re-routes method and attribute calls to the <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code> instance.</p>
+<p>To create a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance from a normal plot:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)))</span>
+</pre></div>
+</div>
+<p>To create a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance from an axis, or a subplot:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis where the drawable will draw.</p></li>
+<li><p><strong>_time_series</strong> (<a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a>) – The time series object that is being used.</p></li>
+<li><p><strong>_annotations</strong> (list of <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a>) – The annotations in the visualization.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="drawable.Drawable.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis=None</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the drawable with the figure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps.
+This is mainly used to get the figure renderer.</p></li>
+<li><p><strong>axis</strong> (<cite>None</cite> or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis (or subplot) where to plot visualizations.
+If <cite>None</cite> is not given, the plot’s main subplot is used instead.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="drawable.Drawable.set_caption">
+<code class="sig-name descname">set_caption</code><span class="sig-paren">(</span><em class="sig-param">caption</em>, <em class="sig-param">alpha=0.8</em>, <em class="sig-param">ha='left'</em>, <em class="sig-param">va='bottom'</em>, <em class="sig-param">wordspacing=0.005</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.set_caption" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a caption to the subplot.
+The caption is added just beneath the title.
+The method re-draws the title to make space for the caption.</p>
+<p>The caption is a <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code> object.
+Any arguments that the constructor accepts can be provided to this method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>caption</strong> (<em>str</em>) – The caption to add to the axis.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – The opacity of the caption.
+1 is the maximum opacity, and 0 is the minimum.</p></li>
+<li><p><strong>ha</strong> (<em>str</em>) – The horizontal alignment of the caption.</p></li>
+<li><p><strong>va</strong> (<em>str</em>) – The vertical alignment of the caption.</p></li>
+<li><p><strong>lineheight</strong> (<em>float</em>) – The space between lines.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of tokens that make up the caption.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="drawable.Drawable.__getattr__">
+<code class="sig-name descname">__getattr__</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.__getattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an attribute indicated by <cite>name</cite> from the class.
+If it gets to this point, then the attribute does not exist.
+Instead, it is retrieved from the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> axis.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name of the attribute.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The function applied on the axis.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>function</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="drawable.Drawable.draw_text_annotation">
+<code class="sig-name descname">draw_text_annotation</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_text_annotation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a text annotation visualization on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+The arguments and keyword arguments are those supported by <code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The drawn text annotation’s lines.
+Each line is made up of tuples of lists.
+The first list in each tuple is the list of legend labels.
+The second list in each tuple is the list of actual tokens.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list of tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="drawable.Drawable.draw_time_series">
+<code class="sig-name descname">draw_time_series</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_time_series" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a time series visualization on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+The arguments and keyword arguments are those supported by <code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tuple made up of the drawn plot and label.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="drawable.Drawable.annotate">
+<code class="sig-name descname">annotate</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">marker=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.annotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add an annotation to the plot.
+Any additional arguments and keyword arguments are passed on to the annotation’s <a class="reference internal" href="text.html#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code></a> function.
+For example, the <cite>va</cite> can be provided to specify the vertical alignment.
+The <cite>align</cite> parameter can be used to specify the text’s alignment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<em>str</em>) – The text of the annotation to draw.</p></li>
+<li><p><strong>x</strong> (<em>tuple</em>) – A tuple containing the start and end x-coordinates of the annotation.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the annotation.</p></li>
+<li><p><strong>marker</strong> (<em>None</em><em> or </em><em>dict</em>) – The marker style.
+If it is not given, no marker is drawn.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="drawable.Drawable.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#drawable.Drawable.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="visualizations">
 <h2>Visualizations<a class="headerlink" href="#visualizations" title="Permalink to this headline">¶</a></h2>
 <p>Multiplex also contains visualization types to help you get started creating new types of visualizations.</p>
-<span class="target" id="module-visualization"></span><p>All types of visualizations are made up of <code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code>.</p>
+<span class="target" id="module-visualization"></span><p>All types of visualizations are made up of <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.</p>
 <dl class="class">
 <dt id="visualization.Visualization">
 <em class="property">class </em><code class="sig-prename descclassname">visualization.</code><code class="sig-name descname">Visualization</code><span class="sig-paren">(</span><em class="sig-param">drawable</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization" title="Permalink to this definition">¶</a></dt>
-<dd><p>All visualizations contain at least a <code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code>.</p>
+<dd><p>All visualizations contain at least a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
-<dd class="field-odd"><p><strong>drawable</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code> where the time series visualization will be drawn.</p>
+<dd class="field-odd"><p><a class="reference internal" href="#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the time series visualization will be drawn.</p>
 </dd>
 </dl>
 <dl class="method">
@@ -216,7 +372,7 @@ Happy visualizing!</p>
 <dd><p>Create the visualization with a drawable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>drawable</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code>) – The <code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code> where the time series visualization will be drawn.</p>
+<dd class="field-odd"><p><strong>drawable</strong> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the time series visualization will be drawn.</p>
 </dd>
 </dl>
 </dd></dl>
