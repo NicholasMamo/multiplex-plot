@@ -5,8 +5,11 @@ A legend contains a list of labels and their visual representation.
 import os
 import sys
 
+from matplotlib import lines
+
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from text.annotation import Annotation
+import util
 
 class Legend(object):
 	"""
@@ -45,7 +48,21 @@ class Legend(object):
 		:rtype: tuple
 		"""
 
-		pass
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		line = lines.Line2D([ 0, 0.025 ], [ 1 ] * 2,
+							transform=axis.transAxes, *args, **kwargs)
+		line.set_clip_on(False)
+		axis.add_line(line)
+
+		label_style = label_style or { }
+		line_offset = util.get_bb(figure, axis, line, transform=axis.transAxes).x1
+		annotation = self.draw_annotation(label, line_offset, 1, **label_style)
+
+		self.components.append((line, annotation))
+		return (line, annotation)
+
 	def draw_annotation(self, label, x, y, va='center', *args, **kwargs):
 		"""
 		Get the annotation for the legend.
