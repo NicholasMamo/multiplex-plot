@@ -51,13 +51,19 @@ class Legend(object):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		line = lines.Line2D([ 0, 0.025 ], [ 1 ] * 2,
+		"""
+		Get the offset for the new legend.
+		Then, draw the line first and the annotation second.
+		"""
+		offset = self._get_offset(transform=axis.transAxes)
+
+		line = lines.Line2D([ offset, offset + 0.025 ], [ 1 ] * 2,
 							transform=axis.transAxes, *args, **kwargs)
 		line.set_clip_on(False)
 		axis.add_line(line)
 
 		label_style = label_style or { }
-		line_offset = util.get_bb(figure, axis, line, transform=axis.transAxes).x1
+		line_offset = util.get_bb(figure, axis, line, transform=axis.transAxes).x1 + 0.00625
 		annotation = self.draw_annotation(label, line_offset, 1, **label_style)
 
 		self.lines[-1].append((line, annotation))
