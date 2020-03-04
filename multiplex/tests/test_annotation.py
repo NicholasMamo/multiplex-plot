@@ -460,7 +460,7 @@ class TestAnnotation(MultiplexTest):
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
-		annotation.draw(text, (0, 1), 0, va='top')
+		annotation.draw(text, (0, 1), 0, va='center')
 		annotation.set_position((0, 2), va='center')
 		bb = annotation.get_virtual_bb()
 		self.assertEqual(2, (bb.y1 + bb.y0)/2.)
@@ -474,7 +474,7 @@ class TestAnnotation(MultiplexTest):
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground. Depay began his professional career with PSV Eindhoven.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
-		annotation.draw(text, (0, 1), 0, va='top')
+		annotation.draw(text, (0, 1), 0, va='center')
 		annotation.set_position((0, 2), va='center')
 		lines = annotation.lines
 		self.assertGreater(len(lines), 1)
@@ -493,7 +493,7 @@ class TestAnnotation(MultiplexTest):
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
-		lines = annotation.draw(text, (0, 1), 0, va='top')
+		lines = annotation.draw(text, (0, 1), 0, va='center')
 		annotation.set_position((0, 2), va='center')
 		lines = annotation.lines
 		self.assertGreater(len(lines), 1)
@@ -518,7 +518,7 @@ class TestAnnotation(MultiplexTest):
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
-		annotation.draw(text, (0, 1), 0, va='top')
+		annotation.draw(text, (0, 1), 0, va='bottom')
 		annotation.set_position((0, 2), va='bottom')
 		for token in annotation.lines[-1]:
 			self.assertEqual(2, util.get_bb(viz.figure, viz.axis, token).y0)
@@ -532,7 +532,7 @@ class TestAnnotation(MultiplexTest):
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
-		annotation.draw(text, (0, 1), 0, va='top')
+		annotation.draw(text, (0, 1), 0, va='bottom')
 		annotation.set_position((0, 2), va='bottom')
 		for line in annotation.lines:
 			for token in line:
@@ -588,7 +588,7 @@ class TestAnnotation(MultiplexTest):
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
-		annotation.draw(text, (0, 1), 0, align='left')
+		annotation.draw(text, (0, 1), 0, align='center')
 		annotation.set_position((2, 0), ha='center')
 		bb = annotation.get_virtual_bb()
 		self.assertEqual(2, (bb.x0 + bb.x1)/2.)

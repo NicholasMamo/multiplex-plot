@@ -185,6 +185,10 @@ class Annotation():
 		"""
 		Move the annotation to the given position.
 
+		.. warning::
+
+			The vertical alignment should be the same as the vertical alignment when the annotation was created.
+
 		:param position: A tuple made up of the new x and y coordinates.
 		:type position: tuple
 		:param ha: The horizontal alignment, can be one of `left`, `center` or `right`.
@@ -243,7 +247,12 @@ class Annotation():
 		for line in self.lines:
 			for token in line:
 				bb = util.get_bb(figure, axis, token, transform=transform)
-				token.set_position((bb.x0 - offset[0], bb.y1 - offset[1]))
+				if va == 'top':
+					token.set_position((bb.x0 - offset[0], bb.y1 - offset[1]))
+				elif va == 'center':
+					token.set_position((bb.x0 - offset[0], bb.y1 - offset[1]))
+				elif va == 'bottom':
+					token.set_position((bb.x0 - offset[0], bb.y0 - offset[1]))
 
 	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va,
 					 transform=None, *args, **kwargs):
