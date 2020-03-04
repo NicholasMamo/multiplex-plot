@@ -2,13 +2,18 @@
 
 # Multiplex
 
-A Python library that builds on matplotlib, providing new types of visualizations to help you explore your data and explain it better.
+Multiplex is a Python library that builds on matplotlib, providing new visualizations to help you explore your data and explain it better.
+
+Creating narrative-driven visualizations involves re-imagining matplotlib's plots.
+Multiplex follows best-practices to help you create visualizations.
+The library adds the capability to add a description to visualizations and moves the legend to the top.
+
+In addition, Multiplex includes a brand new text visualization module to create text graphics or to annotate data anywhere.
+Multiplex also includes new matplotlib styles to help you present your data in the best way possible.
 
 ![Example time series](https://raw.githubusercontent.com/NicholasMamo/multiplex-plot/master/examples/exports/3-temperatures.png)
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running.
+The instructions in this README.md file will get you a copy of the project up and running.
 For use-cases of Multiplex, check out the Jupyter Notebook examples in the [examples](https://github.com/NicholasMamo/multiplex-plot/tree/master/examples) directory.
 To read more about Multiplex, read the [documentation](https://nicholasmamo.github.io/multiplex-plot/).
 
