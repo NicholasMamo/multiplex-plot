@@ -42,10 +42,13 @@ class Drawable():
 	:vartype figure: :class:`matplotlib.figure.Figure`
 	:ivar axis: The axis where the drawable will draw.
 	:vartype axis: :class:`matplotlib.axis.Axis`
+	:var caption: The caption, displayed under the title.
+	:vartype caption: :class:`~text.annotation.Annotation`
+
 	:ivar timeseries: The time series object that is being used.
 	:vartype timeseries: :class:`~timeseries.timeseries.TimeSeries`
 	:ivar annotations: The annotations in the visualization.
-	:vartype annotations: list of :class:`~text.text.TextAnnotation`
+	:vartype annotations: list of :class:`~text.annotation.Annotation`
 	"""
 
 	def __init__(self, figure, axis=None):
@@ -62,6 +65,7 @@ class Drawable():
 
 		self.figure = figure
 		self.axis = plt.gca() if axis is None else axis
+		self.caption = Annotation(self)
 
 		self.annotations = [ ]
 		self.timeseries = None
@@ -86,18 +90,18 @@ class Drawable():
 		:rtype: :class:`~text.annotation.Annotation`
 		"""
 
-		annotation = Annotation(self)
-		annotation.draw(caption, (0, 1), 1, va='bottom', alpha=alpha, lineheight=lineheight, *args, **kwargs, transform=self.axis.transAxes)
+		self.caption = Annotation(self)
+		self.caption.draw(caption, (0, 1), 1, va='bottom', alpha=alpha, lineheight=lineheight, *args, **kwargs, transform=self.axis.transAxes)
 
 		"""
 		Re-draw the title to make space for the caption.
 		"""
 		title = self.axis.get_title(loc='left')
-		bb = self.axis.transData.transform(annotation.get_virtual_bb())
+		bb = self.axis.transData.transform(self.caption.get_virtual_bb())
 		height = abs(bb[0][1] - bb[1][1])
 		self.axis.set_title(title, loc='left', pad=(5 + height))
 
-		return annotation
+		return self.caption
 
 	def __getattr__(self, name):
 		"""
