@@ -119,3 +119,60 @@ class Legend(object):
 				return annotation.get_virtual_bb(transform).x1 + pad
 
 		return 0
+
+	def _newline(self, visual, annotation, linespacing, va='center'):
+		"""
+		Create a new line with the given legend.
+
+		:param visual: The visual of the legend.
+		:type visual: object
+		:param annotation: The drawn annotation.
+		:type annotation: :class:`~text.annotation.Annotation`
+		:param linespacing: The space between lines.
+		:type linespacing: float
+		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
+				   If the vertical alignment is `top`, the given y-coordinate becomes the highest point of the annotation.
+				   If the vertical alignment is `center`, the given y-coordinate becomes the center point of the annotation.
+				   If the vertical alignment is `bottom`, the given y-coordinate becomes the lowest point of the annotation.
+		:type va: str
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		"""
+		Go through each line and move all of its components one line up.
+		"""
+		for line in self.lines:
+			for push_visual, push_annotation in line:
+				"""
+				The lines can be pushed up by the height of the line.
+				"""
+				bb = util.get_bb(figure, axis, push_visual, transform=axis.transAxes)
+				push_visual.set_ydata([ bb.y0 + linespacing ] * 2)
+
+				"""
+				The annotations are moved differently depending on the vertical alignment.
+				If the vertical alignment is `top`, the annotation is moved from the top.
+				If the vertical alignment is `center`, the annotation is moved from the center.
+				If the vertical alignment is `bottom`, the annotation is moved from the bottom.
+				"""
+				bb = push_annotation.get_virtual_bb(transform=axis.transAxes)
+				if va == 'top':
+					y = bb.y1
+				elif va == 'center':
+					y = (bb.y0 + bb.y1) / 2.
+				elif va == 'bottom':
+					y = bb.y0
+
+				push_annotation.set_position((bb.x0, y + linespacing), va=va, transform=axis.transAxes)
+
+		"""
+		Move the visual and the annotation to the start of the line.
+		Finally, create a new line container.
+		"""
+		visualbb = util.get_bb(figure, axis, visual, transform=axis.transAxes)
+		visual.set_xdata([ 0, 0.025 ])
+		annotationbb = annotation.get_virtual_bb(transform=axis.transAxes)
+		annotation.set_position((visualbb.width + 0.00625, 1), va=va, transform=axis.transAxes)
+		self.lines.append( [ (visual, annotation) ] )
