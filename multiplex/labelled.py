@@ -65,6 +65,10 @@ class LabelledVisualization(Visualization):
 		If any do overlap, move the labels.
 		The function keeps repeating until no labels overlap.
 
+		.. note::
+
+			The distribution is vertical only.
+
 		.. image:: ../examples/exports/3-overlapping-labels.png
 		   :class: example
 		"""
