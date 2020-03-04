@@ -66,104 +66,37 @@ class Drawable():
 		self._annotations = [ ]
 		self._time_series = None
 
-	def set_caption(self, caption, alpha=0.8, ha='left', va='bottom',
-					wordspacing=0.005, lineheight=1.25, *args, **kwargs):
+	def set_caption(self, caption, alpha=0.8, lineheight=1.25, *args, **kwargs):
 		"""
 		Add a caption to the subplot.
 		The caption is added just beneath the title.
 		The method re-draws the title to make space for the caption.
 
-		The caption is a :class:`matplotlib.text.Text` object.
+		The caption is a :class:`~text.text.Annotation` object.
 		Any arguments that the constructor accepts can be provided to this method.
 
 		:param caption: The caption to add to the axis.
 		:type caption: str
-		:param alpha: The opacity of the caption.
-					  1 is the maximum opacity, and 0 is the minimum.
+		:param alpha: The opacity of the caption between 0 and 1.
 		:type alpha: float
-		:param ha: The horizontal alignment of the caption.
-		:type ha: str
-		:param va: The vertical alignment of the caption.
-		:type va: str
 		:param lineheight: The space between lines.
 		:type lineheight: float
 
-		:return: A list of tokens that make up the caption.
-		:rtype: list of :class:`matplotlib.text.Text`
+		:return: The drawn caption.
+		:rtype: :class:`~text.text.Annotation`
 		"""
 
-		"""
-		Pre-process the caption.
-		Remove extra spaces from it.
-		"""
-		lines = caption.split('\n')
-		lines = [ re.sub('([ \t]+)', ' ', line).strip() for line in lines ]
-		lines = [ line for line in lines if len(line) ]
-
-		"""
-		The caption is constructed bottom-up.
-		Each time that a line wraps around, it pushes the already-drawn part up.
-		"""
-		line_number, linespacing = 0, 0
-		caption_tokens = []
-		for line in lines[::-1]:
-			"""
-			Go through each line and draw it word by word.
-			"""
-			tokens = line.split()
-			line_captions = []
-
-			offset, line_wraps = 0, 0
-			for token in tokens:
-				"""
-				Draw the token at the bottom, displacing it by the number of already-drawn lines.
-				"""
-				caption = self.axis.text(offset, 1 + line_number * linespacing, token, transform=self.axis.transAxes,
-										 ha=ha, va=va, alpha=alpha, linespacing=linespacing,
-										 *args, **kwargs)
-
-				"""
-				Set the linespacing since it depends on the figure height.
-				"""
-				bb = util.get_bb(self.figure, self.axis, caption, self.axis.transAxes)
-				linespacing = bb.height * lineheight
-
-				if bb.x1 > 1:
-					"""
-					If the token overflows the axis, push all the previous tokens up one line.
-					The overflowing token is added to the line instead.
-					"""
-					caption.set_position((0, 1 + (line_number) * linespacing))
-					line_wraps = line_wraps + 1
-					offset = 0
-
-					"""
-					Push up the previously-drawn tokens in the same line.
-					"""
-					for other in line_captions:
-						position = (other.get_position()[0], other.get_position()[1] + linespacing)
-						other.set_position(position)
-
-				"""
-				Mark the position of the next token.
-				"""
-				offset += bb.width + wordspacing
-				line_captions.append(caption)
-
-			"""
-			The next line starts in a new line.
-			The recently-drawn line may contain multiple lines because it wraps around.
-			"""
-			caption_tokens.insert(0, line_captions)
-			line_number += 1 + line_wraps
+		annotation = Annotation(self)
+		annotation.draw(caption, (0, 1), 1, va='bottom', alpha=alpha, lineheight=lineheight, *args, **kwargs, transform=self.axis.transAxes)
 
 		"""
 		Re-draw the title to make space for the caption.
 		"""
+		lines = annotation.tokens
 		title = self.axis.get_title(loc='left')
-		self.axis.set_title(title, loc='left', pad=(5 + 16 * line_number))
+		self.axis.set_title(title, loc='left', pad=(5 + 16 * len(lines)))
 
-		return caption_tokens
+		return annotation
 
 	def __getattr__(self, name):
 		"""
@@ -226,7 +159,7 @@ class Drawable():
 	def annotate(self, text, x, y, marker=None, pad=0.01, *args, **kwargs):
 		"""
 		Add an annotation to the plot.
-		Any additional arguments and keyword arguments are passed on to the annotation's :meth:`~text.text.TextAnnotation.draw` function.
+		Any additional arguments and keyword arguments are passed on to the annotation's :meth:`~text.text.Annotation.draw` function.
 		For example, the `va` can be provided to specify the vertical alignment.
 		The `align` parameter can be used to specify the text's alignment.
 
