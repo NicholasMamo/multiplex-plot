@@ -56,15 +56,15 @@ class Legend(object):
 		Then, draw the line first and the annotation second.
 		"""
 		offset = self._get_offset(transform=axis.transAxes)
+		linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes)
 
-		line = lines.Line2D([ offset, offset + 0.025 ], [ 1 ] * 2,
+		line = lines.Line2D([ offset, offset + 0.025 ], [ 1 + linespacing / 2. ] * 2,
 							transform=axis.transAxes, *args, **kwargs)
 		line.set_clip_on(False)
 		axis.add_line(line)
 
 		# TODO: Load the default style.
 		label_style = label_style or { }
-		linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes)
 		line_offset = util.get_bb(figure, axis, line, transform=axis.transAxes).x1 + 0.00625
 		annotation = self.draw_annotation(label, line_offset, 1, **label_style)
 		if annotation.get_virtual_bb(transform=axis.transAxes).x1 > 1:
@@ -74,7 +74,7 @@ class Legend(object):
 
 		return (line, annotation)
 
-	def draw_annotation(self, label, x, y, va='center', *args, **kwargs):
+	def draw_annotation(self, label, x, y, va='bottom', *args, **kwargs):
 		"""
 		Get the annotation for the legend.
 		The arguments and keyword arguments are passed on to the :meth:`~text.annotation.Annotation.draw` function.
