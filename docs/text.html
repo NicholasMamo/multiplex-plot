@@ -229,7 +229,7 @@ The visualization is drawn on the given axis.</p>
 
 <dl class="method">
 <dt id="text.annotation.Annotation.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">annotation</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">wordspacing=0.005</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">pad=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.draw" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">annotation</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">wordspacing=None</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">pad=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the text annotation visualization.
 The method receives text as a list of tokens and draws them as text.</p>
 <p>The text can be provided either as strings or as dictionaries.
@@ -256,7 +256,8 @@ If a float is given, it is taken to be the start x-position of the annotation.
 The end x-position is taken from the axis limit.
 If a tuple is given, the first two values are the start and end x-position of the annotation.</p></li>
 <li><p><strong>y</strong> (<em>float</em>) – The starting y-position of the annotation.</p></li>
-<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
+<li><p><strong>wordspacing</strong> (<em>float</em><em> or </em><em>None</em>) – The space between words.
+If <cite>None</cite> is given, the space is calculated based on the height of the line.</p></li>
 <li><p><strong>lineheight</strong> (<em>float</em>) – The space between lines.</p></li>
 <li><p><strong>align</strong> (<em>str</em>) – <p>The text’s alignment.
 Possible values:</p>
@@ -356,7 +357,8 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 The method expects a <cite>list</cite> of tokens, each one a <cite>dict</cite>.</p></li>
 <li><p><strong>x</strong> (<em>tuple</em>) – The start and end x-position of the annotation.</p></li>
 <li><p><strong>y</strong> (<em>float</em>) – The starting y-position of the annotation.</p></li>
-<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
+<li><p><strong>wordspacing</strong> (<em>float</em><em> or </em><em>None</em>) – The space between words.
+If <cite>None</cite> is given, the space is calculated based on the height of the line.</p></li>
 <li><p><strong>lineheight</strong> (<em>float</em>) – The space between lines.</p></li>
 <li><p><strong>align</strong> (<em>str</em>) – <p>The text’s alignment.
 Possible values:</p>

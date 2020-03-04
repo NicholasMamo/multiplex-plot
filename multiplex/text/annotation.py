@@ -301,9 +301,8 @@ class Annotation():
 		transform = transform if transform is not None else axis.transData
 
 		linespacing = util.get_linespacing(figure, axis, wordspacing, transform=transform, *args, **kwargs) * lineheight
-
 		if wordspacing is None:
-			wordspacing = linespacing / 15.
+			wordspacing = linespacing / 10.
 
 		"""
 		Go through each token and draw it on the axis.
