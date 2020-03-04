@@ -12,6 +12,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+from legend import Legend
 from text.annotation import Annotation
 from text.text import TextAnnotation
 from timeseries.timeseries import TimeSeries
@@ -47,9 +48,8 @@ class Drawable():
 
 	:ivar timeseries: The time series object that is being used.
 	:vartype timeseries: :class:`~timeseries.timeseries.TimeSeries`
-	:ivar legend: The legend components, separated into lines.
-				  Each component is a tuple of the visual representation and the associated label.
-	:vartype legend: list of list of tuple
+	:ivar legend: The figure's legend.
+	:vartype legend: :class:`~legend.Legend`
 	:ivar annotations: The annotations in the visualization.
 	:vartype annotations: list of :class:`~text.annotation.Annotation`
 	"""
@@ -71,7 +71,7 @@ class Drawable():
 		self.caption = Annotation(self)
 
 		self.annotations = [ ]
-		self.legend = [ ]
+		self.legend = Legend()
 		self.timeseries = None
 
 	def set_caption(self, caption, alpha=0.8, lineheight=1.25, *args, **kwargs):
@@ -205,20 +205,3 @@ class Drawable():
 		self.annotations.append(annotation)
 
 		return tokens
-
-	def draw_legend(self, label, func, *args, **kwargs):
-		"""
-		Draw a legend for the given label.
-		Any additional arguments and keyword arguments are provided to the specified plotting function.
-
-		:param label: The text of the legend label.
-		:type label: str
-		:param func: The type of plotting function to call.
-					 The arguments and keyword arguments are passed on to this function.
-		:type func: func
-
-		:return: A tuple made up of the function return value and the drawn label.
-		:rtype: tuple
-		"""
-
-		pass
