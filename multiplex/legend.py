@@ -90,3 +90,19 @@ class Legend(object):
 		annotation = Annotation(self.drawable)
 		annotation.draw(label, (x, 1), y, va=va, transform=axis.transAxes, **kwargs)
 		return annotation
+
+	def _get_offset(self):
+		"""
+		Get the x-coordinate offset for the next legend.
+
+		:return: The x-coordinate offset for the next legend.
+		:rtype: float
+		"""
+
+		if self.lines:
+			last = self.lines[-1]
+			if last:
+				(visual, annotation) = last[-1]
+				return annotation.get_virtual_bb().x1
+
+		return 0
