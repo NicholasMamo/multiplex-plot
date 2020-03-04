@@ -30,7 +30,7 @@ class Legend(object):
 		:type drawable: :class:`~drawable.Drawable`
 		"""
 
-		self.lines = [ ]
+		self.lines = [ [ ] ]
 		self.drawable = drawable
 
 	def draw_line(self, label, label_style=None, *args, **kwargs):
