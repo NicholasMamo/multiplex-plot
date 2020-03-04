@@ -30,16 +30,16 @@ class Legend(object):
 		self.components = [ ]
 		self.drawable = drawable
 
-	def draw(self, label, func, *args, **kwargs):
+	def draw_line(self, label, label_style=None, *args, **kwargs):
 		"""
-		Draw a legend for the given label.
-		Any additional arguments and keyword arguments are provided to the specified plotting function.
+		Draw a line legend for the given label.
+		Any additional arguments and keyword arguments are provided to the plotting function.
 
 		:param label: The text of the legend label.
 		:type label: str
-		:param func: The type of plotting function to call.
-					 The arguments and keyword arguments are passed on to this function.
-		:type func: func
+		:param label_style: The style of the label.
+							If `None` is given, a default style is used.
+		:type label_style: None or dict
 
 		:return: A tuple made up of the function return value and the drawn label.
 		:rtype: tuple
