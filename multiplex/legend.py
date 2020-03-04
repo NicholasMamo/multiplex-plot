@@ -1,5 +1,13 @@
 """
-A legend contains a list of labels and their visual representation.
+Legends are a common sight in visualizations, and a helpful one as well.
+They give a name to the components that you include in your visualization.
+
+.. image:: ../examples/exports/3-time-series.png
+   :class: example
+
+Legends are alternatives to inline labels in time series.
+Multiplex's legends are drawn just below the caption.
+In this way, users can look at the drawn data and understand it immediately.
 """
 
 import os
