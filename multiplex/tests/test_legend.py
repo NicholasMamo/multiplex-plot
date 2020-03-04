@@ -47,4 +47,23 @@ class TestLegend(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		line, annotation = viz.legend.draw_line('A')
-		self.assertEqual(annotation.get_virtual_bb().x1, viz.legend._get_offset())
+		self.assertEqual(annotation.get_virtual_bb().x1, viz.legend._get_offset(pad=0))
+
+	@MultiplexTest.temporary_plot
+	def test_offset_pad_new_legend(self):
+		"""
+		Test that when getting the offset of an empty legend, the offset returned has no padding applied to it.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertEqual(0, viz.legend._get_offset())
+
+	@MultiplexTest.temporary_plot
+	def test_offset_pad_legend(self):
+		"""
+		Test that when getting the offset of a legend with one component, the offset returned has padding applied to it.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		line, annotation = viz.legend.draw_line('A')
+		self.assertEqual(annotation.get_virtual_bb().x1 + 0.025, viz.legend._get_offset(pad=0.025))

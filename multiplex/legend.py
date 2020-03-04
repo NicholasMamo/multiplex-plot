@@ -91,9 +91,16 @@ class Legend(object):
 		annotation.draw(label, (x, 1), y, va=va, transform=axis.transAxes, **kwargs)
 		return annotation
 
-	def _get_offset(self):
+	def _get_offset(self, pad=0.025, transform=None):
 		"""
 		Get the x-coordinate offset for the next legend.
+
+		:param pad: The padding to add to the offset.
+					This padding is not added if there are no legends in the line.
+		:type pad: float
+		:param transform: The bounding box transformation.
+						  If `None` is given, the data transformation is used.
+		:type transform: None or :class:`matplotlib.transforms.TransformNode`
 
 		:return: The x-coordinate offset for the next legend.
 		:rtype: float
@@ -103,6 +110,6 @@ class Legend(object):
 			last = self.lines[-1]
 			if last:
 				(visual, annotation) = last[-1]
-				return annotation.get_virtual_bb().x1
+				return annotation.get_virtual_bb(transform).x1 + pad
 
 		return 0
