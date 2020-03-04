@@ -43,6 +43,9 @@ class LabelledVisualization(Visualization):
 		:type x: float
 		:param y: The y-position of the last point on the line.
 		:type y: float
+
+		:return: The drawn label.
+		:rtype: :class:`~text.annotation.Annotation`
 		"""
 
 		figure = self.drawable.figure
@@ -50,10 +53,11 @@ class LabelledVisualization(Visualization):
 		xlim_width = abs(axis.get_xlim()[1] - axis.get_xlim()[0])
 
 		annotation = Annotation(self.drawable)
-		annotation.draw(label, (x * 1.01, x * 1.01 + xlim_width * 0.2),
+		annotation.draw(label, (x, x + xlim_width * 0.2),
 						y, va='center', *args, **kwargs)
 		self.labels.append(annotation)
 		self._arrange_labels()
+		return annotation
 
 	def _arrange_labels(self):
 		"""
