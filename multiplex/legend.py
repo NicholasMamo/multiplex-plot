@@ -142,8 +142,8 @@ class Legend(object):
 			if not len(top) or not len(bottom):
 				return Bbox(((0, 1), (1, 1)))
 
-			y1 = max( annotation.get_virtual_bb().y1 for _, annotation in top )
-			y0 = min( annotation.get_virtual_bb().y0 for _, annotation in bottom )
+			y1 = max( annotation.get_virtual_bb(transform=transform).y1 for _, annotation in top )
+			y0 = min( annotation.get_virtual_bb(transform=transform).y0 for _, annotation in bottom )
 			return Bbox(((0, y0), (1, y1)))
 
 	def _get_offset(self, pad=0.025, transform=None):
