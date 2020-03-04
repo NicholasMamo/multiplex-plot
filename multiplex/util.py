@@ -151,7 +151,7 @@ def get_alignment(align, end=False):
 		return alignment[0] if alignment[0] else alignment[1]
 
 def align(figure, axis, items, align='left', xpad=0,
-		  xlim=None, va='top', *args, **kwargs):
+		  xlim=None, va='top', transform=None, *args, **kwargs):
 	"""
 	Organize the given objects.
 
@@ -183,11 +183,15 @@ def align(figure, axis, items, align='left', xpad=0,
 			   If the vertical alignment is `bottom`, the annotation grows up.
 			   If the vertical alignment is `top`, the annotation grows down.
 	:type va: str
+	:param transform: The bounding box transformation.
+					  If `None` is given, the data transformation is used.
+	:type transform: None or :class:`matplotlib.transforms.TransformNode`
 
 	:raises: ValueError
 	"""
 
 	xlim = axis.get_xlim() if xlim is None else xlim
+	transform = transform if transform is not None else axis.transData
 
 	"""
 	If the text is left-aligned or justify, move the last item to the next line.
@@ -207,28 +211,28 @@ def align(figure, axis, items, align='left', xpad=0,
 		"""
 		space = 0
 		for i in range(len(items) - 1):
-			space += (get_bb(figure, axis, items[i + 1]).x0 -
-					  get_bb(figure, axis, items[i]).x1)
+			space += (get_bb(figure, axis, items[i + 1], transform=transform).x0 -
+					  get_bb(figure, axis, items[i], transform=transform).x1)
 
-		last = get_bb(figure, axis, items[-1])
+		last = get_bb(figure, axis, items[-1], transform=transform)
 		space = space + xlim[1] - last.x1
 		space = space / (len(items) - 1)
 
-		wordspacing_px = (axis.transData.transform((space, 0))[0] -
-						  axis.transData.transform((0, 0))[0])
+		wordspacing_px = (transform.transform((space, 0))[0] -
+						  transform.transform((0, 0))[0])
 
 		"""
 		Re-position the items.
 		"""
 		offset = xlim[0]
 		for item in items:
-			bb = get_bb(figure, axis, item)
+			bb = get_bb(figure, axis, item, transform=transform)
 			item.set_position((offset, bb.y1 if va == 'top' else bb.y0))
 			bb = item.get_bbox_patch()
 			item.set_bbox(dict(
 				facecolor=bb.get_facecolor(), edgecolor=bb.get_edgecolor(),
 				pad=wordspacing_px / 2.))
-			bb = get_bb(figure, axis, item)
+			bb = get_bb(figure, axis, item, transform=transform)
 			offset += bb.width + space
 	elif align == 'right':
 		if len(items):
@@ -238,7 +242,7 @@ def align(figure, axis, items, align='left', xpad=0,
 
 			offset = 0
 			for item in items[::-1]:
-				bb = get_bb(figure, axis, item)
+				bb = get_bb(figure, axis, item, transform=transform)
 				offset += bb.width
 				item.set_position((xlim[1] - offset, bb.y1 if va == 'top' else bb.y0))
 				offset += xpad
@@ -249,11 +253,11 @@ def align(figure, axis, items, align='left', xpad=0,
 			Then, halve it and move all items by that value.
 			"""
 
-			bb = get_bb(figure, axis, items[-1])
+			bb = get_bb(figure, axis, items[-1], transform=transform)
 			offset = (xlim[1] - bb.x1)/2.
 
 			for item in items:
-				bb = get_bb(figure, axis, item)
+				bb = get_bb(figure, axis, item, transform=transform)
 				item.set_position((bb.x0 + offset, bb.y1 if va == 'top' else bb.y0))
 	else:
 		raise ValueError("Unsupported alignment %s" % align)
