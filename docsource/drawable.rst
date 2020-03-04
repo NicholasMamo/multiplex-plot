@@ -57,3 +57,12 @@ Multiplex also contains visualization types to help you get started creating new
    :members:
    :private-members:
    :special-members:
+
+
+Legend
+======
+
+.. automodule:: legend
+   :members:
+   :private-members:
+   :special-members:

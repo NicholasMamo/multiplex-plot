@@ -314,8 +314,12 @@ If <cite>None</cite> is given, the data transformation is used.</p>
 
 <dl class="method">
 <dt id="text.annotation.Annotation.set_position">
-<code class="sig-name descname">set_position</code><span class="sig-paren">(</span><em class="sig-param">position</em>, <em class="sig-param">ha='left'</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.set_position" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_position</code><span class="sig-paren">(</span><em class="sig-param">position</em>, <em class="sig-param">ha='left'</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.set_position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the annotation to the given position.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The vertical alignment should be the same as the vertical alignment when the annotation was created.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -328,6 +332,8 @@ If the horizontal alignment is <cite>right</cite>, the given x-coordinate become
 If the vertical alignment is <cite>top</cite>, the given y-coordinate becomes the highest point of the annotation.
 If the vertical alignment is <cite>center</cite>, the given y-coordinate becomes the center point of the annotation.
 If the vertical alignment is <cite>bottom</cite>, the given y-coordinate becomes the lowest point of the annotation.</p></li>
+<li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
+If <cite>None</cite> is given, the data transformation is used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
@@ -412,7 +418,7 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 
 <dl class="method">
 <dt id="text.annotation.Annotation._center">
-<code class="sig-name descname">_center</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation._center" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_center</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation._center" title="Permalink to this definition">¶</a></dt>
 <dd><p>Center the annotation around the given y-coordinate.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -424,6 +430,8 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 <li><p><strong>x</strong> (<em>float</em>) – The x-coordinate of the lines.</p></li>
 <li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the center.
 The annotation’s lines will be centered around this coordinate.</p></li>
+<li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
+If <cite>None</cite> is given, the data transformation is used.</p></li>
 </ul>
 </dd>
 </dl>

@@ -215,7 +215,7 @@ Multiplex also makes it easy to annotate points on the time series with descript
 
 <dl class="method">
 <dt id="timeseries.timeseries.TimeSeries.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">label=None</em>, <em class="sig-param">label_style=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.draw" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">label=None</em>, <em class="sig-param">label_style=None</em>, <em class="sig-param">with_legend=False</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a time series on the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
 The arguments and keyword arguments are passed on to the <code class="xref py py-meth docutils literal notranslate"><span class="pre">plot()</span></code> method.
 Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.</p>
@@ -229,6 +229,8 @@ The y-coordinates must have the same number of points as the x-coordinates.</p><
 <li><p><strong>label</strong> (<em>str</em><em> or </em><em>None</em>) – The plot’s label.
 If given, the label is drawn at the end of the line.</p></li>
 <li><p><strong>label_style</strong> (<em>dict</em><em> or </em><em>None</em>) – The style of the label.</p></li>
+<li><p><strong>with_legend</strong> (<em>bool</em>) – A boolean indicating whether the labels should be drawn as a legend.
+If false, the labels are drawn at the end of the line.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
