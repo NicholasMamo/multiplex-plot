@@ -96,13 +96,30 @@ class Drawable():
 
 		self.caption = Annotation(self)
 		self.caption.draw(caption, (0, 1), 1, va='bottom', alpha=alpha, lineheight=lineheight, *args, **kwargs, transform=self.axis.transAxes)
+		return self.caption
 
+	def redraw(self):
+		"""
+		Re-create the title with the necessary padding to fit the caption and the legend.
 		"""
 		Re-draw the title to make space for the caption.
+		"""
+		Move the caption up to make space for the legend.
+		"""
+		self.caption.set_position((0, 1 + self.legend.get_virtual_bb(transform=self.axis.transAxes).height),
+								   ha='left', va='bottom', transform=self.axis.transAxes)
+
+		"""
+		Get the height of the caption and the height of the legend.
+		The title should allow enough padding to make space for both.
 		"""
 		title = self.axis.get_title(loc='left')
 		bb = self.axis.transData.transform(self.caption.get_virtual_bb())
 		height = abs(bb[0][1] - bb[1][1])
+		caption_bb = self.axis.transData.transform(self.caption.get_virtual_bb())
+		height = abs(caption_bb[0][1] - caption_bb[1][1])
+		legend_bb = self.axis.transData.transform(self.legend.get_virtual_bb())
+		height += abs(legend_bb[0][1] - legend_bb[1][1])
 		self.axis.set_title(title, loc='left', pad=(5 + height))
 
 		return self.caption
