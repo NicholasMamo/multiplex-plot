@@ -6,6 +6,7 @@ import os
 import sys
 
 from matplotlib import lines
+from matplotlib.transforms import Bbox
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from text.annotation import Annotation
@@ -102,6 +103,49 @@ class Legend(object):
 		annotation.draw(label, (x, 1), y, va=va, transform=axis.transAxes, **kwargs)
 		return annotation
 
+	def get_virtual_bb(self, transform=None):
+		"""
+		Get the bounding box of the entire annotation.
+		This is called a virtual bounding box because it is not a real bounding box.
+		Rather, it is a bounding box that covers all of the bounding boxes of the legend.
+
+		.. note::
+
+			The legend always spans the entire x-axis.
+
+		:param transform: The bounding box transformation.
+						  If `None` is given, the data transformation is used.
+		:type transform: None or :class:`matplotlib.transforms.TransformNode`
+
+		:return: The bounding box of the annotation.
+		:rtype: :class:`matplotlib.transforms.Bbox`
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		transform = axis.transData if transform is None else transform
+
+		"""
+		If there are lines that are not empty, get the bounding boxes from the first and last lines.
+		The virtual bounding box's top value is equivalent to the first line's highest point.
+		The virtual bounding box's bottom value is equivalent to the last line's lowest point.
+		"""
+		if self.lines:
+			top = self.lines[0]
+			bottom = self.lines[-1]
+
+			"""
+			If the lines are empty, return a flat bounding box.
+			Otherwise, get the maximum and minimum points of these bounding boxes.
+			"""
+			if not len(top) or not len(bottom):
+				return Bbox(((0, 1), (1, 1)))
+
+			y1 = max( annotation.get_virtual_bb().y1 for _, annotation in top )
+			y0 = min( annotation.get_virtual_bb().y0 for _, annotation in bottom )
+			return Bbox(((0, y0), (1, y1)))
+
 	def _get_offset(self, pad=0.025, transform=None):
 		"""
 		Get the x-coordinate offset for the next legend.
@@ -125,7 +169,7 @@ class Legend(object):
 
 		return 0
 
-	def _newline(self, visual, annotation, linespacing, va='center'):
+	def _newline(self, visual, annotation, linespacing, va='bottom'):
 		"""
 		Create a new line with the given legend.
 

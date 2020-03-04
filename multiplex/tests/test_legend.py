@@ -101,4 +101,82 @@ class TestLegend(MultiplexTest):
 		for i in range(len(viz.legend.lines) -1):
 			top = viz.legend.lines[i][0][1]
 			bottom = viz.legend.lines[i + 1][0][1]
-			self.assertLessEqual(bottom.get_virtual_bb().y1, top.get_virtual_bb().y0)
+			self.assertLessEqual(round(bottom.get_virtual_bb().y1, 10),
+								 round(top.get_virtual_bb().y0, 10))
+
+	@MultiplexTest.temporary_plot
+	def test_new_line_top(self):
+		"""
+		Test that when creating a new line, the last line is at the top of the axis.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		for label in string.ascii_uppercase:
+			line, annotation = viz.legend.draw_line(label)
+		self.assertGreaterEqual(len(viz.legend.lines), 2)
+
+		bottom = viz.legend.lines[-1][0][-1]
+		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axis.transAxes).y0))
+
+	@MultiplexTest.temporary_plot
+	def test_virtual_bb_no_legend(self):
+		"""
+		Test that when getting the virtual bounding box of an empty legend, a flat one is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertEqual(0, viz.legend.get_virtual_bb().x0)
+		self.assertEqual(1, viz.legend.get_virtual_bb().y0)
+		self.assertEqual(1, viz.legend.get_virtual_bb().x1)
+		self.assertEqual(1, viz.legend.get_virtual_bb().y1)
+
+	@MultiplexTest.temporary_plot
+	def test_virtual_bb_one_legend(self):
+		"""
+		Test that when getting the virtual bounding box of a legend with one legend, it is equivalent to the virtual bounding box of the annotation.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		for label in string.ascii_uppercase[:10]:
+			line, annotation = viz.legend.draw_line(label)
+		self.assertEqual(1, len(viz.legend.lines))
+
+		self.assertEqual(0, viz.legend.get_virtual_bb().x0)
+		self.assertEqual(1, viz.legend.get_virtual_bb().y0)
+		self.assertEqual(1, viz.legend.get_virtual_bb().x1)
+		_, annotation = viz.legend.lines[0][0]
+		self.assertEqual(annotation.get_virtual_bb().y0, viz.legend.get_virtual_bb().y0)
+		self.assertEqual(annotation.get_virtual_bb().y1, viz.legend.get_virtual_bb().y1)
+
+	@MultiplexTest.temporary_plot
+	def test_virtual_bb_one_line(self):
+		"""
+		Test that when getting the virtual bounding box of a legend with one line, it is equivalent to any annotation in the line.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		for label in string.ascii_uppercase[:10]:
+			line, annotation = viz.legend.draw_line(label)
+		self.assertEqual(1, len(viz.legend.lines))
+
+		self.assertEqual(0, viz.legend.get_virtual_bb().x0)
+		self.assertEqual(1, viz.legend.get_virtual_bb().y0)
+		self.assertEqual(1, viz.legend.get_virtual_bb().x1)
+		for _, annotation in viz.legend.lines[0]:
+			self.assertEqual(annotation.get_virtual_bb().y1, viz.legend.get_virtual_bb().y1)
+
+	@MultiplexTest.temporary_plot
+	def test_virtual_bb_multiple_lines(self):
+		"""
+		Test that when getting the virtual bounding box of a legend with multiple lines, it grows from the top of the axis.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		for label in string.ascii_lowercase + string.ascii_uppercase:
+			line, annotation = viz.legend.draw_line(label)
+		self.assertGreaterEqual(len(viz.legend.lines), 3)
+
+		self.assertEqual(0, viz.legend.get_virtual_bb().x0)
+		self.assertEqual(1, viz.legend.get_virtual_bb().y0)
+		self.assertEqual(1, viz.legend.get_virtual_bb().x1)
+		self.assertEqual(viz.legend.lines[0][0][1].get_virtual_bb().y1, viz.legend.get_virtual_bb().y1)
