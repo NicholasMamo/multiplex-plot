@@ -197,3 +197,20 @@ class Drawable():
 		self.annotations.append(annotation)
 
 		return tokens
+
+	def draw_legend(self, label, func, *args, **kwargs):
+		"""
+		Draw a legend for the given label.
+		Any additional arguments and keyword arguments are provided to the specified plotting function.
+
+		:param label: The text of the legend label.
+		:type label: str
+		:param func: The type of plotting function to call.
+					 The arguments and keyword arguments are passed on to this function.
+		:type func: func
+
+		:return: A tuple made up of the function return value and the drawn label.
+		:rtype: tuple
+		"""
+
+		pass
