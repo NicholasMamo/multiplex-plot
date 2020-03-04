@@ -95,7 +95,7 @@ class Drawable():
 		title = self.axis.get_title(loc='left')
 		bb = self.axis.transData.transform(annotation.get_virtual_bb())
 		height = abs(bb[0][1] - bb[1][1])
-		self.axis.set_title(title, loc='left', pad=(5 + height * .9))
+		self.axis.set_title(title, loc='left', pad=(5 + height))
 
 		return annotation
 
