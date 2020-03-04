@@ -17,9 +17,9 @@ class Legend(object):
 
 	:ivar drawable: The :class:`~drawable.Drawable` where the legend will be drawn.
 	:vartype drawable: :class:`~drawable.Drawable`
-	:ivar components: The legend components, separated into lines.
+	:ivar lines: The legend components, separated into lines.
 				  Each component is a tuple of the visual representation and the associated label.
-	:vartype components: list of list of tuple
+	:vartype lines: list of list of tuple
 	"""
 
 	def __init__(self, drawable):
@@ -30,7 +30,7 @@ class Legend(object):
 		:type drawable: :class:`~drawable.Drawable`
 		"""
 
-		self.components = [ ]
+		self.lines = [ ]
 		self.drawable = drawable
 
 	def draw_line(self, label, label_style=None, *args, **kwargs):
@@ -60,7 +60,7 @@ class Legend(object):
 		line_offset = util.get_bb(figure, axis, line, transform=axis.transAxes).x1
 		annotation = self.draw_annotation(label, line_offset, 1, **label_style)
 
-		self.components.append((line, annotation))
+		self.lines.append((line, annotation))
 		return (line, annotation)
 
 	def draw_annotation(self, label, x, y, va='center', *args, **kwargs):
