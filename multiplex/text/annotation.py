@@ -141,7 +141,7 @@ class Annotation():
 		If the vertical alignment is meant to be centered, center the annotation now.
 		"""
 		if va == 'center':
-			self._center(x[0], y)
+			self._center(x[0], y, *args, **kwargs)
 
 		return tokens
 
@@ -401,7 +401,7 @@ class Annotation():
 			"""
 			token.set_position((x, y - len(previous_lines) * linespacing))
 
-	def _center(self, x, y):
+	def _center(self, x, y, transform=None, *args, **kwargs):
 		"""
 		Center the annotation around the given y-coordinate.
 
@@ -414,9 +414,12 @@ class Annotation():
 		:param y: The y-coordinate of the center.
 				  The annotation's lines will be centered around this coordinate.
 		:type y: float
+		:param transform: The bounding box transformation.
+						  If `None` is given, the data transformation is used.
+		:type transform: None or :class:`matplotlib.transforms.TransformNode`
 		"""
 
-		bb = self.get_virtual_bb()
+		bb = self.get_virtual_bb(transform=transform)
 		self.set_position((x, y + bb.height / 2.))
 
 	def _pad(self, x, y, pad, va):
