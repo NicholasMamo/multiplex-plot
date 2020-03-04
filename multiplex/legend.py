@@ -73,6 +73,7 @@ class Legend(object):
 		else:
 			self.lines[-1].append((line, annotation))
 
+		self.drawable.redraw()
 		return (line, annotation)
 
 	def draw_annotation(self, label, x, y, va='bottom', *args, **kwargs):
