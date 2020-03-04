@@ -47,6 +47,9 @@ class Drawable():
 
 	:ivar timeseries: The time series object that is being used.
 	:vartype timeseries: :class:`~timeseries.timeseries.TimeSeries`
+	:ivar legend: The legend components, separated into lines.
+				  Each component is a tuple of the visual representation and the associated label.
+	:vartype legend: list of list of tuple
 	:ivar annotations: The annotations in the visualization.
 	:vartype annotations: list of :class:`~text.annotation.Annotation`
 	"""
@@ -68,6 +71,7 @@ class Drawable():
 		self.caption = Annotation(self)
 
 		self.annotations = [ ]
+		self.legend = [ ]
 		self.timeseries = None
 
 	def set_caption(self, caption, alpha=0.8, lineheight=1.25, *args, **kwargs):
