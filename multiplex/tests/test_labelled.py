@@ -5,21 +5,22 @@ Unit tests for the :class:`~labelled.LabelledVisualization` class.
 import matplotlib.pyplot as plt
 import os
 import sys
-import unittest
 
 path = os.path.join(os.path.dirname(__file__), '..')
 if path not in sys.path:
 	sys.path.insert(1, path)
 
+from .test import MultiplexTest
 from labelled import LabelledVisualization
 import drawable
 import util
 
-class TestLabelledVisualization(unittest.TestCase):
+class TestLabelledVisualization(MultiplexTest):
 	"""
 	Unit tests for the :class:`~labelled.LabelledVisualization` class.
 	"""
 
+	@MultiplexTest.temporary_plot
 	def test_label(self):
 		"""
 		Test that when a label is drawn with normal alignment, it is drawn at the given position.
@@ -30,6 +31,7 @@ class TestLabelledVisualization(unittest.TestCase):
 		self.assertEqual(4, label.get_virtual_bb().x0)
 		self.assertEqual(10, (label.get_virtual_bb().y0 + label.get_virtual_bb().y1)/2.)
 
+	@MultiplexTest.temporary_plot
 	def test_overlapping_labels(self):
 		"""
 		Test that when two labels overlap, they are distributed vertically.

@@ -6,39 +6,22 @@ import math
 import matplotlib.pyplot as plt
 import os
 import sys
-import unittest
 
 path = os.path.join(os.path.dirname(__file__), '..')
 if path not in sys.path:
 	sys.path.insert(1, path)
 
+from .test import MultiplexTest
 from text.annotation import Annotation
 import drawable
 import util
 
-class TestAnnotation(unittest.TestCase):
+class TestAnnotation(MultiplexTest):
 	"""
 	Unit tests for the :class:`~text.annotation.Annotation` class.
 	"""
 
-	def temporary_plot(f):
-		"""
-		The temporary plot decorator function removes the plot after every test.
-		In this way, the memory of the plot is freed.
-		"""
-
-		def wrapper(*args, **kwargs):
-			"""
-			Call the test function with any arguments and keyword arguments.
-			Immediately after, close the plot to free the memory.
-			"""
-
-			f(*args, **kwargs)
-			plt.close()
-
-		return wrapper
-
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_text(self):
 		"""
 		Test that the text is written correctly.
@@ -52,7 +35,7 @@ class TestAnnotation(unittest.TestCase):
 		drawn_text = self._reconstruct_text(lines)
 		self.assertEqual(text, drawn_text)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_left(self):
 		"""
 		Test that when aligning text left, all lines start at the same x-coordinate.
@@ -63,7 +46,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		lines = annotation.draw(text, (0, 2), 0, align='left', va='top')
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_right(self):
 		"""
 		Test that when aligning text right, all lines end at the same x-coordinate.
@@ -82,7 +65,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(bb.x1, 5))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_center(self):
 		"""
 		Test that when centering text, all of the lines' centers are the same.
@@ -103,7 +86,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(center, 5))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_justify(self):
 		"""
 		Test that when justifying text, all lines start and end at the same x-coordinate.
@@ -125,7 +108,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(center, 5))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_justify_left(self):
 		"""
 		Test that when justifying text with the last line being left-aligned, the last line starts at x-coordinate 0.
@@ -139,7 +122,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
 		self.assertEqual(0, bb.x0)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_justify_right(self):
 		"""
 		Test that when justifying text with the last line being right-aligned, the last line ends at the farthest right.
@@ -153,7 +136,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = util.get_bb(viz.figure, viz.axis, lines[0][-1])
 		self.assertEqual(2, round(bb.x1, 5))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_justify_center(self):
 		"""
 		Test that when justifying text with the last line centered, all lines have the exact same center.
@@ -174,7 +157,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(center, 5))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_invalid(self):
 		"""
 		Test that when an invalid alignment is given, a :class:`~ValueError` is raised.
@@ -185,7 +168,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		self.assertRaises(ValueError, annotation.draw, text, (0, 2), 0, va='top', align='invalid')
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_top_order(self):
 		"""
 		Test that when the vertical alignment is top, the order of lines is still correct.
@@ -199,7 +182,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertEqual('Memphis', lines[0][0].get_text())
 		self.assertEqual('ground.', lines[-1][-1].get_text())
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_bottom_order(self):
 		"""
 		Test that when the vertical alignment is bottom, the order of lines is still correct.
@@ -213,7 +196,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertEqual('Memphis', lines[0][0].get_text())
 		self.assertEqual('ground.', lines[-1][-1].get_text())
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_top(self):
 		"""
 		Test that when the alignment is top, all lines are below the provided y-coordinate.
@@ -230,7 +213,7 @@ class TestAnnotation(unittest.TestCase):
 		for line in lines:
 			self.assertLessEqual(0, bb.y1)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_bottom(self):
 		"""
 		Test that when the alignment is top, all lines are above the provided y-coordinate.
@@ -247,7 +230,7 @@ class TestAnnotation(unittest.TestCase):
 		for line in lines:
 			self.assertGreaterEqual(0, bb.y0)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_top_line_alignment(self):
 		"""
 		Test that the lines all have the same vertical position when they are aligned to the top.
@@ -266,7 +249,7 @@ class TestAnnotation(unittest.TestCase):
 				bb = util.get_bb(viz.figure, viz.axis, token)
 				self.assertEqual(y0, bb.y0)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_bottom_line_alignment(self):
 		"""
 		Test that the lines all have the same vertical position when they are aligned to the top.
@@ -285,7 +268,7 @@ class TestAnnotation(unittest.TestCase):
 				bb = util.get_bb(viz.figure, viz.axis, token)
 				self.assertEqual(y1, bb.y1)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_top_lines_do_not_overlap(self):
 		"""
 		Test that when annotations are vertically aligned to the top, the lines do not overlap.
@@ -302,7 +285,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertGreaterEqual(bb0.y0, bb1.y1)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_align_bottom_lines_do_not_overlap(self):
 		"""
 		Test that when annotations are vertically aligned to the bottom, the lines do not overlap.
@@ -319,7 +302,7 @@ class TestAnnotation(unittest.TestCase):
 
 			self.assertGreaterEqual(bb0.y0, bb1.y1)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_get_virtual_bb_single_token(self):
 		"""
 		Test that the virtual bounding box of an annotation with one token is equivalent to the bounding box of a single token.
@@ -336,7 +319,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertEqual(bb.x1, virtual_bb.x1)
 		self.assertEqual(bb.y1, virtual_bb.y1)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_get_virtual_bb_line(self):
 		"""
 		Test that the virtual bounding box of an annotation with one line spans the entire line.
@@ -353,7 +336,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][-1]).x1, virtual_bb.x1)
 		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][-1]).y1, virtual_bb.y1)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_get_virtual_bb_multiple_lines(self):
 		"""
 		Test that the virtual bounding box of an annotation with multiple lines spans the entire block.
@@ -370,7 +353,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertEqual(max(util.get_bb(viz.figure, viz.axis, lines[line][-1]).x1 for line in range(0, len(lines))), virtual_bb.x1)
 		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][0]).y1, virtual_bb.y1)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_center_one_token(self):
 		"""
 		Test that when centering a single token, the middle of the annotation is equivalent to the middle coordinate of the token.
@@ -385,7 +368,7 @@ class TestAnnotation(unittest.TestCase):
 		virtual_bb = annotation.get_virtual_bb()
 		self.assertEqual(0, (virtual_bb.y1 + virtual_bb.y0) / 2.)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_center_one_line(self):
 		"""
 		Test that when centering a single line, each token in that line is centered.
@@ -399,7 +382,7 @@ class TestAnnotation(unittest.TestCase):
 			bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
 			self.assertEqual(0, (bb.y1 + bb.y0) / 2.)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_center_multiple_even_lines(self):
 		"""
 		Test that when centering multiple even lines, the block is centered around the given point.
@@ -416,7 +399,7 @@ class TestAnnotation(unittest.TestCase):
 		bb2 = util.get_bb(viz.figure, viz.axis, tokens[-1])
 		self.assertEqual(0, round((bb1.y1 + bb2.y0) / 2., 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_center_multiple_odd_lines(self):
 		"""
 		Test that when centering multiple odd lines, the block is centered around the given point.
@@ -439,7 +422,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = util.get_bb(viz.figure, viz.axis, lines[math.floor(len(lines) / 2)][0])
 		self.assertEqual(0, round((bb.y1 + bb.y0) / 2., 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_top(self):
 		"""
 		Test that when moving an annotation with a `top` vertical alignment, the top of the first line is the given position.
@@ -453,7 +436,7 @@ class TestAnnotation(unittest.TestCase):
 		for token in annotation.lines[0]:
 			self.assertEqual(2, util.get_bb(viz.figure, viz.axis, token).y1)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_top_below(self):
 		"""
 		Test that when moving an annotation with a `top` vertical alignment, all lines are below the given position.
@@ -468,7 +451,7 @@ class TestAnnotation(unittest.TestCase):
 			for token in line:
 				self.assertGreaterEqual(2, util.get_bb(viz.figure, viz.axis, token).y1)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_vertical_center(self):
 		"""
 		Test that when moving an annotation with a `center` vertical alignment, the block is centered around the given point.
@@ -482,7 +465,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = annotation.get_virtual_bb()
 		self.assertEqual(2, (bb.y1 + bb.y0)/2.)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_vertical_center_multiple_even_lines(self):
 		"""
 		Test that when centering multiple even lines vertically, the block is centered around the given point.
@@ -501,7 +484,7 @@ class TestAnnotation(unittest.TestCase):
 		bb2 = util.get_bb(viz.figure, viz.axis, tokens[-1])
 		self.assertEqual(2, round((bb1.y1 + bb2.y0) / 2., 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_vertical_center_multiple_odd_lines(self):
 		"""
 		Test that when centering multiple odd lines vertically, the block is centered around the given point.
@@ -526,7 +509,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = util.get_bb(viz.figure, viz.axis, lines[math.floor(len(lines) / 2)][0])
 		self.assertEqual(2, round((bb.y1 + bb.y0) / 2., 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_bottom(self):
 		"""
 		Test that when moving an annotation with a `bottom` vertical alignment, the bottom of the last line is the given position.
@@ -540,7 +523,7 @@ class TestAnnotation(unittest.TestCase):
 		for token in annotation.lines[-1]:
 			self.assertEqual(2, util.get_bb(viz.figure, viz.axis, token).y0)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_bottom_above(self):
 		"""
 		Test that when moving an annotation with a `bottom` vertical alignment, all lines are above the given position.
@@ -555,7 +538,7 @@ class TestAnnotation(unittest.TestCase):
 			for token in line:
 				self.assertLessEqual(2, util.get_bb(viz.figure, viz.axis, token).y0)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_invalid_vertical_alignment(self):
 		"""
 		Test that when setting the position of an annotation with an invalid vertical alignment, a ValueError is raised.
@@ -567,7 +550,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation.draw(text, (0, 1), 0, va='top')
 		self.assertRaises(ValueError, annotation.set_position, (0, 2), va='invalid')
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_left(self):
 		"""
 		Test that when moving an annotation with a `left` horizontal alignment, all lines start at the given position.
@@ -581,7 +564,7 @@ class TestAnnotation(unittest.TestCase):
 		for tokens in annotation.lines:
 			self.assertEqual(2, round(util.get_bb(viz.figure, viz.axis, tokens[0]).x0, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_left_to_the_right(self):
 		"""
 		Test that when moving an annotation with a `left` horizontal alignment, all lines are to the right of the given position.
@@ -596,7 +579,7 @@ class TestAnnotation(unittest.TestCase):
 			for token in line:
 				self.assertLessEqual(2, round(util.get_bb(viz.figure, viz.axis, token).x0, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_horizontal_center(self):
 		"""
 		Test that when moving an annotation with a `center` horizontal alignment, the block is centered around the given point.
@@ -610,7 +593,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = annotation.get_virtual_bb()
 		self.assertEqual(2, (bb.x0 + bb.x1)/2.)
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_right(self):
 		"""
 		Test that when moving an annotation with a `right` horizontal alignment, all lines end at the given position.
@@ -625,7 +608,7 @@ class TestAnnotation(unittest.TestCase):
 		for tokens in annotation.lines:
 			self.assertEqual(2, round(util.get_bb(viz.figure, viz.axis, tokens[-1]).x1, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_right_to_the_left(self):
 		"""
 		Test that when moving an annotation with a `right` horizontal alignment, all lines are to the left of the given position.
@@ -641,7 +624,7 @@ class TestAnnotation(unittest.TestCase):
 			for token in line:
 				self.assertGreaterEqual(2, round(util.get_bb(viz.figure, viz.axis, token).x1, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_invalid_horizontal_alignment(self):
 		"""
 		Test that when setting the position of an annotation with an invalid horizontal alignment, a ValueError is raised.
@@ -653,7 +636,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation.draw(text, (0, 1), 0)
 		self.assertRaises(ValueError, annotation.set_position, (0, 2), ha='invalid')
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_set_position_no_tokens(self):
 		"""
 		Test that when setting the position of an annotation with no tokens, nothing changes.
@@ -663,7 +646,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		self.assertEqual(None, annotation.set_position((0, 0)))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_x_pad_left(self):
 		"""
 		Test that when padding is applied with `left` alignment, the block moves to the right.
@@ -676,7 +659,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = annotation.get_virtual_bb()
 		self.assertEqual(0.2, round(bb.x0, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_x_pad_center(self):
 		"""
 		Test that when padding is applied with `center` alignment, the block is narrower.
@@ -690,7 +673,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertLessEqual(0.2, round(bb.x0, 10))
 		self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_x_pad_right(self):
 		"""
 		Test that when padding is applied with `right` alignment, the block moves to the left.
@@ -703,7 +686,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = annotation.get_virtual_bb()
 		self.assertEqual(0.8, round(bb.x1, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_x_pad_justify_start(self):
 		"""
 		Test that when padding is applied with `justify-start` alignment, the block moves to the right.
@@ -716,7 +699,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = annotation.get_virtual_bb()
 		self.assertEqual(0.2, round(bb.x0, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_x_pad_justify_center(self):
 		"""
 		Test that when padding is applied with `justify-center` alignment, the block is narrower.
@@ -730,7 +713,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertEqual(0.2, round(bb.x0, 10))
 		self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_x_pad_justify_end(self):
 		"""
 		Test that when padding is applied with `justify-end` alignment, the block moves to the left.
@@ -743,7 +726,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = annotation.get_virtual_bb()
 		self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_x_pad_equal(self):
 		"""
 		Test that when applying padding, the block is equally-narrower on both sides.
@@ -757,7 +740,7 @@ class TestAnnotation(unittest.TestCase):
 		self.assertEqual(0.2, round(bb.x0, 10))
 		self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_y_pad_top(self):
 		"""
 		Test that when applying padding with `top` vertical alignment, the block moves down.
@@ -770,7 +753,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = annotation.get_virtual_bb()
 		self.assertEqual(-0.2, round(bb.y1, 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_y_pad_center(self):
 		"""
 		Test that when applying padding with `center` vertical alignment, the block remains in place.
@@ -783,7 +766,7 @@ class TestAnnotation(unittest.TestCase):
 		bb = annotation.get_virtual_bb()
 		self.assertEqual(0, round((bb.y0 + bb.y1)/2., 10))
 
-	@temporary_plot
+	@MultiplexTest.temporary_plot
 	def test_y_pad_bottom(self):
 		"""
 		Test that when applying padding with `bottom` vertical alignment, the block moves up.

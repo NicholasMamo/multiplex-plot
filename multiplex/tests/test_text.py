@@ -5,20 +5,21 @@ Unit tests for the :class:`~text.text.TextAnnotation` class.
 import matplotlib.pyplot as plt
 import os
 import sys
-import unittest
 
 path = os.path.join(os.path.dirname(__file__), '..')
 if path not in sys.path:
 	sys.path.insert(1, path)
 
+from .test import MultiplexTest
 import drawable
 import util
 
-class TestTextAnnotation(unittest.TestCase):
+class TestTextAnnotation(MultiplexTest):
 	"""
 	Unit tests for the :class:`~text.text.TextAnnotation` class.
 	"""
 
+	@MultiplexTest.temporary_plot
 	def test_text(self):
 		"""
 		Test that the text is written correctly.
@@ -31,6 +32,7 @@ class TestTextAnnotation(unittest.TestCase):
 		drawn_text = self._reconstruct_text(lines)
 		self.assertEqual(text, drawn_text)
 
+	@MultiplexTest.temporary_plot
 	def test_text_vertically_aligned(self):
 		"""
 		Test that each line is vertically-aligned (the y-coordinate is the same for each line's tokens).
@@ -49,6 +51,7 @@ class TestTextAnnotation(unittest.TestCase):
 				else:
 					y = bb.y0
 
+	@MultiplexTest.temporary_plot
 	def test_text_does_not_overlap(self):
 		"""
 		Test that the lines do not overlap.
@@ -66,6 +69,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 			y = bb.y1
 
+	@MultiplexTest.temporary_plot
 	def test_align_left(self):
 		"""
 		Test that when aligning text left, all lines start at the same x-coordinate.
@@ -83,6 +87,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 			self.assertEqual(x, bb.x0)
 
+	@MultiplexTest.temporary_plot
 	def test_align_right(self):
 		"""
 		Test that when aligning text right, all lines end at the same x-coordinate.
@@ -100,6 +105,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 			self.assertEqual(x, bb.x1)
 
+	@MultiplexTest.temporary_plot
 	def test_align_center(self):
 		"""
 		Test that when centering text, all of the lines' centers are the same.
@@ -119,6 +125,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(center, 5))
 
+	@MultiplexTest.temporary_plot
 	def test_align_justify(self):
 		"""
 		Test that when justifying text, all lines start and end at the same x-coordinate.
@@ -139,6 +146,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(center, 5))
 
+	@MultiplexTest.temporary_plot
 	def test_align_justify_left(self):
 		"""
 		Test that when justifying text with the last line being left-aligned, the last line starts at x-coordinate 0.
@@ -151,6 +159,7 @@ class TestTextAnnotation(unittest.TestCase):
 		bb = util.get_bb(viz.figure, viz.axis, lines[0][-1][0])
 		self.assertEqual(0, bb.x0)
 
+	@MultiplexTest.temporary_plot
 	def test_align_justify_right(self):
 		"""
 		Test that when justifying text with the last line being right-aligned, the last line ends at the farthest right.
@@ -163,6 +172,7 @@ class TestTextAnnotation(unittest.TestCase):
 		bb = util.get_bb(viz.figure, viz.axis, lines[0][-1][-1])
 		self.assertEqual(viz.axis.get_xlim()[1], bb.x1)
 
+	@MultiplexTest.temporary_plot
 	def test_align_justify_center(self):
 		"""
 		Test that when justifying text with the last line centered, all lines have the exact same center.
@@ -182,6 +192,7 @@ class TestTextAnnotation(unittest.TestCase):
 
 			self.assertEqual(round(x, 5), round(center, 5))
 
+	@MultiplexTest.temporary_plot
 	def test_align_invalid(self):
 		"""
 		Test that when an invalid alignment is given, a :class:`~ValueError` is raised.
@@ -191,6 +202,7 @@ class TestTextAnnotation(unittest.TestCase):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		self.assertRaises(ValueError, viz.draw_text_annotation, text, align='invalid')
 
+	@MultiplexTest.temporary_plot
 	def test_with_legend(self):
 		"""
 		Test that when a label is given, a legend is drawn.
@@ -209,6 +221,7 @@ class TestTextAnnotation(unittest.TestCase):
 		lines = viz.draw_text_annotation(tokens)
 		self.assertTrue(len(lines[0][0]))
 
+	@MultiplexTest.temporary_plot
 	def test_without_legend(self):
 		"""
 		Test that a legend is not drawn when it is disabled, even if labels are given.
@@ -227,6 +240,7 @@ class TestTextAnnotation(unittest.TestCase):
 		lines = viz.draw_text_annotation(tokens, with_legend=False)
 		self.assertFalse(len(lines[0][0]))
 
+	@MultiplexTest.temporary_plot
 	def test_lpad_bounds(self):
 		"""
 		Test that the left padding is bound between 0 and 1.
@@ -251,6 +265,7 @@ class TestTextAnnotation(unittest.TestCase):
 		"""
 		self.assertRaises(ValueError, viz.draw_text_annotation, text, lpad=1)
 
+	@MultiplexTest.temporary_plot
 	def test_rpad_bounds(self):
 		"""
 		Test that the right padding is bound between 0 and 1.
@@ -275,6 +290,7 @@ class TestTextAnnotation(unittest.TestCase):
 		"""
 		self.assertRaises(ValueError, viz.draw_text_annotation, text, rpad=1)
 
+	@MultiplexTest.temporary_plot
 	def test_tpad_bounds(self):
 		"""
 		Test that the top padding has no lower or upper bounds.
@@ -307,6 +323,7 @@ class TestTextAnnotation(unittest.TestCase):
 		lines = viz.draw_text_annotation(text, tpad=1.1)
 		self.assertTrue(len(lines))
 
+	@MultiplexTest.temporary_plot
 	def test_xpad_bounds(self):
 		"""
 		Test that the left and right padding cannot occupy the entire axis.
