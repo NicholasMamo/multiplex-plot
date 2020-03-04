@@ -83,7 +83,7 @@ class Drawable():
 		:type lineheight: float
 
 		:return: The drawn caption.
-		:rtype: :class:`~text.text.Annotation`
+		:rtype: :class:`~text.annotation.Annotation`
 		"""
 
 		annotation = Annotation(self)
