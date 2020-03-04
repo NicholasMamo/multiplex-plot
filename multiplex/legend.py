@@ -60,7 +60,7 @@ class Legend(object):
 		line_offset = util.get_bb(figure, axis, line, transform=axis.transAxes).x1
 		annotation = self.draw_annotation(label, line_offset, 1, **label_style)
 
-		self.lines.append((line, annotation))
+		self.lines[-1].append((line, annotation))
 		return (line, annotation)
 
 	def draw_annotation(self, label, x, y, va='center', *args, **kwargs):
