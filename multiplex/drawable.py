@@ -107,7 +107,8 @@ class Drawable():
 		"""
 		Move the caption up to make space for the legend.
 		"""
-		self.caption.set_position((0, 1 + self.legend.get_virtual_bb(transform=self.axis.transAxes).height),
+		legend_bb = self.legend.get_virtual_bb(transform=self.axis.transAxes)
+		self.caption.set_position((0, 1 + 0.01 + legend_bb.height),
 								   ha='left', va='bottom', transform=self.axis.transAxes)
 
 		"""
@@ -119,7 +120,8 @@ class Drawable():
 		height = abs(caption_bb[0][1] - caption_bb[1][1])
 		legend_bb = self.axis.transData.transform(self.legend.get_virtual_bb())
 		height += abs(legend_bb[0][1] - legend_bb[1][1])
-		self.axis.set_title(title, loc='left', pad=(5 + height))
+		pad_px = self.axis.transAxes.transform((0, 0.01))[1] - self.axis.transAxes.transform((0, 0))[1]
+		self.axis.set_title(title, loc='left', pad=(5 + height + pad_px * 2))
 
 	def __getattr__(self, name):
 		"""
