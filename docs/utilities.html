@@ -265,7 +265,7 @@ Its bounding box will be compared to the first component.</p></li>
 
 <dl class="function">
 <dt id="util.get_linespacing">
-<code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_linespacing</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">wordspacing=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_linespacing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_linespacing</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">wordspacing=0</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_linespacing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the line spacing of text tokens.
 The line spacing is calculated by creating a token and getting its height.
 The token is immediately removed.
@@ -278,6 +278,8 @@ This is used to get the figure renderer.</p></li>
 <li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
 <li><p><strong>wordspacing</strong> (<em>float</em>) – The spacing between tokens.
 This is used to be able to create the padding around words.</p></li>
+<li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
+If <cite>None</cite> is given, the data transformation is used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -315,7 +317,7 @@ Otherwise, <cite>justify</cite> is returned.</p></li>
 
 <dl class="function">
 <dt id="util.align">
-<code class="sig-prename descclassname">util.</code><code class="sig-name descname">align</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">items</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">xpad=0</em>, <em class="sig-param">xlim=None</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.align" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">align</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">items</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">xpad=0</em>, <em class="sig-param">xlim=None</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.align" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organize the given objects.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -345,6 +347,8 @@ The x-limit is a tuple limiting the start and end.</p></li>
 <li><p><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite> or <cite>bottom</cite>.
 If the vertical alignment is <cite>bottom</cite>, the annotation grows up.
 If the vertical alignment is <cite>top</cite>, the annotation grows down.</p></li>
+<li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
+If <cite>None</cite> is given, the data transformation is used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>

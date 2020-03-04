@@ -246,28 +246,25 @@ If <cite>None</cite> is not given, the plot’s main subplot is used instead.</p
 
 <dl class="method">
 <dt id="drawable.Drawable.set_caption">
-<code class="sig-name descname">set_caption</code><span class="sig-paren">(</span><em class="sig-param">caption</em>, <em class="sig-param">alpha=0.8</em>, <em class="sig-param">ha='left'</em>, <em class="sig-param">va='bottom'</em>, <em class="sig-param">wordspacing=0.005</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.set_caption" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_caption</code><span class="sig-paren">(</span><em class="sig-param">caption</em>, <em class="sig-param">alpha=0.8</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.set_caption" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a caption to the subplot.
 The caption is added just beneath the title.
 The method re-draws the title to make space for the caption.</p>
-<p>The caption is a <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code> object.
+<p>The caption is a <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code> object.
 Any arguments that the constructor accepts can be provided to this method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>caption</strong> (<em>str</em>) – The caption to add to the axis.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – The opacity of the caption.
-1 is the maximum opacity, and 0 is the minimum.</p></li>
-<li><p><strong>ha</strong> (<em>str</em>) – The horizontal alignment of the caption.</p></li>
-<li><p><strong>va</strong> (<em>str</em>) – The vertical alignment of the caption.</p></li>
+<li><p><strong>alpha</strong> (<em>float</em>) – The opacity of the caption between 0 and 1.</p></li>
 <li><p><strong>lineheight</strong> (<em>float</em>) – The space between lines.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of tokens that make up the caption.</p>
+<dd class="field-even"><p>The drawn caption.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code></p>
+<dd class="field-odd"><p><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -328,7 +325,7 @@ The arguments and keyword arguments are those supported by <code class="xref py 
 <dt id="drawable.Drawable.annotate">
 <code class="sig-name descname">annotate</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">marker=None</em>, <em class="sig-param">pad=0.01</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.annotate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add an annotation to the plot.
-Any additional arguments and keyword arguments are passed on to the annotation’s <a class="reference internal" href="text.html#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code></a> function.
+Any additional arguments and keyword arguments are passed on to the annotation’s <code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code> function.
 For example, the <cite>va</cite> can be provided to specify the vertical alignment.
 The <cite>align</cite> parameter can be used to specify the text’s alignment.</p>
 <dl class="field-list simple">
@@ -409,7 +406,7 @@ This list is used to ensure that labels do not overlap.</p>
 
 <dl class="method">
 <dt id="labelled.LabelledVisualization.draw_label">
-<code class="sig-name descname">draw_label</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw_label" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw_label</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">va='center'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a label at the end of the line.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -417,7 +414,17 @@ This list is used to ensure that labels do not overlap.</p>
 <li><p><strong>label</strong> (<em>str</em>) – The label to draw.</p></li>
 <li><p><strong>x</strong> (<em>float</em>) – The x-position of the last point on the line.</p></li>
 <li><p><strong>y</strong> (<em>float</em>) – The y-position of the last point on the line.</p></li>
+<li><p><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite>, <cite>center</cite> or <cite>bottom</cite>.
+If the vertical alignment is <cite>top</cite>, the annotation grows down.
+If the vertical alignment is <cite>center</cite>, the annotation is centered around the given y-coordinate.
+If the vertical alignment is <cite>bottom</cite>, the annotation grows up.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The drawn label.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -428,6 +435,10 @@ This list is used to ensure that labels do not overlap.</p>
 <dd><p>Go through the labels and ensure that none overlap.
 If any do overlap, move the labels.
 The function keeps repeating until no labels overlap.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The distribution is vertical only.</p>
+</div>
 <img alt="_images/3-overlapping-labels.png" class="example" src="_images/3-overlapping-labels.png" />
 </dd></dl>
 

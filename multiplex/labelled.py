@@ -33,7 +33,7 @@ class LabelledVisualization(Visualization):
 		super().__init__(*args, **kwargs)
 		self.labels = [ ]
 
-	def draw_label(self, label, x, y, *args, **kwargs):
+	def draw_label(self, label, x, y, va='center', *args, **kwargs):
 		"""
 		Draw a label at the end of the line.
 
@@ -43,6 +43,11 @@ class LabelledVisualization(Visualization):
 		:type x: float
 		:param y: The y-position of the last point on the line.
 		:type y: float
+		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
+				   If the vertical alignment is `top`, the annotation grows down.
+				   If the vertical alignment is `center`, the annotation is centered around the given y-coordinate.
+				   If the vertical alignment is `bottom`, the annotation grows up.
+		:type va: str
 
 		:return: The drawn label.
 		:rtype: :class:`~text.annotation.Annotation`
@@ -53,8 +58,7 @@ class LabelledVisualization(Visualization):
 		xlim_width = abs(axis.get_xlim()[1] - axis.get_xlim()[0])
 
 		annotation = Annotation(self.drawable)
-		annotation.draw(label, (x, x + xlim_width * 0.2),
-						y, va='center', *args, **kwargs)
+		annotation.draw(label, (x, x + xlim_width * 0.2), y, va=va, *args, **kwargs)
 		self.labels.append(annotation)
 		self._arrange_labels()
 		return annotation
