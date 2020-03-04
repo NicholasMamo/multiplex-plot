@@ -240,7 +240,8 @@ class Annotation():
 				bb = util.get_bb(figure, axis, token)
 				token.set_position((bb.x0 - offset[0], bb.y1 - offset[1]))
 
-	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs):
+	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va,
+					 transform=None, *args, **kwargs):
 		"""
 		Draw the tokens on the plot.
 
@@ -270,6 +271,9 @@ class Annotation():
 				   If the vertical alignment is `bottom`, the annotation grows up.
 				   If the vertical alignment is `top`, the annotation grows down.
 		:type va: str
+		:param transform: The bounding box transformation.
+						  If `None` is given, the data transformation is used.
+		:type transform: None or :class:`matplotlib.transforms.TransformNode`
 
 		:return: The drawn lines.
 				 Each line is made up of the text tokens.
@@ -278,8 +282,9 @@ class Annotation():
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
+		transform = transform if transform is not None else axis.transData
 
-		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs) * lineheight
+		linespacing = util.get_linespacing(figure, axis, wordspacing, transform=transform, *args, **kwargs) * lineheight
 
 		"""
 		Go through each token and draw it on the axis.
@@ -302,7 +307,7 @@ class Annotation():
 			text = text_util.draw_token(figure, axis, token.get('text'), offset,
 										y - len(drawn_lines) * linespacing if va == 'top' else y,
 										token.get('style', {}), wordspacing, va=va,
-										*args, **kwargs)
+										transform=transform, *args, **kwargs)
 			line_tokens.append(text)
 
 			"""
@@ -314,11 +319,11 @@ class Annotation():
 			Note that lists are passed by reference.
 			Therefore when the last token is removed from drawn lines when create a new line, the change is reflected here.
 			"""
-			bb = util.get_bb(figure, axis, text)
+			bb = util.get_bb(figure, axis, text, transform=transform)
 			if bb.x1 > x[1] and token.get('text') not in string.punctuation:
-				self._newline(line_tokens, drawn_lines, linespacing, x[0], y, va)
+				self._newline(line_tokens, drawn_lines, linespacing, x[0], y, va, transform=transform)
 				util.align(figure, axis, line_tokens, xpad=wordspacing,
-						   align=util.get_alignment(align), xlim=x, va=va)
+						   align=util.get_alignment(align), xlim=x, va=va, transform=transform)
 				offset = x[0]
 				line_tokens = [ text ]
 
@@ -329,11 +334,11 @@ class Annotation():
 		"""
 		drawn_lines.append(line_tokens)
 		util.align(figure, axis, line_tokens, xpad=wordspacing,
-				   align=util.get_alignment(align, end=True), xlim=x, va=va)
+				   align=util.get_alignment(align, end=True), xlim=x, va=va, transform=transform)
 
 		return drawn_lines
 
-	def _newline(self, line, previous_lines, linespacing, x, y, va):
+	def _newline(self, line, previous_lines, linespacing, x, y, va, transform=None):
 		"""
 		Create a new line with the given token.
 
@@ -358,6 +363,9 @@ class Annotation():
 				   If the vertical alignment is `bottom`, the annotation grows up.
 				   If the vertical alignment is `top`, the annotation grows down.
 		:type va: str
+		:param transform: The bounding box transformation.
+						  If `None` is given, the data transformation is used.
+		:type transform: None or :class:`matplotlib.transforms.TransformNode`
 		"""
 
 		figure = self.drawable.figure
@@ -369,7 +377,7 @@ class Annotation():
 		The line that was being edited, without this token, is added to the list of previous lines—it is 'retired'.
 		"""
 		token = line.pop(-1)
-		bb = util.get_bb(figure, axis, token)
+		bb = util.get_bb(figure, axis, token, transform=transform)
 		previous_lines.append(line)
 
 		if va == 'bottom':
@@ -384,7 +392,7 @@ class Annotation():
 			for line, previous_line in enumerate(previous_lines[::-1]):
 				for token in previous_line:
 					position = token.get_position()
-					bb = util.get_bb(figure, axis, token)
+					bb = util.get_bb(figure, axis, token, transform=transform)
 					token.set_position((position[0], y + (line + 1) * linespacing))
 		elif va == 'top':
 			"""
