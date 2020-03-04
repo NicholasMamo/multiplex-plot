@@ -5,7 +5,7 @@ A legend contains a list of labels and their visual representation.
 import os
 import sys
 
-from matplotlib import lines
+from matplotlib import lines, rcParams
 from matplotlib.transforms import Bbox
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
@@ -52,22 +52,28 @@ class Legend(object):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
+		label_style = label_style or { 'alpha': 0.8 }
+		default_style = self._get_legend_params('fontsize')
+		default_style.update(label_style)
+
 		"""
 		Get the offset for the new legend.
 		Then, draw the line first and the annotation second.
 		"""
 		offset = self._get_offset(transform=axis.transAxes)
-		linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes)
+		linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes, **default_style)
 
 		line = lines.Line2D([ offset, offset + 0.025 ], [ 1 + linespacing / 2. ] * 2,
 							transform=axis.transAxes, *args, **kwargs)
 		line.set_clip_on(False)
 		axis.add_line(line)
 
-		# TODO: Load the default style.
-		label_style = label_style or { }
+		"""
+		Load the default legend style and update the styling.
+		If a custom style is given, it overwrites the styling.
+		"""
 		line_offset = util.get_bb(figure, axis, line, transform=axis.transAxes).x1 + 0.00625
-		annotation = self.draw_annotation(label, line_offset, 1, **label_style)
+		annotation = self.draw_annotation(label, line_offset, 1, **default_style)
 		if annotation.get_virtual_bb(transform=axis.transAxes).x1 > 1:
 			self._newline(line, annotation, linespacing)
 		else:
@@ -226,3 +232,19 @@ class Legend(object):
 		annotationbb = annotation.get_virtual_bb(transform=axis.transAxes)
 		annotation.set_position((visualbb.width + 0.00625, 1), va=va, transform=axis.transAxes)
 		self.lines.append( [ (visual, annotation) ] )
+
+	def _get_legend_params(self, *args):
+		"""
+		Read the style parameters for the legend.
+
+		:return: An array containing the legend parameters.
+				 If arguments are given, only parameters in the arguments are returned.
+		:rtpe: dict
+		"""
+
+		params = { param: rcParams[param] for param in rcParams if param.startswith('legend') }
+		params = { param[ param.index('.') + 1: ]: params[param] for param in params }
+		if args:
+			params = { param: params[param] for param in params if param in args }
+
+		return params
