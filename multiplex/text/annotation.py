@@ -180,7 +180,8 @@ class Annotation():
 
 		return Bbox(((x0, y0), (x1, y1)))
 
-	def set_position(self, position, ha='left', va='top', *args, **kwargs):
+	def set_position(self, position, ha='left', va='top', transform=None,
+					 *args, **kwargs):
 		"""
 		Move the annotation to the given position.
 
@@ -196,6 +197,9 @@ class Annotation():
 				   If the vertical alignment is `center`, the given y-coordinate becomes the center point of the annotation.
 				   If the vertical alignment is `bottom`, the given y-coordinate becomes the lowest point of the annotation.
 		:type va: str
+		:param transform: The bounding box transformation.
+						  If `None` is given, the data transformation is used.
+		:type transform: None or :class:`matplotlib.transforms.TransformNode`
 
 		:raises ValueError: When the given horizontal alignment is not supported.
 		:raises ValueError: When the given vertical alignment is not supported.
@@ -204,7 +208,7 @@ class Annotation():
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		bb = self.get_virtual_bb()
+		bb = self.get_virtual_bb(transform=transform)
 		"""
 		Calculate the x-offset by which every token needs to be moved.
 		The offset depends on the horizontal alignment.
@@ -238,7 +242,7 @@ class Annotation():
 		"""
 		for line in self.lines:
 			for token in line:
-				bb = util.get_bb(figure, axis, token)
+				bb = util.get_bb(figure, axis, token, transform=transform)
 				token.set_position((bb.x0 - offset[0], bb.y1 - offset[1]))
 
 	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va,
