@@ -92,9 +92,10 @@ class Drawable():
 		"""
 		Re-draw the title to make space for the caption.
 		"""
-		lines = annotation.tokens
 		title = self.axis.get_title(loc='left')
-		self.axis.set_title(title, loc='left', pad=(5 + 16 * len(lines)))
+		bb = self.axis.transData.transform(annotation.get_virtual_bb())
+		height = abs(bb[0][1] - bb[1][1])
+		self.axis.set_title(title, loc='left', pad=(5 + height * .9))
 
 		return annotation
 
