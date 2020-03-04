@@ -71,7 +71,7 @@ class Drawable():
 		self.caption = Annotation(self)
 
 		self.annotations = [ ]
-		self.legend = Legend()
+		self.legend = Legend(self)
 		self.timeseries = None
 
 	def set_caption(self, caption, alpha=0.8, lineheight=1.25, *args, **kwargs):
