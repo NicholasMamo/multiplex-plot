@@ -450,8 +450,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		annotation.draw(text, (0, 1), 0, va='top')
 		annotation.set_position((0, 2), va='top')
-		lines = annotation.tokens
-		for token in lines[0]:
+		for token in annotation.lines[0]:
 			self.assertEqual(2, util.get_bb(viz.figure, viz.axis, token).y1)
 
 	@temporary_plot
@@ -465,8 +464,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		annotation.draw(text, (0, 1), 0, va='top')
 		annotation.set_position((0, 2), va='top')
-		lines = annotation.tokens
-		for line in lines:
+		for line in annotation.lines:
 			for token in line:
 				self.assertGreaterEqual(2, util.get_bb(viz.figure, viz.axis, token).y1)
 
@@ -495,7 +493,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		annotation.draw(text, (0, 1), 0, va='top')
 		annotation.set_position((0, 2), va='center')
-		lines = annotation.tokens
+		lines = annotation.lines
 		self.assertGreater(len(lines), 1)
 		self.assertFalse(len(lines) % 2)
 		tokens = [ tokens[0] for tokens in lines ]
@@ -514,7 +512,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		lines = annotation.draw(text, (0, 1), 0, va='top')
 		annotation.set_position((0, 2), va='center')
-		lines = annotation.tokens
+		lines = annotation.lines
 		self.assertGreater(len(lines), 1)
 		self.assertTrue(len(lines) % 2)
 		tokens = [ tokens[0] for tokens in lines ]
@@ -539,8 +537,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		annotation.draw(text, (0, 1), 0, va='top')
 		annotation.set_position((0, 2), va='bottom')
-		lines = annotation.tokens
-		for token in lines[-1]:
+		for token in annotation.lines[-1]:
 			self.assertEqual(2, util.get_bb(viz.figure, viz.axis, token).y0)
 
 	@temporary_plot
@@ -554,8 +551,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		annotation.draw(text, (0, 1), 0, va='top')
 		annotation.set_position((0, 2), va='bottom')
-		lines = annotation.tokens
-		for line in lines:
+		for line in annotation.lines:
 			for token in line:
 				self.assertLessEqual(2, util.get_bb(viz.figure, viz.axis, token).y0)
 
@@ -582,8 +578,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		annotation.draw(text, (0, 1), 0, align='left')
 		annotation.set_position((2, 0), ha='left')
-		lines = annotation.tokens
-		for tokens in lines:
+		for tokens in annotation.lines:
 			self.assertEqual(2, round(util.get_bb(viz.figure, viz.axis, tokens[0]).x0, 10))
 
 	@temporary_plot
@@ -597,8 +592,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		annotation.draw(text, (0, 1), 0, align='left')
 		annotation.set_position((2, 0), ha='left')
-		lines = annotation.tokens
-		for line in lines:
+		for line in annotation.lines:
 			for token in line:
 				self.assertLessEqual(2, round(util.get_bb(viz.figure, viz.axis, token).x0, 10))
 
@@ -628,8 +622,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		annotation.draw(text, (0, 1), 0, align='right')
 		annotation.set_position((2, 0), ha='right')
-		lines = annotation.tokens
-		for tokens in lines:
+		for tokens in annotation.lines:
 			self.assertEqual(2, round(util.get_bb(viz.figure, viz.axis, tokens[-1]).x1, 10))
 
 	@temporary_plot
@@ -644,8 +637,7 @@ class TestAnnotation(unittest.TestCase):
 		annotation = Annotation(viz)
 		annotation.draw(text, (0, 1), 0, align='right')
 		annotation.set_position((2, 0), ha='right')
-		lines = annotation.tokens
-		for line in lines:
+		for line in annotation.lines:
 			for token in line:
 				self.assertGreaterEqual(2, round(util.get_bb(viz.figure, viz.axis, token).x1, 10))
 

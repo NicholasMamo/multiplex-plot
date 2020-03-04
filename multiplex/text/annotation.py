@@ -38,8 +38,9 @@ class Annotation():
 
 	:ivar drawable: The :class:`~drawable.Drawable` where the time series visualization will be drawn.
 	:vartype drawable: :class:`~drawable.Drawable`
-	:ivar tokens: The tokens drawn by the annotation.
-	:vartype tokens: list of :class:`matplotlib.text.Text`
+	:ivar lines: The lines drawn by the annotation.
+				 Each line in turn is made up of a list of tokens as :class:`matplotlib.text.Text`.
+	:vartype lines: list of list of :class:`matplotlib.text.Text`
 	"""
 
 	def __init__(self, drawable):
@@ -53,7 +54,7 @@ class Annotation():
 		"""
 
 		self.drawable = drawable
-		self.tokens = [ ]
+		self.lines = [ ]
 
 	def draw(self, annotation, x, y, wordspacing=0.005, lineheight=1.25,
 			 align='left', va='top', pad=0, *args, **kwargs):
@@ -134,7 +135,7 @@ class Annotation():
 				tokens[i] = { 'text': token }
 
 		tokens = self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs)
-		self.tokens.extend(tokens)
+		self.lines.extend(tokens)
 
 		"""
 		If the vertical alignment is meant to be centered, center the annotation now.
@@ -169,7 +170,7 @@ class Annotation():
 		Compare them with the virtual bounding box and update it as need be.
 		"""
 		x0, y0, x1, y1 = None, None, None, None
-		for line in self.tokens:
+		for line in self.lines:
 			for token in line:
 				bb = util.get_bb(figure, axis, token, transform)
 				x0 = bb.x0 if x0 is None or bb.x0 < x0 else x0
@@ -235,7 +236,7 @@ class Annotation():
 		"""
 		Go through each token and move them individually.
 		"""
-		for line in self.tokens:
+		for line in self.lines:
 			for token in line:
 				bb = util.get_bb(figure, axis, token)
 				token.set_position((bb.x0 - offset[0], bb.y1 - offset[1]))
@@ -490,5 +491,5 @@ class Annotation():
 		:rtype: str
 		"""
 
-		lines = [ ' '.join([ token.get_text() for token in line ]) for line in self.tokens ]
+		lines = [ ' '.join([ token.get_text() for token in line ]) for line in self.lines ]
 		return ' '.join(lines)
