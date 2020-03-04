@@ -56,7 +56,7 @@ class Annotation():
 		self.drawable = drawable
 		self.lines = [ ]
 
-	def draw(self, annotation, x, y, wordspacing=0.005, lineheight=1.25,
+	def draw(self, annotation, x, y, wordspacing=None, lineheight=1.25,
 			 align='left', va='top', pad=0, *args, **kwargs):
 		"""
 		Draw the text annotation visualization.
@@ -91,7 +91,8 @@ class Annotation():
 		:param y: The starting y-position of the annotation.
 		:type y: float
 		:param wordspacing: The space between words.
-		:type wordspacing: float
+							If `None` is given, the space is calculated based on the height of the line.
+		:type wordspacing: float or None
 		:param lineheight: The space between lines.
 		:type lineheight: float
 		:param align: The text's alignment.
@@ -267,7 +268,8 @@ class Annotation():
 		:param y: The starting y-position of the annotation.
 		:type y: float
 		:param wordspacing: The space between words.
-		:type wordspacing: float
+							If `None` is given, the space is calculated based on the height of the line.
+		:type wordspacing: float or None
 		:param lineheight: The space between lines.
 		:type lineheight: float
 		:param align: The text's alignment.
@@ -299,6 +301,9 @@ class Annotation():
 		transform = transform if transform is not None else axis.transData
 
 		linespacing = util.get_linespacing(figure, axis, wordspacing, transform=transform, *args, **kwargs) * lineheight
+
+		if wordspacing is None:
+			wordspacing = linespacing / 15.
 
 		"""
 		Go through each token and draw it on the axis.

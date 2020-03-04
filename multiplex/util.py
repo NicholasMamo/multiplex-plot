@@ -111,6 +111,7 @@ def get_linespacing(figure, axis, wordspacing=0, transform=None, *args, **kwargs
 	The bbox's padding is calculated in pixels.
 	Therefore it is transformed from the provided axis coordinates to pixels.
 	"""
+	wordspacing = wordspacing or 0
 	wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
 					  axis.transData.transform((0, 0))[0])
 	token = axis.text(0, 0, 'None', bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
