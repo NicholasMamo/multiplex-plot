@@ -49,7 +49,7 @@ class TimeSeries(LabelledVisualization):
 
 		super().__init__(*args, **kwargs)
 
-	def draw(self, x, y, label=None, label_style=None, *args, **kwargs):
+	def draw(self, x, y, label=None, label_style=None, with_legend=False, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`~drawable.Drawable`.
 		The arguments and keyword arguments are passed on to the :meth:`~matplotlib.pyplot.plot` method.
@@ -66,6 +66,9 @@ class TimeSeries(LabelledVisualization):
 		:type label: str or None
 		:param label_style: The style of the label.
 		:type label_style: dict or None
+		:param with_legend: A boolean indicating whether the labels should be drawn as a legend.
+							If false, the labels are drawn at the end of the line.
+		:type with_legend: bool
 
 		:return: A tuple made up of the drawn plot and label.
 		:rtype: tuple
@@ -97,8 +100,11 @@ class TimeSeries(LabelledVisualization):
 		Draw the label at the end of the line.
 		"""
 		if label is not None and len(x) and len(y):
-			default_label_style = { 'color': line[0].get_color() }
-			default_label_style.update(label_style or { })
-			self.draw_label(label, x[-1], y[-1], **default_label_style)
+			if with_legend:
+				self.drawable.draw_legend(label, axis.plot, *args, **kwargs)
+			else:
+				default_label_style = { 'color': line[0].get_color() }
+				default_label_style.update(label_style or { })
+				self.draw_label(label, x[-1], y[-1], **default_label_style)
 
 		return (line, label)
