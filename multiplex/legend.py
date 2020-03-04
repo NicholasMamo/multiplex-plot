@@ -62,11 +62,16 @@ class Legend(object):
 		line.set_clip_on(False)
 		axis.add_line(line)
 
+		# TODO: Load the default style.
 		label_style = label_style or { }
+		linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes)
 		line_offset = util.get_bb(figure, axis, line, transform=axis.transAxes).x1 + 0.00625
 		annotation = self.draw_annotation(label, line_offset, 1, **label_style)
+		if annotation.get_virtual_bb(transform=axis.transAxes).x1 > 1:
+			self._newline(line, annotation, linespacing)
+		else:
+			self.lines[-1].append((line, annotation))
 
-		self.lines[-1].append((line, annotation))
 		return (line, annotation)
 
 	def draw_annotation(self, label, x, y, va='center', *args, **kwargs):
