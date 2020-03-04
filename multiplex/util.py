@@ -74,7 +74,7 @@ def overlapping_bb(bb1, bb2):
 		(bb1.y0 < bb2.y0 < bb1.y1 or bb1.y0 < bb2.y1 < bb1.y1)
 	)
 
-def get_linespacing(figure, axis, wordspacing=0, *args, **kwargs):
+def get_linespacing(figure, axis, wordspacing=0, transform=None, *args, **kwargs):
 	"""
 	Calculate the line spacing of text tokens.
 	The line spacing is calculated by creating a token and getting its height.
@@ -89,6 +89,9 @@ def get_linespacing(figure, axis, wordspacing=0, *args, **kwargs):
 	:param wordspacing: The spacing between tokens.
 						This is used to be able to create the padding around words.
 	:type wordspacing: float
+	:param transform: The bounding box transformation.
+					  If `None` is given, the data transformation is used.
+	:type transform: None or :class:`matplotlib.transforms.TransformNode`
 
 	:return: The line spacing.
 	:rtype: float
@@ -116,7 +119,7 @@ def get_linespacing(figure, axis, wordspacing=0, *args, **kwargs):
 	"""
 	Get the height from the bbox.
 	"""
-	bb = get_bb(figure, axis, token)
+	bb = get_bb(figure, axis, token, transform)
 	height = bb.height
 	token.remove()
 	return height
