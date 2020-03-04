@@ -46,3 +46,30 @@ class Legend(object):
 		"""
 
 		pass
+	def draw_annotation(self, label, x, y, va='center', *args, **kwargs):
+		"""
+		Get the annotation for the legend.
+		The arguments and keyword arguments are passed on to the :meth:`~text.annotation.Annotation.draw` function.
+
+		:param label: The text of the legend label.
+		:type label: str
+		:param x: The starting x-coordinate of the annotation.
+		:type x: float
+		:param y: The y-coordinate of the annotation.
+		:type y: float
+		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
+				   If the vertical alignment is `top`, the given y-coordinate becomes the highest point of the annotation.
+				   If the vertical alignment is `center`, the given y-coordinate becomes the center point of the annotation.
+				   If the vertical alignment is `bottom`, the given y-coordinate becomes the lowest point of the annotation.
+		:type va: str
+
+		:return: The drawn annotation.
+		:rtype: :class:`~text.annotation.Annotation`
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		annotation = Annotation(self.drawable)
+		annotation.draw(label, (x, 1), y, va=va, transform=axis.transAxes, **kwargs)
+		return annotation
