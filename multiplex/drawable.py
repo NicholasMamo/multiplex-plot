@@ -42,8 +42,8 @@ class Drawable():
 	:vartype figure: :class:`matplotlib.figure.Figure`
 	:ivar axis: The axis where the drawable will draw.
 	:vartype axis: :class:`matplotlib.axis.Axis`
-	:ivar _time_series: The time series object that is being used.
-	:vartype _time_series: :class:`~timeseries.timeseries.TimeSeries`
+	:ivar timeseries: The time series object that is being used.
+	:vartype timeseries: :class:`~timeseries.timeseries.TimeSeries`
 	:ivar annotations: The annotations in the visualization.
 	:vartype annotations: list of :class:`~text.text.TextAnnotation`
 	"""
@@ -64,7 +64,7 @@ class Drawable():
 		self.axis = plt.gca() if axis is None else axis
 
 		self.annotations = [ ]
-		self._time_series = None
+		self.timeseries = None
 
 	def set_caption(self, caption, alpha=0.8, lineheight=1.25, *args, **kwargs):
 		"""
@@ -154,8 +154,8 @@ class Drawable():
 		:rtype: tuple
 		"""
 
-		self._time_series = self._time_series if self._time_series is not None else TimeSeries(self)
-		return self._time_series.draw(*args, **kwargs)
+		self.timeseries = self.timeseries if self.timeseries is not None else TimeSeries(self)
+		return self.timeseries.draw(*args, **kwargs)
 
 	def annotate(self, text, x, y, marker=None, pad=0.01, *args, **kwargs):
 		"""
