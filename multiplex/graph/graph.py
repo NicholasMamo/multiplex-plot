@@ -44,6 +44,7 @@ class Graph(LabelledVisualization):
 		:rtype: tuple
 		"""
 
+		self.drawable.axis.axis('off')
 		positions = nx.spring_layout(G)
 		nodes = self._draw_nodes(positions, s=s, *args, **kwargs)
 		edges = self._draw_edges(G.edges, positions, *args, **kwargs)
