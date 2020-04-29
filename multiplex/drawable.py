@@ -12,6 +12,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+from graph.graph import Graph
 from legend import Legend
 from text.annotation import Annotation
 from text.text import TextAnnotation
@@ -180,6 +181,18 @@ class Drawable():
 
 		self.timeseries = self.timeseries if self.timeseries is not None else TimeSeries(self)
 		return self.timeseries.draw(*args, **kwargs)
+
+	def draw_graph(self, *args, **kwargs):
+		"""
+		Draw a graph visualization on this :class:`~Drawable`.
+		The arguments and keyword arguments are those supported by :meth:`~graph.graph.Graph.draw` method.
+
+		:return: A tuple made up of the drawn plot and label.
+		:rtype: tuple
+		"""
+
+		graph = Graph(self)
+		return graph.draw(*args, **kwargs)
 
 	def annotate(self, text, x, y, marker=None, pad=0.01, *args, **kwargs):
 		"""
