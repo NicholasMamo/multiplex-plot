@@ -15,3 +15,10 @@ class Graph(LabelledVisualization):
 	"""
 	The :class:`~Graph` class draws nodes and edges.
 	"""
+
+	def __init__(self, *args, **kwargs):
+		"""
+		Initialize the graph.
+		"""
+
+		super().__init__(*args, **kwargs)
