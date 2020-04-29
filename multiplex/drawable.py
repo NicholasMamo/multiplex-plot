@@ -172,7 +172,7 @@ class Drawable():
 	def draw_time_series(self, *args, **kwargs):
 		"""
 		Draw a time series visualization on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :meth:`~text.annotation.TextAnnotation.draw` method.
+		The arguments and keyword arguments are those supported by :meth:`~timeseries.timeseries.TimeSeries.draw` method.
 
 		:return: A tuple made up of the drawn plot and label.
 		:rtype: tuple
