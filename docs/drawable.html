@@ -106,6 +106,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="text.html">2. Text Visualizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timeseries.html">3. Time Series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph.html">4. Graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 
@@ -319,7 +320,22 @@ The second list in each tuple is the list of actual tokens.</p>
 <dt id="drawable.Drawable.draw_time_series">
 <code class="sig-name descname">draw_time_series</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_time_series" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a time series visualization on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
-The arguments and keyword arguments are those supported by <code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code> method.</p>
+The arguments and keyword arguments are those supported by <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries.draw" title="timeseries.timeseries.TimeSeries.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tuple made up of the drawn plot and label.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="drawable.Drawable.draw_graph">
+<code class="sig-name descname">draw_graph</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a graph visualization on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+The arguments and keyword arguments are those supported by <a class="reference internal" href="graph.html#graph.graph.Graph.draw" title="graph.graph.Graph.draw"><code class="xref py py-meth docutils literal notranslate"><span class="pre">draw()</span></code></a> method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>A tuple made up of the drawn plot and label.</p>

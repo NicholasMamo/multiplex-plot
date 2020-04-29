@@ -79,6 +79,7 @@ Multiplex abstracts the tedious process of manually programming which elements g
    drawable
    text
    timeseries
+   graph
    utilities
 
 Indices and tables
