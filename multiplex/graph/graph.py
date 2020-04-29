@@ -22,3 +22,19 @@ class Graph(LabelledVisualization):
 		"""
 
 		super().__init__(*args, **kwargs)
+
+	def draw(self, G, s=100, *args, **kwargs):
+		"""
+		Draw the given graph.
+
+		Any additional arguments and keyword arguments are passed on to the node and edge drawing functions.
+
+		:param G: The networkx graph to draw.
+		:type G: :class:`networkx.classes.graph.Graph`
+		:param s: The size of the nodes.
+		:type s: float
+
+		:return: A tuple containing the list of drawn nodes and edges.
+		:rtype: tuple
+		"""
+
