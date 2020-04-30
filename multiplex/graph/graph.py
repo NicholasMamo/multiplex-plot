@@ -29,7 +29,7 @@ class Graph(LabelledVisualization):
 
 		super().__init__(*args, **kwargs)
 
-	def draw(self, G, s=100, *args, **kwargs):
+	def draw(self, G, s=100, k=None, *args, **kwargs):
 		"""
 		Draw the given graph.
 
@@ -39,13 +39,17 @@ class Graph(LabelledVisualization):
 		:type G: :class:`networkx.classes.graph.Graph`
 		:param s: The size of the nodes.
 		:type s: float
+		:param k: The optimal distance between nodes, bound between 0 and 1.
+				  If `None` is given, networkx's default value of :math:`\\func{1}{\\sqrt{n}}`, where :math:`n` is the number of nodes, is used.
+				  The higher the number, the more distance between nodes.
+		:type k: float
 
 		:return: A tuple containing the list of drawn nodes and edges.
 		:rtype: tuple
 		"""
 
 		self.drawable.axis.axis('off')
-		positions = nx.spring_layout(G)
+		positions = nx.spring_layout(G, k=k)
 		nodes = self._draw_nodes(positions, s=s, *args, **kwargs)
 		edges = self._draw_edges(G.edges, positions, *args, **kwargs)
 		return nodes, edges
