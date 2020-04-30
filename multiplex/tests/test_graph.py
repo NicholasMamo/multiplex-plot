@@ -78,10 +78,10 @@ class TestGraph(MultiplexTest):
 		nodes, edges = viz.draw_graph(G)
 		self.assertEqual(3, len(nodes.get_offsets()))
 		self.assertEqual(1, len(edges))
-		self.assertEqual(nodes.get_offsets()[0][0], edges[0][0].get_xdata()[0])
-		self.assertEqual(nodes.get_offsets()[0][1], edges[0][0].get_ydata()[0])
-		self.assertEqual(nodes.get_offsets()[2][0], edges[0][0].get_xdata()[1])
-		self.assertEqual(nodes.get_offsets()[2][1], edges[0][0].get_ydata()[1])
+		self.assertEqual(nodes.get_offsets()[0][0], edges[0].get_xdata()[0])
+		self.assertEqual(nodes.get_offsets()[0][1], edges[0].get_ydata()[0])
+		self.assertEqual(nodes.get_offsets()[2][0], edges[0].get_xdata()[1])
+		self.assertEqual(nodes.get_offsets()[2][1], edges[0].get_ydata()[1])
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_with_multiple_edges(self):
@@ -99,7 +99,7 @@ class TestGraph(MultiplexTest):
 		indices = [ (0, 1), (0, 2) ]
 		for i, edge in enumerate(edges):
 			source, target = indices[i]
-			self.assertEqual(nodes.get_offsets()[source][0], edge[0].get_xdata()[0])
-			self.assertEqual(nodes.get_offsets()[source][1], edge[0].get_ydata()[0])
-			self.assertEqual(nodes.get_offsets()[target][0], edge[0].get_xdata()[1])
-			self.assertEqual(nodes.get_offsets()[target][1], edge[0].get_ydata()[1])
+			self.assertEqual(nodes.get_offsets()[source][0], edge.get_xdata()[0])
+			self.assertEqual(nodes.get_offsets()[source][1], edge.get_ydata()[0])
+			self.assertEqual(nodes.get_offsets()[target][0], edge.get_xdata()[1])
+			self.assertEqual(nodes.get_offsets()[target][1], edge.get_ydata()[1])

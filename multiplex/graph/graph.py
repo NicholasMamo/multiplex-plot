@@ -96,6 +96,9 @@ class Graph(LabelledVisualization):
 		:param nodes: The nodes in terms of their positions as a dictionary.
 					  The keys are the node names, and the values are the corresponding positions.
 		:type nodes: dict
+
+		:return: A list of drawn edges.
+		:rtype: list of :class:`matplotlib.lines.Line2D`
 		"""
 
 		paths = [ ]
@@ -103,6 +106,6 @@ class Graph(LabelledVisualization):
 		for edge in edges:
 			source, target = nodes[edge[0]], nodes[edge[1]]
 			x, y = (source[0], target[0]), (source[1], target[1])
-			paths.append(self.drawable.plot(x, y, zorder=-1, *args, **kwargs))
+			paths.append(self.drawable.plot(x, y, zorder=-1, *args, **kwargs)[0])
 
 		return paths
