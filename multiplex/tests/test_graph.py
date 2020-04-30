@@ -30,7 +30,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		nodes, edges = viz.draw_graph(G)
-		self.assertFalse(len(nodes.get_offsets()))
+		self.assertFalse(len(nodes))
 		self.assertFalse(edges)
 
 	@MultiplexTest.temporary_plot
@@ -44,7 +44,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		nodes, edges = viz.draw_graph(G)
-		self.assertEqual(1, len(nodes.get_offsets()))
+		self.assertEqual(1, len(nodes))
 		self.assertFalse(edges)
 
 	@MultiplexTest.temporary_plot
@@ -59,7 +59,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		nodes, edges = viz.draw_graph(G)
-		self.assertEqual(2, len(nodes.get_offsets()))
+		self.assertEqual(2, len(nodes))
 		self.assertFalse(edges)
 
 	@MultiplexTest.temporary_plot
@@ -76,12 +76,12 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		nodes, edges = viz.draw_graph(G)
-		self.assertEqual(3, len(nodes.get_offsets()))
+		self.assertEqual(3, len(nodes))
 		self.assertEqual(1, len(edges))
-		self.assertEqual(nodes.get_offsets()[0][0], edges[0].get_xdata()[0])
-		self.assertEqual(nodes.get_offsets()[0][1], edges[0].get_ydata()[0])
-		self.assertEqual(nodes.get_offsets()[2][0], edges[0].get_xdata()[1])
-		self.assertEqual(nodes.get_offsets()[2][1], edges[0].get_ydata()[1])
+		self.assertEqual(nodes[0].get_offsets()[0][0], edges[0].get_xdata()[0])
+		self.assertEqual(nodes[0].get_offsets()[0][1], edges[0].get_ydata()[0])
+		self.assertEqual(nodes[2].get_offsets()[0][0], edges[0].get_xdata()[1])
+		self.assertEqual(nodes[2].get_offsets()[0][1], edges[0].get_ydata()[1])
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_with_multiple_edges(self):
@@ -94,15 +94,15 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		nodes, edges = viz.draw_graph(G)
-		self.assertEqual(3, len(nodes.get_offsets()))
+		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 		indices = [ (0, 1), (0, 2) ]
 		for i, edge in enumerate(edges):
 			source, target = indices[i]
-			self.assertEqual(nodes.get_offsets()[source][0], edge.get_xdata()[0])
-			self.assertEqual(nodes.get_offsets()[source][1], edge.get_ydata()[0])
-			self.assertEqual(nodes.get_offsets()[target][0], edge.get_xdata()[1])
-			self.assertEqual(nodes.get_offsets()[target][1], edge.get_ydata()[1])
+			self.assertEqual(nodes[source].get_offsets()[0][0], edge.get_xdata()[0])
+			self.assertEqual(nodes[source].get_offsets()[0][1], edge.get_ydata()[0])
+			self.assertEqual(nodes[target].get_offsets()[0][0], edge.get_xdata()[1])
+			self.assertEqual(nodes[target].get_offsets()[0][1], edge.get_ydata()[1])
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_edge_style(self):
@@ -116,9 +116,50 @@ class TestGraph(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'alpha': 0.5, 'color': '#ff0000', 'linewidth': 0.5 }
 		nodes, edges = viz.draw_graph(G, edge_style=edge_style)
-		self.assertEqual(3, len(nodes.get_offsets()))
+		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 
 		self.assertTrue(all(edge.get_alpha() == edge_style['alpha'] for edge in edges))
 		self.assertTrue(all(edge.get_color() == edge_style['color'] for edge in edges))
 		self.assertTrue(all(edge.get_linewidth() == edge_style['linewidth'] for edge in edges))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_override_edge_style(self):
+		"""
+		Test that when providing a custom style for an edge, it overwrites the default style.
+		"""
+
+		E = [ ('A', 'C'), ('B', 'A'), ('C', 'B') ]
+		G = nx.from_edgelist(E)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		edge_style = { 'alpha': 0.5 }
+		G.edges[('C', 'A')]['style'] = { 'alpha': 1 }
+		nodes, edges = viz.draw_graph(G, edge_style=edge_style)
+		self.assertEqual(3, len(nodes))
+		self.assertEqual(3, len(edges))
+
+		self.assertEqual(1, edges[0].get_alpha())
+		self.assertEqual(0.5, edges[1].get_alpha())
+		self.assertEqual(0.5, edges[2].get_alpha())
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_inherit_edge_style(self):
+		"""
+		Test that when providing a custom style for an edge, it overwrites only the same parameters in the default style.
+		"""
+
+		E = [ ('A', 'C'), ('B', 'A'), ('C', 'B') ]
+		G = nx.from_edgelist(E)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		edge_style = { 'alpha': 0.5, 'color': '#FF0000' }
+		G.edges[('C', 'A')]['style'] = { 'alpha': 1 }
+		nodes, edges = viz.draw_graph(G, edge_style=edge_style)
+		self.assertEqual(3, len(nodes))
+		self.assertEqual(3, len(edges))
+
+		self.assertEqual(1, edges[0].get_alpha())
+		self.assertEqual(0.5, edges[1].get_alpha())
+		self.assertEqual(0.5, edges[2].get_alpha())
+		self.assertTrue(all( edge.get_color() == '#FF0000' for edge in edges ))
