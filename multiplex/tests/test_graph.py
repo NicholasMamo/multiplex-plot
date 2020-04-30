@@ -103,3 +103,22 @@ class TestGraph(MultiplexTest):
 			self.assertEqual(nodes.get_offsets()[source][1], edge.get_ydata()[0])
 			self.assertEqual(nodes.get_offsets()[target][0], edge.get_xdata()[1])
 			self.assertEqual(nodes.get_offsets()[target][1], edge.get_ydata()[1])
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_edge_style(self):
+		"""
+		Test that when providing the edge style, it is used when creating edges.
+		"""
+
+		E = [ ('A', 'C'), ('B', 'A') ]
+		G = nx.from_edgelist(E)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		edge_style = { 'alpha': 0.5, 'color': '#ff0000', 'linewidth': 0.5 }
+		nodes, edges = viz.draw_graph(G, edge_style=edge_style)
+		self.assertEqual(3, len(nodes.get_offsets()))
+		self.assertEqual(2, len(edges))
+
+		self.assertTrue(all(edge.get_alpha() == edge_style['alpha'] for edge in edges))
+		self.assertTrue(all(edge.get_color() == edge_style['color'] for edge in edges))
+		self.assertTrue(all(edge.get_linewidth() == edge_style['linewidth'] for edge in edges))

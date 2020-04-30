@@ -29,29 +29,36 @@ class Graph(LabelledVisualization):
 
 		super().__init__(*args, **kwargs)
 
-	def draw(self, G, s=100, k=None, *args, **kwargs):
+	def draw(self, G, s=100, node_style=None, edge_style=None, *args, **kwargs):
 		"""
 		Draw the given graph.
 
-		Any additional arguments and keyword arguments are passed on to the node and edge drawing functions.
+		Any additional arguments and keyword arguments are passed on to the :func:`networkx.spring_layout` function.
 
 		:param G: The networkx graph to draw.
 		:type G: :class:`networkx.classes.graph.Graph`
 		:param s: The size of the nodes.
 		:type s: float
-		:param k: The optimal distance between nodes, bound between 0 and 1.
-				  If `None` is given, networkx's default value of :math:`\\func{1}{\\sqrt{n}}`, where :math:`n` is the number of nodes, is used.
-				  The higher the number, the more distance between nodes.
-		:type k: float
+		:param node_style: The general style for nodes.
+						   Keys correspond to the styling parameter and the values are the styling value.
+						   They are passed on as keyword arguments to the :func:`~graph.graph.Graph._draw_nodes` function.
+		:type node_style: dict
+		:param edge_style: The general style for edges.
+						   Keys correspond to the styling parameter and the values are the styling value.
+						   They are passed on as keyword arguments to the :func:`~graph.graph.Graph._draw_edges` function.
+		:type edge_style: dict
 
 		:return: A tuple containing the list of drawn nodes and edges.
 		:rtype: tuple
 		"""
 
+		node_style = node_style or { }
+		edge_style = edge_style or { }
+
 		self.drawable.axis.axis('off')
-		positions = nx.spring_layout(G, k=k)
-		nodes = self._draw_nodes(positions, s=s, *args, **kwargs)
-		edges = self._draw_edges(G.edges, positions, *args, **kwargs)
+		positions = nx.spring_layout(G, *args, **kwargs)
+		nodes = self._draw_nodes(positions, s=s, **node_style)
+		edges = self._draw_edges(G.edges, positions, **edge_style)
 		return nodes, edges
 
 	def _draw_nodes(self, positions, s, *args, **kwargs):
