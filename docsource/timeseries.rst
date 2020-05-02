@@ -22,7 +22,6 @@ Keep reading to learn more about time series visualizations.
 
 	Check out the `time series tutorial Jupyter Notebook <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20Series.ipynb>`_.
 
-
 .. automodule:: timeseries.timeseries
    :members:
    :private-members:

@@ -431,18 +431,24 @@ This list is used to ensure that labels do not overlap.</p>
 
 <dl class="method">
 <dt id="labelled.LabelledVisualization.draw_label">
-<code class="sig-name descname">draw_label</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">va='center'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw_label" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw_label</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">va='center'</em>, <em class="sig-param">max_iterations=10</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a label at the end of the line.</p>
+<p>Any additional arguments and keyword arguments are passed on to the <a class="reference internal" href="text.html#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">text.annotation.Annotation.draw()</span></code></a> function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>label</strong> (<em>str</em>) – The label to draw.</p></li>
-<li><p><strong>x</strong> (<em>float</em>) – The x-position of the last point on the line.</p></li>
+<li><p><strong>x</strong> (<em>float</em>) – The x-position of the annotation.
+The function expects either a float or a tuple.
+If a float is given, it is taken to be the start x-position of the annotation.
+The end x-position is taken from the axis limit.
+If a tuple is given, the first two values are the start and end x-position of the annotation.</p></li>
 <li><p><strong>y</strong> (<em>float</em>) – The y-position of the last point on the line.</p></li>
 <li><p><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite>, <cite>center</cite> or <cite>bottom</cite>.
 If the vertical alignment is <cite>top</cite>, the annotation grows down.
 If the vertical alignment is <cite>center</cite>, the annotation is centered around the given y-coordinate.
 If the vertical alignment is <cite>bottom</cite>, the annotation grows up.</p></li>
+<li><p><strong>max_iterations</strong> (<em>int</em>) – The maximum number of iterations to spend arranging the labels.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -456,15 +462,20 @@ If the vertical alignment is <cite>bottom</cite>, the annotation grows up.</p></
 
 <dl class="method">
 <dt id="labelled.LabelledVisualization._arrange_labels">
-<code class="sig-name descname">_arrange_labels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization._arrange_labels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_arrange_labels</code><span class="sig-paren">(</span><em class="sig-param">max_iterations=10</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization._arrange_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Go through the labels and ensure that none overlap.
 If any do overlap, move the labels.
-The function keeps repeating until no labels overlap.</p>
+The function keeps repeating until no labels overlap or the maximum number of iterations is reached.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The distribution is vertical only.</p>
 </div>
 <img alt="_images/3-overlapping-labels.png" class="example" src="_images/3-overlapping-labels.png" />
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>max_iterations</strong> (<em>int</em>) – The maximum number of iterations to spend arranging the labels.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">

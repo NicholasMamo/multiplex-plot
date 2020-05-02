@@ -174,10 +174,11 @@ Each graph is made up of nodes and edges and can be directed or undirected.</p>
 <p>Keep reading to learn more about graph visualizations.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/4.%20Graph.ipynb">graph tutorial Jupyter Notebook</a>.</p>
+<p>Check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/4.%20Network%20Graph.ipynb">network graph tutorial Jupyter Notebook</a>.</p>
 </div>
 <span class="target" id="module-graph.graph"></span><p>The <a class="reference internal" href="#graph.graph.Graph" title="graph.graph.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> class can be used to draw directed or undirected graphs.
 Each graph is made up of nodes and edges and can be used to show the relations between nodes.</p>
+<a class="reference internal image-reference" href="_images/4-marvel.png"><img alt="_images/4-marvel.png" class="align-center" src="_images/4-marvel.png" style="width: 500px;" /></a>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The graph visualization uses the <cite>networkx</cite> package to generate the layout of the graph.
@@ -195,11 +196,105 @@ Therefore it is a prerequisite to create these visualizations.</p>
 
 <dl class="method">
 <dt id="graph.graph.Graph.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">graph</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph.draw" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">node_style=None</em>, <em class="sig-param">name_style=None</em>, <em class="sig-param">edge_style=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the given graph.</p>
+<p>Any additional arguments and keyword arguments are passed on to the <code class="xref py py-func docutils literal notranslate"><span class="pre">networkx.spring_layout()</span></code> function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>graph</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.Graph</span></code>) – The networkx graph to draw.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>G</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.classes.graph.Graph</span></code>) – The networkx graph to draw.</p></li>
+<li><p><strong>s</strong> (<em>float</em>) – The size of the nodes.</p></li>
+<li><p><strong>node_style</strong> (<em>dict</em>) – The general style for nodes.
+Keys correspond to the styling parameter and the values are the styling value.
+They are passed on as keyword arguments to the <a class="reference internal" href="#graph.graph.Graph._draw_nodes" title="graph.graph.Graph._draw_nodes"><code class="xref py py-func docutils literal notranslate"><span class="pre">_draw_nodes()</span></code></a> function.
+Individual nodes can override this style using the <cite>style</cite> attribute.</p></li>
+<li><p><strong>name_style</strong> (<em>dict</em>) – The general style for names.
+Keys correspond to the styling parameter and the values are the styling value.
+They are passed on as keyword arguments to the <a class="reference internal" href="#graph.graph.Graph._draw_node_names" title="graph.graph.Graph._draw_node_names"><code class="xref py py-func docutils literal notranslate"><span class="pre">_draw_node_names()</span></code></a> function.
+Individual names can override this style using the <cite>style</cite> attribute.</p></li>
+<li><p><strong>edge_style</strong> (<em>dict</em>) – The general style for edges.
+Keys correspond to the styling parameter and the values are the styling value.
+They are passed on as keyword arguments to the <a class="reference internal" href="#graph.graph.Graph._draw_edges" title="graph.graph.Graph._draw_edges"><code class="xref py py-func docutils literal notranslate"><span class="pre">_draw_edges()</span></code></a> function.
+Individual edges can override this style using the <cite>style</cite> attribute.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple containing the list of drawn nodes, their names, and edges.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph.graph.Graph._draw_nodes">
+<code class="sig-name descname">_draw_nodes</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">positions</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph._draw_nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the nodes onto the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.</p>
+<p>Any additional arguments and keyword arguments are passed on to the <code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.scatter()</span></code> function.</p>
+<p>The nodes should be given as dictionaries, whose keys are the node names.
+The corresponding values are their positions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> (<em>networkx.classes.reportviews.NodeView</em>) – The list of actual nodes to draw.</p></li>
+<li><p><strong>positions</strong> (<em>dict</em>) – The positions of the nodes as a dictionary.
+The keys are the node names, and the values are the corresponding positions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of rendered nodes.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.collections.PathCollection</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph.graph.Graph._draw_node_names">
+<code class="sig-name descname">_draw_node_names</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">positions</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph._draw_node_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw labels for the nodes.
+Labels are drawn if they have a <cite>name</cite> attribute.
+The <cite>name_style</cite> attribute, if given, is used to override the default label style.
+By default, nodes are aligned centrally and are positioned above the node.</p>
+<p>Any additional keyword arguments are considered to be styling options.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.classes.reportviews.NodeView</span></code>) – The list of nodes for which to draw labels.</p></li>
+<li><p><strong>positions</strong> (<em>dict</em>) – The positions of the nodes as a dictionary.
+The keys are the node names, and the values are the corresponding positions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of drawn labels.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="graph.graph.Graph._draw_edges">
+<code class="sig-name descname">_draw_edges</code><span class="sig-paren">(</span><em class="sig-param">edges</em>, <em class="sig-param">nodes</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph._draw_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the edges connecting the given nodes.</p>
+<p>Any additional arguments and keyword arguments are passed on to the <code class="xref py py-func docutils literal notranslate"><span class="pre">matplotlib.pyplot.plot()</span></code> function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>edges</strong> (<em>list of tuple</em>) – The list of edges to draw.
+The edges should be a list of tuples representing the source and target.</p></li>
+<li><p><strong>nodes</strong> (<em>dict</em>) – The nodes in terms of their positions as a dictionary.
+The keys are the node names, and the values are the corresponding positions.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of drawn edges.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.lines.Line2D</span></code></p>
 </dd>
 </dl>
 </dd></dl>

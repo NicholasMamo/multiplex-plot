@@ -2,6 +2,10 @@
 The :class:`~Graph` class can be used to draw directed or undirected graphs.
 Each graph is made up of nodes and edges and can be used to show the relations between nodes.
 
+.. image:: ../examples/exports/4-marvel.png
+   :width: 500
+   :align: center
+
 .. note::
 
 	The graph visualization uses the `networkx` package to generate the layout of the graph.
@@ -112,8 +116,8 @@ class Graph(LabelledVisualization):
 
 		Any additional keyword arguments are considered to be styling options.
 
-		param nodes: The list of nodes for which to draw labels.
-		:type nodes: networkx.classes.reportviews.NodeView
+		:param nodes: The list of nodes for which to draw labels.
+		:type nodes: :class:`networkx.classes.reportviews.NodeView`
 		:param positions: The positions of the nodes as a dictionary.
 						  The keys are the node names, and the values are the corresponding positions.
 		:type positions: dict
@@ -183,6 +187,9 @@ class Graph(LabelledVisualization):
 		:return: A list of drawn edges.
 		:rtype: list of :class:`matplotlib.lines.Line2D`
 		"""
+
+		# TODO: Add support for directed graphs.
+		# TODO: Add support for same-node edges.
 
 		rendered = [ ]
 
