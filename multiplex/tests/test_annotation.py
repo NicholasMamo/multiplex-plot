@@ -4,6 +4,7 @@ Unit tests for the :class:`~text.annotation.Annotation` class.
 
 import math
 import matplotlib.pyplot as plt
+import numpy as np
 import os
 import sys
 
@@ -645,6 +646,66 @@ class TestAnnotation(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
 		self.assertEqual(None, annotation.set_position((0, 0)))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_x_tuple(self):
+		"""
+		Test that when drawing an annotation with a tuple as the x-bounds, the correct bounds are used.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, (0, 0.5), 0)
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(0, bb.x0)
+		self.assertLessEqual(0.49, bb.x1)
+		self.assertGreaterEqual(0.5, bb.x1)
+
+	@MultiplexTest.temporary_plot
+	def test_draw_x_list(self):
+		"""
+		Test that when drawing an annotation with a list as the x-bounds, the correct bounds are used.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, [0, 0.5], 0)
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(0, bb.x0)
+		self.assertLessEqual(0.49, bb.x1)
+		self.assertGreaterEqual(0.5, bb.x1)
+
+	@MultiplexTest.temporary_plot
+	def test_draw_x_np_float(self):
+		"""
+		Test that when drawing an annotation with a numpy float as the x-bounds, the limit of the plot is used.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, 0, 0)
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(0, bb.x0)
+		self.assertLessEqual(0.95, bb.x1)
+		self.assertGreaterEqual(1, bb.x1)
+
+	@MultiplexTest.temporary_plot
+	def test_draw_x_float(self):
+		"""
+		Test that when drawing an annotation with a float as the x-bounds, the limit of the plot is used.
+		"""
+
+		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		annotation = Annotation(viz)
+		annotation.draw(text, np.float64(0.2), 0)
+		bb = annotation.get_virtual_bb()
+		self.assertEqual(round(0.2, 10), round(bb.x0, 10))
+		self.assertLessEqual(0.95, bb.x1)
+		self.assertGreaterEqual(1, bb.x1)
 
 	@MultiplexTest.temporary_plot
 	def test_x_pad_left(self):

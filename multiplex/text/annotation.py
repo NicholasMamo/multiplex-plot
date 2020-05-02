@@ -122,7 +122,7 @@ class Annotation():
 		:rtype: list of :class:`matplotlib.text.Text`
 		"""
 
-		if type(x) is float or type(x) is int:
+		if type(x) is not tuple and type(x) is not list:
 			x = (x, self.drawable.axis.get_xlim()[1])
 
 		x, y = self._pad(x, y, pad, va)
