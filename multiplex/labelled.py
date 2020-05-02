@@ -33,9 +33,11 @@ class LabelledVisualization(Visualization):
 		super().__init__(*args, **kwargs)
 		self.labels = [ ]
 
-	def draw_label(self, label, x, y, va='center', *args, **kwargs):
+	def draw_label(self, label, x, y, va='center', max_iterations=10, *args, **kwargs):
 		"""
 		Draw a label at the end of the line.
+
+		Any additional arguments and keyword arguments are passed on to the :func:`text.annotation.Annotation.draw` function.
 
 		:param label: The label to draw.
 		:type label: str
@@ -52,6 +54,8 @@ class LabelledVisualization(Visualization):
 				   If the vertical alignment is `center`, the annotation is centered around the given y-coordinate.
 				   If the vertical alignment is `bottom`, the annotation grows up.
 		:type va: str
+		:param max_iterations: The maximum number of iterations to spend arranging the labels.
+		:type max_iterations: int
 
 		:return: The drawn label.
 		:rtype: :class:`~text.annotation.Annotation`
@@ -63,14 +67,14 @@ class LabelledVisualization(Visualization):
 		annotation = Annotation(self.drawable)
 		annotation.draw(label, x, y, va=va, *args, **kwargs)
 		self.labels.append(annotation)
-		self._arrange_labels()
+		self._arrange_labels(max_iterations=max_iterations)
 		return annotation
 
-	def _arrange_labels(self):
+	def _arrange_labels(self, max_iterations=10):
 		"""
 		Go through the labels and ensure that none overlap.
 		If any do overlap, move the labels.
-		The function keeps repeating until no labels overlap.
+		The function keeps repeating until no labels overlap or the maximum number of iterations is reached.
 
 		.. note::
 
@@ -78,13 +82,18 @@ class LabelledVisualization(Visualization):
 
 		.. image:: ../examples/exports/3-overlapping-labels.png
 		   :class: example
+
+		:param max_iterations: The maximum number of iterations to spend arranging the labels.
+		:type max_iterations: int
 		"""
 
 		overlapping = self._get_overlapping_labels()
-		while overlapping:
+		iterations = 0
+		while overlapping and iterations < max_iterations:
 			for group in overlapping:
 				self._distribute_labels(group)
 			overlapping = self._get_overlapping_labels()
+			iterations += 1
 
 	def _get_overlapping_labels(self):
 		"""
