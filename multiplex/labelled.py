@@ -39,7 +39,11 @@ class LabelledVisualization(Visualization):
 
 		:param label: The label to draw.
 		:type label: str
-		:param x: The x-position of the last point on the line.
+		:param x: The x-position of the annotation.
+				  The function expects either a float or a tuple.
+				  If a float is given, it is taken to be the start x-position of the annotation.
+				  The end x-position is taken from the axis limit.
+				  If a tuple is given, the first two values are the start and end x-position of the annotation.
 		:type x: float
 		:param y: The y-position of the last point on the line.
 		:type y: float
@@ -55,10 +59,9 @@ class LabelledVisualization(Visualization):
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
-		xlim_width = abs(axis.get_xlim()[1] - axis.get_xlim()[0])
 
 		annotation = Annotation(self.drawable)
-		annotation.draw(label, (x, x + xlim_width * 0.2), y, va=va, *args, **kwargs)
+		annotation.draw(label, x, y, va=va, *args, **kwargs)
 		self.labels.append(annotation)
 		self._arrange_labels()
 		return annotation
