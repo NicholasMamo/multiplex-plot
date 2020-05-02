@@ -29,7 +29,7 @@ class Graph(LabelledVisualization):
 
 		super().__init__(*args, **kwargs)
 
-	def draw(self, G, s=100, node_style=None, edge_style=None, *args, **kwargs):
+	def draw(self, G, node_style=None, edge_style=None, *args, **kwargs):
 		"""
 		Draw the given graph.
 
@@ -59,11 +59,11 @@ class Graph(LabelledVisualization):
 
 		self.drawable.axis.axis('off')
 		positions = nx.spring_layout(G, *args, **kwargs)
-		nodes = self._draw_nodes(G.node, positions, s=s, **node_style)
+		nodes = self._draw_nodes(G.node, positions, **node_style)
 		edges = self._draw_edges(G.edges, positions, **edge_style)
 		return nodes, edges
 
-	def _draw_nodes(self, nodes, positions, s, *args, **kwargs):
+	def _draw_nodes(self, nodes, positions, *args, **kwargs):
 		"""
 		Draw the nodes onto the :class:`~drawable.Drawable`.
 
@@ -77,8 +77,6 @@ class Graph(LabelledVisualization):
 		:param positions: The positions of the nodes as a dictionary.
 						  The keys are the node names, and the values are the corresponding positions.
 		:type positions: dict
-		:param s: The size of the nodes.
-		:type s: float
 
 		:return: The list of rendered nodes.
 		:rtype: :class:`matplotlib.collections.PathCollection`
@@ -94,7 +92,7 @@ class Graph(LabelledVisualization):
 		for node, x, y in zip(nodes, x, y):
 			node_style = dict(kwargs)
 			node_style.update(nodes[node].get('style', { }))
-			rendered.append(self.drawable.scatter(x, y, s=s, *args, **node_style))
+			rendered.append(self.drawable.scatter(x, y, *args, **node_style))
 
 		return rendered
 
