@@ -152,14 +152,8 @@ class Graph(LabelledVisualization):
 				"""
 				The position of the name depends on the node's radius.
 				This is transformed into a padding value.
-
-				.. note::
-
-					The square root of the radius is taken because `the radius is originally squared <https://matplotlib.org/3.2.0/api/_as_gen/matplotlib.pyplot.scatter.html>`_.
 				"""
-				s = node.get('style', { }).get('s', 100)
-				pad = (self.drawable.axis.transData.inverted().transform((0, s ** 0.5))[1] -
-					   self.drawable.axis.transData.inverted().transform((0, 0))[1])
+				pad = self._get_radius(node)
 
 				"""
 				Draw the annotation.
@@ -201,3 +195,20 @@ class Graph(LabelledVisualization):
 			rendered.append(self.drawable.plot(x, y, zorder=-1, *args, **edge_style)[0])
 
 		return rendered
+
+	def _get_radius(self, node):
+		"""
+		Get the radius of the given node in terms of the data axis.
+		By default, the radius `s` is 100, but it can be overriden using the node's `style` attribute.
+
+		.. note::
+
+			The square root of the radius is taken because `the radius is originally squared <https://matplotlib.org/3.2.0/api/_as_gen/matplotlib.pyplot.scatter.html>`_.
+
+		:param node: The node whose radius will be calculated.
+		:type node: dict
+		"""
+
+		s = node.get('style', { }).get('s', 100)
+		return (self.drawable.axis.transData.inverted().transform((0, s ** 0.5))[1] -
+				self.drawable.axis.transData.inverted().transform((0, 0))[1])
