@@ -175,34 +175,86 @@ class Graph(LabelledVisualization):
 
 		return annotations
 
-	def _draw_edges(self, edges, nodes, *args, **kwargs):
+	def _draw_edges(self, edges, nodes, positions, s, directed=False, d=2, *args, **kwargs):
 		"""
 		Draw the edges connecting the given nodes.
+		Depending on whether the graph is undirected or directed, the edges are drawn with arrows.
 
-		Any additional arguments and keyword arguments are passed on to the :func:`matplotlib.pyplot.plot` function.
+		Any additional arguments and keyword arguments are passed on to the :func:`matplotlib.pyplot.plot` function or as arrowprops.
 
 		:param edges: The list of edges to draw.
 					  The edges should be a list of tuples representing the source and target.
 		:type edges: list of tuple
-		:param nodes: The nodes in terms of their positions as a dictionary.
-					  The keys are the node names, and the values are the corresponding positions.
-		:type nodes: dict
+		:param nodes: The list of graph nodes.
+					  These are not the rendered nodes, but the graph nodes.
+		:type nodes: networkx.classes.reportviews.NodeView
+		:param positions: The positions of the nodes as a dictionary.
+						  The keys are the node names, and the values are the corresponding positions.
+						  They are used to connect the edges together.
+		:type positions: dict
+		:param s: The default radius of the node.
+				  It may be overwritten with the node's own radius.
+		:type s: float
+		:param directed: A boolean indicating whether the graph is directed or not.
+		:type: bool
+		:param d: The divisor for the arrows.
+				  This value is to control how far away the arrows should stop from the target node in an edge.
+				  The higher the value, the less distance there is between the arrow heads and the target node.
+				  The lower the value, the more distance there is between the the arrow heads and the target node.
+				  2 works best when the marker type is 'o' and 4 works best when the marker type is '.'.
+				  Note that this value is most sensitive the higher the data ratio is (when x >> y).
+				  This can be overwritten using the `style` attribute.
+		:type d: float
 
 		:return: A list of drawn edges.
-		:rtype: list of :class:`matplotlib.lines.Line2D`
+				 If the graph is undirected, lines are returned.
+				 Otherwise, annotations (with arrows) are returned.
+		:rtype: list of :class:`matplotlib.lines.Line2D` or list of :class:`matplotlib.text.Annotation`
 		"""
 
-		# TODO: Add support for directed graphs.
 		# TODO: Add support for same-node edges.
 
-		rendered = [ ]
+		rendered = { }
 
-		for edge in edges:
-			source, target = nodes[edge[0]], nodes[edge[1]]
-			x, y = (source[0], target[0]), (source[1], target[1])
+		for source, target in edges:
+			if source == target:
+				continue
+
+			"""
+			Load the edge's style.
+			The keyword arguments may be overwritten by the edge's style.
+			"""
+			u, v = list(positions[source]), list(positions[target])
 			edge_style = dict(kwargs)
-			edge_style.update(edges[edge].get('style', { }))
-			rendered.append(self.drawable.plot(x, y, zorder=-1, *args, **edge_style)[0])
+			edge_style.update(edges[(source, target)].get('style', { }))
+
+			if not directed:
+				"""
+				If the graph is not directed, connect the two nodes' centers with a straight line.
+				"""
+				x, y = (u[0], v[0]), (u[1], v[1])
+				rendered[(source, target)] = self.drawable.plot(x, y, zorder=-1, *args, **edge_style)[0]
+			if directed:
+				"""
+				If the graph is directed, calculate the radius of the target node.
+				This is where the arrow should end.
+				Calculate the distance between the two centers and reduce from it the radius of the target node.
+				This is done so that the arrow is not under the target node, but outside and pointing to it.
+				"""
+				radius = self._get_radius(nodes[target],
+										  s=nodes[target].get('style', { }).get('s', s))
+				distance = [ v[0] - u[0], v[1] - u[1] ]
+				magnitude = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
+				normalized = [ distance[0] / magnitude, distance[1] / magnitude ]
+				diff = (radius[0] + radius[1]) / edge_style.pop('d', d)
+
+				"""
+				Retract the line by the radius.
+				"""
+				v = [ u[0] + normalized[0] * (magnitude - diff),
+				 	  u[1] + normalized[1] * (magnitude - diff) ]
+				rendered[(source, target)] = self.drawable.axis.annotate('', xy=v, xytext=u, zorder=-1,
+																		 arrowprops=edge_style)
 
 		return rendered
 

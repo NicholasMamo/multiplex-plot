@@ -3,6 +3,7 @@ Unit tests for the :class:`~graph.graph.Graph` class.
 """
 
 import math
+import matplotlib
 import matplotlib.pyplot as plt
 import networkx as nx
 import os
@@ -68,7 +69,23 @@ class TestGraph(MultiplexTest):
 		self.assertFalse(edges)
 
 	@MultiplexTest.temporary_plot
-	def test_draw_graph_with_single_edge(self):
+	def test_draw_graph_directed_edge_type(self):
+		"""
+		Test that when plotting an undirected graph, the edges are drawn as lines.
+		"""
+
+		E = [ ('A', 'C'), ('B', 'A') ]
+		G = nx.from_edgelist(E)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		edge_style = { 'alpha': 0.5, 'color': '#ff0000', 'linewidth': 0.5 }
+		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		self.assertEqual(3, len(nodes))
+		self.assertEqual(2, len(edges))
+		self.assertTrue(all(type(edge) == matplotlib.lines.Line2D for edge in edges.values()))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_undirected_with_single_edge(self):
 		"""
 		Test that when drawing a graph with one edge, the correct nodes are connected.
 		"""
@@ -89,7 +106,7 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(nodes[3].get_offsets()[0][1], edges[(1, 3)].get_ydata()[1])
 
 	@MultiplexTest.temporary_plot
-	def test_draw_graph_with_multiple_edges(self):
+	def test_draw_graph_undirected_with_multiple_edges(self):
 		"""
 		Test that when drawing a graph with one edge, the correct nodes are connected.
 		"""
@@ -108,7 +125,7 @@ class TestGraph(MultiplexTest):
 			self.assertEqual(nodes[target].get_offsets()[0][1], edge.get_ydata()[1])
 
 	@MultiplexTest.temporary_plot
-	def test_draw_graph_edge_style(self):
+	def test_draw_graph_undirected_edge_style(self):
 		"""
 		Test that when providing the edge style, it is used when creating edges.
 		"""
@@ -127,7 +144,7 @@ class TestGraph(MultiplexTest):
 		self.assertTrue(all(edge.get_linewidth() == edge_style['linewidth'] for edge in edges.values()))
 
 	@MultiplexTest.temporary_plot
-	def test_draw_graph_override_edge_style(self):
+	def test_draw_graph_undirected_override_edge_style(self):
 		"""
 		Test that when providing a custom style for an edge, it overwrites the default style.
 		"""
@@ -147,7 +164,7 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(0.5, edges[('C', 'B')].get_alpha())
 
 	@MultiplexTest.temporary_plot
-	def test_draw_graph_inherit_edge_style(self):
+	def test_draw_graph_undirected_inherit_edge_style(self):
 		"""
 		Test that when providing a custom style for an edge, it overwrites only the same parameters in the default style.
 		"""
@@ -166,6 +183,82 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(0.5, edges[('A', 'B')].get_alpha())
 		self.assertEqual(0.5, edges[('C', 'B')].get_alpha())
 		self.assertTrue(all( edge.get_color() == '#FF0000' for edge in edges.values() ))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_directed_edge_type(self):
+		"""
+		Test that when plotting a directed graph, the edges are drawn as text annotations.
+		"""
+
+		E = [ ('A', 'C'), ('B', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		edge_style = { 'alpha': 0.5, 'color': '#ff0000', 'linewidth': 0.5 }
+		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		self.assertEqual(3, len(nodes))
+		self.assertEqual(2, len(edges))
+		self.assertTrue(all(type(edge) == matplotlib.text.Annotation for edge in edges.values()))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_directed_edge_style(self):
+		"""
+		Test that when providing the edge style, it is used when creating edges.
+		"""
+
+		E = [ ('A', 'C'), ('B', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		edge_style = { 'alpha': 0.5, 'color': '#ff0000', 'linewidth': 0.5 }
+		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		self.assertEqual(3, len(nodes))
+		self.assertEqual(2, len(edges))
+
+		self.assertTrue(all(edge.arrow_patch.get_edgecolor()[3] == edge_style['alpha'] for edge in edges.values()))
+		self.assertTrue(all(edge.arrow_patch.get_edgecolor()[:3] == (1, 0, 0) for edge in edges.values()))
+		self.assertTrue(all(edge.arrow_patch.get_linewidth() == edge_style['linewidth'] for edge in edges.values()))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_directed_override_edge_style(self):
+		"""
+		Test that when providing a custom style for an edge, it overwrites the default style.
+		"""
+
+		E = [ ('A', 'C'), ('B', 'A'), ('C', 'B') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		edge_style = { 'alpha': 0.5 }
+		G.edges[('A', 'C')]['style'] = { 'alpha': 1 }
+		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		self.assertEqual(3, len(nodes))
+		self.assertEqual(3, len(edges))
+
+		self.assertEqual(1, edges[('A', 'C')].arrow_patch.get_edgecolor()[3])
+		self.assertEqual(0.5, edges[('B', 'A')].arrow_patch.get_edgecolor()[3])
+		self.assertEqual(0.5, edges[('C', 'B')].arrow_patch.get_edgecolor()[3])
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_directed_inherit_edge_style(self):
+		"""
+		Test that when providing a custom style for an edge, it overwrites only the same parameters in the default style.
+		"""
+
+		E = [ ('A', 'C'), ('B', 'A'), ('C', 'B') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		edge_style = { 'alpha': 0.5, 'color': '#FF0000' }
+		G.edges[('A', 'C')]['style'] = { 'alpha': 1 }
+		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		self.assertEqual(3, len(nodes))
+		self.assertEqual(3, len(edges))
+
+		self.assertEqual(1, edges[('A', 'C')].arrow_patch.get_edgecolor()[3])
+		self.assertEqual(0.5, edges[('B', 'A')].arrow_patch.get_edgecolor()[3])
+		self.assertEqual(0.5, edges[('C', 'B')].arrow_patch.get_edgecolor()[3])
+		self.assertTrue(all( edge.arrow_patch.get_edgecolor()[:3] == (1, 0, 0) for edge in edges.values() ))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_no_node_names(self):
