@@ -198,7 +198,6 @@ class Graph(LabelledVisualization):
 
 		return rendered
 
-	def _get_radius(self, node):
 	def _get_angle(self, source, target):
 		"""
 		Get the angle between the source and target nodes.
@@ -224,6 +223,7 @@ class Graph(LabelledVisualization):
 
 		return 0
 
+	def _get_radius(self, node, s):
 		"""
 		Get the radius of the given node in terms of the data axis.
 		By default, the radius `s` is 100, but it can be overriden using the node's `style` attribute.
@@ -234,8 +234,19 @@ class Graph(LabelledVisualization):
 
 		:param node: The node whose radius will be calculated.
 		:type node: dict
+		:param s: The default radius of the node.
+				  It may be overwritten with the node's own radius.
+		:type s: float
+
+		:return: The radius of the node in terms of the data axis.
+				 Two radii are provided: the x- and y-radii.
+				 This is because scatter points always look like circles, even when the display or data ratios are not equal.
+				 Whn the display or data ratios are not equal, the point is actually an ellipse so that it still looks like a circle.
+		:rtype: tuple
 		"""
 
-		s = node.get('style', { }).get('s', 100)
-		return (self.drawable.axis.transData.inverted().transform((0, s ** 0.5))[1] -
-				self.drawable.axis.transData.inverted().transform((0, 0))[1])
+		origin = self.drawable.axis.transData.inverted().transform((0, 0))
+
+		x = (self.drawable.axis.transData.inverted().transform((s ** 0.5, 0))[0] - origin[0])/2.
+		y = (self.drawable.axis.transData.inverted().transform((0, s ** 0.5))[1] - origin[1])/2.
+		return (x, y)

@@ -304,3 +304,69 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(round(3 * math.pi / 4, 5), round(graph._get_angle((2, 0), (-2, -2)), 5))
 		self.assertEqual(round(math.pi / 2., 5), round(graph._get_angle((2, 0), (0, -1)), 5))
 		self.assertEqual(round(math.pi / 4., 5), round(graph._get_angle((1, 0), (2, -2)), 5))
+
+	@MultiplexTest.temporary_plot
+	def test_get_radius_same_aspect_ratio(self):
+		"""
+		Test that when getting the radius, the correct radii are returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+		graph = Graph(viz)
+		point = viz.scatter(0, 0, s=1000)
+		bb = util.get_bb(viz.figure, viz.axis, point)
+		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
+		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
+
+	@MultiplexTest.temporary_plot
+	def test_get_radius_unequal_display_ratio(self):
+		"""
+		Test that when getting the radius, the correct radii are used even if the display ratio is not equal.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+
+		graph = Graph(viz)
+		point = viz.scatter(0, 0, s=1000)
+		viz.set_xlim((-1, 1))
+		viz.set_ylim((-1, 1))
+
+		bb = util.get_bb(viz.figure, viz.axis, point)
+		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
+		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
+
+		viz = drawable.Drawable(plt.figure(figsize=(5, 10)))
+
+		graph = Graph(viz)
+		point = viz.scatter(0, 0, s=1000)
+		viz.set_xlim((-1, 1))
+		viz.set_ylim((-1, 1))
+
+		bb = util.get_bb(viz.figure, viz.axis, point)
+		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
+		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
+
+	@MultiplexTest.temporary_plot
+	def test_get_radius_unequal_data_ratio(self):
+		"""
+		Test that when getting the radius, the correct radii are used even if the data ratio is not equal.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+		graph = Graph(viz)
+		point = viz.scatter(0, 0, s=1000)
+		viz.set_xlim((-2, 2))
+		viz.set_ylim((-1, 1))
+
+		bb = util.get_bb(viz.figure, viz.axis, point)
+		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
+		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
+
+		viz.set_xlim((-1, 1))
+		viz.set_ylim((-2, 2))
+
+		bb = util.get_bb(viz.figure, viz.axis, point)
+		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
+		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
