@@ -33,6 +33,7 @@ class TestGraph(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		nodes, node_names, edges = viz.draw_graph(G)
 		self.assertFalse(len(nodes))
+		self.assertFalse(node_names)
 		self.assertFalse(edges)
 
 	@MultiplexTest.temporary_plot
@@ -47,6 +48,7 @@ class TestGraph(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		nodes, node_names, edges = viz.draw_graph(G)
 		self.assertEqual(1, len(nodes))
+		self.assertFalse(node_names)
 		self.assertFalse(edges)
 
 	@MultiplexTest.temporary_plot
@@ -62,6 +64,7 @@ class TestGraph(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		nodes, node_names, edges = viz.draw_graph(G)
 		self.assertEqual(2, len(nodes))
+		self.assertFalse(node_names)
 		self.assertFalse(edges)
 
 	@MultiplexTest.temporary_plot
@@ -80,10 +83,10 @@ class TestGraph(MultiplexTest):
 		nodes, node_names, edges = viz.draw_graph(G)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(1, len(edges))
-		self.assertEqual(nodes[0].get_offsets()[0][0], edges[0].get_xdata()[0])
-		self.assertEqual(nodes[0].get_offsets()[0][1], edges[0].get_ydata()[0])
-		self.assertEqual(nodes[2].get_offsets()[0][0], edges[0].get_xdata()[1])
-		self.assertEqual(nodes[2].get_offsets()[0][1], edges[0].get_ydata()[1])
+		self.assertEqual(nodes[1].get_offsets()[0][0], edges[(1, 3)].get_xdata()[0])
+		self.assertEqual(nodes[1].get_offsets()[0][1], edges[(1, 3)].get_ydata()[0])
+		self.assertEqual(nodes[3].get_offsets()[0][0], edges[(1, 3)].get_xdata()[1])
+		self.assertEqual(nodes[3].get_offsets()[0][1], edges[(1, 3)].get_ydata()[1])
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_with_multiple_edges(self):
@@ -98,9 +101,7 @@ class TestGraph(MultiplexTest):
 		nodes, node_names, edges = viz.draw_graph(G)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
-		indices = [ (0, 1), (0, 2) ]
-		for i, edge in enumerate(edges):
-			source, target = indices[i]
+		for (source, target), edge in edges.items():
 			self.assertEqual(nodes[source].get_offsets()[0][0], edge.get_xdata()[0])
 			self.assertEqual(nodes[source].get_offsets()[0][1], edge.get_ydata()[0])
 			self.assertEqual(nodes[target].get_offsets()[0][0], edge.get_xdata()[1])
@@ -121,9 +122,9 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 
-		self.assertTrue(all(edge.get_alpha() == edge_style['alpha'] for edge in edges))
-		self.assertTrue(all(edge.get_color() == edge_style['color'] for edge in edges))
-		self.assertTrue(all(edge.get_linewidth() == edge_style['linewidth'] for edge in edges))
+		self.assertTrue(all(edge.get_alpha() == edge_style['alpha'] for edge in edges.values()))
+		self.assertTrue(all(edge.get_color() == edge_style['color'] for edge in edges.values()))
+		self.assertTrue(all(edge.get_linewidth() == edge_style['linewidth'] for edge in edges.values()))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_override_edge_style(self):
@@ -141,9 +142,9 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(3, len(edges))
 
-		self.assertEqual(1, edges[0].get_alpha())
-		self.assertEqual(0.5, edges[1].get_alpha())
-		self.assertEqual(0.5, edges[2].get_alpha())
+		self.assertEqual(1, edges[('A', 'C')].get_alpha())
+		self.assertEqual(0.5, edges[('A', 'B')].get_alpha())
+		self.assertEqual(0.5, edges[('C', 'B')].get_alpha())
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_inherit_edge_style(self):
@@ -161,10 +162,10 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(3, len(edges))
 
-		self.assertEqual(1, edges[0].get_alpha())
-		self.assertEqual(0.5, edges[1].get_alpha())
-		self.assertEqual(0.5, edges[2].get_alpha())
-		self.assertTrue(all( edge.get_color() == '#FF0000' for edge in edges ))
+		self.assertEqual(1, edges[('A', 'C')].get_alpha())
+		self.assertEqual(0.5, edges[('A', 'B')].get_alpha())
+		self.assertEqual(0.5, edges[('C', 'B')].get_alpha())
+		self.assertTrue(all( edge.get_color() == '#FF0000' for edge in edges.values() ))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_no_node_names(self):
@@ -178,8 +179,8 @@ class TestGraph(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		nodes, node_names, edges = viz.draw_graph(G)
 		self.assertEqual(3, len(nodes))
-		self.assertEqual(2, len(edges))
 		self.assertFalse(node_names)
+		self.assertEqual(2, len(edges))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_node_names(self):
@@ -196,7 +197,7 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 		self.assertEqual(1, len(node_names))
-		self.assertEqual('A', str(node_names[0]))
+		self.assertEqual('A', str(node_names['A']).strip())
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_node_name_style(self):
@@ -215,7 +216,7 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 		self.assertEqual(2, len(node_names))
-		self.assertTrue(all(name.lines[0][0].get_color() == name_style['color'] for name in node_names))
+		self.assertTrue(all(name.lines[-1][0].get_color() == name_style['color'] for name in node_names.values()))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_override_node_name_style(self):
@@ -235,8 +236,8 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 		self.assertEqual(2, len(node_names))
-		self.assertEqual('#BBCC00', node_names[0].lines[0][0].get_color())
-		self.assertEqual(name_style['color'], node_names[1].lines[0][0].get_color())
+		self.assertEqual('#BBCC00', node_names['A'].lines[-1][0].get_color())
+		self.assertEqual(name_style['color'], node_names['B'].lines[-1][0].get_color())
 
 	@MultiplexTest.temporary_plot
 	def test_draw_graph_inherit_node_name_style(self):
@@ -256,13 +257,18 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(3, len(edges))
 		self.assertEqual(2, len(node_names))
-		self.assertTrue(all(name.lines[0][0].get_color() == name_style['color'] for name in node_names))
-		self.assertEqual(0.2, node_names[0].lines[0][0].get_bbox_patch().get_facecolor()[0])
-		self.assertEqual(round(0.1 + 1/30., 10), round(node_names[0].lines[0][0].get_bbox_patch().get_facecolor()[1], 10))
-		self.assertEqual(1, node_names[0].lines[0][0].get_bbox_patch().get_facecolor()[2])
-		self.assertEqual(0.8, node_names[1].lines[0][0].get_bbox_patch().get_facecolor()[0])
-		self.assertEqual(0, node_names[1].lines[0][0].get_bbox_patch().get_facecolor()[1])
-		self.assertEqual(round(0.7 + 1/30., 10), round(node_names[1].lines[0][0].get_bbox_patch().get_facecolor()[2], 10))
+		self.assertTrue(all(name.lines[-1][0].get_color() == name_style['color'] for name in node_names.values()))
+
+		self.assertEqual(0.2, node_names['A'].lines[-1][0].get_bbox_patch().get_facecolor()[0])
+		self.assertEqual(round(0.1 + 1/30., 10),
+						 round(node_names['A'].lines[-1][0].get_bbox_patch().get_facecolor()[1], 10))
+		self.assertEqual(1, node_names['A'].lines[-1][0].get_bbox_patch().get_facecolor()[2])
+
+		self.assertEqual(0.8, node_names['B'].lines[-1][0].get_bbox_patch().get_facecolor()[0])
+		self.assertEqual(0, node_names['B'].lines[-1][0].get_bbox_patch().get_facecolor()[1])
+		self.assertEqual(round(0.7 + 1/30., 10),
+						 round(node_names['B'].lines[-1][0].get_bbox_patch().get_facecolor()[2], 10))
+
 	@MultiplexTest.temporary_plot
 	def test_get_angle_same(self):
 		"""

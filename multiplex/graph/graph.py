@@ -12,6 +12,7 @@ Each graph is made up of nodes and edges and can be used to show the relations b
 	Therefore it is a prerequisite to create these visualizations.
 """
 
+import math
 import networkx as nx
 import os
 import sys
@@ -70,8 +71,11 @@ class Graph(LabelledVisualization):
 		self.drawable.axis.axis('off')
 		positions = nx.spring_layout(G, *args, **kwargs)
 		nodes = self._draw_nodes(G.node, positions, **node_style)
-		node_names = self._draw_node_names(G.node, positions, **name_style)
-		edges = self._draw_edges(G.edges, positions, **edge_style)
+		node_names = self._draw_node_names(G.node, positions,
+										   s=node_style.get('s', 100), **name_style)
+		edges = self._draw_edges(G.edges, G.nodes, positions,
+								 s=node_style.get('s', 100),
+								 directed=nx.is_directed(G), **edge_style)
 		return nodes, node_names, edges
 
 	def _draw_nodes(self, nodes, positions, *args, **kwargs):
@@ -109,7 +113,7 @@ class Graph(LabelledVisualization):
 
 		return rendered
 
-	def _draw_node_names(self, nodes, positions, *args, **kwargs):
+	def _draw_node_names(self, nodes, positions, s, *args, **kwargs):
 		"""
 		Draw labels for the nodes.
 		Labels are drawn if they have a `name` attribute.
@@ -123,12 +127,16 @@ class Graph(LabelledVisualization):
 		:param positions: The positions of the nodes as a dictionary.
 						  The keys are the node names, and the values are the corresponding positions.
 		:type positions: dict
+		:param s: The default radius of the node.
+				  It may be overwritten with the node's own radius.
+		:type s: float
 
-		:return: The list of drawn labels.
-		:rtype: list of :class:`~text.annotation.Annotation`
+		:return: A dictionary of rendered nodes.
+				 The keys are the node names and the values are :class:`~text.annotation.Annotation`, representing the rendered annotations.
+		:rtype: dict
 		"""
 
-		annotations = [ ]
+		annotations = { }
 
 		"""
 		Extract the node positions and draw the names.
@@ -136,11 +144,10 @@ class Graph(LabelledVisualization):
 		x = [ position[0] for position in positions.values() ]
 		y = [ position[1] for position in positions.values() ]
 		for node, x, y in zip(nodes, x, y):
-			node = nodes[node]
 			"""
 			Nodes are drawn only if they have a name attribute.
 			"""
-			name = node.get('name')
+			name = nodes[node].get('name')
 			if name:
 				"""
 				By default, node names are aligned centrally and are positioned above the node.
@@ -148,14 +155,15 @@ class Graph(LabelledVisualization):
 				"""
 				default_style = { 'align': 'center', 'va': 'bottom' }
 				default_style.update(**kwargs)
-				style = node.get('name_style', { })
+				style = nodes[node].get('name_style', { })
 				default_style.update(style)
 
 				"""
 				The position of the name depends on the node's radius.
 				This is transformed into a padding value.
 				"""
-				pad = self._get_radius(node)
+				pad = self._get_radius(nodes[node],
+									   s=nodes[node].get('style', { }).get('s', s))[1]
 
 				"""
 				Draw the annotation.
@@ -163,7 +171,7 @@ class Graph(LabelledVisualization):
 				# TODO: Add support for drawing names on the left or right of nodes.
 				annotation = self.draw_label(name, (x - pad * 2, x + pad * 2), y,
 											 pad=pad/2., **default_style)
-				annotations.append(annotation)
+				annotations[node] = annotation
 
 		return annotations
 
