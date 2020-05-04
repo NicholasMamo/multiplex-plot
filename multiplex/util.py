@@ -2,6 +2,8 @@
 A set of utility functions that are common to all types of visualizations.
 """
 
+from operator import sub
+
 import re
 
 def get_bb(figure, axis, component, transform=None):
@@ -262,3 +264,33 @@ def align(figure, axis, items, align='left', xpad=0,
 				item.set_position((bb.x0 + offset, bb.y1 if va == 'top' else bb.y0))
 	else:
 		raise ValueError("Unsupported alignment %s" % align)
+
+def get_aspect(axis):
+	"""
+	Get the aspect ratio of the axis.
+	The calculation considers the display ratio as well as the data ratio.
+
+	.. note::
+
+		Solution based on `Mad Physicist's answer on Stack Overflow <https://stackoverflow.com/a/42014041/1771724>`_.
+
+	:param axis: The axis whose aspect ratio will be calculated.
+	:type axis: :class:`matplotlib.axis.Axis`
+
+	:return: The aspect ratio as a fraction of the display ratio and the data ratio.
+	:rtype: float
+	"""
+
+	"""
+	Get the figure and axis dimensions.
+	"""
+	fig_w, fig_h = axis.get_figure().get_size_inches()
+	_, _, axis_w, axis_h = axis.get_position().bounds
+
+	"""
+	Calculate the display ratio and the data ratio.
+	"""
+	display_ratio = (fig_h * axis_h) / (fig_w * axis_w)
+	data_ratio = sub(*axis.get_ylim()) / sub(*axis.get_xlim())
+
+	return display_ratio / data_ratio
