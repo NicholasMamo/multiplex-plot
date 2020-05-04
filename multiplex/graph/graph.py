@@ -175,7 +175,7 @@ class Graph(LabelledVisualization):
 
 		return annotations
 
-	def _draw_edges(self, edges, nodes, positions, s, directed=False, d=2, *args, **kwargs):
+	def _draw_edges(self, edges, nodes, positions, s, directed=False, *args, **kwargs):
 		"""
 		Draw the edges connecting the given nodes.
 		Depending on whether the graph is undirected or directed, the edges are drawn with arrows.
@@ -197,14 +197,6 @@ class Graph(LabelledVisualization):
 		:type s: float
 		:param directed: A boolean indicating whether the graph is directed or not.
 		:type directed: bool
-		:param d: The divisor for the arrows.
-				  This value is to control how far away the arrows should stop from the target node in an edge.
-				  The higher the value, the less distance there is between the arrow heads and the target node.
-				  The lower the value, the more distance there is between the the arrow heads and the target node.
-				  2 works best when the marker type is 'o' and 4 works best when the marker type is '.'.
-				  Note that this value is most sensitive the higher the data ratio is (when x >> y).
-				  This can be overwritten using the `style` attribute.
-		:type d: float
 
 		:return: A list of drawn edges.
 				 If the graph is undirected, lines are returned.
@@ -245,7 +237,6 @@ class Graph(LabelledVisualization):
 				distance = [ v[0] - u[0], v[1] - u[1] ]
 				magnitude = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
 				normalized = [ distance[0] / magnitude, distance[1] / magnitude ]
-				diff = (radius[0] + radius[1]) / edge_style.pop('d', d)
 				ratio = util.get_aspect(self.drawable.axis)
 				angle = self._get_angle(u, v)
 				if ratio > 1:
