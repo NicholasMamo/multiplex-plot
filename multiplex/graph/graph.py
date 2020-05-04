@@ -249,7 +249,7 @@ class Graph(LabelledVisualization):
 				ratio = util.get_aspect(self.drawable.axis)
 				angle = self._get_angle(u, v)
 				if ratio > 1:
-					diff = abs(radius[0] * math.cos(angle)) + abs(radius[1] * math.sin(angle)) / ratio
+					diff = abs(radius[0] * math.cos(angle)) / ratio + abs(radius[1] * math.sin(angle))
 				else:
 					diff = abs(radius[0] * math.cos(angle)) + abs(radius[1] * math.sin(angle)) * ratio
 
