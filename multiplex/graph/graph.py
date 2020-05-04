@@ -199,6 +199,31 @@ class Graph(LabelledVisualization):
 		return rendered
 
 	def _get_radius(self, node):
+	def _get_angle(self, source, target):
+		"""
+		Get the angle between the source and target nodes.
+
+		:param source: The source node's position as a tuple.
+		:type source: tuple
+		:param target: The target node's position as a tuple.
+		:type target: tuple
+
+		:return: The angle between the source and target nodes in radians.
+		:rtype: float
+		"""
+
+		xdiff = target[0] - source[0]
+		ydiff = target[1] - source[1]
+
+		dot = source[0] * target[0] + source[1] * target[1]
+		source_m = math.sqrt(source[0] ** 2 + source[1] ** 2)
+		target_m = math.sqrt(target[0] ** 2 + target[1] ** 2)
+
+		if source_m * target_m > 0:
+			return math.acos(dot / (source_m * target_m))
+
+		return 0
+
 		"""
 		Get the radius of the given node in terms of the data axis.
 		By default, the radius `s` is 100, but it can be overriden using the node's `style` attribute.

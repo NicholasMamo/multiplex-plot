@@ -2,6 +2,7 @@
 Unit tests for the :class:`~graph.graph.Graph` class.
 """
 
+import math
 import matplotlib.pyplot as plt
 import networkx as nx
 import os
@@ -12,6 +13,7 @@ if path not in sys.path:
 	sys.path.insert(1, path)
 
 from .test import MultiplexTest
+from graph.graph import Graph
 import drawable
 import util
 
@@ -261,3 +263,44 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(0.8, node_names[1].lines[0][0].get_bbox_patch().get_facecolor()[0])
 		self.assertEqual(0, node_names[1].lines[0][0].get_bbox_patch().get_facecolor()[1])
 		self.assertEqual(round(0.7 + 1/30., 10), round(node_names[1].lines[0][0].get_bbox_patch().get_facecolor()[2], 10))
+	@MultiplexTest.temporary_plot
+	def test_get_angle_same(self):
+		"""
+		Test that when the same points are given to calculate the angle, an angle of 0 is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(0, round(graph._get_angle((1, 1), (1, 1)), 5))
+
+	@MultiplexTest.temporary_plot
+	def test_get_angle(self):
+		"""
+		Test getting the angle between two points.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(round(math.pi / 4., 5), round(graph._get_angle((1, 0), (1, 1)), 5))
+		self.assertEqual(round(math.pi / 2., 5), round(graph._get_angle((1, 0), (0, 1)), 5))
+		self.assertEqual(round(3 * math.pi / 4., 5), round(graph._get_angle((1, 0), (-1, 1)), 5))
+		self.assertEqual(round(math.pi, 5), round(graph._get_angle((1, 0), (-1, 0)), 5))
+		self.assertEqual(round(3 * math.pi / 4, 5), round(graph._get_angle((1, 0), (-1, -1)), 5))
+		self.assertEqual(round(math.pi / 2., 5), round(graph._get_angle((1, 0), (0, -1)), 5))
+		self.assertEqual(round(math.pi / 4., 5), round(graph._get_angle((1, 0), (1, -1)), 5))
+
+	@MultiplexTest.temporary_plot
+	def test_get_angle_different_dimensions(self):
+		"""
+		Test that when getting the angle between two points, the magnitude is normalized.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(round(math.pi / 4., 5), round(graph._get_angle((1, 0), (2, 2)), 5))
+		self.assertEqual(round(math.pi / 2., 5), round(graph._get_angle((2, 0), (0, 1)), 5))
+		self.assertEqual(round(3 * math.pi / 4., 5), round(graph._get_angle((2, 0), (-1, 1)), 5))
+		self.assertEqual(round(math.pi, 5), round(graph._get_angle((1, 0), (-2, 0)), 5))
+		self.assertEqual(round(3 * math.pi / 4, 5), round(graph._get_angle((2, 0), (-2, -2)), 5))
+		self.assertEqual(round(math.pi / 2., 5), round(graph._get_angle((2, 0), (0, -1)), 5))
+		self.assertEqual(round(math.pi / 4., 5), round(graph._get_angle((1, 0), (2, -2)), 5))
