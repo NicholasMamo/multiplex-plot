@@ -89,11 +89,12 @@ class Graph(LabelledVisualization):
 						  The keys are the node names, and the values are the corresponding positions.
 		:type positions: dict
 
-		:return: The list of rendered nodes.
-		:rtype: :class:`matplotlib.collections.PathCollection`
+		:return: A dictionary of rendered nodes.
+				 The keys are the node names and the values are :class:`matplotlib.collections.PathCollection`, representing the rendered nodes.
+		:rtype: dict
 		"""
 
-		rendered = [ ]
+		rendered = { }
 
 		"""
 		Extract the node positions and draw scatter plots.
@@ -103,7 +104,8 @@ class Graph(LabelledVisualization):
 		for node, x, y in zip(nodes, x, y):
 			node_style = dict(kwargs)
 			node_style.update(nodes[node].get('style', { }))
-			rendered.append(self.drawable.scatter(x, y, *args, **node_style))
+			node_style.update({ 'marker': 'o' }) # TODO: do it properly
+			rendered[node] = self.drawable.scatter(x, y, *args, **node_style)
 
 		return rendered
 
