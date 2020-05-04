@@ -212,12 +212,11 @@ class Graph(LabelledVisualization):
 		:rtype: list of :class:`matplotlib.lines.Line2D` or list of :class:`matplotlib.text.Annotation`
 		"""
 
-		# TODO: Add support for same-node edges.
-
 		rendered = { }
 
 		for source, target in edges:
 			if source == target:
+				self._draw_loop(nodes[target], positions[target], s, directed=directed)
 				continue
 
 			"""
@@ -247,6 +246,12 @@ class Graph(LabelledVisualization):
 				magnitude = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
 				normalized = [ distance[0] / magnitude, distance[1] / magnitude ]
 				diff = (radius[0] + radius[1]) / edge_style.pop('d', d)
+				ratio = util.get_aspect(self.drawable.axis)
+				angle = self._get_angle(u, v)
+				if ratio > 1:
+					diff = abs(radius[0] * math.cos(angle)) + abs(radius[1] * math.sin(angle)) / ratio
+				else:
+					diff = abs(radius[0] * math.cos(angle)) + abs(radius[1] * math.sin(angle)) * ratio
 
 				"""
 				Retract the line by the radius.
@@ -274,14 +279,7 @@ class Graph(LabelledVisualization):
 		xdiff = target[0] - source[0]
 		ydiff = target[1] - source[1]
 
-		dot = source[0] * target[0] + source[1] * target[1]
-		source_m = math.sqrt(source[0] ** 2 + source[1] ** 2)
-		target_m = math.sqrt(target[0] ** 2 + target[1] ** 2)
-
-		if source_m * target_m > 0:
-			return math.acos(dot / (source_m * target_m))
-
-		return 0
+		return math.atan2(ydiff, xdiff)
 
 	def _get_radius(self, node, s):
 		"""
