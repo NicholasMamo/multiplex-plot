@@ -196,7 +196,7 @@ class Graph(LabelledVisualization):
 				  It may be overwritten with the node's own radius.
 		:type s: float
 		:param directed: A boolean indicating whether the graph is directed or not.
-		:type: bool
+		:type directed: bool
 		:param d: The divisor for the arrows.
 				  This value is to control how far away the arrows should stop from the target node in an edge.
 				  The higher the value, the less distance there is between the arrow heads and the target node.
