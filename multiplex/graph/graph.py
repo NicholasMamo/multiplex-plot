@@ -208,7 +208,9 @@ class Graph(LabelledVisualization):
 
 		for source, target in edges:
 			if source == target:
-				self._draw_loop(nodes[target], positions[target], s, directed=directed)
+				self._draw_loop(nodes[target], positions[target],
+								s=nodes[target].get('style', { }).get('s', s),
+								directed=directed, *args, **kwargs)
 				continue
 
 			"""
@@ -249,10 +251,69 @@ class Graph(LabelledVisualization):
 				"""
 				v = [ u[0] + normalized[0] * (magnitude - diff),
 				 	  u[1] + normalized[1] * (magnitude - diff) ]
-				rendered[(source, target)] = self.drawable.axis.annotate('', xy=v, xytext=u, zorder=-1,
-																		 arrowprops=edge_style)
+				rendered[(source, target)] = self.drawable.axis.annotate('', xy=v, xytext=u,
+																		 zorder=-1, arrowprops=edge_style)
 
 		return rendered
+
+	def _draw_loop(self, node, position, s, directed, *args, **kwargs):
+		"""
+		Draw a loop, indicating an edge from a node to itself.
+
+		Any additional arguments and keyword arguments are passed on to the edge drawing functions.
+
+		:param node: The node where to draw a loop.
+		:type node: ?
+		:param position: The position of the node as a tuple.
+		:type position: tuple
+		:param s: The default radius of the node.
+				  It may be overwritten with the node's own radius.
+		:type s: float
+		:param directed: A boolean indicating whether the graph is directed or not.
+		:type: bool
+
+		:return: ?
+		:rtype: ?
+		"""
+
+		"""
+		Get the node's radius and use it to calculate the loop's radius.
+		The loop's radius is calculated as a fraction of the node's radius.
+		"""
+		radius = self._get_radius(node, s)
+		loop = ( radius[0] * 0.75, radius[1] * 0.75 )
+
+		"""
+		Draw a loop first.
+		This is always drawn, regardless if the edge is directed or not.
+		It is assumed that the node is a circle.
+		"""
+		ratio = util.get_aspect(self.drawable.axis)
+		x = [ position[0] + loop[0] * math.cos(math.pi / 180 * i) for i in range(-25, 360-160) ]
+		y = [ (position[1] + radius[1] / 0.75) + loop[1] * math.sin(math.pi / 180 * i) for i in range(-25, 360-160) ]
+
+		"""
+		Remove some style attributes that belong to arrows, not edges.
+		"""
+		edge_style = dict(kwargs)
+		edge_style.pop('headwidth', None)
+		edge_style.pop('headlength', None)
+		edge_style['linewidth'] = edge_style.get('linewidth', 1) * 2
+		self.drawable.plot(x, y, zorder=-1, **edge_style)
+
+		"""
+		If the arrow is directed, calculate its position.
+		The arrow points is set to always point downwards.
+		"""
+		if directed:
+			arrowprops = dict(kwargs)
+			arrowprops['headwidth'] = arrowprops.get('headwidth') * 0.75
+			arrowprops['headlength'] = arrowprops.get('headwidth') * 0.75
+			xy = ( position[0] + loop[0] * math.cos(math.pi),
+			 			 (position[1] + radius[1] / 0.75) + loop[1] * math.sin(3 * math.pi / 2) )
+			xytext = ( xy[0], xy[1] + radius[1] / 100 )
+			self.drawable.axis.annotate('', xy=xy, xytext=xytext,
+										zorder=-1, arrowprops=arrowprops)
 
 	def _get_angle(self, source, target):
 		"""
