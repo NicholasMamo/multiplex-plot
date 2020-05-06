@@ -384,9 +384,9 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(round(math.pi / 2., 5), round(graph._get_angle((1, 0), (0, 1)), 5))
 		self.assertEqual(round(3 * math.pi / 4., 5), round(graph._get_angle((1, 0), (-1, 1)), 5))
 		self.assertEqual(round(math.pi, 5), round(graph._get_angle((1, 0), (-1, 0)), 5))
-		self.assertEqual(round(3 * math.pi / 4, 5), round(graph._get_angle((1, 0), (-1, -1)), 5))
-		self.assertEqual(round(math.pi / 2., 5), round(graph._get_angle((1, 0), (0, -1)), 5))
-		self.assertEqual(round(math.pi / 4., 5), round(graph._get_angle((1, 0), (1, -1)), 5))
+		self.assertEqual(round(- 3 * math.pi / 4, 5), round(graph._get_angle((1, 0), (-1, -1)), 5))
+		self.assertEqual(round(- math.pi / 2., 5), round(graph._get_angle((1, 0), (0, -1)), 5))
+		self.assertEqual(round(- math.pi / 4., 5), round(graph._get_angle((1, 0), (1, -1)), 5))
 
 	@MultiplexTest.temporary_plot
 	def test_get_angle_different_dimensions(self):
@@ -400,9 +400,9 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(round(math.pi / 2., 5), round(graph._get_angle((2, 0), (0, 1)), 5))
 		self.assertEqual(round(3 * math.pi / 4., 5), round(graph._get_angle((2, 0), (-1, 1)), 5))
 		self.assertEqual(round(math.pi, 5), round(graph._get_angle((1, 0), (-2, 0)), 5))
-		self.assertEqual(round(3 * math.pi / 4, 5), round(graph._get_angle((2, 0), (-2, -2)), 5))
-		self.assertEqual(round(math.pi / 2., 5), round(graph._get_angle((2, 0), (0, -1)), 5))
-		self.assertEqual(round(math.pi / 4., 5), round(graph._get_angle((1, 0), (2, -2)), 5))
+		self.assertEqual(round(- 3 * math.pi / 4, 5), round(graph._get_angle((2, 0), (-2, -2)), 5))
+		self.assertEqual(round(- math.pi / 2., 5), round(graph._get_angle((2, 0), (0, -1)), 5))
+		self.assertEqual(round(- math.pi / 4., 5), round(graph._get_angle((1, 0), (2, -2)), 5))
 
 	@MultiplexTest.temporary_plot
 	def test_get_radius_same_aspect_ratio(self):

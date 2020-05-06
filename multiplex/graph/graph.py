@@ -318,6 +318,7 @@ class Graph(LabelledVisualization):
 	def _get_angle(self, source, target):
 		"""
 		Get the angle between the source and target nodes.
+		This angle is based on the atan2 function.
 
 		:param source: The source node's position as a tuple.
 		:type source: tuple
@@ -328,10 +329,7 @@ class Graph(LabelledVisualization):
 		:rtype: float
 		"""
 
-		xdiff = target[0] - source[0]
-		ydiff = target[1] - source[1]
-
-		return math.atan2(ydiff, xdiff)
+		return math.atan2(target[1], target[0]) - math.atan2(source[1], source[0])
 
 	def _get_radius(self, node, s):
 		"""
