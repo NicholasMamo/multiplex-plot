@@ -363,6 +363,37 @@ class TestGraph(MultiplexTest):
 						 round(node_names['B'].lines[-1][0].get_bbox_patch().get_facecolor()[2], 10))
 
 	@MultiplexTest.temporary_plot
+	def test_draw_graph_loop_undirected(self):
+		"""
+		Test that when drawing a looped undirected edge, only a line is returned.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges = viz.draw_graph(G)
+		self.assertEqual(1, len(edges))
+		self.assertEqual(1, len(edges[('A', 'A')]))
+		self.assertEqual(matplotlib.lines.Line2D, type(edges[('A', 'A')][0][0]))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_loop_directed(self):
+		"""
+		Test that when drawing a looped directed edge, a line and arrow are returned.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges = viz.draw_graph(G)
+		self.assertEqual(1, len(edges))
+		self.assertEqual(2, len(edges[('A', 'A')]))
+		self.assertEqual(matplotlib.lines.Line2D, type(edges[('A', 'A')][0][0]))
+		self.assertEqual(matplotlib.text.Annotation, type(edges[('A', 'A')][1]))
+
+	@MultiplexTest.temporary_plot
 	def test_get_angle_same(self):
 		"""
 		Test that when the same points are given to calculate the angle, an angle of 0 is returned.
