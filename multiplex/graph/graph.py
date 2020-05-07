@@ -77,7 +77,7 @@ class Graph(LabelledVisualization):
 		edges = self._draw_edges(G.edges, G.nodes, positions,
 								 s=node_style.get('s', 100),
 								 directed=nx.is_directed(G), **edge_style)
-		edge_names = self._draw_edge_names(G.edges, positions,
+		edge_names = self._draw_edge_names(G.edges, G.nodes, positions,
 										   s=node_style.get('s', 100), **name_style)
 		return nodes, node_names, edges
 
@@ -258,7 +258,7 @@ class Graph(LabelledVisualization):
 
 		return rendered
 
-	def _draw_edge_names(self, edges, positions, s, *args, **kwargs):
+	def _draw_edge_names(self, edges, nodes, positions, s, *args, **kwargs):
 		"""
 		Draw names for the edges.
 		Names are drawn if they have a `name` attribute.
@@ -269,6 +269,9 @@ class Graph(LabelledVisualization):
 
 		:param edges: The list of edges for which to draw names.
 		:type edges: :class:`networkx.classes.reportviews.NodeView`
+		:param nodes: The list of nodes in the graph.
+					  They are used when rendering names for looped edges.
+		:type nodes: networkx.classes.reportviews.NodeView
 		:param positions: The positions of the nodes as a dictionary.
 						  The keys are the node names, and the values are the corresponding positions.
 		:type positions: dict
@@ -301,8 +304,8 @@ class Graph(LabelledVisualization):
 				"""
 				To draw the name from left to right, order the source and target nodes accordingly.
 				"""
-				nodes = (positions[source], positions[target])
-				u, v = sorted(nodes, key=lambda node: node[0])
+				u, v = sorted([ positions[source], positions[target] ],
+							  key=lambda node: node[0])
 
 				"""
 				Draw the annotation to get an idea of its width and remove it immediately.
@@ -311,6 +314,19 @@ class Graph(LabelledVisualization):
 				annotation.draw([ name ], (u[0]), u[1], **default_style)
 				bb = annotation.get_virtual_bb()
 				annotation.remove()
+
+				if source == target:
+					"""
+					If the edge is a loop, draw the name at the apex.
+					"""
+					radius = self._get_radius(nodes[source],
+											  s=nodes[source].get('style', { }).get('s', s))
+					annotation = Annotation(self.drawable)
+					x = ( u[0] - bb.width / 2.,
+					 	  u[0] + bb.width / 2. )
+					y = u[1] + radius[1] * 2 + bb.height
+					annotation.draw([ name ], x, y, **default_style)
+					continue
 
 				"""
 				Re-draw the annotation, this time positionally centered along the edge.
