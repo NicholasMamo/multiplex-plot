@@ -236,9 +236,6 @@ class Graph(LabelledVisualization):
 				"""
 				radius = self._get_radius(nodes[target],
 										  s=nodes[target].get('style', { }).get('s', s))
-				distance = [ v[0] - u[0], v[1] - u[1] ]
-				magnitude = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
-				normalized = [ distance[0] / magnitude, distance[1] / magnitude ]
 				ratio = util.get_aspect(self.drawable.axis)
 				angle = self._get_angle(u, v)
 				if ratio > 1:
@@ -249,8 +246,10 @@ class Graph(LabelledVisualization):
 				"""
 				Retract the line by the radius.
 				"""
-				v = [ u[0] + normalized[0] * (magnitude - diff),
-				 	  u[1] + normalized[1] * (magnitude - diff) ]
+				distance = self._get_distance(u, v)
+				direction = self._get_direction(u, v)
+				v = [ u[0] + direction[0] * (distance - diff),
+				 	  u[1] + direction[1] * (distance - diff) ]
 				rendered[(source, target)] = self.drawable.axis.annotate('', xy=v, xytext=u,
 																		 zorder=-1, arrowprops=edge_style)
 
