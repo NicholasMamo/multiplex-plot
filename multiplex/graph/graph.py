@@ -336,6 +336,27 @@ class Graph(LabelledVisualization):
 		diff = [ v[0] - u[0], v[1] - u[1] ]
 		return math.sqrt(diff[0] ** 2 + diff[1] ** 2)
 
+	def _get_direction(self, u, v):
+		"""
+		Get the direction between the two given nodes.
+		This is the normalized difference between the nodes' positions.
+
+		:param u: The source node's position as a tuple.
+		:type u: tuple
+		:param v: The target node's position as a tuple.
+		:type v: tuple
+
+		:return: The direction between the two nodes as a tuple.
+		:rtype: tuple
+		"""
+
+		diff = [ v[0] - u[0], v[1] - u[1] ]
+		distance = self._get_distance(u, v)
+		if distance:
+			return ( diff[0] / distance, diff[1] / distance )
+
+		return (0, 0)
+
 	def _get_angle(self, u, v):
 		"""
 		Get the angle between the source and target nodes.

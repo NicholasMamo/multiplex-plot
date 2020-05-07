@@ -404,17 +404,98 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(0, round(graph._get_distance((1, 1), (1, 1)), 5))
 
 	@MultiplexTest.temporary_plot
-	def test_get_distance_same_x(self):
+	def test_get_direction_same(self):
 		"""
-		Test that when getting the distance between two points with the same x-coordinate, the y-distance is returned.
+		Test that when getting the direction between the same point, a zero tuple is returned.
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		graph = Graph(viz)
-		self.assertEqual(1, round(graph._get_distance((0, 0), (0, 1)), 5))
+		self.assertEqual((0, 0), graph._get_direction((1, 1), (1, 1)))
 
 	@MultiplexTest.temporary_plot
-	def test_get_distance_same_y(self):
+	def test_get_direction_same_x(self):
+		"""
+		Test that when getting the direction between two points with the same x-coordinate, the y-direction is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual((0, 1), graph._get_direction((0, 0), (0, 1)))
+
+	@MultiplexTest.temporary_plot
+	def test_get_direction_same_x_normalized(self):
+		"""
+		Test that when getting the direction between two points with the same x-coordinate, the normalized y-direction is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual((0, 1), graph._get_direction((0, 0), (0, 2)))
+
+	@MultiplexTest.temporary_plot
+	def test_get_direction_same_y(self):
+		"""
+		Test that when getting the direction between two points with the same y-coordinate, the x-direction is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual((1, 0), graph._get_direction((0, 0), (1, 0)))
+
+	@MultiplexTest.temporary_plot
+	def test_get_direction_same_y_normalized(self):
+		"""
+		Test that when getting the direction between two points with the same y-coordinate, the normalized x-direction is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual((1, 0), graph._get_direction((0, 0), (2, 0)))
+
+	@MultiplexTest.temporary_plot
+	def test_get_direction_positive(self):
+		"""
+		Test getting the positive direction between two points.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual((1 / math.sqrt(2), 1 / math.sqrt(2)), graph._get_direction((0, 0), (1, 1)))
+		self.assertEqual((2 / math.sqrt(5), 1 / math.sqrt(5)), graph._get_direction((0, 0), (2, 1)))
+		self.assertEqual((0, -1), graph._get_direction((1, 2), (1, 1)))
+		self.assertEqual((-1 / math.sqrt(2), -1 / math.sqrt(2)), graph._get_direction((3, 2), (2, 1)))
+
+	@MultiplexTest.temporary_plot
+	def test_get_direction_negative(self):
+		"""
+		Test getting the direction between two points.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual((-1 / math.sqrt(2), -1 / math.sqrt(2)), graph._get_direction((0, 0), (-1, -1)))
+		self.assertEqual((-2 / math.sqrt(5), -1 / math.sqrt(5)), graph._get_direction((0, 0), (-2, -1)))
+		self.assertEqual((0, 1), graph._get_direction((-1, -2), (-1, -1)))
+		self.assertEqual((1 / math.sqrt(2), 1 / math.sqrt(2)), graph._get_direction((-3, -2), (-2, -1)))
+
+	@MultiplexTest.temporary_plot
+	def test_get_direction_not_symmetric(self):
+		"""
+		Test that the direction between two points is not symmetric.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+
+		self.assertEqual((1 / math.sqrt(2), 1 / math.sqrt(2)), graph._get_direction((-1, -1), (0, 0)))
+		self.assertEqual((-1 / math.sqrt(2), -1 / math.sqrt(2)), graph._get_direction((0, 0), (-1, -1)))
+
+		self.assertEqual((2 / math.sqrt(5), 1 / math.sqrt(5)), graph._get_direction((-2, -1), (0, 0)))
+		self.assertEqual((-2 / math.sqrt(5), -1 / math.sqrt(5)), graph._get_direction((0, 0), (-2, -1)))
+
+	@MultiplexTest.temporary_plot
+	def test_get_direction_same_y(self):
 		"""
 		Test that when getting the distance between two points with the same y-coordinate, the x-distance is returned.
 		"""
@@ -424,7 +505,7 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(1, round(graph._get_distance((0, 0), (1, 0)), 5))
 
 	@MultiplexTest.temporary_plot
-	def test_get_distance_positive(self):
+	def no_test_get_direction_positive(self):
 		"""
 		Test getting the distance between two points.
 		"""
@@ -437,7 +518,7 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(round(math.sqrt(2), 5), round(graph._get_distance((3, 2), (2, 1)), 5))
 
 	@MultiplexTest.temporary_plot
-	def test_get_distance_negative(self):
+	def no_test_get_direction_negative(self):
 		"""
 		Test getting the distance between two points.
 		"""
@@ -450,7 +531,7 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(round(math.sqrt(2), 5), round(graph._get_distance((-3, -2), (-2, -1)), 5))
 
 	@MultiplexTest.temporary_plot
-	def test_get_distance_symmetric(self):
+	def no_test_get_direction_symmetric(self):
 		"""
 		Test that the distance between two points is symmetric.
 		"""
