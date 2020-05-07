@@ -142,7 +142,7 @@ class Annotation():
 		If the vertical alignment is meant to be centered, center the annotation now.
 		"""
 		if va == 'center':
-			self._center(x[0], y, *args, **kwargs)
+			self._center(self.get_virtual_bb().x0, y, *args, **kwargs)
 
 		return tokens
 
