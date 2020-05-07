@@ -21,6 +21,7 @@ sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 import util
 
 from labelled import LabelledVisualization
+from text.annotation import Annotation
 
 class Graph(LabelledVisualization):
 	"""
@@ -71,11 +72,13 @@ class Graph(LabelledVisualization):
 		self.drawable.axis.axis('off')
 		positions = nx.spring_layout(G, *args, **kwargs)
 		nodes = self._draw_nodes(G.node, positions, **node_style)
-		node_names = self._draw_node_names(G.node, positions,
+		node_names = self._draw_node_names(G.nodes, positions,
 										   s=node_style.get('s', 100), **name_style)
 		edges = self._draw_edges(G.edges, G.nodes, positions,
 								 s=node_style.get('s', 100),
 								 directed=nx.is_directed(G), **edge_style)
+		edge_names = self._draw_edge_names(G.edges, positions,
+										   s=node_style.get('s', 100), **name_style)
 		return nodes, node_names, edges
 
 	def _draw_nodes(self, nodes, positions, *args, **kwargs):
@@ -254,6 +257,81 @@ class Graph(LabelledVisualization):
 																		 zorder=-1, arrowprops=edge_style)
 
 		return rendered
+
+	def _draw_edge_names(self, edges, positions, s, *args, **kwargs):
+		"""
+		Draw names for the edges.
+		Names are drawn if they have a `name` attribute.
+		The `name_style` attribute, if given, is used to override the default name style.
+		Names are written left-to-right.
+
+		Any additional keyword arguments are considered to be styling options.
+
+		:param edges: The list of edges for which to draw names.
+		:type edges: :class:`networkx.classes.reportviews.NodeView`
+		:param positions: The positions of the nodes as a dictionary.
+						  The keys are the node names, and the values are the corresponding positions.
+		:type positions: dict
+		:param s: The default radius of the node.
+				  It may be overwritten with the node's own radius.
+		:type s: float
+
+		:return: A dictionary of rendered edge names.
+				 The keys are the edge names and the values are :class:`~text.annotation.Annotation`, representing the rendered annotations.
+		:rtype: dict
+		"""
+
+		annotations = { }
+
+		for (source, target) in edges:
+			"""
+			Nodes are drawn only if they have a name attribute.
+			"""
+			name = edges[(source, target)].get('name')
+			if name:
+				"""
+				By default, edge names are aligned centrally.
+				However, the style can be overriden by providing a `name_style` attribute.
+				"""
+				default_style = { 'align': 'center', 'ha': 'left', 'va': 'center' }
+				default_style.update(**kwargs)
+				style = edges[(source, target)].get('name_style', { })
+				default_style.update(style)
+
+				"""
+				To draw the name from left to right, order the source and target nodes accordingly.
+				"""
+				nodes = (positions[source], positions[target])
+				u, v = sorted(nodes, key=lambda node: node[0])
+
+				"""
+				Draw the annotation to get an idea of its width and remove it immediately.
+				"""
+				annotation = Annotation(self.drawable)
+				annotation.draw([ name ], (u[0]), u[1], **default_style)
+				bb = annotation.get_virtual_bb()
+				annotation.remove()
+
+				"""
+				Re-draw the annotation, this time positionally centered along the edge.
+				The rotation depends on the elevation from the source to the target node.
+				"""
+				ratio = util.get_aspect(self.drawable.axis)
+				distance = self._get_distance(u, v)
+				direction = self._get_direction(u, v)
+				angle = self._get_elevation(u, v)
+
+				"""
+				The annotation's x-position is bound rigidly based on the width of the annotation.
+				The y-position is based on the angle. This is because the horizontal alignment is always set to `left`.
+				"""
+				annotation = Annotation(self.drawable)
+				x = ( u[0] + direction[0] * distance / 2. - bb.width / 2.,
+				 	  u[0] + direction[0] * distance / 2. + bb.width / 2. )
+				y = u[1] + direction[1] * distance / 2. + bb.height / 2. * math.sin(angle) * (math.degrees(angle) > 0)
+				annotation.draw([ name ], x, y, rotation=math.degrees(angle), **default_style)
+
+		return annotations
 
 	def _draw_loop(self, node, position, s, directed, *args, **kwargs):
 		"""
