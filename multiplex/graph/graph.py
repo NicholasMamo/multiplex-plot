@@ -206,10 +206,10 @@ class Graph(LabelledVisualization):
 
 		rendered = { }
 
-		for source, target in edges:
-			if source == target:
-				rendered[(source, target)] = self._draw_loop(nodes[target], positions[target],
-															 s=nodes[target].get('style', { }).get('s', s),
+		for u, v in edges:
+			if u == v:
+				rendered[(u, v)] = self._draw_loop(nodes[v], positions[v],
+															 s=nodes[v].get('style', { }).get('s', s),
 															 directed=directed, *args, **kwargs)
 				continue
 
@@ -217,16 +217,16 @@ class Graph(LabelledVisualization):
 			Load the edge's style.
 			The keyword arguments may be overwritten by the edge's style.
 			"""
-			u, v = list(positions[source]), list(positions[target])
+			u, v = list(positions[u]), list(positions[v])
 			edge_style = dict(kwargs)
-			edge_style.update(edges[(source, target)].get('style', { }))
+			edge_style.update(edges[(u, v)].get('style', { }))
 
 			if not directed:
 				"""
 				If the graph is not directed, connect the two nodes' centers with a straight line.
 				"""
 				x, y = (u[0], v[0]), (u[1], v[1])
-				rendered[(source, target)] = self.drawable.plot(x, y, zorder=-1, *args, **edge_style)[0]
+				rendered[(u, v)] = self.drawable.plot(x, y, zorder=-1, *args, **edge_style)[0]
 			if directed:
 				"""
 				If the graph is directed, calculate the radius of the target node.
@@ -234,8 +234,8 @@ class Graph(LabelledVisualization):
 				Calculate the distance between the two centers and reduce from it the radius of the target node.
 				This is done so that the arrow is not under the target node, but outside and pointing to it.
 				"""
-				radius = self._get_radius(nodes[target],
-										  s=nodes[target].get('style', { }).get('s', s))
+				radius = self._get_radius(nodes[v],
+										  s=nodes[v].get('style', { }).get('s', s))
 				distance = [ v[0] - u[0], v[1] - u[1] ]
 				magnitude = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
 				normalized = [ distance[0] / magnitude, distance[1] / magnitude ]
@@ -251,7 +251,7 @@ class Graph(LabelledVisualization):
 				"""
 				v = [ u[0] + normalized[0] * (magnitude - diff),
 				 	  u[1] + normalized[1] * (magnitude - diff) ]
-				rendered[(source, target)] = self.drawable.axis.annotate('', xy=v, xytext=u,
+				rendered[(u, v)] = self.drawable.axis.annotate('', xy=v, xytext=u,
 																		 zorder=-1, arrowprops=edge_style)
 
 		return rendered
@@ -320,21 +320,21 @@ class Graph(LabelledVisualization):
 
 		return ( edge, arrow ) if directed else ( edge, )
 
-	def _get_angle(self, source, target):
+	def _get_angle(self, u, v):
 		"""
-		Get the angle between the source and target nodes.
+		Get the angle between the start and target nodes.
 		This angle is based on the atan2 function.
 
-		:param source: The source node's position as a tuple.
-		:type source: tuple
-		:param target: The target node's position as a tuple.
-		:type target: tuple
+		:param u: The starting node's position as a tuple.
+		:type u: tuple
+		:param v: The target node's position as a tuple.
+		:type v: tuple
 
-		:return: The angle between the source and target nodes in radians.
+		:return: The angle between the u and target nodes in radians.
 		:rtype: float
 		"""
 
-		return math.atan2(target[1], target[0]) - math.atan2(source[1], source[0])
+		return math.atan2(v[1], v[0]) - math.atan2(u[1], u[0])
 
 	def _get_radius(self, node, s):
 		"""
