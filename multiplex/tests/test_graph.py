@@ -586,6 +586,92 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(round(- math.pi / 4., 5), round(graph._get_angle((1, 0), (2, -2)), 5))
 
 	@MultiplexTest.temporary_plot
+	def test_get_elevation_same(self):
+		"""
+		Test that when getting the elevation of two identical points, an angle of 0 is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(0, graph._get_elevation((0, 0), (0, 0)))
+		self.assertEqual(0, graph._get_elevation((1, 1), (1, 1)))
+
+	@MultiplexTest.temporary_plot
+	def test_get_elevation_same_x(self):
+		"""
+		Test that when getting the elevation of two points with the same x-coordinate, an angle of 90 degrees is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(math.pi / 2., graph._get_elevation((0, 0), (0, 1)))
+		self.assertEqual(math.pi / 2., graph._get_elevation((1, 1), (1, 2)))
+		self.assertEqual(math.pi / 2., graph._get_elevation((0, 0), (0, -1)))
+		self.assertEqual(math.pi / 2., graph._get_elevation((1, 1), (1, -2)))
+
+	@MultiplexTest.temporary_plot
+	def test_get_elevation_same_y(self):
+		"""
+		Test that when getting the elevation of two points with the same y-coordinate, an angle of 0 degrees is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(0, graph._get_elevation((0, 1), (1, 1)))
+		self.assertEqual(0, graph._get_elevation((0, 1), (-1, 1)))
+
+	@MultiplexTest.temporary_plot
+	def test_get_elevation_bounds(self):
+		"""
+		Test that when getting the elevation of two points, the angle is always bound between -90 and 90 degrees.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10.0675)))
+		graph = Graph(viz)
+		self.assertEqual(0, graph._get_elevation((0, 0), (1, 0)))
+		self.assertEqual(round(math.pi / 4., 2), round(graph._get_elevation((0, 0), (1, 1)), 2))
+		self.assertEqual(math.pi / 2., graph._get_elevation((0, 0), (0, 1)))
+		self.assertEqual(round(- math.pi / 4., 2), round(graph._get_elevation((0, 0), (-1, 1)), 2))
+		self.assertEqual(0, graph._get_elevation((0, 0), (-1, 0)))
+		self.assertEqual(round(math.pi / 4., 2), round(graph._get_elevation((0, 0), (-1, -1)), 2))
+		self.assertEqual(math.pi / 2., graph._get_elevation((0, 0), (0, -1)))
+		self.assertEqual(round(- math.pi / 4., 2), round(graph._get_elevation((0, 0), (1, -1)), 2))
+
+	@MultiplexTest.temporary_plot
+	def test_get_elevation_symmetric(self):
+		"""
+		Test that when getting the elevation of two points, the order does not matter.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10.0675)))
+		graph = Graph(viz)
+		self.assertEqual(graph._get_elevation((1, 0), (0, 0)), graph._get_elevation((0, 0), (1, 0)))
+		self.assertEqual(graph._get_elevation((1, 1), (0, 0)), graph._get_elevation((0, 0), (1, 1)))
+		self.assertEqual(graph._get_elevation((0, 1), (0, 0)), graph._get_elevation((0, 0), (0, 1)))
+		self.assertEqual(graph._get_elevation((-1, 1), (0, 0)), graph._get_elevation((0, 0), (-1, 1)))
+		self.assertEqual(graph._get_elevation((-1, 0), (0, 0)), graph._get_elevation((0, 0), (-1, 0)))
+		self.assertEqual(graph._get_elevation((-1, -1), (0, 0)), graph._get_elevation((0, 0), (-1, -1)))
+		self.assertEqual(graph._get_elevation((0, -1), (0, 0)), graph._get_elevation((0, 0), (0, -1)))
+		self.assertEqual(graph._get_elevation((1, -1), (0, 0)), graph._get_elevation((0, 0), (1, -1)))
+
+	@MultiplexTest.temporary_plot
+	def test_get_elevation_aspect(self):
+		"""
+		Test that when getting the elevation of two points, the aspect ratio is taken into consideration.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 7.5)))
+		graph = Graph(viz)
+		self.assertEqual(0, graph._get_elevation((0, 0), (1, 0)))
+		self.assertEqual(round(math.atan(0.75/1), 2), round(graph._get_elevation((0, 0), (1, 1)), 2))
+		self.assertEqual(math.pi / 2., graph._get_elevation((0, 0), (0, 1)))
+		self.assertEqual(round(- math.atan(0.75/1), 2), round(graph._get_elevation((0, 0), (-1, 1)), 2))
+		self.assertEqual(0, graph._get_elevation((0, 0), (-1, 0)))
+		self.assertEqual(round(math.atan(0.75/1), 2), round(graph._get_elevation((0, 0), (-1, -1)), 2))
+		self.assertEqual(math.pi / 2., graph._get_elevation((0, 0), (0, -1)))
+		self.assertEqual(round(- math.atan(0.75/1), 2), round(graph._get_elevation((0, 0), (1, -1)), 2))
+
+	@MultiplexTest.temporary_plot
 	def test_get_radius_same_aspect_ratio(self):
 		"""
 		Test that when getting the radius, the correct radii are returned.

@@ -372,6 +372,32 @@ class Graph(LabelledVisualization):
 
 		return math.atan2(v[1], v[0]) - math.atan2(u[1], u[0])
 
+	def _get_elevation(self, u, v):
+		"""
+		Get the angle of elevation from the source node to the target node.
+		The angle of elevation considers the aspect ratio.
+
+		:param u: The source node's position as a tuple.
+		:type u: tuple
+		:param v: The target node's position as a tuple.
+		:type v: tuple
+
+		:return: The angle of elevation between the source and target nodes in radians.
+		:rtype: float
+		"""
+
+		if (u[0] == v[0] and u[1] == v[1]):
+			return 0
+
+		xdiff = v[0] - u[0]
+		if xdiff == 0:
+			return math.pi / 2.
+
+		ratio = util.get_aspect(self.drawable.axis)
+		ydiff = (v[1] - u[1]) * ratio
+
+		return math.atan(ydiff / xdiff)
+
 	def _get_radius(self, node, s):
 		"""
 		Get the radius of the given node in terms of the data axis.
