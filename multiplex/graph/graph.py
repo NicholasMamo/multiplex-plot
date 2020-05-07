@@ -115,14 +115,14 @@ class Graph(LabelledVisualization):
 
 	def _draw_node_names(self, nodes, positions, s, *args, **kwargs):
 		"""
-		Draw labels for the nodes.
-		Labels are drawn if they have a `name` attribute.
-		The `name_style` attribute, if given, is used to override the default label style.
-		By default, nodes are aligned centrally and are positioned above the node.
+		Draw names for the nodes.
+		Names are drawn if they have a `name` attribute.
+		The `name_style` attribute, if given, is used to override the default name style.
+		By default, names are aligned centrally and are positioned above the node.
 
 		Any additional keyword arguments are considered to be styling options.
 
-		:param nodes: The list of nodes for which to draw labels.
+		:param nodes: The list of nodes for which to draw names.
 		:type nodes: :class:`networkx.classes.reportviews.NodeView`
 		:param positions: The positions of the nodes as a dictionary.
 						  The keys are the node names, and the values are the corresponding positions.
@@ -131,7 +131,7 @@ class Graph(LabelledVisualization):
 				  It may be overwritten with the node's own radius.
 		:type s: float
 
-		:return: A dictionary of rendered nodes.
+		:return: A dictionary of rendered node names.
 				 The keys are the node names and the values are :class:`~text.annotation.Annotation`, representing the rendered annotations.
 		:rtype: dict
 		"""
@@ -170,7 +170,7 @@ class Graph(LabelledVisualization):
 				"""
 				# TODO: Add support for drawing names on the left or right of nodes.
 				annotation = self.draw_label(name, (x - pad * 2, x + pad * 2), y,
-											 pad=pad/2., **default_style)
+											 pad=pad, **default_style)
 				annotations[node] = annotation
 
 		return annotations
