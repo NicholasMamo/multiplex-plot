@@ -255,6 +255,15 @@ class Annotation():
 				elif va == 'bottom':
 					token.set_position((bb.x0 - offset[0], bb.y0 - offset[1]))
 
+	def remove(self):
+		"""
+		Remove all tokens in the annotation from the visualization.
+		"""
+
+		for line in self.lines:
+			for token in line:
+				token.remove()
+
 	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va,
 					 transform=None, *args, **kwargs):
 		"""
