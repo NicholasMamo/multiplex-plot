@@ -320,6 +320,22 @@ class Graph(LabelledVisualization):
 
 		return ( edge, arrow ) if directed else ( edge, )
 
+	def _get_distance(self, u, v):
+		"""
+		Get the distance between the two given nodes.
+
+		:param u: The source node's position as a tuple.
+		:type u: tuple
+		:param v: The target node's position as a tuple.
+		:type v: tuple
+
+		:return: The distance between the two nodes.
+		:rtype: float
+		"""
+
+		diff = [ v[0] - u[0], v[1] - u[1] ]
+		return math.sqrt(diff[0] ** 2 + diff[1] ** 2)
+
 	def _get_angle(self, u, v):
 		"""
 		Get the angle between the source and target nodes.

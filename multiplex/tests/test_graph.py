@@ -394,6 +394,75 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(matplotlib.text.Annotation, type(edges[('A', 'A')][1]))
 
 	@MultiplexTest.temporary_plot
+	def test_get_distance_same(self):
+		"""
+		Test that when getting the distance between the same point, 0 is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(0, round(graph._get_distance((1, 1), (1, 1)), 5))
+
+	@MultiplexTest.temporary_plot
+	def test_get_distance_same_x(self):
+		"""
+		Test that when getting the distance between two points with the same x-coordinate, the y-distance is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(1, round(graph._get_distance((0, 0), (0, 1)), 5))
+
+	@MultiplexTest.temporary_plot
+	def test_get_distance_same_y(self):
+		"""
+		Test that when getting the distance between two points with the same y-coordinate, the x-distance is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(1, round(graph._get_distance((0, 0), (1, 0)), 5))
+
+	@MultiplexTest.temporary_plot
+	def test_get_distance_positive(self):
+		"""
+		Test getting the distance between two points.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(round(math.sqrt(2), 5), round(graph._get_distance((0, 0), (1, 1)), 5))
+		self.assertEqual(round(math.sqrt(5), 5), round(graph._get_distance((0, 0), (2, 1)), 5))
+		self.assertEqual(1, round(graph._get_distance((1, 2), (1, 1)), 5))
+		self.assertEqual(round(math.sqrt(2), 5), round(graph._get_distance((3, 2), (2, 1)), 5))
+
+	@MultiplexTest.temporary_plot
+	def test_get_distance_negative(self):
+		"""
+		Test getting the distance between two points.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(round(math.sqrt(2), 5), round(graph._get_distance((0, 0), (-1, -1)), 5))
+		self.assertEqual(round(math.sqrt(5), 5), round(graph._get_distance((0, 0), (-2, -1)), 5))
+		self.assertEqual(1, round(graph._get_distance((-1, -2), (-1, -1)), 5))
+		self.assertEqual(round(math.sqrt(2), 5), round(graph._get_distance((-3, -2), (-2, -1)), 5))
+
+	@MultiplexTest.temporary_plot
+	def test_get_distance_symmetric(self):
+		"""
+		Test that the distance between two points is symmetric.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		graph = Graph(viz)
+		self.assertEqual(round(graph._get_distance((-1, -1), (0, 0)), 5),
+						 round(graph._get_distance((0, 0), (-1, -1)), 5))
+		self.assertEqual(round(graph._get_distance((-2, -1), (0, 0)), 5),
+						 round(graph._get_distance((0, 0), (-2, -1)), 5))
+
+	@MultiplexTest.temporary_plot
 	def test_get_angle_same(self):
 		"""
 		Test that when the same points are given to calculate the angle, an angle of 0 is returned.
