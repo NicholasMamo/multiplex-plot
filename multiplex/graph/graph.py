@@ -369,8 +369,6 @@ class Graph(LabelledVisualization):
 		:rtype: tuple
 		"""
 
-		# BUG: The radius calculation has no basis, and it doesn't work when the figure is flat (for example with figure size 20x10).
-
 		"""
 		Get the node's radius and enlarge it slightly.
 		This is because the radius isn't actually the node's true radius.
@@ -378,7 +376,6 @@ class Graph(LabelledVisualization):
 		The center of the loop is at the apex of the circle by default.
 		"""
 		radius = self._get_radius(node, s)
-		radius = ( radius[0] / 0.8, radius[1] / 0.8 )
 		loop = ( radius[0] * 0.5, radius[1] * 0.5 )
 		center = ( position[0], position[1] + radius[1] )
 
