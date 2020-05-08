@@ -375,15 +375,30 @@ class Graph(LabelledVisualization):
 		"""
 		radius = self._get_radius(node, s)
 		loop = ( radius[0] * 0.75, radius[1] * 0.75 )
+		ratio = util.get_aspect(self.drawable.axis)
+		radius = ( radius[0] / 0.8, radius[1] / 0.8 )
+		center = ( position[0], position[1] + radius[1] )
+
+		"""
+		Get the vertical distance from the node to the place where the loop will intersect with it.
+		"""
+		d = center[1] - position[1]
+		d1 = (radius[1] ** 2 - loop[1] ** 2 + d ** 2) / ( 2 * d)
+		d2 = d - d1
+
+		"""
+		Calculate the horizontal distance from the center of the node to where the node and the loop intersect.
+		"""
+		x1 = math.sqrt( ( (radius[0]) ** 2 * radius[1] ** 2 - (radius[0]) ** 2 * d1 ** 2 ) / ( (radius[0]) ** 2 ) ) * ratio
 
 		"""
 		Draw a loop first.
 		This is always drawn, regardless if the edge is directed or not.
 		It is assumed that the node is a circle.
 		"""
-		ratio = util.get_aspect(self.drawable.axis)
-		x = [ position[0] + loop[0] * math.cos(math.pi / 180 * i) for i in range(-25, 360-160) ]
-		y = [ (position[1] + radius[1] / 0.75) + loop[1] * math.sin(math.pi / 180 * i) for i in range(-25, 360-160) ]
+		angle = math.floor(math.degrees(math.asin(-d2 / loop[1])))
+		x = [ center[0] + loop[0] * math.cos(math.pi / 180 * i) for i in range(angle, 180 - angle) ]
+		y = [ center[1] + loop[1] * math.sin(math.pi / 180 * i) for i in range(angle, 180 - angle) ]
 
 		"""
 		Remove some style attributes that belong to arrows, not edges.
