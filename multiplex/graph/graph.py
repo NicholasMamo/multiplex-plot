@@ -426,10 +426,8 @@ class Graph(LabelledVisualization):
 				arrowprops['headwidth'] = arrowprops.get('headwidth') * 0.75
 			if 'headlength' in arrowprops:
 				arrowprops['headlength'] = arrowprops.get('headwidth') * 0.75
-			xy = ( center[0] + loop[0] * math.cos(math.pi / 180 * (180 - angle)),
-			 	   center[1] + loop[1] * math.sin(math.pi / 180 * (180 - angle)) )
-			xytext = ( center[0] + loop[0] * math.cos(math.pi / 180 * (180 - angle - 1)),
-					   center[1] + loop[1] * math.sin(math.pi / 180 * (180 - angle - 1)) )
+			xy = ( x[-1], y[-1] )
+			xytext = ( x[-2], y[-2] )
 			arrow = self.drawable.axis.annotate('', xy=xy, xytext=xytext,
 												zorder=-1, arrowprops=arrowprops)
 
