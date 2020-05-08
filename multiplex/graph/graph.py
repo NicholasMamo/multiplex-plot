@@ -349,7 +349,7 @@ class Graph(LabelledVisualization):
 
 		return annotations
 
-	def _draw_loop(self, node, position, s, directed, *args, **kwargs):
+	def _draw_loop(self, node, position, s, directed, offset_angle=math.pi/2, *args, **kwargs):
 		"""
 		Draw a loop, indicating an edge from a node to itself.
 
@@ -364,16 +364,18 @@ class Graph(LabelledVisualization):
 		:type s: float
 		:param directed: A boolean indicating whether the graph is directed or not.
 		:type: bool
+		:param offset_angle: The loop's offset angle in radians.
+							 By default, the value is :math:`\\frac{\\pi}{2}`, which places the loop on top of the node.
+		:type offset_angle: float
 
 		:return: A tuple containing the undirected edge and, if directed, the arrow.
 		:rtype: tuple
 		"""
 
 		"""
-		Get the node's radius and enlarge it slightly.
-		This is because the radius isn't actually the node's true radius.
-		The loop's radius is calculated as a fraction of the node's radius.
-		The center of the loop is at the apex of the circle by default.
+		Get the node's radius and calculate the loop's radius as a fraction of the node's radius.
+		To calculate the angles covered by the loop, the loop is initally placed directly above the node.
+		Since nodes are circular, the loop's position is just rotated around the node later.
 		"""
 		radius = self._get_radius(node, s)
 		loop = ( radius[0] * 0.5, radius[1] * 0.5 )
@@ -394,12 +396,16 @@ class Graph(LabelledVisualization):
 		x1 = math.sqrt( ( (radius[0]) ** 2 * radius[1] ** 2 - (radius[0]) ** 2 * d1 ** 2 ) / ( (radius[0]) ** 2 ) ) * ratio
 
 		"""
+		Offset the center of the node properly, this time based on the given offset angle.
 		Calculate the angle (in degrees) from the rightmost intersection to the leftmost intersection.
 		Use it to calculate the x and y coordinates of the points of the looped edge.
 		"""
-		angle = math.floor(math.degrees(math.asin(-d2 / loop[1])))
-		x = [ center[0] + loop[0] * math.cos(math.pi / 180 * i) for i in range(angle, 180 - angle) ]
-		y = [ center[1] + loop[1] * math.sin(math.pi / 180 * i) for i in range(angle, 180 - angle) ]
+		center = ( position[0] + radius[0] * math.cos(offset_angle),
+				   position[1] + radius[1] * math.sin(offset_angle) )
+		angle = math.asin(-d2 / loop[1])
+		angle = math.floor(math.degrees(angle))
+		x = [ center[0] + loop[0] * math.cos(math.pi * (i / 180 - 1 / 2) + offset_angle) for i in range(angle, - angle + 180) ]
+		y = [ center[1] + loop[1] * math.sin(math.pi * (i / 180 - 1 / 2) + offset_angle) for i in range(angle, - angle + 180) ]
 
 		"""
 		Remove some style attributes that belong to arrows, not edges.
