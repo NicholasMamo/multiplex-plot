@@ -369,20 +369,22 @@ class Graph(LabelledVisualization):
 		:rtype: tuple
 		"""
 
-		# BUG: The radius calculation has no basis, and it doesn't work when the figure is flatter.
+		# BUG: The radius calculation has no basis, and it doesn't work when the figure is flat (for example with figure size 20x10).
 
 		"""
-		Get the node's radius and use it to calculate the loop's radius.
+		Get the node's radius and enlarge it slightly.
+		This is because the radius isn't actually the node's true radius.
 		The loop's radius is calculated as a fraction of the node's radius.
+		The center of the loop is at the apex of the circle by default.
 		"""
 		radius = self._get_radius(node, s)
 		radius = ( radius[0] / 0.8, radius[1] / 0.8 )
 		loop = ( radius[0] * 0.5, radius[1] * 0.5 )
-		ratio = util.get_aspect(self.drawable.axis)
 		center = ( position[0], position[1] + radius[1] )
 
 		"""
 		Get the vertical distance from the node to the place where the loop will intersect with it.
+		The notation is taken from `this blog post <https://diego.assencio.com/?index=8d6ca3d82151bad815f78addf9b5c1c6>`_.
 		"""
 		d = center[1] - position[1]
 		d1 = (radius[1] ** 2 - loop[1] ** 2 + d ** 2) / ( 2 * d)
@@ -391,12 +393,12 @@ class Graph(LabelledVisualization):
 		"""
 		Calculate the horizontal distance from the center of the node to where the node and the loop intersect.
 		"""
+		ratio = util.get_aspect(self.drawable.axis)
 		x1 = math.sqrt( ( (radius[0]) ** 2 * radius[1] ** 2 - (radius[0]) ** 2 * d1 ** 2 ) / ( (radius[0]) ** 2 ) ) * ratio
 
 		"""
-		Draw a loop first.
-		This is always drawn, regardless if the edge is directed or not.
-		It is assumed that the node is a circle.
+		Calculate the angle (in degrees) from the rightmost intersection to the leftmost intersection.
+		Use it to calculate the x and y coordinates of the points of the looped edge.
 		"""
 		angle = math.floor(math.degrees(math.asin(-d2 / loop[1])))
 		x = [ center[0] + loop[0] * math.cos(math.pi / 180 * i) for i in range(angle, 180 - angle) ]
