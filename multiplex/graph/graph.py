@@ -369,14 +369,16 @@ class Graph(LabelledVisualization):
 		:rtype: tuple
 		"""
 
+		# BUG: The radius calculation has no basis, and it doesn't work when the figure is flatter.
+
 		"""
 		Get the node's radius and use it to calculate the loop's radius.
 		The loop's radius is calculated as a fraction of the node's radius.
 		"""
 		radius = self._get_radius(node, s)
-		loop = ( radius[0] * 0.75, radius[1] * 0.75 )
-		ratio = util.get_aspect(self.drawable.axis)
 		radius = ( radius[0] / 0.8, radius[1] / 0.8 )
+		loop = ( radius[0] * 0.5, radius[1] * 0.5 )
+		ratio = util.get_aspect(self.drawable.axis)
 		center = ( position[0], position[1] + radius[1] )
 
 		"""
@@ -419,9 +421,10 @@ class Graph(LabelledVisualization):
 				arrowprops['headwidth'] = arrowprops.get('headwidth') * 0.75
 			if 'headlength' in arrowprops:
 				arrowprops['headlength'] = arrowprops.get('headwidth') * 0.75
-			xy = ( position[0] + loop[0] * math.cos(math.pi),
-			 			 (position[1] + radius[1] / 0.75) + loop[1] * math.sin(3 * math.pi / 2) )
-			xytext = ( xy[0], xy[1] + radius[1] / 100 )
+			xy = ( center[0] + loop[0] * math.cos(math.pi / 180 * (180 - angle)),
+			 	   center[1] + loop[1] * math.sin(math.pi / 180 * (180 - angle)) )
+			xytext = ( center[0] + loop[0] * math.cos(math.pi / 180 * (180 - angle - 1)),
+					   center[1] + loop[1] * math.sin(math.pi / 180 * (180 - angle - 1)) )
 			arrow = self.drawable.axis.annotate('', xy=xy, xytext=xytext,
 												zorder=-1, arrowprops=arrowprops)
 
