@@ -394,6 +394,108 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(matplotlib.text.Annotation, type(edges[('A', 'A')][1]))
 
 	@MultiplexTest.temporary_plot
+	def test_draph_graph_undirected_no_edge_labels(self):
+		"""
+		Test that when drawing an undirected graph with no edge labels, no legend is created.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges = viz.draw_graph(G)
+		self.assertEqual(1, len(edges))
+		self.assertFalse(viz.legend.lines[0])
+
+	@MultiplexTest.temporary_plot
+	def test_draph_graph_undirected_edge_labels(self):
+		"""
+		Test that when drawing an undirected graph with one edge label, one legend label is added.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		G.edges[ E[0] ]['label'] = 'Edge'
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges = viz.draw_graph(G)
+		self.assertEqual(1, len(edges))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		self.assertEqual(matplotlib.lines.Line2D, type(viz.legend.lines[0][0][0]))
+		self.assertEqual(G.edges[ E[0] ]['label'], str(viz.legend.lines[0][0][1]))
+
+	@MultiplexTest.temporary_plot
+	def test_draph_graph_undirected_multiple_edge_labels(self):
+		"""
+		Test that when drawing an undirected graph with multiple edge labels, they are all drawn.
+		"""
+
+		E = [ ('A', 'A'), ('A', 'B') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		G.edges[ E[0] ]['label'] = 'Edge 1'
+		G.edges[ E[1] ]['label'] = 'Edge 2'
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges = viz.draw_graph(G)
+		self.assertEqual(2, len(edges))
+		self.assertEqual(2, len(viz.legend.lines[0]))
+		self.assertTrue(all(matplotlib.lines.Line2D == type(label[0]) for label in viz.legend.lines[0]))
+		self.assertTrue(all(G.edges[ E[i] ]['label'] == str(label[1]) for i, label in enumerate(viz.legend.lines[0])))
+
+	@MultiplexTest.temporary_plot
+	def test_draph_graph_undirected_repeated_edge_labels(self):
+		"""
+		Test that when drawing an undirected graph with repeated edge labels, the first one is drawn.
+		"""
+
+		E = [ ('A', 'A'), ('A', 'B') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		G.edges[ E[0] ]['label'] = 'Edge'
+		G.edges[ E[1] ]['label'] = 'Edge'
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges = viz.draw_graph(G)
+		self.assertEqual(2, len(edges))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		self.assertEqual(matplotlib.lines.Line2D, type(viz.legend.lines[0][0][0]))
+		self.assertEqual(G.edges[ E[0] ]['label'], str(viz.legend.lines[0][0][1]))
+
+	@MultiplexTest.temporary_plot
+	def test_draph_graph_undirected_edge_labels_attributes(self):
+		"""
+		Test that when drawing an undirected edge label, the edge's attributes are represented correctly.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		G.edges[ E[0] ]['label'] = 'Edge'
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		edge_style = { 'color': '#FF0000' }
+		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		self.assertEqual(1, len(edges))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		self.assertEqual(edge_style['color'], viz.legend.lines[0][0][0].get_color())
+
+	@MultiplexTest.temporary_plot
+	def test_draph_graph_undirected_edge_labels_overriden_attributes(self):
+		"""
+		Test that when drawing an undirected edge label, the edge's attributes are represented correctly even if they are overriden.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		G.edges[ E[0] ]['label'] = 'Edge'
+		G.edges[ E[0] ]['style']= { 'color': '#00FF00' }
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		edge_style = { 'color': '#FF0000' }
+		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		self.assertEqual(1, len(edges))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		self.assertEqual(G.edges[ E[0] ]['style']['color'], viz.legend.lines[0][0][0].get_color())
+
+	@MultiplexTest.temporary_plot
 	def test_get_distance_same(self):
 		"""
 		Test that when getting the distance between the same point, 0 is returned.
@@ -505,7 +607,7 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(1, round(graph._get_distance((0, 0), (1, 0)), 5))
 
 	@MultiplexTest.temporary_plot
-	def no_test_get_direction_positive(self):
+	def test_get_direction_positive(self):
 		"""
 		Test getting the distance between two points.
 		"""
@@ -518,7 +620,7 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(round(math.sqrt(2), 5), round(graph._get_distance((3, 2), (2, 1)), 5))
 
 	@MultiplexTest.temporary_plot
-	def no_test_get_direction_negative(self):
+	def test_get_direction_negative(self):
 		"""
 		Test getting the distance between two points.
 		"""
@@ -531,7 +633,7 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(round(math.sqrt(2), 5), round(graph._get_distance((-3, -2), (-2, -1)), 5))
 
 	@MultiplexTest.temporary_plot
-	def no_test_get_direction_symmetric(self):
+	def test_get_direction_symmetric(self):
 		"""
 		Test that the distance between two points is symmetric.
 		"""

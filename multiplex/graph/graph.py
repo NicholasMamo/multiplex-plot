@@ -35,7 +35,7 @@ class Graph(LabelledVisualization):
 
 		super().__init__(*args, **kwargs)
 
-	def draw(self, G, node_style=None, name_style=None, edge_style=None, *args, **kwargs):
+	def draw(self, G, node_style=None, name_style=None, edge_style=None, label_style=None, *args, **kwargs):
 		"""
 		Draw the given graph.
 
@@ -60,6 +60,8 @@ class Graph(LabelledVisualization):
 						   They are passed on as keyword arguments to the :func:`~graph.graph.Graph._draw_edges` function.
 						   Individual edges can override this style using the `style` attribute.
 		:type edge_style: dict
+		:param label_style: The style of the label.
+		:type label_style: dict or None
 
 		:return: A tuple containing the list of drawn nodes, their names, and edges.
 		:rtype: tuple
@@ -79,6 +81,7 @@ class Graph(LabelledVisualization):
 								 directed=nx.is_directed(G), **edge_style)
 		edge_names = self._draw_edge_names(G.edges, G.nodes, positions,
 										   s=node_style.get('s', 100), **name_style)
+		self._draw_edge_labels(G.edges, directed=nx.is_directed(G), **edge_style)
 		return nodes, node_names, edges
 
 	def _draw_nodes(self, nodes, positions, *args, **kwargs):
@@ -433,6 +436,39 @@ class Graph(LabelledVisualization):
 
 
 		return ( edge, arrow ) if directed else ( edge, )
+
+	def _draw_edge_labels(self, edges, directed, *args, **kwargs):
+		"""
+		Draw labels for the edges.
+		A label is drawn if the edge has a `label` attribute.
+
+		Any additional arguments and keyword arguments are passed on to the legend drawing functions.
+
+		:param edges: The list of edges in the graph.
+		:type edges: list of tuple
+		:param directed: A boolean indicating whether the graph is directed or not.
+		:type directed: bool
+		"""
+
+		drawn = [ ]
+
+		for edge in edges:
+			"""
+			Go through each edge and look for the label.
+			The drawn lebel depends on the type of graph.
+			Once a label is drawn, it is added to a list of drawn labels so it is not drawn again.
+			"""
+			if 'label' in edges[edge]:
+				label = edges[edge]['label']
+
+				if label in drawn:
+					continue
+
+				default_style = dict(**kwargs)
+				default_style.update(edges[edge].get('style', { }))
+				if directed:
+					self.drawable.legend.draw_line(label, *args, **default_style)
+				drawn.append(label)
 
 	def _get_distance(self, u, v):
 		"""
