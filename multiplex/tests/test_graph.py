@@ -394,6 +394,108 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(matplotlib.text.Annotation, type(edges[('A', 'A')][1]))
 
 	@MultiplexTest.temporary_plot
+	def test_draw_graph_no_node_labels(self):
+		"""
+		Test that when drawing a graph with no node labels, no legend is created.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges = viz.draw_graph(G)
+		self.assertEqual(1, len(nodes))
+		self.assertFalse(viz.legend.lines[0])
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_node_labels(self):
+		"""
+		Test that when drawing a graph with one node label, one legend label is added.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		G.nodes[ 'A' ]['label'] = 'Node'
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges = viz.draw_graph(G)
+		self.assertEqual(1, len(edges))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		self.assertEqual(matplotlib.collections.PathCollection, type(viz.legend.lines[0][0][0]))
+		self.assertEqual(G.nodes[ 'A' ]['label'], str(viz.legend.lines[0][0][1]))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_multiple_node_labels(self):
+		"""
+		Test that when drawing a graph with multiple node labels, they are all drawn.
+		"""
+
+		E = [ ('A', 'A'), ('A', 'B') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		G.nodes[ 'A' ]['label'] = 'Node 1'
+		G.nodes[ 'B' ]['label'] = 'Node 2'
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges = viz.draw_graph(G)
+		self.assertEqual(2, len(edges))
+		self.assertEqual(2, len(viz.legend.lines[0]))
+		self.assertTrue(all(matplotlib.collections.PathCollection == type(label[0]) for label in viz.legend.lines[0]))
+		self.assertTrue(all(G.nodes[ E[i][1] ]['label'] == str(label[1]) for i, label in enumerate(viz.legend.lines[0])))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_repated_node_labels(self):
+		"""
+		Test that when drawing a graph with repeated node labels, the first one is drawn.
+		"""
+
+		E = [ ('A', 'A'), ('A', 'B') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		G.nodes[ 'A' ]['label'] = 'Node'
+		G.nodes[ 'B' ]['label'] = 'Node'
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges = viz.draw_graph(G)
+		self.assertEqual(2, len(edges))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		self.assertEqual(matplotlib.collections.PathCollection, type(viz.legend.lines[0][0][0]))
+		self.assertEqual(G.nodes[ 'A' ]['label'], str(viz.legend.lines[0][0][1]))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_node_labels_attributes(self):
+		"""
+		Test that when drawing a node label, the node's attributes are represented correctly.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		G.nodes[ 'A' ]['label'] = 'Node'
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		node_style = { 'color': '#FF0000' }
+		nodes, node_names, edges = viz.draw_graph(G, node_style=node_style)
+		self.assertEqual(1, len(edges))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		self.assertEqual((1, 0, 0, 1), tuple(viz.legend.lines[0][0][0].get_facecolor()[0]))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_node_labels_overriden_attributes(self):
+		"""
+		Test that when drawing a node label, the node's attributes are represented correctly even if they are overriden.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		G.nodes[ 'A' ]['label'] = 'Node'
+		G.nodes[ 'A' ]['style']= { 'color': '#00FF00' }
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		edge_style = { 'color': '#FF0000' }
+		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		self.assertEqual(1, len(edges))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		self.assertEqual((0, 1, 0, 1), tuple(viz.legend.lines[0][0][0].get_facecolor()[0]))
+
+	@MultiplexTest.temporary_plot
 	def test_draw_graph_undirected_no_edge_labels(self):
 		"""
 		Test that when drawing an undirected graph with no edge labels, no legend is created.

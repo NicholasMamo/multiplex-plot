@@ -81,6 +81,7 @@ class Graph(LabelledVisualization):
 								 directed=nx.is_directed(G), **edge_style)
 		edge_names = self._draw_edge_names(G.edges, G.nodes, positions,
 										   s=node_style.get('s', 100), **name_style)
+		self._draw_node_labels(G.nodes, **node_style)
 		self._draw_edge_labels(G.edges, directed=nx.is_directed(G), **edge_style)
 		return nodes, node_names, edges
 
@@ -437,6 +438,36 @@ class Graph(LabelledVisualization):
 
 		return ( edge, arrow ) if directed else ( edge, )
 
+	def _draw_node_labels(self, nodes, *args, **kwargs):
+		"""
+		Draw labels for the nodes.
+		A label is drawn if the edge has a `label` attribute.
+
+		Any additional arguments and keyword arguments are passed on to the legend drawing functions.
+
+		:param nodes: The list of nodes in the graph.
+		:type nodes: :class:`networkx.classes.reportviews.NodeView`
+		"""
+
+		drawn = [ ]
+
+		for node in nodes:
+			"""
+			Go through each node and look for the label.
+			The drawn label depends on the type of graph.
+			Once a label is drawn, it is added to a list of drawn labels so it is not drawn again.
+			"""
+			if 'label' in nodes[node]:
+				label = nodes[node]['label']
+
+				if label in drawn:
+					continue
+
+				default_style = dict(**kwargs)
+				default_style.update(nodes[node].get('style', { }))
+				self.drawable.legend.draw_point(label, *args, **default_style)
+				drawn.append(label)
+
 	def _draw_edge_labels(self, edges, directed, *args, **kwargs):
 		"""
 		Draw labels for the edges.
@@ -455,7 +486,7 @@ class Graph(LabelledVisualization):
 		for edge in edges:
 			"""
 			Go through each edge and look for the label.
-			The drawn lebel depends on the type of graph.
+			The drawn label depends on the type of graph.
 			Once a label is drawn, it is added to a list of drawn labels so it is not drawn again.
 			"""
 			if 'label' in edges[edge]:
