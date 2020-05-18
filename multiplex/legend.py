@@ -92,7 +92,7 @@ class Legend(object):
 
 	def draw_arrow(self, label, label_style=None, *args, **kwargs):
 		"""
-		Draw a line legend for the given label.
+		Draw an arrow legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
 
 		:param label: The text of the legend label.
@@ -138,6 +138,60 @@ class Legend(object):
 
 		self.drawable.redraw() # TODO: Make a decorator
 		return (arrow, annotation)
+
+	def draw_point(self, label, label_style=None, *args, **kwargs):
+		"""
+		Draw a scatter point legend for the given label.
+		Any additional arguments and keyword arguments are provided to the plotting function.
+
+		:param label: The text of the legend label.
+		:type label: str
+		:param label_style: The style of the label.
+							If `None` is given, a default style is used.
+		:type label_style: None or dict
+
+		:return: A tuple made up of the function return value and the drawn label.
+		:rtype: tuple
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		label_style = label_style or { 'alpha': 0.8 }
+		default_style = self._get_legend_params('fontsize')
+		default_style.update(label_style)
+
+		"""
+		Get the offset for the new legend.
+		Then, draw the line first and the annotation second.
+		"""
+		offset = self._get_offset(transform=axis.transAxes)
+		linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes, **default_style) * 1.5
+
+		"""
+		Update the offset by by calculating the x-radius of the point.
+		"""
+		kwargs['s'] = 100
+		origin = self.drawable.axis.transData.inverted().transform((0, 0))
+		x = (self.drawable.axis.transData.inverted().transform((kwargs['s'] ** 0.5, 0))[0] - origin[0])/2.
+		offset += x
+
+		point = axis.scatter(offset, 1 + linespacing / 2., transform=axis.transAxes, *args, **kwargs)
+		point.set_clip_on(False)
+
+		"""
+		Load the default legend style and update the styling.
+		If a custom style is given, it overwrites the styling.
+		"""
+		point_offset = util.get_bb(figure, axis, point, transform=axis.transAxes).x1 + 0.00625
+		annotation = self.draw_annotation(label, point_offset, 1, **default_style)
+		if annotation.get_virtual_bb(transform=axis.transAxes).x1 > 1:
+			self._newline(point, annotation, linespacing)
+		else:
+			self.lines[-1].append((point, annotation))
+
+		self.drawable.redraw() # TODO: Make a decorator
+		return (point, annotation)
 
 	def draw_annotation(self, label, x, y, va='bottom', *args, **kwargs):
 		"""
