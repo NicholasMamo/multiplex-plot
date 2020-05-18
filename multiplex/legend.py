@@ -262,7 +262,11 @@ class Legend(object):
 				The lines can be pushed up by the height of the line.
 				"""
 				bb = util.get_bb(figure, axis, push_visual, transform=axis.transAxes)
-				push_visual.set_ydata([ bb.y0 + linespacing ] * 2)
+				if type(push_visual) == lines.Line2D:
+					push_visual.set_ydata([ bb.y0 + linespacing ] * 2)
+				elif type(push_visual) == text.Annotation:
+					push_visual.xyann = (bb.x0, bb.y1 + linespacing / 2.)
+					push_visual.xy = (bb.x1, bb.y1 + linespacing / 2.)
 
 				"""
 				The annotations are moved differently depending on the vertical alignment.
@@ -285,7 +289,11 @@ class Legend(object):
 		Finally, create a new line container.
 		"""
 		visualbb = util.get_bb(figure, axis, visual, transform=axis.transAxes)
-		visual.set_xdata([ 0, 0.025 ])
+		if type(visual) == lines.Line2D:
+			visual.set_xdata([ 0, 0.025 ])
+		elif type(visual) == text.Annotation:
+			visual.xyann = (0, bb.y0 + linespacing / 2.)
+			visual.xy = (0.025, bb.y0 + linespacing / 2.)
 		annotationbb = annotation.get_virtual_bb(transform=axis.transAxes)
 		annotation.set_position((visualbb.width + 0.00625, 1), va=va, transform=axis.transAxes)
 		self.lines.append( [ (visual, annotation) ] )
