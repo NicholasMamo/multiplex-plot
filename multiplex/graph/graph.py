@@ -467,6 +467,8 @@ class Graph(LabelledVisualization):
 				default_style = dict(**kwargs)
 				default_style.update(edges[edge].get('style', { }))
 				if directed:
+					self.drawable.legend.draw_arrow(label, *args, **default_style)
+				else:
 					self.drawable.legend.draw_line(label, *args, **default_style)
 				drawn.append(label)
 
