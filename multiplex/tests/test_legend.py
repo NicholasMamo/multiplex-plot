@@ -119,6 +119,51 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axis.transAxes).y0))
 
 	@MultiplexTest.temporary_plot
+	def test_new_arrow(self):
+		"""
+		Test that when creating a new arrow, the legend starts at x-coordinate 0.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		arrow, annotation = viz.legend.draw_arrow('A')
+		bb = util.get_bb(viz.figure, viz.axis, arrow)
+		self.assertEqual(0, bb.x0)
+
+	@MultiplexTest.temporary_plot
+	def test_new_line_arrow_overlap(self):
+		"""
+		Test that when creating a new line with arrows, the lines do not overlap.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		for label in string.ascii_uppercase:
+			arrow, annotation = viz.legend.draw_arrow(label)
+		self.assertGreaterEqual(len(viz.legend.lines), 2)
+
+		"""
+		Compare the top annotation with the one beneath it.
+		"""
+		for i in range(len(viz.legend.lines) -1):
+			top = viz.legend.lines[i][0][1]
+			bottom = viz.legend.lines[i + 1][0][1]
+			self.assertLessEqual(round(bottom.get_virtual_bb().y1, 10),
+								 round(top.get_virtual_bb().y0, 10))
+
+	@MultiplexTest.temporary_plot
+	def test_new_line_arrow_top(self):
+		"""
+		Test that when creating a new line with arrows, the last line is at the top of the axis.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		for label in string.ascii_uppercase:
+			arrow, annotation = viz.legend.draw_arrow(label)
+		self.assertGreaterEqual(len(viz.legend.lines), 2)
+
+		bottom = viz.legend.lines[-1][0][-1]
+		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axis.transAxes).y0))
+
+	@MultiplexTest.temporary_plot
 	def test_virtual_bb_no_legend(self):
 		"""
 		Test that when getting the virtual bounding box of an empty legend, a flat one is returned.
