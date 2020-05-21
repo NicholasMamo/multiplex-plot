@@ -15,6 +15,9 @@ class MultiplexTest(unittest.TestCase):
 		"""
 		The temporary plot decorator function removes the plot after every test.
 		In this way, the memory of the plot is freed.
+
+		:param f: The function to wrap.
+		:type f: function
 		"""
 
 		def wrapper(*args, **kwargs):
