@@ -42,82 +42,103 @@ class Legend(object):
 		self.lines = [ [ ] ]
 		self.drawable = drawable
 
-	def draw_line(self, label, label_style=None, *args, **kwargs):
+	def draw(f):
+		"""
+		The drawing decorator is used to manage the legend's lines.
+		After each drawn label, the function checks if a new line should be created.
+
+		:param f: The function to wrap.
+		:type f: function
+
+		:return: The wrapped function.
+		:rtype: function
+		"""
+
+		def wrapper(self, label, label_style=None, *args, **kwargs):
+			"""
+			Call the test function with any arguments and keyword arguments.
+
+			:param label: The text of the legend label.
+			:type label: str
+			:param label_style: The style of the label.
+								If `None` is given, a default style is used.
+			:type label_style: None or dict
+
+			:return: A tuple containing the drawn visual and the annotation.
+			:rtype: tuple
+			"""
+
+			figure = self.drawable.figure
+			axis = self.drawable.axis
+
+			"""
+			Load the default legend style and update the styling.
+			If a custom style is given, it overwrites the styling.
+			"""
+			label_style = label_style or { }
+			default_style = self._get_legend_params('fontsize')
+			default_style.update(label_style)
+			default_style['alpha'] = default_style.get('alpha', 0.8)
+
+			"""
+			Get the offset for the new legend.
+			Then, draw the line first and the annotation second.
+			"""
+			offset = self._get_offset(transform=axis.transAxes)
+			linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes, **default_style) * 1.5
+			visual = f(self, *args, offset=offset, linespacing=linespacing, **kwargs)
+
+			"""
+			Calculate the offset of the annotation.
+			"""
+			offset = util.get_bb(figure, axis, visual, transform=axis.transAxes).x1 + 0.00625
+			annotation = self.draw_annotation(label, offset, 1, **default_style)
+
+			"""
+			If need be, create a new line for the legend.
+			"""
+			if annotation.get_virtual_bb(transform=axis.transAxes).x1 > 1:
+				self._newline(visual, annotation, linespacing)
+				self.drawable.redraw()
+			else:
+				self.lines[-1].append((visual, annotation))
+
+			return (visual, annotation)
+
+		return wrapper
+
+	@draw
+	def draw_line(self, offset, linespacing, *args, **kwargs):
 		"""
 		Draw a line legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
 
-		:param label: The text of the legend label.
-		:type label: str
-		:param label_style: The style of the label.
-							If `None` is given, a default style is used.
-		:type label_style: None or dict
-
-		:return: A tuple made up of the function return value and the drawn label.
-		:rtype: tuple
+		:return: The drawn line.
+		:rtype: :class:`matplotlib.lines.Line2D`
 		"""
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
-
-		label_style = label_style or { 'alpha': 0.8 }
-		default_style = self._get_legend_params('fontsize')
-		default_style.update(label_style)
-
-		"""
-		Get the offset for the new legend.
-		Then, draw the line first and the annotation second.
-		"""
-		offset = self._get_offset(transform=axis.transAxes)
-		linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes, **default_style)
 
 		line = lines.Line2D([ offset, offset + 0.025 ], [ 1 + linespacing / 2. ] * 2,
 							transform=axis.transAxes, *args, **kwargs)
 		line.set_clip_on(False)
 		axis.add_line(line)
 
-		"""
-		Load the default legend style and update the styling.
-		If a custom style is given, it overwrites the styling.
-		"""
-		line_offset = util.get_bb(figure, axis, line, transform=axis.transAxes).x1 + 0.00625
-		annotation = self.draw_annotation(label, line_offset, 1, **default_style)
-		if annotation.get_virtual_bb(transform=axis.transAxes).x1 > 1:
-			self._newline(line, annotation, linespacing)
-		else:
-			self.lines[-1].append((line, annotation))
+		return line
 
-		self.drawable.redraw() # TODO: Make a decorator
-		return (line, annotation)
-
-	def draw_arrow(self, label, label_style=None, *args, **kwargs):
+	@draw
+	def draw_arrow(self, offset, linespacing, *args, **kwargs):
 		"""
 		Draw an arrow legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
 
-		:param label: The text of the legend label.
-		:type label: str
-		:param label_style: The style of the label.
-							If `None` is given, a default style is used.
-		:type label_style: None or dict
-
-		:return: A tuple made up of the function return value and the drawn label.
-		:rtype: tuple
+		:return: The drawn arrow.
+		:rtype: :class:`matplotlib.text.annotation`
 		"""
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
-
-		label_style = label_style or { 'alpha': 0.8 }
-		default_style = self._get_legend_params('fontsize')
-		default_style.update(label_style)
-
-		"""
-		Get the offset for the new legend.
-		Then, draw the line first and the annotation second.
-		"""
-		offset = self._get_offset(transform=axis.transAxes)
-		linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes, **default_style) * 1.5
 
 		arrow = text.Annotation('', xy=(offset + 0.025, 1 + linespacing / 2.),
 								xytext=(offset, 1 + linespacing / 2.),
@@ -125,73 +146,33 @@ class Legend(object):
 		arrow.set_clip_on(False)
 		axis.add_artist(arrow)
 
-		"""
-		Load the default legend style and update the styling.
-		If a custom style is given, it overwrites the styling.
-		"""
-		arrow_offset = util.get_bb(figure, axis, arrow, transform=axis.transAxes).x1 + 0.00625
-		annotation = self.draw_annotation(label, arrow_offset, 1, **default_style)
-		if annotation.get_virtual_bb(transform=axis.transAxes).x1 > 1:
-			self._newline(arrow, annotation, linespacing)
-		else:
-			self.lines[-1].append((arrow, annotation))
+		return arrow
 
-		self.drawable.redraw() # TODO: Make a decorator
-		return (arrow, annotation)
-
-	def draw_point(self, label, label_style=None, *args, **kwargs):
+	@draw
+	def draw_point(self, offset, linespacing, *args, **kwargs):
 		"""
 		Draw a scatter point legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
 
-		:param label: The text of the legend label.
-		:type label: str
-		:param label_style: The style of the label.
-							If `None` is given, a default style is used.
-		:type label_style: None or dict
-
-		:return: A tuple made up of the function return value and the drawn label.
-		:rtype: tuple
+		:return: The drawn point.
+		:rtype: :class:`matplotlib.collections.PathCollection`
 		"""
 
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		label_style = label_style or { 'alpha': 0.8 }
-		default_style = self._get_legend_params('fontsize')
-		default_style.update(label_style)
-
-		"""
-		Get the offset for the new legend.
-		Then, draw the line first and the annotation second.
-		"""
-		offset = self._get_offset(transform=axis.transAxes)
-		linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes, **default_style) * 1.5
-
 		"""
 		Update the offset by by calculating the x-radius of the point.
 		"""
 		kwargs['s'] = 100
-		origin = self.drawable.axis.transData.inverted().transform((0, 0))
-		x = (self.drawable.axis.transData.inverted().transform((kwargs['s'] ** 0.5, 0))[0] - origin[0])/2.
+		origin = self.drawable.axis.transAxes.inverted().transform((0, 0))
+		x = (self.drawable.axis.transAxes.inverted().transform((kwargs['s'] ** 0.5, 0))[0] - origin[0]) / 2.
 		offset += x
 
 		point = axis.scatter(offset, 1 + linespacing / 2., transform=axis.transAxes, *args, **kwargs)
 		point.set_clip_on(False)
 
-		"""
-		Load the default legend style and update the styling.
-		If a custom style is given, it overwrites the styling.
-		"""
-		point_offset = util.get_bb(figure, axis, point, transform=axis.transAxes).x1 + 0.00625
-		annotation = self.draw_annotation(label, point_offset, 1, **default_style)
-		if annotation.get_virtual_bb(transform=axis.transAxes).x1 > 1:
-			self._newline(point, annotation, linespacing)
-		else:
-			self.lines[-1].append((point, annotation))
-
-		self.drawable.redraw() # TODO: Make a decorator
-		return (point, annotation)
+		return point
 
 	def draw_annotation(self, label, x, y, va='bottom', *args, **kwargs):
 		"""
