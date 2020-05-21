@@ -465,7 +465,15 @@ class Graph(LabelledVisualization):
 
 				default_style = dict(**kwargs)
 				default_style.update(nodes[node].get('style', { }))
+
+				"""
+				The y-axis change when drawing points.
+				Therefore save the y-limit and re-set it after drawing.
+				"""
+				ylim = self.drawable.axis.get_ylim()
 				self.drawable.legend.draw_point(label, *args, **default_style)
+				self.drawable.axis.set_ylim(ylim)
+				
 				drawn.append(label)
 
 	def _draw_edge_labels(self, edges, directed, *args, **kwargs):
