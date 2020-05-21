@@ -13,7 +13,7 @@ In this way, users can look at the drawn data and understand it immediately.
 import os
 import sys
 
-from matplotlib import lines, text, rcParams
+from matplotlib import collections, lines, text, rcParams
 from matplotlib.transforms import Bbox
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
@@ -321,6 +321,9 @@ class Legend(object):
 				elif type(push_visual) == text.Annotation:
 					push_visual.xyann = (bb.x0, bb.y1 + linespacing / 2.)
 					push_visual.xy = (bb.x1, bb.y1 + linespacing / 2.)
+				elif type(push_visual) == collections.PathCollection:
+					offsets = push_visual.get_offsets()[0]
+					push_visual.set_offsets([[ offsets[0], offsets[1] + linespacing ]])
 
 				"""
 				The annotations are moved differently depending on the vertical alignment.
@@ -342,14 +345,19 @@ class Legend(object):
 		Move the visual and the annotation to the start of the line.
 		Finally, create a new line container.
 		"""
-		visualbb = util.get_bb(figure, axis, visual, transform=axis.transAxes)
+		bb = util.get_bb(figure, axis, visual, transform=axis.transAxes)
 		if type(visual) == lines.Line2D:
 			visual.set_xdata([ 0, 0.025 ])
 		elif type(visual) == text.Annotation:
 			visual.xyann = (0, bb.y0 + linespacing / 2.)
 			visual.xy = (0.025, bb.y0 + linespacing / 2.)
+		elif type(push_visual) == collections.PathCollection:
+			origin = self.drawable.axis.transData.inverted().transform((0, 0))
+			x = (self.drawable.axis.transData.inverted().transform((100 ** 0.5, 0))[0] - origin[0]) / 4.
+			visual.set_offsets([[ x, 1 + linespacing / 2. ]])
+
 		annotationbb = annotation.get_virtual_bb(transform=axis.transAxes)
-		annotation.set_position((visualbb.width + 0.00625, 1), va=va, transform=axis.transAxes)
+		annotation.set_position((bb.width + 0.00625, 1), va=va, transform=axis.transAxes)
 		self.lines.append( [ (visual, annotation) ] )
 
 	def _get_legend_params(self, *args):

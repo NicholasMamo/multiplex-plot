@@ -185,6 +185,9 @@ class TestLegend(MultiplexTest):
 			point, annotation = viz.legend.draw_point(label)
 		self.assertGreaterEqual(len(viz.legend.lines), 2)
 
+		axis = viz.axis
+		figure = viz.figure
+
 		"""
 		Compare the top annotation with the one beneath it.
 		"""
@@ -193,6 +196,12 @@ class TestLegend(MultiplexTest):
 			bottom = viz.legend.lines[i + 1][0][1]
 			self.assertLessEqual(round(bottom.get_virtual_bb().y1, 10),
 								 round(top.get_virtual_bb().y0, 10))
+
+			top = viz.legend.lines[i][0][0]
+			bottom = viz.legend.lines[i + 1][0][0]
+			bb_top = util.get_bb(figure, axis, top)
+			bb_bottom = util.get_bb(figure, axis, bottom)
+			self.assertLessEqual(round(bb_bottom.y1, 10), round(bb_top.y0, 10))
 
 	@MultiplexTest.temporary_plot
 	def test_new_line_point_top(self):
