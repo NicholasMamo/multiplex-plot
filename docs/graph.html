@@ -377,20 +377,23 @@ By default, the value is <span class="math notranslate nohighlight">\(\frac{\pi}
 
 <dl class="method">
 <dt id="graph.graph.Graph._draw_node_labels">
-<code class="sig-name descname">_draw_node_labels</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph._draw_node_labels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_draw_node_labels</code><span class="sig-paren">(</span><em class="sig-param">nodes</em>, <em class="sig-param">label_style</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph._draw_node_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw labels for the nodes.
 A label is drawn if the edge has a <cite>label</cite> attribute.</p>
 <p>Any additional arguments and keyword arguments are passed on to the legend drawing functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>nodes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.classes.reportviews.NodeView</span></code>) – The list of nodes in the graph.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nodes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">networkx.classes.reportviews.NodeView</span></code>) – The list of nodes in the graph.</p></li>
+<li><p><strong>label_style</strong> (<em>dict</em>) – The style of the label.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="graph.graph.Graph._draw_edge_labels">
-<code class="sig-name descname">_draw_edge_labels</code><span class="sig-paren">(</span><em class="sig-param">edges</em>, <em class="sig-param">directed</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph._draw_edge_labels" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">_draw_edge_labels</code><span class="sig-paren">(</span><em class="sig-param">edges</em>, <em class="sig-param">directed</em>, <em class="sig-param">label_style</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph._draw_edge_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw labels for the edges.
 A label is drawn if the edge has a <cite>label</cite> attribute.</p>
 <p>Any additional arguments and keyword arguments are passed on to the legend drawing functions.</p>
@@ -399,6 +402,7 @@ A label is drawn if the edge has a <cite>label</cite> attribute.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>edges</strong> (<em>list of tuple</em>) – The list of edges in the graph.</p></li>
 <li><p><strong>directed</strong> (<em>bool</em>) – A boolean indicating whether the graph is directed or not.</p></li>
+<li><p><strong>label_style</strong> (<em>dict</em>) – The style of the label.</p></li>
 </ul>
 </dd>
 </dl>

@@ -52,14 +52,15 @@ All of this can be done in a handful of lines:
 	import matplotlib.pyplot as plt
 	from multiplex import drawable
 	plt.style.use(os.path.join(sys.path[0], '..', 'styles', "multiplex.style"))
-	viz = drawable.Drawable(plt.figure(figsize=(10, 1)))
 	text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit lacus pharetra augue sodales, id porta purus porta. Nam ut euismod risus'
+	viz = drawable.Drawable(plt.figure(figsize=(10, 1)))
 	viz.draw_text_annotation(text, align='justify', fontfamily='serif', fontsize='large', lpad=0.1, rpad=0.1)
 	viz.set_title('Text visualization', loc='left')
 	viz.set_caption("It doesn't take much to create text visualizations!")
 	plt.show()
 
-The first four lines are standard: they import matplotlib, Multiplex and its style, and create the visualization, which uses the :class:`~drawable.Drawable` class.
+The first three lines are standard: they import matplotlib, Multiplex and its style.
+The next line creates the visualization, which uses the :class:`~drawable.Drawable` class.
 The next lines are all you need to do to draw and style the text, and set the title and caption.
 It takes just 9 lines to create a text-only visualization, including styling.
 
