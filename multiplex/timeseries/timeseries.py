@@ -71,6 +71,7 @@ class TimeSeries(LabelledVisualization):
 		:type with_legend: bool
 
 		:return: A tuple made up of the drawn plot and label.
+				 If the legend label is drawn, only a string is returned.
 		:rtype: tuple
 
 		:raises ValueError: When the number of x-coordinates and y-coordinates are not equal.
@@ -100,11 +101,12 @@ class TimeSeries(LabelledVisualization):
 		Draw the label at the end of the line.
 		"""
 		if label is not None and len(x) and len(y):
+			default_label_style = { 'color': line[0].get_color() }
+			default_label_style.update(label_style or { })
 			if with_legend:
-				self.drawable.legend.draw_line(label, *args, **kwargs)
+				self.drawable.legend.draw_line(label, label_style=default_label_style,
+											   *args, **kwargs)
 			else:
-				default_label_style = { 'color': line[0].get_color() }
-				default_label_style.update(label_style or { })
-				self.draw_label(label, x[-1], y[-1], **default_label_style)
+				label = self.draw_label(label, x[-1], y[-1], **default_label_style)
 
 		return (line, label)
