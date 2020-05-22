@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="multiplex-plot", # Replace with your own username
-    version="0.3.4",
+    version="0.3.5",
     author="Nicholas Mamo",
     author_email="nicholasmamo@gmail.com",
     description="Multiplex: visualizations that tell stories",
