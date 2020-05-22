@@ -63,7 +63,7 @@ class Graph(LabelledVisualization):
 		:param label_style: The style of the label.
 		:type label_style: dict or None
 
-		:return: A tuple containing the list of drawn nodes, their names, and edges.
+		:return: A tuple containing the list of drawn nodes, the rendered node names, edges, and the rendered edge names.
 		:rtype: tuple
 		"""
 
@@ -83,7 +83,7 @@ class Graph(LabelledVisualization):
 										   s=node_style.get('s', 100), **name_style)
 		self._draw_node_labels(G.nodes, **node_style)
 		self._draw_edge_labels(G.edges, directed=nx.is_directed(G), **edge_style)
-		return nodes, node_names, edges
+		return nodes, node_names, edges, edge_names
 
 	def _draw_nodes(self, nodes, positions, *args, **kwargs):
 		"""
@@ -350,6 +350,7 @@ class Graph(LabelledVisualization):
 				 	  u[0] + direction[0] * distance / 2. + bb.width / 2. )
 				y = u[1] + direction[1] * distance / 2. + bb.height / 2. * math.sin(angle) * (math.degrees(angle) > 0)
 				annotation.draw([ name ], x, y, rotation=math.degrees(angle), **default_style)
+				annotations[(source, target)] = annotation
 
 		return annotations
 
@@ -473,7 +474,7 @@ class Graph(LabelledVisualization):
 				ylim = self.drawable.axis.get_ylim()
 				self.drawable.legend.draw_point(label, *args, **default_style)
 				self.drawable.axis.set_ylim(ylim)
-				
+
 				drawn.append(label)
 
 	def _draw_edge_labels(self, edges, directed, *args, **kwargs):

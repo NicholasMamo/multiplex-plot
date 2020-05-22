@@ -32,7 +32,7 @@ class TestGraph(MultiplexTest):
 		G = nx.Graph()
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertFalse(len(nodes))
 		self.assertFalse(node_names)
 		self.assertFalse(edges)
@@ -47,7 +47,7 @@ class TestGraph(MultiplexTest):
 		G.add_node(1)
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(1, len(nodes))
 		self.assertFalse(node_names)
 		self.assertFalse(edges)
@@ -63,7 +63,7 @@ class TestGraph(MultiplexTest):
 		G.add_node(2)
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(2, len(nodes))
 		self.assertFalse(node_names)
 		self.assertFalse(edges)
@@ -79,7 +79,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'alpha': 0.5, 'color': '#ff0000', 'linewidth': 0.5 }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 		self.assertTrue(all(type(edge) == matplotlib.lines.Line2D for edge in edges.values()))
@@ -97,7 +97,7 @@ class TestGraph(MultiplexTest):
 		G.add_edge(1, 3)
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(1, len(edges))
 		self.assertEqual(nodes[1].get_offsets()[0][0], edges[(1, 3)].get_xdata()[0])
@@ -115,7 +115,7 @@ class TestGraph(MultiplexTest):
 		G = nx.from_edgelist(E)
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 		for (source, target), edge in edges.items():
@@ -135,7 +135,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'alpha': 0.5, 'color': '#ff0000', 'linewidth': 0.5 }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 
@@ -155,7 +155,7 @@ class TestGraph(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'alpha': 0.5 }
 		G.edges[('C', 'A')]['style'] = { 'alpha': 1 }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(3, len(edges))
 
@@ -175,7 +175,7 @@ class TestGraph(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'alpha': 0.5, 'color': '#FF0000' }
 		G.edges[('C', 'A')]['style'] = { 'alpha': 1 }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(3, len(edges))
 
@@ -195,7 +195,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'alpha': 0.5, 'color': '#ff0000', 'linewidth': 0.5 }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 		self.assertTrue(all(type(edge) == matplotlib.text.Annotation for edge in edges.values()))
@@ -211,7 +211,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'alpha': 0.5, 'color': '#ff0000', 'linewidth': 0.5 }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 
@@ -231,7 +231,7 @@ class TestGraph(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'alpha': 0.5 }
 		G.edges[('A', 'C')]['style'] = { 'alpha': 1 }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(3, len(edges))
 
@@ -251,7 +251,7 @@ class TestGraph(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'alpha': 0.5, 'color': '#FF0000' }
 		G.edges[('A', 'C')]['style'] = { 'alpha': 1 }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(3, len(edges))
 
@@ -270,7 +270,7 @@ class TestGraph(MultiplexTest):
 		G = nx.from_edgelist(E)
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(3, len(nodes))
 		self.assertFalse(node_names)
 		self.assertEqual(2, len(edges))
@@ -286,7 +286,7 @@ class TestGraph(MultiplexTest):
 		G.nodes['A']['name'] = 'A'
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 		self.assertEqual(1, len(node_names))
@@ -305,7 +305,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		name_style = { 'color': '#CC00BB' }
-		nodes, node_names, edges = viz.draw_graph(G, name_style=name_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, name_style=name_style)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 		self.assertEqual(2, len(node_names))
@@ -325,7 +325,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		name_style = { 'color': '#CC00BB' }
-		nodes, node_names, edges = viz.draw_graph(G, name_style=name_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, name_style=name_style)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(2, len(edges))
 		self.assertEqual(2, len(node_names))
@@ -346,7 +346,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		name_style = { 'facecolor': '#CC00BB', 'color': '#FFFFFF' }
-		nodes, node_names, edges = viz.draw_graph(G, name_style=name_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, name_style=name_style)
 		self.assertEqual(3, len(nodes))
 		self.assertEqual(3, len(edges))
 		self.assertEqual(2, len(node_names))
@@ -372,7 +372,7 @@ class TestGraph(MultiplexTest):
 		G = nx.from_edgelist(E)
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(1, len(edges))
 		self.assertEqual(1, len(edges[('A', 'A')]))
 		self.assertEqual(matplotlib.lines.Line2D, type(edges[('A', 'A')][0][0]))
@@ -387,7 +387,7 @@ class TestGraph(MultiplexTest):
 		G = nx.from_edgelist(E, create_using=nx.DiGraph)
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(1, len(edges))
 		self.assertEqual(2, len(edges[('A', 'A')]))
 		self.assertEqual(matplotlib.lines.Line2D, type(edges[('A', 'A')][0][0]))
@@ -403,7 +403,7 @@ class TestGraph(MultiplexTest):
 		G = nx.from_edgelist(E, create_using=nx.DiGraph)
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(1, len(nodes))
 		self.assertFalse(viz.legend.lines[0])
 
@@ -418,7 +418,7 @@ class TestGraph(MultiplexTest):
 		G.nodes[ 'A' ]['label'] = 'Node'
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(1, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual(matplotlib.collections.PathCollection, type(viz.legend.lines[0][0][0]))
@@ -436,7 +436,7 @@ class TestGraph(MultiplexTest):
 		G.nodes[ 'B' ]['label'] = 'Node 2'
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(2, len(edges))
 		self.assertEqual(2, len(viz.legend.lines[0]))
 		self.assertTrue(all(matplotlib.collections.PathCollection == type(label[0]) for label in viz.legend.lines[0]))
@@ -454,7 +454,7 @@ class TestGraph(MultiplexTest):
 		G.nodes[ 'B' ]['label'] = 'Node'
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(2, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual(matplotlib.collections.PathCollection, type(viz.legend.lines[0][0][0]))
@@ -472,7 +472,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		node_style = { 'color': '#FF0000' }
-		nodes, node_names, edges = viz.draw_graph(G, node_style=node_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, node_style=node_style)
 		self.assertEqual(1, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual((1, 0, 0, 1), tuple(viz.legend.lines[0][0][0].get_facecolor()[0]))
@@ -490,7 +490,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'color': '#FF0000' }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(1, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual((0, 1, 0, 1), tuple(viz.legend.lines[0][0][0].get_facecolor()[0]))
@@ -505,7 +505,7 @@ class TestGraph(MultiplexTest):
 		G = nx.from_edgelist(E, create_using=nx.Graph)
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(1, len(edges))
 		self.assertFalse(viz.legend.lines[0])
 
@@ -520,7 +520,7 @@ class TestGraph(MultiplexTest):
 		G.edges[ E[0] ]['label'] = 'Edge'
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(1, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual(matplotlib.lines.Line2D, type(viz.legend.lines[0][0][0]))
@@ -538,7 +538,7 @@ class TestGraph(MultiplexTest):
 		G.edges[ E[1] ]['label'] = 'Edge 2'
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(2, len(edges))
 		self.assertEqual(2, len(viz.legend.lines[0]))
 		self.assertTrue(all(matplotlib.lines.Line2D == type(label[0]) for label in viz.legend.lines[0]))
@@ -556,7 +556,7 @@ class TestGraph(MultiplexTest):
 		G.edges[ E[1] ]['label'] = 'Edge'
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(2, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual(matplotlib.lines.Line2D, type(viz.legend.lines[0][0][0]))
@@ -574,7 +574,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'color': '#FF0000' }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(1, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual(edge_style['color'], viz.legend.lines[0][0][0].get_color())
@@ -592,7 +592,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'color': '#FF0000' }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(1, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual(G.edges[ E[0] ]['style']['color'], viz.legend.lines[0][0][0].get_color())
@@ -607,7 +607,7 @@ class TestGraph(MultiplexTest):
 		G = nx.from_edgelist(E, create_using=nx.DiGraph)
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(1, len(edges))
 		self.assertFalse(viz.legend.lines[0])
 
@@ -622,7 +622,7 @@ class TestGraph(MultiplexTest):
 		G.edges[ E[0] ]['label'] = 'Edge'
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(1, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual(matplotlib.text.Annotation, type(viz.legend.lines[0][0][0]))
@@ -640,7 +640,7 @@ class TestGraph(MultiplexTest):
 		G.edges[ E[1] ]['label'] = 'Edge 2'
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(2, len(edges))
 		self.assertEqual(2, len(viz.legend.lines[0]))
 		self.assertTrue(all(matplotlib.text.Annotation == type(label[0]) for label in viz.legend.lines[0]))
@@ -658,7 +658,7 @@ class TestGraph(MultiplexTest):
 		G.edges[ E[1] ]['label'] = 'Edge'
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges = viz.draw_graph(G)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
 		self.assertEqual(2, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual(matplotlib.text.Annotation, type(viz.legend.lines[0][0][0]))
@@ -676,7 +676,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'color': '#FF0000' }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(1, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual((1, 0, 0, 1), viz.legend.lines[0][0][0].arrow_patch.get_facecolor())
@@ -695,7 +695,7 @@ class TestGraph(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		edge_style = { 'color': '#FF0000' }
-		nodes, node_names, edges = viz.draw_graph(G, edge_style=edge_style)
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, edge_style=edge_style)
 		self.assertEqual(1, len(edges))
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual((0, 1, 0, 1), viz.legend.lines[0][0][0].arrow_patch.get_facecolor())

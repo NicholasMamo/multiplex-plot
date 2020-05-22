@@ -187,7 +187,7 @@ class Drawable():
 		Draw a graph visualization on this :class:`~Drawable`.
 		The arguments and keyword arguments are those supported by :meth:`~graph.graph.Graph.draw` method.
 
-		:return: A tuple made up of the drawn plot and label.
+		:return: A tuple containing the list of drawn nodes, the rendered node names, edges, and the rendered edge names.
 		:rtype: tuple
 		"""
 
