@@ -73,6 +73,7 @@ class Graph(LabelledVisualization):
 		node_style = node_style or { }
 		name_style = name_style or { }
 		edge_style = edge_style or { }
+		label_style = label_style or { }
 
 		self.drawable.axis.axis('off')
 		spring = nx.spring_layout(G, *args, **kwargs)
