@@ -88,7 +88,7 @@ class Graph(LabelledVisualization):
 		edge_names = self._draw_edge_names(G.edges, G.nodes, positions,
 										   s=node_style.get('s', 100), **name_style)
 		self._draw_node_labels(G.nodes, label_style=label_style, **node_style)
-		self._draw_edge_labels(G.edges, directed=nx.is_directed(G), **edge_style)
+		self._draw_edge_labels(G.edges, directed=nx.is_directed(G), label_style=label_style, **edge_style)
 		return nodes, node_names, edges, edge_names
 
 	def _draw_nodes(self, nodes, positions, *args, **kwargs):
@@ -454,7 +454,6 @@ class Graph(LabelledVisualization):
 
 		:param nodes: The list of nodes in the graph.
 		:type nodes: :class:`networkx.classes.reportviews.NodeView`
-
 		:param label_style: The style of the label.
 		:type label_style: dict
 		"""
@@ -487,7 +486,7 @@ class Graph(LabelledVisualization):
 
 				drawn.append(label)
 
-	def _draw_edge_labels(self, edges, directed, *args, **kwargs):
+	def _draw_edge_labels(self, edges, directed, label_style, *args, **kwargs):
 		"""
 		Draw labels for the edges.
 		A label is drawn if the edge has a `label` attribute.
@@ -498,6 +497,8 @@ class Graph(LabelledVisualization):
 		:type edges: list of tuple
 		:param directed: A boolean indicating whether the graph is directed or not.
 		:type directed: bool
+		:param label_style: The style of the label.
+		:type label_style: dict
 		"""
 
 		drawn = [ ]
@@ -517,9 +518,11 @@ class Graph(LabelledVisualization):
 				default_style = dict(**kwargs)
 				default_style.update(edges[edge].get('style', { }))
 				if directed:
-					self.drawable.legend.draw_arrow(label, *args, **default_style)
+					self.drawable.legend.draw_arrow(label, label_style=label_style,
+													*args, **default_style)
 				else:
-					self.drawable.legend.draw_line(label, *args, **default_style)
+					self.drawable.legend.draw_line(label, label_style=label_style,
+													*args, **default_style)
 				drawn.append(label)
 
 	def _get_distance(self, u, v):

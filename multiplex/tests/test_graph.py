@@ -487,15 +487,15 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(G.nodes[ 'A' ]['label'], str(viz.legend.lines[0][0][1]))
 
 	@MultiplexTest.temporary_plot
-	def test_draw_graph_node_labels_style(self):
+	def test_draw_graph_node_label_style(self):
 		"""
 		Test that when drawing a graph with a custom label style, it is used.
 		"""
 
 		E = [ ('A', 'A') ]
 		G = nx.from_edgelist(E, create_using=nx.DiGraph)
-		label_style = { 'color': '#FF00FF' }
 		G.nodes[ 'A' ]['label'] = 'Node'
+		label_style = { 'color': '#FF00FF' }
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		nodes, node_names, edges, edge_names = viz.draw_graph(G, label_style=label_style)
@@ -679,6 +679,25 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(G.edges[ E[0] ]['style']['color'], viz.legend.lines[0][0][0].get_color())
 
 	@MultiplexTest.temporary_plot
+	def test_draw_graph_undirected_edge_label_style(self):
+		"""
+		Test that when drawing a graph with a custom label style, it is used.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.Graph)
+		G.edges[ E[0] ]['label'] = 'Edge'
+		G.edges[ E[0] ]['style']= { 'color': '#00FF00' }
+		label_style = { 'color': '#FF00FF' }
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, label_style=label_style)
+		self.assertEqual(1, len(edges))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		self.assertEqual(G.edges[ ('A', 'A') ]['label'], str(viz.legend.lines[0][0][1]))
+		self.assertEqual(label_style['color'], viz.legend.lines[0][0][1].lines[0][0].get_color())
+
+	@MultiplexTest.temporary_plot
 	def test_draw_graph_directed_no_edge_labels(self):
 		"""
 		Test that when drawing a directed graph with no edge labels, no legend is created.
@@ -781,6 +800,25 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(1, len(viz.legend.lines[0]))
 		self.assertEqual((0, 1, 0, 1), viz.legend.lines[0][0][0].arrow_patch.get_facecolor())
 		self.assertEqual((0, 1, 0, 1), viz.legend.lines[0][0][0].arrow_patch.get_edgecolor())
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_directed_edge_label_style(self):
+		"""
+		Test that when drawing a graph with a custom label style, it is used.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		G.edges[ E[0] ]['label'] = 'Edge'
+		G.edges[ E[0] ]['style']= { 'color': '#00FF00' }
+		label_style = { 'color': '#FF00FF' }
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, label_style=label_style)
+		self.assertEqual(1, len(edges))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		self.assertEqual(G.edges[ ('A', 'A') ]['label'], str(viz.legend.lines[0][0][1]))
+		self.assertEqual(label_style['color'], viz.legend.lines[0][0][1].lines[0][0].get_color())
 
 	@MultiplexTest.temporary_plot
 	def test_get_distance_same(self):
