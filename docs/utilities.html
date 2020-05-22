@@ -38,6 +38,7 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
+        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -354,6 +355,28 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p>ValueError</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="util.get_aspect">
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_aspect</code><span class="sig-paren">(</span><em class="sig-param">axis</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_aspect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the aspect ratio of the axis.
+The calculation considers the display ratio as well as the data ratio.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Solution based on <a class="reference external" href="https://stackoverflow.com/a/42014041/1771724">Mad Physicist’s answer on Stack Overflow</a>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis whose aspect ratio will be calculated.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The aspect ratio as a fraction of the display ratio and the data ratio.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
