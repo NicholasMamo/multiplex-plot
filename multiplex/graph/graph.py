@@ -43,8 +43,6 @@ class Graph(LabelledVisualization):
 
 		:param G: The networkx graph to draw.
 		:type G: :class:`networkx.classes.graph.Graph`
-		:param s: The size of the nodes.
-		:type s: float
 		:param node_style: The general style for nodes.
 						   Keys correspond to the styling parameter and the values are the styling value.
 						   They are passed on as keyword arguments to the :func:`~graph.graph.Graph._draw_nodes` function.
