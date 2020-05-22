@@ -487,6 +487,25 @@ class TestGraph(MultiplexTest):
 		self.assertEqual(G.nodes[ 'A' ]['label'], str(viz.legend.lines[0][0][1]))
 
 	@MultiplexTest.temporary_plot
+	def test_draw_graph_node_labels_style(self):
+		"""
+		Test that when drawing a graph with a custom label style, it is used.
+		"""
+
+		E = [ ('A', 'A') ]
+		G = nx.from_edgelist(E, create_using=nx.DiGraph)
+		label_style = { 'color': '#FF00FF' }
+		G.nodes[ 'A' ]['label'] = 'Node'
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, label_style=label_style)
+		self.assertEqual(1, len(edges))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		self.assertEqual(matplotlib.collections.PathCollection, type(viz.legend.lines[0][0][0]))
+		self.assertEqual(G.nodes[ 'A' ]['label'], str(viz.legend.lines[0][0][1]))
+		self.assertEqual(label_style['color'], viz.legend.lines[0][0][1].lines[0][0].get_color())
+
+	@MultiplexTest.temporary_plot
 	def test_draw_graph_multiple_node_labels(self):
 		"""
 		Test that when drawing a graph with multiple node labels, they are all drawn.

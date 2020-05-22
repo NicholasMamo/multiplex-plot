@@ -87,7 +87,7 @@ class Graph(LabelledVisualization):
 								 directed=nx.is_directed(G), **edge_style)
 		edge_names = self._draw_edge_names(G.edges, G.nodes, positions,
 										   s=node_style.get('s', 100), **name_style)
-		self._draw_node_labels(G.nodes, **node_style)
+		self._draw_node_labels(G.nodes, label_style=label_style, **node_style)
 		self._draw_edge_labels(G.edges, directed=nx.is_directed(G), **edge_style)
 		return nodes, node_names, edges, edge_names
 
@@ -445,7 +445,7 @@ class Graph(LabelledVisualization):
 
 		return ( edge, arrow ) if directed else ( edge, )
 
-	def _draw_node_labels(self, nodes, *args, **kwargs):
+	def _draw_node_labels(self, nodes, label_style, *args, **kwargs):
 		"""
 		Draw labels for the nodes.
 		A label is drawn if the edge has a `label` attribute.
@@ -454,6 +454,9 @@ class Graph(LabelledVisualization):
 
 		:param nodes: The list of nodes in the graph.
 		:type nodes: :class:`networkx.classes.reportviews.NodeView`
+
+		:param label_style: The style of the label.
+		:type label_style: dict
 		"""
 
 		drawn = [ ]
@@ -478,7 +481,8 @@ class Graph(LabelledVisualization):
 				Therefore save the y-limit and re-set it after drawing.
 				"""
 				ylim = self.drawable.axis.get_ylim()
-				self.drawable.legend.draw_point(label, *args, **default_style)
+				self.drawable.legend.draw_point(label, label_style=label_style,
+												*args, **default_style)
 				self.drawable.axis.set_ylim(ylim)
 
 				drawn.append(label)
