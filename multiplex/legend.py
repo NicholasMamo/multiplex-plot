@@ -99,10 +99,10 @@ class Legend(object):
 			"""
 			if annotation.get_virtual_bb(transform=axis.transAxes).x1 > 1:
 				self._newline(visual, annotation, linespacing)
-				self.drawable.redraw()
 			else:
 				self.lines[-1].append((visual, annotation))
 
+			self.drawable.redraw()
 			return (visual, annotation)
 
 		return wrapper
