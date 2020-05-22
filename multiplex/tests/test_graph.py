@@ -53,6 +53,68 @@ class TestGraph(MultiplexTest):
 		self.assertFalse(edges)
 
 	@MultiplexTest.temporary_plot
+	def test_draw_graph_no_positions(self):
+		"""
+		Test that when no node positions are given to the graph, the nodes are arranged.
+		"""
+
+		E = [ ('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'E') ]
+		G = nx.from_edgelist(E)
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges, edge_names = viz.draw_graph(G)
+		positions = [ (node.get_offsets()[0][0], node.get_offsets()[0][1])
+						for node in nodes.values() ]
+		self.assertEqual(len(positions), len(set(positions)))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_positions(self):
+		"""
+		Test that when node positions are given, they are not overriden.
+		"""
+
+		E = [ ('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'E') ]
+		G = nx.from_edgelist(E)
+		positions = {
+			'A': (0, 0),
+			'B': (1, 0),
+			'C': (1, 1),
+			'D': (0, 1),
+			'E': (0, 2),
+		}
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, positions=positions)
+		rendered_positions = { node: (rendered.get_offsets()[0][0], rendered.get_offsets()[0][1])
+								for node, rendered in nodes.items() }
+		self.assertEqual(positions, rendered_positions)
+
+	@MultiplexTest.temporary_plot
+	def test_draw_graph_positions_partial(self):
+		"""
+		Test that when only a few node positions are given, the rest of the positions are calculated.
+		"""
+
+		E = [ ('A', 'B'), ('B', 'C'), ('C', 'D'), ('D', 'E') ]
+		G = nx.from_edgelist(E)
+		positions = {
+			'A': (0, 0),
+			'B': (1, 0),
+			'C': (1, 1),
+		}
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		nodes, node_names, edges, edge_names = viz.draw_graph(G, positions=positions)
+		rendered_positions = { node: (rendered.get_offsets()[0][0], rendered.get_offsets()[0][1])
+								for node, rendered in nodes.items() }
+		self.assertEqual(positions['A'], rendered_positions['A'])
+		self.assertEqual(positions['B'], rendered_positions['B'])
+		self.assertEqual(positions['C'], rendered_positions['C'])
+		self.assertFalse(rendered_positions['D'] in positions.values())
+		self.assertFalse(rendered_positions['E'] in positions.values())
+		self.assertFalse(rendered_positions['D'] == rendered_positions['E'])
+
+	@MultiplexTest.temporary_plot
 	def test_draw_graph_without_edges(self):
 		"""
 		Test drawing a graph with multiple nodes, but no edges.

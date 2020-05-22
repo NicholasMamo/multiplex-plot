@@ -35,7 +35,7 @@ class Graph(LabelledVisualization):
 
 		super().__init__(*args, **kwargs)
 
-	def draw(self, G, node_style=None, name_style=None, edge_style=None, label_style=None, *args, **kwargs):
+	def draw(self, G, positions=None, node_style=None, name_style=None, edge_style=None, label_style=None, *args, **kwargs):
 		"""
 		Draw the given graph.
 
@@ -43,6 +43,10 @@ class Graph(LabelledVisualization):
 
 		:param G: The networkx graph to draw.
 		:type G: :class:`networkx.classes.graph.Graph`
+		:param positions: The node's initial positions.
+						  If they are given, the keys should be the node names and the values tuples representing their position.
+						  Nodes without a position are generated using network'x spring layout.
+		:type positions: dict
 		:param node_style: The general style for nodes.
 						   Keys correspond to the styling parameter and the values are the styling value.
 						   They are passed on as keyword arguments to the :func:`~graph.graph.Graph._draw_nodes` function.
@@ -65,12 +69,15 @@ class Graph(LabelledVisualization):
 		:rtype: tuple
 		"""
 
+		positions = positions or { }
 		node_style = node_style or { }
 		name_style = name_style or { }
 		edge_style = edge_style or { }
 
 		self.drawable.axis.axis('off')
-		positions = nx.spring_layout(G, *args, **kwargs)
+		spring = nx.spring_layout(G, *args, **kwargs)
+		spring.update(positions)
+		positions = spring
 		nodes = self._draw_nodes(G.node, positions, **node_style)
 		node_names = self._draw_node_names(G.nodes, positions,
 										   s=node_style.get('s', 100), **name_style)
