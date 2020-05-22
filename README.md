@@ -8,8 +8,11 @@ Creating narrative-driven visualizations involves re-imagining matplotlib's plot
 Multiplex follows best-practices to help you create visualizations.
 The library adds the capability to add a description to visualizations and moves the legend to the top.
 
-In addition, Multiplex includes a brand new text visualization module to create text graphics or to annotate data anywhere.
-Multiplex also includes new matplotlib styles to help you present your data in the best way possible.
+In addition, Multiplex includes:
+
+- A brand new text visualization modul to create text graphics or to annotate data anywhere on the plot,
+- A brand new graph visualization,
+- New matplotlib styles to make your data stand out.
 
 ![Example time series](https://raw.githubusercontent.com/NicholasMamo/multiplex-plot/master/examples/exports/3-temperatures.png)
 
