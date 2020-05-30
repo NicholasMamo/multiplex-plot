@@ -31,7 +31,7 @@ release = '0.2.7'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-	'sphinx.ext.autodoc'
+	'sphinx.ext.autodoc', 'sphinx_sitemap'
 ]
 
 # Modules that Sphinx should ignore.
@@ -63,3 +63,6 @@ html_static_path = ['_static']
 
 # The master document to read.
 master_doc = 'index'
+
+# Configuration for the sitemap
+html_baseurl = 'https://nicholasmamo.github.io/multiplex-plot/'
