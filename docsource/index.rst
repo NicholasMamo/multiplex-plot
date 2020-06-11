@@ -9,7 +9,7 @@
 
 .. meta::
    :description: Multiplex: visualizations that tell stories
-   :keywords: Multiplex, Python, visualizations, data science
+   :keywords: Multiplex, Python, visualizations, data science, data analysis
 
 .. image:: ../assets/logo.png
    :class: multiplex-logo
@@ -23,28 +23,49 @@ Multiplex
 *********
 
 Multiplex is a visualization library for Python built on `matplotlib <https://github.com/matplotlib/matplotlib/>`_.
-Multiplex is built on the principle that visualizations are about exploring and explaining data in a beautiful way.
-For this reason, Multiplex is built with the intent of making it as easy as possible to transform data into visualizations.
+Multiplex follows the principle that visualizations should tell a story in a beautiful way.
+This package is built with the intent of making it as easy as possible to transform data into beautiful visualizations.ons.
 
 .. note::
 
 	This website documents all of Multiplex's functionality.
 	If you want to get started right away, check out the `example notebooks <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_.
 
-Multiplex is aimed at data scientists who want to explore and explain data.
-Currently, the library provides text visualizations, useful for Natural Language Processing (NLP) tasks, as well as easy-to-annotate time series.
-In the future, it will also provide other visualizations that are used in information retrieval tasks.
+Who is Multiplex for?
+=====================
+
+Multiplex is aimed at data scientists, researchers, students and all those who work with data and are familiar with Python.
+This library aims to make it easier to explore and explain data by creating beautiful visualizations.
+
+How do I use Multiplex?
+=======================
+
+To start using Multiplex, you can clone it using pip:
+
+.. code-block:: bash
+
+	python -m pip install -U multiplex-plot
+
+This website describes all of Multiplex's functionality and is only meant to be used as reference.
+You can browse this website when you need to know what arguments are supported by the visualizations.
+
+If you are a new Multiplex user, a better starting point is the `example notebooks <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_.
 
 Why Multiplex?
 ==============
 
-If Multiplex is based on matplotlib, why not use matplotlib directly?
-Multiplex does not replace matplotlib: anything you can do with Multiplex, you can also do with matplotlib, and vice-versa.
-What Multiplex does is make it easier to create visualizations with matplotlib.
+	If Multiplex is based on matplotlib, why not use matplotlib directly?
 
-For example, the :class:`~text.text.TextAnnotation` class lets you create text visualizations by providing just a string.
-You can then style that string, such as by specifying alignment options or by highlighting parts of the text.
-All of this can be done in a handful of lines:
+Multiplex does not replace matplotlib.
+Anything that you can do with Multiplex, you can also do with matplotlib.
+What Multiplex does is make it easier to create beautiful visualizations.
+This is achieved by providing:
+
+- Custom matplotlib styles;
+- Functionality to caption visualizations, as well as annotate any visualization with text; and
+- New types of visualizations not available in matplotlib, such as the graph and text-based visualizations.
+
+For example, you can create a text visualization with a simple function call, including all styling options:
 
 .. code-block:: python
 	:linenos:
@@ -52,26 +73,20 @@ All of this can be done in a handful of lines:
 	import matplotlib.pyplot as plt
 	from multiplex import drawable
 	plt.style.use(os.path.join(sys.path[0], '..', 'styles', "multiplex.style"))
-	text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit lacus pharetra augue sodales, id porta purus porta. Nam ut euismod risus'
 	viz = drawable.Drawable(plt.figure(figsize=(10, 1)))
+	text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'
 	viz.draw_text_annotation(text, align='justify', fontfamily='serif', fontsize='large', lpad=0.1, rpad=0.1)
 	viz.set_title('Text visualization', loc='left')
-	viz.set_caption("It doesn't take much to create text visualizations!")
+	viz.set_caption("It doesn't take much to create text visualizations with Multiplex!")
 	plt.show()
 
-The first three lines are standard: they import matplotlib, Multiplex and its style.
-The next line creates the visualization, which uses the :class:`~drawable.Drawable` class.
-The next lines are all you need to do to draw and style the text, and set the title and caption.
-It takes just 9 lines to create a text-only visualization, including styling.
+All it takes to draw a simple text visualization is 9 lines of code:
+
+	1. Three lines to import matplotlib, Multiplex and the visualization style;
+	2. Set up the visualization object;
+	3. Draw and show the visualization, including a title and caption.
 
 Multiplex abstracts the tedious process of manually programming which elements go where, and lets you create beautiful visualizations with ease.
-
-.. note::
-
-	The rest of this documentation describes all of Multiplex's functionality.
-	It is not necessary to go through all of it.
-	You can use it as a reference when you need to know what arguments different visualizations accept.
-	If you want to start creating visualizations right away, check out the `example notebooks <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_.
 
 .. toctree::
    :maxdepth: 2

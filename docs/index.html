@@ -6,7 +6,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="Multiplex: visualizations that tell stories" name="description" />
-<meta content="Multiplex, Python, visualizations, data science" name="keywords" />
+<meta content="Multiplex, Python, visualizations, data science, data analysis" name="keywords" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -172,24 +172,43 @@
 <div class="section" id="multiplex">
 <h1>Multiplex<a class="headerlink" href="#multiplex" title="Permalink to this headline">¶</a></h1>
 <p>Multiplex is a visualization library for Python built on <a class="reference external" href="https://github.com/matplotlib/matplotlib/">matplotlib</a>.
-Multiplex is built on the principle that visualizations are about exploring and explaining data in a beautiful way.
-For this reason, Multiplex is built with the intent of making it as easy as possible to transform data into visualizations.</p>
+Multiplex follows the principle that visualizations should tell a story in a beautiful way.
+This package is built with the intent of making it as easy as possible to transform data into beautiful visualizations.ons.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This website documents all of Multiplex’s functionality.
 If you want to get started right away, check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/tree/master/examples">example notebooks</a>.</p>
 </div>
-<p>Multiplex is aimed at data scientists who want to explore and explain data.
-Currently, the library provides text visualizations, useful for Natural Language Processing (NLP) tasks, as well as easy-to-annotate time series.
-In the future, it will also provide other visualizations that are used in information retrieval tasks.</p>
+<div class="section" id="who-is-multiplex-for">
+<h2>Who is Multiplex for?<a class="headerlink" href="#who-is-multiplex-for" title="Permalink to this headline">¶</a></h2>
+<p>Multiplex is aimed at data scientists, researchers, students and all those who work with data and are familiar with Python.
+This library aims to make it easier to explore and explain data by creating beautiful visualizations.</p>
+</div>
+<div class="section" id="how-do-i-use-multiplex">
+<h2>How do I use Multiplex?<a class="headerlink" href="#how-do-i-use-multiplex" title="Permalink to this headline">¶</a></h2>
+<p>To start using Multiplex, you can clone it using pip:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m pip install -U multiplex-plot
+</pre></div>
+</div>
+<p>This website describes all of Multiplex’s functionality and is only meant to be used as reference.
+You can browse this website when you need to know what arguments are supported by the visualizations.</p>
+<p>If you are a new Multiplex user, a better starting point is the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/tree/master/examples">example notebooks</a>.</p>
+</div>
 <div class="section" id="why-multiplex">
 <h2>Why Multiplex?<a class="headerlink" href="#why-multiplex" title="Permalink to this headline">¶</a></h2>
-<p>If Multiplex is based on matplotlib, why not use matplotlib directly?
-Multiplex does not replace matplotlib: anything you can do with Multiplex, you can also do with matplotlib, and vice-versa.
-What Multiplex does is make it easier to create visualizations with matplotlib.</p>
-<p>For example, the <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> class lets you create text visualizations by providing just a string.
-You can then style that string, such as by specifying alignment options or by highlighting parts of the text.
-All of this can be done in a handful of lines:</p>
+<blockquote>
+<div><p>If Multiplex is based on matplotlib, why not use matplotlib directly?</p>
+</div></blockquote>
+<p>Multiplex does not replace matplotlib.
+Anything that you can do with Multiplex, you can also do with matplotlib.
+What Multiplex does is make it easier to create beautiful visualizations.
+This is achieved by providing:</p>
+<ul class="simple">
+<li><p>Custom matplotlib styles;</p></li>
+<li><p>Functionality to caption visualizations, as well as annotate any visualization with text; and</p></li>
+<li><p>New types of visualizations not available in matplotlib, such as the graph and text-based visualizations.</p></li>
+</ul>
+<p>For example, you can create a text visualization with a simple function call, including all styling options:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3
@@ -201,26 +220,23 @@ All of this can be done in a handful of lines:</p>
 9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;..&#39;</span><span class="p">,</span> <span class="s1">&#39;styles&#39;</span><span class="p">,</span> <span class="s2">&quot;multiplex.style&quot;</span><span class="p">))</span>
-<span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed hendrerit lacus pharetra augue sodales, id porta purus porta. Nam ut euismod risus&#39;</span>
 <span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Lorem ipsum dolor sit amet, consectetur adipiscing elit.&#39;</span>
 <span class="n">viz</span><span class="o">.</span><span class="n">draw_text_annotation</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;justify&#39;</span><span class="p">,</span> <span class="n">fontfamily</span><span class="o">=</span><span class="s1">&#39;serif&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;large&#39;</span><span class="p">,</span> <span class="n">lpad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">rpad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 <span class="n">viz</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Text visualization&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
-<span class="n">viz</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">&quot;It doesn&#39;t take much to create text visualizations!&quot;</span><span class="p">)</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">&quot;It doesn&#39;t take much to create text visualizations with Multiplex!&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
-<p>The first three lines are standard: they import matplotlib, Multiplex and its style.
-The next line creates the visualization, which uses the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class.
-The next lines are all you need to do to draw and style the text, and set the title and caption.
-It takes just 9 lines to create a text-only visualization, including styling.</p>
+<p>All it takes to draw a simple text visualization is 9 lines of code:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Three lines to import matplotlib, Multiplex and the visualization style;</p></li>
+<li><p>Set up the visualization object;</p></li>
+<li><p>Draw and show the visualization, including a title and caption.</p></li>
+</ol>
+</div></blockquote>
 <p>Multiplex abstracts the tedious process of manually programming which elements go where, and lets you create beautiful visualizations with ease.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The rest of this documentation describes all of Multiplex’s functionality.
-It is not necessary to go through all of it.
-You can use it as a reference when you need to know what arguments different visualizations accept.
-If you want to start creating visualizations right away, check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/tree/master/examples">example notebooks</a>.</p>
-</div>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
