@@ -3,8 +3,9 @@ The :class:`~Graph` class can be used to draw directed or undirected graphs.
 Each graph is made up of nodes and edges and can be used to show the relations between nodes.
 
 .. image:: ../examples/exports/4-marvel.png
-   :width: 500
    :align: center
+   :class: example
+   :width: 500
 
 .. note::
 
