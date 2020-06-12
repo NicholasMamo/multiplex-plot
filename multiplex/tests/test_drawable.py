@@ -68,3 +68,15 @@ class TestDrawable(MultiplexTest):
 		annotation = viz.annotate('Text', 0, 0)
 		self.assertEqual(text.annotation.Annotation, type(annotation))
 
+	@MultiplexTest.temporary_plot
+	def test_annotate_marker_copy(self):
+		"""
+		Test that when drawing a marker and a marker style is given as a dictionary, it is not overwritten.
+		"""
+
+		marker = { }
+		annotation_style = { 'color': 'blue' }
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		viz.annotate('Text', (0, 0), 0, marker=marker, **annotation_style)
+		self.assertEqual({ }, marker)

@@ -225,6 +225,7 @@ class Drawable():
 		The point of the marker is based on the alignment of the annotation.
 		"""
 		if marker is not None:
+			marker = dict(marker) # make a copy to avoid overwriting dictionaries
 			marker['color'] = marker.get('color', kwargs.get('color'))
 			if kwargs.get('align', 'left') == 'left':
 				self.axis.plot(x[0], y, *args, **marker)
