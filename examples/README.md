@@ -19,4 +19,4 @@ Feel free to copy-and-paste the sample code and build on it: telling your story 
 - [1. Getting started](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/1.%20Getting%20started.ipynb) - A very short tutorial to acquaint you with how Multiplex works
 - [2. Text](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb) - A series of examples of Multiplex's text visualizations, demonstrating how you can use Multiplex to annotate text
 - [3. Time series](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20series.ipynb) - Examples using Multiplex's time series, which make it easier to plot and explain how data changes over time
-- [4. Network graph](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/4.%20Network%20graph.ipynb) - Examples using Multiplex's new network graph visualization, which can be used to plot networks
+- [4. Network graphs](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/4.%20Network%20graphs.ipynb) - Examples using Multiplex's new network graph visualization, which can be used to plot networks
