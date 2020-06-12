@@ -11,7 +11,7 @@ if path not in sys.path:
 	sys.path.insert(1, path)
 
 from .test import MultiplexTest
-import drawable
+import drawable, text
 
 class TestDrawable(MultiplexTest):
 	"""
@@ -57,3 +57,14 @@ class TestDrawable(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		caption = viz.set_caption(text)
 		self.assertEqual('This is a multi-level caption.', str(caption))
+
+	@MultiplexTest.temporary_plot
+	def test_annotate_returns_annotation(self):
+		"""
+		Test that the annotate function returns an annotation.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		annotation = viz.annotate('Text', 0, 0)
+		self.assertEqual(text.annotation.Annotation, type(annotation))
+

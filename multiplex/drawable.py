@@ -212,6 +212,9 @@ class Drawable():
 		:type marker: None or dict
 		:param pad: The amount of padding applied to the annotation.
 		:type pad: float
+
+		:return: The drawn annotation.
+		:rtype: :class:`~text.annotation.Annotation`
 		"""
 
 		annotation = Annotation(self)
@@ -233,4 +236,4 @@ class Drawable():
 		tokens = annotation.draw(text, x, y, pad=pad, *args, **kwargs)
 		self.annotations.append(annotation)
 
-		return tokens
+		return annotation
