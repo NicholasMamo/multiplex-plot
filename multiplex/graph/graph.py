@@ -235,6 +235,33 @@ class Graph(LabelledVisualization):
 			edge_style = dict(kwargs)
 			edge_style.update(edges[(source, target)].get('style', { }))
 
+			"""
+			Update the start and end positions so that the edges do not start and end at the center of the nodes.
+			This allows nodes to be transparent without the edges looking bad.
+			This is done by calculating the radius of the nodes, which is where the edges should end.
+			Calculate the distance between the two centers and reduce from it the radius of the source and target nodes.
+			"""
+			ratio = util.get_aspect(self.drawable.axis)
+			angle = self._get_angle(u, v)
+			direction = self._get_direction(u, v)
+			for node, position in zip([ source, target ], [ u, v ]):
+				distance = self._get_distance(u, v) # since positions are changing, the distance has to be computed each time
+				radius = self._get_radius(nodes[node], s=nodes[node].get('style', { }).get('s', s))
+				if ratio > 1:
+					diff = abs(radius[0] * math.cos(angle)) / ratio + abs(radius[1] * math.sin(angle))
+				else:
+					diff = abs(radius[0] * math.cos(angle)) + abs(radius[1] * math.sin(angle)) * ratio
+
+				"""
+				Retract the start and end by the radius.
+				"""
+				if node == source:
+					u = [ u[0] + direction[0] * diff,
+						  u[1] + direction[1] * diff ]
+				elif node == target:
+					v = [ u[0] + direction[0] * (distance - diff),
+						  u[1] + direction[1] * (distance - diff) ]
+
 			if not directed:
 				"""
 				If the graph is not directed, connect the two nodes' centers with a straight line.
@@ -242,28 +269,6 @@ class Graph(LabelledVisualization):
 				x, y = (u[0], v[0]), (u[1], v[1])
 				rendered[(source, target)] = self.drawable.plot(x, y, zorder=-1, *args, **edge_style)[0]
 			if directed:
-				"""
-				If the graph is directed, calculate the radius of the target node.
-				This is where the arrow should end.
-				Calculate the distance between the two centers and reduce from it the radius of the target node.
-				This is done so that the arrow is not under the target node, but outside and pointing to it.
-				"""
-				radius = self._get_radius(nodes[target],
-										  s=nodes[target].get('style', { }).get('s', s))
-				ratio = util.get_aspect(self.drawable.axis)
-				angle = self._get_angle(u, v)
-				if ratio > 1:
-					diff = abs(radius[0] * math.cos(angle)) / ratio + abs(radius[1] * math.sin(angle))
-				else:
-					diff = abs(radius[0] * math.cos(angle)) + abs(radius[1] * math.sin(angle)) * ratio
-
-				"""
-				Retract the line by the radius.
-				"""
-				distance = self._get_distance(u, v)
-				direction = self._get_direction(u, v)
-				v = [ u[0] + direction[0] * (distance - diff),
-				 	  u[1] + direction[1] * (distance - diff) ]
 				rendered[(source, target)] = self.drawable.axis.annotate('', xy=v, xytext=u,
 																		 zorder=-1, arrowprops=edge_style)
 
