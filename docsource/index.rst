@@ -24,7 +24,7 @@ Multiplex
 
 Multiplex is a visualization library for Python built on `matplotlib <https://github.com/matplotlib/matplotlib/>`_.
 Multiplex follows the principle that visualizations should tell a story in a beautiful way.
-This package is built with the intent of making it as easy as possible to transform data into beautiful visualizations.ons.
+This package is built with the intent of making it as easy as possible to transform data into beautiful visualizations.
 
 .. note::
 
@@ -65,8 +65,9 @@ What Multiplex does is make it easier to create beautiful visualizations.
 This is achieved by providing:
 
 - Custom matplotlib styles;
-- Functionality to caption visualizations, as well as annotate any visualization with text; and
-- New types of visualizations not available in matplotlib, such as the graph and text-based visualizations.
+- Functionality to caption visualizations;
+- Functionality to annotate any visualization with text; and
+- New types of visualizations not available in matplotlib, such as the network graph and text-based visualizations.
 
 For example, you can create a text visualization with a simple function call, including all styling options:
 
