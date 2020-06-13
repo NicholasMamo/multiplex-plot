@@ -25,6 +25,7 @@ If you are using the :class:`~drawable.Drawable` class, just call the :meth:`~dr
 """
 
 import os
+import pandas
 import sys
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
@@ -57,10 +58,10 @@ class TimeSeries(LabelledVisualization):
 
 		:param x: The list of x-coordinates to plot.
 				  The x-coordinates must have the same number of points as the y-coordinates.
-		:type x: list of float
+		:type x: list of float or :class:`pandas.core.series.Series`
 		:param y: The list of corresponding y-coordinates to plot.
 				  The y-coordinates must have the same number of points as the x-coordinates.
-		:type y: list of float
+		:type y: list of float or :class:`pandas.core.series.Series`
 		:param label: The plot's label.
 					  If given, the label is drawn at the end of the line.
 		:type label: str or None
@@ -90,18 +91,22 @@ class TimeSeries(LabelledVisualization):
 			raise ValueError("The time series needs a positive number of points")
 
 		"""
+		Convert pandas series to a list.
+		"""
+		x = x.tolist() if type(x) is pandas.core.series.Series else x
+		y = y.tolist() if type(y) is pandas.core.series.Series else y
+
+		"""
 		Plot the time series first.
 		"""
 		axis = self.drawable.axis
-		line = axis.plot(x, y, *args, **kwargs)
-
-		# TODO: Add support for pandas Series
+		line = axis.plot(x, y, *args, **kwargs)[0]
 
 		"""
 		Draw the label at the end of the line.
 		"""
 		if label is not None and len(x) and len(y):
-			default_label_style = { 'color': line[0].get_color() }
+			default_label_style = { 'color': line.get_color() }
 			default_label_style.update(label_style or { })
 			if with_legend:
 				self.drawable.legend.draw_line(label, label_style=default_label_style,

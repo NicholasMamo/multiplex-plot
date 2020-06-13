@@ -4,6 +4,7 @@ Unit tests for the :class:`~timeseries.timeseries.TimeSeries` class.
 
 import matplotlib.pyplot as plt
 import os
+import pandas as pd
 import sys
 
 path = os.path.join(os.path.dirname(__file__), '..')
@@ -69,3 +70,33 @@ class TestTimeSeries(MultiplexTest):
 		self.assertEqual(0, len(viz.legend.lines[0]))
 		self.assertEqual('A', str(label))
 		self.assertEqual(label_style['color'], label.lines[0][0].get_color())
+
+	@MultiplexTest.temporary_plot
+	def test_line_series(self):
+		"""
+		Test that if a pandas series is provided, the line points are drawn just like a list.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		label_style = { 'color': '#FF00FF' }
+		x, y = range(0, 5), range(5, 10)
+		line, _ = viz.draw_time_series(x, y)
+		pd_line, _ = viz.draw_time_series(pd.Series(x), pd.Series(y))
+		self.assertEqual(list(line.get_xdata()), list(pd_line.get_xdata()))
+		self.assertEqual(list(line.get_ydata()), list(pd_line.get_ydata()))
+
+	@MultiplexTest.temporary_plot
+	def test_line_series_with_custom_index(self):
+		"""
+		Test that if a pandas series with a custom index is provided, the line points are drawn just like a list.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		label_style = { 'color': '#FF00FF' }
+		df = pd.DataFrame()
+		df['x'] = pd.Series(range(0, 5))
+		df['y'] = pd.Series(range(5, 10))
+		df.index = range(0, 5)
+		pd_line, _ = viz.draw_time_series(df.index, df.y, label='line')
+		self.assertEqual(df.x.tolist(), list(pd_line.get_xdata()))
+		self.assertEqual(df.y.tolist(), list(pd_line.get_ydata()))
