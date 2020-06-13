@@ -108,7 +108,7 @@ class Legend(object):
 		return wrapper
 
 	@draw
-	def draw_line(self, offset, linespacing, *args, **kwargs):
+	def draw_line(self, offset, linespacing=1, *args, **kwargs):
 		"""
 		Draw a line legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
@@ -128,7 +128,7 @@ class Legend(object):
 		return line
 
 	@draw
-	def draw_arrow(self, offset, linespacing, *args, **kwargs):
+	def draw_arrow(self, offset, linespacing=1, *args, **kwargs):
 		"""
 		Draw an arrow legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
@@ -149,7 +149,7 @@ class Legend(object):
 		return arrow
 
 	@draw
-	def draw_point(self, offset, linespacing, *args, **kwargs):
+	def draw_point(self, offset, linespacing=1, *args, **kwargs):
 		"""
 		Draw a scatter point legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
