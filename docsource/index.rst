@@ -76,7 +76,7 @@ For example, you can create a text visualization with a simple function call, in
 
 	import matplotlib.pyplot as plt
 	from multiplex import drawable
-	plt.style.use(os.path.join(sys.path[0], '..', 'styles', "multiplex.style"))
+	plt.style.use('styles/multiplex.style')
 	viz = drawable.Drawable(plt.figure(figsize=(10, 2)))
 	paragraph = """Anthony Lopes is a Portuguese professional footballer who plays for Olympique Lyonnais as a goalkeeper. He came through the youth ranks at Lyon, being called to the first team in 2011 and making his debut the following year."""
 	style = { 'align': 'justify', 'fontfamily': 'serif', 'alpha': 0.9, 'lineheight': 1.25, 'lpad': 0.1, 'rpad': 0.1 }
