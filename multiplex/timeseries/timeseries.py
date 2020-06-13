@@ -103,15 +103,16 @@ class TimeSeries(LabelledVisualization):
 		line = axis.plot(x, y, *args, **kwargs)[0]
 
 		"""
-		Draw the label at the end of the line.
+		Draw the label.
+		If the label is drawn at the end of the line, by default it inherits the line's color.
 		"""
 		if label is not None and len(x) and len(y):
-			default_label_style = { 'color': line.get_color() }
-			default_label_style.update(label_style or { })
 			if with_legend:
-				self.drawable.legend.draw_line(label, label_style=default_label_style,
+				self.drawable.legend.draw_line(label, label_style=label_style,
 											   *args, **kwargs)
 			else:
+				default_label_style = { 'color': line.get_color() }
+				default_label_style.update(label_style or { })
 				label = self.draw_label(label, x[-1], y[-1], **default_label_style)
 
 		return (line, label)

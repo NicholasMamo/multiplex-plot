@@ -59,7 +59,22 @@ class TestTimeSeries(MultiplexTest):
 	@MultiplexTest.temporary_plot
 	def test_label_style_line(self):
 		"""
-		Test that when drawing a time series legend at the end of the line, the label style is used.
+		Test that when drawing a time series label at the end of the line, the line color is used by default.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		line_style = { 'color': '#FF0000' }
+		line, label = viz.draw_time_series([ 1 ] * 5, [ 1 ] * 5, label='A',
+										   **line_style, with_legend=False)
+
+		self.assertEqual(0, len(viz.legend.lines[0]))
+		self.assertEqual('A', str(label))
+		self.assertEqual(line_style['color'], label.lines[0][0].get_color())
+
+	@MultiplexTest.temporary_plot
+	def test_label_style_line_override(self):
+		"""
+		Test that when drawing a time series label at the end of the line, the line style can override the color.
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
@@ -70,6 +85,22 @@ class TestTimeSeries(MultiplexTest):
 		self.assertEqual(0, len(viz.legend.lines[0]))
 		self.assertEqual('A', str(label))
 		self.assertEqual(label_style['color'], label.lines[0][0].get_color())
+
+	@MultiplexTest.temporary_plot
+	def test_label_style_legend(self):
+		"""
+		Test that when drawing a time series label as a legend, the line color is not used.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		line_style = { 'color': '#FF0000' }
+		line, label = viz.draw_time_series([ 1 ] * 5, [ 1 ] * 5, label='A',
+										   **line_style, with_legend=True)
+
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		line, label = viz.legend.lines[0][0]
+		self.assertEqual('A', str(label))
+		self.assertFalse(line_style['color'] == label.lines[0][0].get_color())
 
 	@MultiplexTest.temporary_plot
 	def test_line_series(self):
