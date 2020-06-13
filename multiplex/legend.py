@@ -120,7 +120,7 @@ class Legend(object):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		line = lines.Line2D([ offset, offset + 0.025 ], [ 1 + linespacing / 2. ] * 2,
+		line = lines.Line2D([ offset, offset + 0.0125 ], [ 1 + linespacing / 2. ] * 2,
 							transform=axis.transAxes, *args, **kwargs)
 		line.set_clip_on(False)
 		axis.add_line(line)
