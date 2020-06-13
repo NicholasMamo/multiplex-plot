@@ -22,7 +22,7 @@ copyright = '2019, Nicholas Mamo'
 author = 'Nicholas Mamo'
 
 # The full version, including alpha/beta/rc tags
-release = '0.2.7'
+release = '0.3.7'
 
 
 # -- General configuration ---------------------------------------------------
