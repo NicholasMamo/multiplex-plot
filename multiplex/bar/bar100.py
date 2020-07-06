@@ -31,7 +31,23 @@ class Bar100(Visualization):
 		"""
 		Instantiate the 100% bar chart visualization with an empty list of drawn bars.
 		"""
-		
+
 		super().__init__(*args, **kwargs)
 
 		self.bars = [ ]
+
+	def _to_100(self, values):
+		"""
+		Convert the given list of values to percentages.
+
+		:param values: A list of values to convert to percentages.
+		:type values: list of float
+
+		:return: A list of percentages that add up to 100%.
+		:rtype: list of float
+		"""
+
+		if not values or not any([ value for value in values ]):
+			return values
+
+		return [ 100 * value / sum(values) for value in values ]
