@@ -43,7 +43,7 @@ class Bar100(Visualization):
 
 		self.bars = [ ]
 
-	def draw(self, values, *args, **kwargs):
+	def draw(self, values, style_plot=True, *args, **kwargs):
 		"""
 		Draw a bar on the :class:`~drawable.Drawable`.
 		All values are converted to percentages.
@@ -53,6 +53,13 @@ class Bar100(Visualization):
 
 		:param values: A list of values to draw.
 		:type values: list of float
+		:param style_plot: A boolean indicating whether the plot should be re-styled.
+						   If it is set to `True`, the visualization:
+
+						   - Moves the x-ticks to the top of the plot,
+						   - Moves the x-axis label to the top of the plot, and
+						   - Removes the grid.
+		:type style_plot: bool
 
 		:return: A list of drawn bars.
 		:rtype: list of :class:`matplotlib.patches.Rectangle`
@@ -71,7 +78,11 @@ class Bar100(Visualization):
 		if any([ value < 0 for value in values ]):
 			raise ValueError(f"All values must be non-negative; received { ', '.join([ str(value) for value in values if value < 0 ]) }")
 
-		self._style()
+		"""
+		Re-style the plot if need be.
+		"""
+		if style_plot:
+			self._style()
 
 		"""
 		Draw the bars.
