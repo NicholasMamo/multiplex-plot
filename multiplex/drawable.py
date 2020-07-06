@@ -209,6 +209,17 @@ class Drawable():
 
 		return annotation
 
+	def draw_bar_100(self, *args, **kwargs):
+		"""
+		Draw a bar chart that stacks up to 100% on this :class:`~Drawable`.
+		The arguments and keyword arguments are those supported by :meth:`~bar.100.Bar100.draw` method.
+
+		:return: A list of drawn bars.
+		:rtype: list of ?
+		"""
+
+		self.bar100 = self.bar100 if self.bar100 else Bar100(self)
+		return self.bar100.draw(*args, **kwargs)
 
 	def draw_graph(self, *args, **kwargs):
 		"""
