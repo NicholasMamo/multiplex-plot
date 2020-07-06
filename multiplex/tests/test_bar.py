@@ -90,3 +90,15 @@ class TestBar100(MultiplexTest):
 		self.assertEqual(100, sum(percentages))
 		self.assertLess(percentages[0], percentages[1])
 		self.assertLess(percentages[1], percentages[2])
+
+	@MultiplexTest.temporary_plot
+	def test_to_100_same_number(self):
+		"""
+		Test that when converting values to percentages, the same number of percentages as values are returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ 10, 20, 30 ] * 123
+		percentages = bar._to_100(values)
+		self.assertEqual(len(values), len(percentages))
