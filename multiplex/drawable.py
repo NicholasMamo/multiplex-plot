@@ -12,7 +12,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
-from bar.100 import Bar100
+from bar.bar100 import Bar100
 from graph.graph import Graph
 from legend import Legend
 from text.annotation import Annotation
