@@ -25,7 +25,7 @@ class Bar100(Visualization):
 
 	:ivar bars: A list of bars drawn so far.
 				Each bar is, in turn, made up of more bars, all of which add up to 100%.
-	:vartype bars: list of ?
+	:vartype bars: list of list of :class:`matplotlib.patches.Rectangle`
 	"""
 
 	def __init__(self, *args, **kwargs):
