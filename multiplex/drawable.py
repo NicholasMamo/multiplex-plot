@@ -12,6 +12,7 @@ import re
 import sys
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+from bar.100 import Bar100
 from graph.graph import Graph
 from legend import Legend
 from text.annotation import Annotation
@@ -49,6 +50,9 @@ class Drawable():
 
 	:ivar timeseries: The time series object that is being used.
 	:vartype timeseries: :class:`~timeseries.timeseries.TimeSeries`
+	:ivar bar100: The 100% bar chart visualization that is being used.
+	:vartype bar100: :class:`~bar.100.Bar100`
+
 	:ivar legend: The figure's legend.
 	:vartype legend: :class:`~legend.Legend`
 	:ivar annotations: The annotations in the visualization.
@@ -74,6 +78,7 @@ class Drawable():
 		self.annotations = [ ]
 		self.legend = Legend(self)
 		self.timeseries = None
+		self.bar100 = None
 
 	def set_caption(self, caption, alpha=0.8, lineheight=1.25, *args, **kwargs):
 		"""
