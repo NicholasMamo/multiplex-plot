@@ -105,7 +105,10 @@ class Drawable():
 		"""
 
 		self.caption = Annotation(self)
-		self.caption.draw(caption, (0, 1), 1, va='bottom', alpha=alpha, lineheight=lineheight, *args, **kwargs, transform=self.axis.transAxes)
+		self.caption.draw(caption, (0, 1), 1,
+						  va='bottom', alpha=alpha, lineheight=lineheight,
+						  transform=self.axis.transAxes,
+						  *args, **kwargs)
 		self.redraw()
 		return self.caption
 
@@ -114,12 +117,26 @@ class Drawable():
 		Re-create the title with the necessary padding to fit the caption and the legend.
 		"""
 
+		figure = self.figure
+		axis = self.axis
+
 		"""
-		Move the caption up to make space for the legend.
+		Move the caption up to make space for the legend and the label.
 		"""
+		y = 1.01
 		legend_bb = self.legend.get_virtual_bb(transform=self.axis.transAxes)
-		self.caption.set_position((0, 1 + 0.01 + legend_bb.height),
-								   ha='left', va='bottom', transform=self.axis.transAxes)
+		y += legend_bb.height
+
+		"""
+		If the x-label is on top, make space for it in the caption.
+		In this case, it is assumed that the ticks are also at the top.
+		This is because for some reason they may be set to 'unknown'.
+		"""
+		if axis.xaxis.get_label_position() == 'top':
+			label_bb = util.get_bb(figure, axis, axis.xaxis.get_label(), transform=self.axis.transAxes)
+			y += label_bb.height * 4
+
+		self.caption.set_position((0, y), ha='left', va='bottom', transform=self.axis.transAxes)
 
 		"""
 		Get the height of the caption and the height of the legend.
@@ -130,6 +147,17 @@ class Drawable():
 		height = abs(caption_bb[0][1] - caption_bb[1][1])
 		legend_bb = self.axis.transData.transform(self.legend.get_virtual_bb())
 		height += abs(legend_bb[0][1] - legend_bb[1][1])
+
+		"""
+		If the x-label is on top, make space for it in the title.
+		In this case, it is assumed that the ticks are also at the top.
+		This is because for some reason they may be set to 'unknown'.
+		"""
+		if axis.xaxis.get_label_position() == 'top':
+			label_bb = util.get_bb(figure, axis, axis.xaxis.get_label(), transform=self.axis.transAxes)
+			label_bb = self.axis.transData.transform(label_bb)
+			height += abs(label_bb[0][1] - label_bb[1][1]) * 8 # double as above because the padding is applied both ways (?)
+
 		pad_px = self.axis.transAxes.transform((0, 0.01))[1] - self.axis.transAxes.transform((0, 0))[1]
 		self.axis.set_title(title, loc='left', pad=(5 + height + pad_px * 2))
 
