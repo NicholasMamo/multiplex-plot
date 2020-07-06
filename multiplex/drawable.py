@@ -154,9 +154,9 @@ class Drawable():
 		This is because for some reason they may be set to 'unknown'.
 		"""
 		if axis.xaxis.get_label_position() == 'top':
-			label_bb = util.get_bb(figure, axis, axis.xaxis.get_label(), transform=self.axis.transAxes)
+			label_bb = util.get_bb(figure, axis, axis.xaxis.get_label(), transform=self.axis.transData)
 			label_bb = self.axis.transData.transform(label_bb)
-			height += abs(label_bb[0][1] - label_bb[1][1]) * 8 # double as above because the padding is applied both ways (?)
+			height += abs(label_bb[0][1] - label_bb[1][1]) * 4
 
 		pad_px = self.axis.transAxes.transform((0, 0.01))[1] - self.axis.transAxes.transform((0, 0))[1]
 		self.axis.set_title(title, loc='left', pad=(5 + height + pad_px * 2))
