@@ -54,7 +54,7 @@ def overlapping(figure, axis, c1, c2, *args, **kwargs):
 
 	bb1, bb2 = get_bb(figure, axis, c1, *args, **kwargs), get_bb(figure, axis, c2, *args, **kwargs)
 
-	return overlapping_bb(b1, b2)
+	return overlapping_bb(bb1, bb2)
 
 def overlapping_bb(bb1, bb2):
 	"""
