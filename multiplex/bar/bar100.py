@@ -27,9 +27,11 @@ class Bar100(Visualization):
 	:vartype bars: list of ?
 	"""
 
-	def __init__(self):
+	def __init__(self, *args, **kwargs):
 		"""
 		Instantiate the 100% bar chart visualization with an empty list of drawn bars.
 		"""
+		
+		super().__init__(*args, **kwargs)
 
 		self.bars = [ ]
