@@ -155,45 +155,6 @@ class Drawable():
 	Visualizations
 	"""
 
-	def draw_text_annotation(self, *args, **kwargs):
-		"""
-		Draw a text annotation visualization on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :meth:`~text.annotation.TextAnnotation.draw` method.
-
-		:return: The drawn text annotation's lines.
-				 Each line is made up of tuples of lists.
-				 The first list in each tuple is the list of legend labels.
-				 The second list in each tuple is the list of actual tokens.
-		:rtype: list of tuple
-		"""
-
-		text_annotation = TextAnnotation(self)
-		return text_annotation.draw(*args, **kwargs)
-
-	def draw_time_series(self, *args, **kwargs):
-		"""
-		Draw a time series visualization on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :meth:`~timeseries.timeseries.TimeSeries.draw` method.
-
-		:return: A tuple made up of the drawn plot and label.
-		:rtype: tuple
-		"""
-
-		self.timeseries = self.timeseries if self.timeseries is not None else TimeSeries(self)
-		return self.timeseries.draw(*args, **kwargs)
-
-	def draw_graph(self, *args, **kwargs):
-		"""
-		Draw a graph visualization on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :meth:`~graph.graph.Graph.draw` method.
-
-		:return: A tuple containing the list of drawn nodes, the rendered node names, edges, and the rendered edge names.
-		:rtype: tuple
-		"""
-
-		graph = Graph(self)
-		return graph.draw(*args, **kwargs)
-
 	def annotate(self, text, x, y, marker=None, pad=0.01, *args, **kwargs):
 		"""
 		Add an annotation to the plot.
@@ -238,3 +199,43 @@ class Drawable():
 		self.annotations.append(annotation)
 
 		return annotation
+
+
+	def draw_graph(self, *args, **kwargs):
+		"""
+		Draw a graph visualization on this :class:`~Drawable`.
+		The arguments and keyword arguments are those supported by :meth:`~graph.graph.Graph.draw` method.
+
+		:return: A tuple containing the list of drawn nodes, the rendered node names, edges, and the rendered edge names.
+		:rtype: tuple
+		"""
+
+		graph = Graph(self)
+		return graph.draw(*args, **kwargs)
+
+	def draw_text_annotation(self, *args, **kwargs):
+		"""
+		Draw a text annotation visualization on this :class:`~Drawable`.
+		The arguments and keyword arguments are those supported by :meth:`~text.annotation.TextAnnotation.draw` method.
+
+		:return: The drawn text annotation's lines.
+				 Each line is made up of tuples of lists.
+				 The first list in each tuple is the list of legend labels.
+				 The second list in each tuple is the list of actual tokens.
+		:rtype: list of tuple
+		"""
+
+		text_annotation = TextAnnotation(self)
+		return text_annotation.draw(*args, **kwargs)
+
+	def draw_time_series(self, *args, **kwargs):
+		"""
+		Draw a time series visualization on this :class:`~Drawable`.
+		The arguments and keyword arguments are those supported by :meth:`~timeseries.timeseries.TimeSeries.draw` method.
+
+		:return: A tuple made up of the drawn plot and label.
+		:rtype: tuple
+		"""
+
+		self.timeseries = self.timeseries if self.timeseries is not None else TimeSeries(self)
+		return self.timeseries.draw(*args, **kwargs)
