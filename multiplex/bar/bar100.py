@@ -24,6 +24,7 @@ class Bar100(Visualization):
 	This class keeps track of all the bars that it has drawn in the :ivar:`~bar.100.Bar100.bars` instance variable.
 
 	:ivar bars: A list of bars drawn so far.
+				Each bar is, in turn, made up of more bars, all of which add up to 100%.
 	:vartype bars: list of ?
 	"""
 
@@ -48,7 +49,7 @@ class Bar100(Visualization):
 		:type values: list of float
 
 		:return: A list of drawn bars.
-		:rtype: list of ?
+		:rtype: list of :class:`matplotlib.patches.Rectangle`
 		"""
 
 		"""
@@ -64,7 +65,46 @@ class Bar100(Visualization):
 		if any([ value < 0 for value in values ]):
 			raise ValueError(f"All values must be non-negative; received { ', '.join([ str(value) for value in values if value < 0 ]) }")
 
+		"""
+		Draw the bars.
+		"""
+		bars = self._draw_bars(values, *args, **kwargs)
+		self.bars.append(bars)
+
+		return bars
+
+	def _draw_bars(self, values, *args, **kwargs):
+		"""
+		Draw the bars such that they stack up to 100%.
+
+		:param values: A list of values to draw.
+		:type values: list of float
+
+		:return: A list of drawn bars.
+		:rtype: list of :class:`matplotlib.patches.Rectangle`
+		"""
+
+		bars = [ ]
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		"""
+		Convert the values to percentages and draw them.
+		"""
 		percentages = self._to_100(values)
+
+		"""
+		Draw each bar, one after the other.
+		"""
+		offset = 0
+		for percentage in percentages:
+			bar = self.drawable.barh(len(self.bars), percentage, left=offset,
+									 *args, **kwargs)
+			bars.append(bar.patches[0])
+			offset += percentage
+
+		return bars
 
 	def _to_100(self, values):
 		"""

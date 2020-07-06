@@ -215,7 +215,7 @@ class Drawable():
 		The arguments and keyword arguments are those supported by :func:`~bar.100.Bar100.draw` method.
 
 		:return: A list of drawn bars.
-		:rtype: list of ?
+		:rtype: list of :class:`matplotlib.patches.Rectangle`
 		"""
 
 		self.bar100 = self.bar100 if self.bar100 else Bar100(self)
