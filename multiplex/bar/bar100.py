@@ -36,6 +36,36 @@ class Bar100(Visualization):
 
 		self.bars = [ ]
 
+	def draw(self, values, *args, **kwargs):
+		"""
+		Draw a bar on the :class:`~drawable.Drawable`.
+		All values are converted to percentages.
+
+		The arguments and keyword arguments are passed on to the :func:`~matplotlib.pyplot.barh` method.
+		Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.
+
+		:param values: A list of values to draw.
+		:type values: list of float
+
+		:return: A list of drawn bars.
+		:rtype: list of ?
+		"""
+
+		"""
+		Validate the arguments.
+		The width of the bar cannot be 0.
+		Therefore the function rejects an empty list of values or a list of zeroes.
+		Furthermore, the width of any of the stacked bars cannot be negative.
+		Therefore the function rejects negative values.
+		"""
+		if not values or not any([ value for value in values ]):
+			raise ValueError("At least one non-zero value has to be provided")
+
+		if any([ value < 0 for value in values ]):
+			raise ValueError(f"All values must be non-negative; received { ', '.join([ str(value) for value in values if value < 0 ]) }")
+
+		percentages = self._to_100(values)
+
 	def _to_100(self, values):
 		"""
 		Convert the given list of values to percentages.

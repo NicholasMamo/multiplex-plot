@@ -22,6 +22,32 @@ class TestBar100(MultiplexTest):
 	"""
 
 	@MultiplexTest.temporary_plot
+	def test_draw_empty_values(self):
+		"""
+		Test that when drawing an empty list of values, a ValueError is raised.
+		"""
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertRaises(ValueError, viz.draw_bar_100, [ ])
+
+	@MultiplexTest.temporary_plot
+	def test_draw_all_values_zero(self):
+		"""
+		Test that when drawing a list made up of only zeroes, a ValueError is raised.
+		"""
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertRaises(ValueError, viz.draw_bar_100, [ 0 ])
+		self.assertRaises(ValueError, viz.draw_bar_100, [ 0 ] * 10)
+
+	@MultiplexTest.temporary_plot
+	def test_draw_negative_values(self):
+		"""
+		Test that when drawing a list that includes negative values, a ValueError is raised.
+		"""
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertRaises(ValueError, viz.draw_bar_100, [ -1 ])
+		self.assertRaises(ValueError, viz.draw_bar_100, [ 1, -1 ])
+
+	@MultiplexTest.temporary_plot
 	def test_to_100_empty_values(self):
 		"""
 		Test that when no values are given to be converted to percentages, an empty list is returned again.
