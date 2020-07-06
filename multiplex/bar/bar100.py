@@ -5,6 +5,12 @@ The 100% bar chart visualization is useful to show the make-up of data.
 This visualization is based on `matplotlib's barh <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.barh.html>`_ function.
 However, it also comes with functionality to make it easier to construct 100% bar chart visualizations.
 For example, you don't have to provide percentages; the :class:`~bar.100.Bar100` visualization automatically converts numbers to percentages.
+
+For readability, the 100% bar chart visualization also makes a few changes to the plot by:
+
+- Moving the x-ticks to the top of the plot,
+- Moving the x-axis label to the top of the plot, and
+- Removing the grid.
 """
 
 import os
@@ -65,6 +71,8 @@ class Bar100(Visualization):
 		if any([ value < 0 for value in values ]):
 			raise ValueError(f"All values must be non-negative; received { ', '.join([ str(value) for value in values if value < 0 ]) }")
 
+		self._style()
+
 		"""
 		Draw the bars.
 		"""
@@ -72,6 +80,22 @@ class Bar100(Visualization):
 		self.bars.append(bars)
 
 		return bars
+
+	def _style(self):
+		"""
+		Style the plot by:
+
+		- Moving the x-ticks to the top of the plot,
+		- Moving the x-axis label to the top of the plot, and
+		- Removing the grid.
+		"""
+
+		axis = self.drawable.axis
+		axis.xaxis.set_label_position('top')
+		axis.xaxis.tick_top()
+		axis.spines['top'].set_visible(True)
+		axis.spines['bottom'].set_visible(False)
+		self.drawable.grid(False)
 
 	def _draw_bars(self, values, *args, **kwargs):
 		"""
