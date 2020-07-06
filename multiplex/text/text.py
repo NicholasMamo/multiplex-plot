@@ -2,8 +2,8 @@
 The :class:`~TextAnnotation` class is aimed to help you create text-only visualizations with ease.
 As a visualization, it takes care or organizing text, allowing you to create visualizations by providing as little information as a string.
 
-To start creating text visualizations, create a :class:`~TextAnnotation` instance and call the :meth:`~TextAnnotation.draw` method.
-If you are using the :class:`~drawable.Drawable` class, just call the :meth:`~drawable.Drawable.draw_text_annotation` method on a :class:`~drawable.Drawable` instance instead.
+To start creating text visualizations, create a :class:`~TextAnnotation` instance and call the :func:`~TextAnnotation.draw` method.
+If you are using the :class:`~drawable.Drawable` class, just call the :func:`~drawable.Drawable.draw_text_annotation` method on a :class:`~drawable.Drawable` instance instead.
 
 This method expects, at the very least, a string to draw a visualization:
 
@@ -29,7 +29,7 @@ Or, you can input a `list` of `dict` of tokens containing at least a `text` attr
 	  'text': 'token',
 	}
 
-Instructions on how the text should be formatted can be passed on to the :meth:`~TextAnnotation.draw` method.
+Instructions on how the text should be formatted can be passed on to the :func:`~TextAnnotation.draw` method.
 Among others, these attributes include alignment and the line height.
 The text can also be styled by passing on any attributes supported by the :class:`matplotlib.text.Text` class.
 The same attributes can be passed on to the `style` key in the code block above.

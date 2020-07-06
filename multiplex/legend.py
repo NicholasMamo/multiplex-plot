@@ -177,7 +177,7 @@ class Legend(object):
 	def draw_annotation(self, label, x, y, va='bottom', *args, **kwargs):
 		"""
 		Get the annotation for the legend.
-		The arguments and keyword arguments are passed on to the :meth:`~text.annotation.Annotation.draw` function.
+		The arguments and keyword arguments are passed on to the :func:`~text.annotation.Annotation.draw` function.
 
 		:param label: The text of the legend label.
 		:type label: str

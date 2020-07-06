@@ -18,10 +18,10 @@ Creating a time series is very easy:
                          color='#F6B913', linewidth=2,
                          label='A', label_style={ 'fontweight': '500' })
 
-You can keep calling the :meth:`~drawable.Drawable.draw_time_series` function on the same :class:`~drawable.Drawable` instance to draw on the same plot.
+You can keep calling the :func:`~drawable.Drawable.draw_time_series` function on the same :class:`~drawable.Drawable` instance to draw on the same plot.
 
-To start creating time series visualizations, create a :class:`~TimeSeries` instance and call the :meth:`~TimeSeries.draw` method.
-If you are using the :class:`~drawable.Drawable` class, just call the :meth:`~drawable.Drawable.draw_time_series` method on a :class:`~drawable.Drawable` instance instead.
+To start creating time series visualizations, create a :class:`~TimeSeries` instance and call the :func:`~TimeSeries.draw` method.
+If you are using the :class:`~drawable.Drawable` class, just call the :func:`~drawable.Drawable.draw_time_series` method on a :class:`~drawable.Drawable` instance instead.
 """
 
 import os
@@ -53,7 +53,7 @@ class TimeSeries(LabelledVisualization):
 	def draw(self, x, y, label=None, label_style=None, with_legend=False, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`~drawable.Drawable`.
-		The arguments and keyword arguments are passed on to the :meth:`~matplotlib.pyplot.plot` method.
+		The arguments and keyword arguments are passed on to the :func:`~matplotlib.pyplot.plot` method.
 		Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.
 
 		:param x: The list of x-coordinates to plot.

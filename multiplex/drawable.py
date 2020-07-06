@@ -167,7 +167,7 @@ class Drawable():
 	def annotate(self, text, x, y, marker=None, pad=0.01, *args, **kwargs):
 		"""
 		Add an annotation to the plot.
-		Any additional arguments and keyword arguments are passed on to the annotation's :meth:`~text.text.Annotation.draw` function.
+		Any additional arguments and keyword arguments are passed on to the annotation's :func:`~text.text.Annotation.draw` function.
 		For example, the `va` can be provided to specify the vertical alignment.
 		The `align` parameter can be used to specify the text's alignment.
 
@@ -212,7 +212,7 @@ class Drawable():
 	def draw_bar_100(self, *args, **kwargs):
 		"""
 		Draw a bar chart that stacks up to 100% on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :meth:`~bar.100.Bar100.draw` method.
+		The arguments and keyword arguments are those supported by :func:`~bar.100.Bar100.draw` method.
 
 		:return: A list of drawn bars.
 		:rtype: list of ?
@@ -224,7 +224,7 @@ class Drawable():
 	def draw_graph(self, *args, **kwargs):
 		"""
 		Draw a graph visualization on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :meth:`~graph.graph.Graph.draw` method.
+		The arguments and keyword arguments are those supported by :func:`~graph.graph.Graph.draw` method.
 
 		:return: A tuple containing the list of drawn nodes, the rendered node names, edges, and the rendered edge names.
 		:rtype: tuple
@@ -236,7 +236,7 @@ class Drawable():
 	def draw_text_annotation(self, *args, **kwargs):
 		"""
 		Draw a text annotation visualization on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :meth:`~text.annotation.TextAnnotation.draw` method.
+		The arguments and keyword arguments are those supported by :func:`~text.annotation.TextAnnotation.draw` method.
 
 		:return: The drawn text annotation's lines.
 				 Each line is made up of tuples of lists.
@@ -251,7 +251,7 @@ class Drawable():
 	def draw_time_series(self, *args, **kwargs):
 		"""
 		Draw a time series visualization on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :meth:`~timeseries.timeseries.TimeSeries.draw` method.
+		The arguments and keyword arguments are those supported by :func:`~timeseries.timeseries.TimeSeries.draw` method.
 
 		:return: A tuple made up of the drawn plot and label.
 		:rtype: tuple
