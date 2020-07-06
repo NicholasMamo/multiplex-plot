@@ -257,5 +257,5 @@ class Drawable():
 		:rtype: tuple
 		"""
 
-		self.timeseries = self.timeseries if self.timeseries is not None else TimeSeries(self)
+		self.timeseries = self.timeseries if self.timeseries else TimeSeries(self)
 		return self.timeseries.draw(*args, **kwargs)
