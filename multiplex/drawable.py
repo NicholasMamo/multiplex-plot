@@ -49,9 +49,13 @@ class Drawable():
 	:vartype caption: :class:`~text.annotation.Annotation`
 
 	:ivar timeseries: The time series object that is being used.
-	:vartype timeseries: :class:`~timeseries.timeseries.TimeSeries`
+					  When no visualization has been created, it is set to `None`.
+					  It is instantiated the first time a time series is drawn.
+	:vartype timeseries: None or :class:`~timeseries.timeseries.TimeSeries`
 	:ivar bar100: The 100% bar chart visualization that is being used.
-	:vartype bar100: :class:`~bar.100.Bar100`
+				  When no visualization has been created, it is set to `None`.
+				  It is instantiated the first time a 100% bar chart is drawn.
+	:vartype bar100: None or :class:`~bar.100.Bar100`
 
 	:ivar legend: The figure's legend.
 	:vartype legend: :class:`~legend.Legend`
