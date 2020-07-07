@@ -111,6 +111,18 @@ class TestBar100(MultiplexTest):
 		self.assertEqual(0, util.get_bb(viz.figure, viz.axis, bars[0]).x0)
 
 	@MultiplexTest.temporary_plot
+	def test_draw_bars_0_pad(self):
+		"""
+		Test that when drawing bars, they all start at 0 even when padding is given.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = list(range(10))
+		bars = bar._draw_bars(values, pad=1)
+		self.assertEqual(0, util.get_bb(viz.figure, viz.axis, bars[0]).x0)
+
+	@MultiplexTest.temporary_plot
 	def test_draw_bars_100(self):
 		"""
 		Test that when drawing bars, they all end at 100.
@@ -120,6 +132,18 @@ class TestBar100(MultiplexTest):
 		bar = Bar100(viz)
 		values = list(range(10))
 		bars = bar._draw_bars(values)
+		self.assertEqual(100, round(util.get_bb(viz.figure, viz.axis, bars[-1]).x1, 7))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_bars_100_pad(self):
+		"""
+		Test that when drawing bars, they all end at 100 even when padding is given.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = list(range(10))
+		bars = bar._draw_bars(values, pad=1)
 		self.assertEqual(100, round(util.get_bb(viz.figure, viz.axis, bars[-1]).x1, 7))
 
 	@MultiplexTest.temporary_plot
@@ -151,6 +175,20 @@ class TestBar100(MultiplexTest):
 				self.assertFalse(util.overlapping(viz.figure, viz.axis, bars[i], bars[j]))
 
 	@MultiplexTest.temporary_plot
+	def test_draw_bars_no_overlap_pad(self):
+		"""
+		Test that when drawing bars, none of them overlap even with padding.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = list(range(10))
+		bars = bar._draw_bars(values, pad=1)
+		for i in range(0, len(bars)):
+			for j in range(i + 1, len(bars)):
+				self.assertFalse(util.overlapping(viz.figure, viz.axis, bars[i], bars[j]))
+
+	@MultiplexTest.temporary_plot
 	def test_draw_bars_return_rectangles(self):
 		"""
 		Test that when drawing bars, they are returned as matplotlib rectangles.
@@ -162,6 +200,18 @@ class TestBar100(MultiplexTest):
 		bars = bar._draw_bars(values)
 		self.assertTrue(bars)
 		self.assertTrue(all( matplotlib.patches.Rectangle == type(bar) for bar in bars ))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_bars_min_percentage(self):
+		"""
+		Test that when drawing bars, the minimum percentage is respected.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ 0, 1, 2, 3 ]
+		bars = bar._draw_bars(values, min_percentage=10)
+		self.assertTrue(all( round(util.get_bb(viz.figure, viz.axis, bar).width, 10) >= 10 for bar in bars ))
 
 	@MultiplexTest.temporary_plot
 	def test_to_100_empty_values(self):

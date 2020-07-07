@@ -44,7 +44,7 @@ class Bar100(Visualization):
 		self.bars = [ ]
 
 	def draw(self, values, style_plot=True,
-			 min_percentage=1, *args, **kwargs):
+			 min_percentage=1, pad=0.25, *args, **kwargs):
 		"""
 		Draw a bar on the :class:`~drawable.Drawable`.
 		All values are converted to percentages.
@@ -64,6 +64,10 @@ class Bar100(Visualization):
 		:param min_percentage: The minimum percentage to show in the 100% bar chart.
 							   This is used so that bars with 0% percentage are still shown with a thin bar.
 		:type min_percentage: float
+		:param pad: The amount of padding, in percentage, to apply to the given value.
+					This padding will be split equally on the left and right of the bar.
+					In any case, the padding cannot reduce a bar to below the minimum percentage.
+		:type pad: float
 
 		:return: A list of drawn bars.
 		:rtype: list of :class:`matplotlib.patches.Rectangle`
@@ -106,7 +110,7 @@ class Bar100(Visualization):
 		"""
 		Draw the bars.
 		"""
-		bars = self._draw_bars(values, min_percentage=min_percentage,
+		bars = self._draw_bars(values, min_percentage=min_percentage, pad=pad,
 							   *args, **kwargs)
 		self.bars.append(bars)
 
@@ -128,7 +132,7 @@ class Bar100(Visualization):
 		axis.spines['bottom'].set_visible(False)
 		self.drawable.grid(False)
 
-	def _draw_bars(self, values, min_percentage=0, *args, **kwargs):
+	def _draw_bars(self, values, min_percentage=0, pad=0, *args, **kwargs):
 		"""
 		Draw the bars such that they stack up to 100%.
 
@@ -137,6 +141,10 @@ class Bar100(Visualization):
 		:param min_percentage: The minimum percentage to show in the 100% bar chart.
 							   This is used so that bars with 0% percentage are still shown with a thin bar.
 		:type min_percentage: float
+		:param pad: The amount of padding, in percentage, to apply to the given value.
+					This padding will be split equally on the left and right of the bar.
+					In any case, the padding cannot reduce a bar to below the minimum percentage.
+		:type pad: float
 
 		:return: A list of drawn bars.
 		:rtype: list of :class:`matplotlib.patches.Rectangle`
@@ -156,11 +164,33 @@ class Bar100(Visualization):
 		Draw each bar, one after the other.
 		"""
 		offset = 0
-		for percentage in percentages:
-			bar = self.drawable.barh(len(self.bars), percentage, left=offset,
+		for i, percentage in enumerate(percentages):
+			padding = self._pad(percentage, pad, min_percentage)
+
+			"""
+			Apply the left offset based on padding.
+			This is not applied for the first bar.
+			"""
+			offset += padding if i else 0
+
+			"""
+			Calculate the width based on padding.
+			All bars except the first and last ones have their width reduced by the padding on both sides.
+			The first and last bars have their width reduced by padding on one side only.
+			"""
+			width = percentage - padding * (2 if 0 < i < len(percentages) - 1 else 1)
+
+			"""
+			Draw the bar.
+			"""
+			bar = self.drawable.barh(len(self.bars), width, left=offset,
 									 *args, **kwargs)
 			bars.append(bar.patches[0])
-			offset += percentage
+
+			"""
+			Apply the right offset based on padding.
+			"""
+			offset += width + padding
 
 		return bars
 
@@ -219,6 +249,7 @@ class Bar100(Visualization):
 		:type percentage: float
 		:param pad: The amount of padding, in percentage, to apply to the given value.
 					This padding will be split equally on the left and right of the bar.
+					In any case, the padding cannot reduce a bar to below the minimum percentage.
 		:type pad: float
 		:param min_percentage: The minimum percentage to allow.
 							   This is used so that even very small percentages are shown in the 100% bar chart.
@@ -238,15 +269,15 @@ class Bar100(Visualization):
 		Validate the inputs.
 		"""
 		if not 0 <= percentage <= 100:
-			raise ValueError(f"The percentage must be between 0% and 100%; received { percentage }")
+			raise ValueError(f"The percentage must be between 0% and 100%; received { percentage }%")
 
-		if not 0 <= pad <= 100:
-			raise ValueError(f"The padding must be between 0% and 100%; received { pad }")
+		if not 0 <= round(pad, 10) <= 100:
+			raise ValueError(f"The padding must be between 0% and 100%; received { pad }%")
 
 		if not 0 <= min_percentage <= 100:
 			raise ValueError(f"The minimum percentage must be between 0% and 100%; received { min_percentage }")
 
-		if min_percentage > percentage:
+		if round(min_percentage, 10) > round(percentage, 10):
 			raise ValueError(f"The minimum percentage cannot exceed the percentage; { min_percentage } > { percentage }")
 
 		"""
