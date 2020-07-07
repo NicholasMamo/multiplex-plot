@@ -28,7 +28,7 @@ class TestBar100(MultiplexTest):
 		Test that when drawing an empty list of values, a ValueError is raised.
 		"""
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		self.assertRaises(ValueError, viz.draw_bar_100, [ ])
+		self.assertRaises(ValueError, viz.draw_bar_100, [ ], 'label')
 
 	@MultiplexTest.temporary_plot
 	def test_draw_all_values_zero(self):
@@ -36,8 +36,8 @@ class TestBar100(MultiplexTest):
 		Test that when drawing a list made up of only zeroes, a ValueError is raised.
 		"""
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		self.assertRaises(ValueError, viz.draw_bar_100, [ 0 ])
-		self.assertRaises(ValueError, viz.draw_bar_100, [ 0 ] * 10)
+		self.assertRaises(ValueError, viz.draw_bar_100, [ 0 ], 'label')
+		self.assertRaises(ValueError, viz.draw_bar_100, [ 0 ] * 10, 'label')
 
 	@MultiplexTest.temporary_plot
 	def test_draw_negative_values(self):
@@ -45,8 +45,8 @@ class TestBar100(MultiplexTest):
 		Test that when drawing a list that includes negative values, a ValueError is raised.
 		"""
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		self.assertRaises(ValueError, viz.draw_bar_100, [ -1 ])
-		self.assertRaises(ValueError, viz.draw_bar_100, [ 1, -1 ])
+		self.assertRaises(ValueError, viz.draw_bar_100, [ -1 ], 'label')
+		self.assertRaises(ValueError, viz.draw_bar_100, [ 1, -1 ], 'label')
 
 	@MultiplexTest.temporary_plot
 	def test_draw_all_dict_values_zero(self):
@@ -54,8 +54,8 @@ class TestBar100(MultiplexTest):
 		Test that when drawing a dictionary list made up of only zeroes, a ValueError is raised.
 		"""
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 0 } ])
-		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 0 } ] * 10)
+		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 0 } ], 'label')
+		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 0 } ] * 10, 'label')
 
 	@MultiplexTest.temporary_plot
 	def test_draw_negative_dict_values(self):
@@ -63,8 +63,8 @@ class TestBar100(MultiplexTest):
 		Test that when drawing a dictionary list that includes negative values, a ValueError is raised.
 		"""
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': -1 } ])
-		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 1 }, { 'value': -1 } ])
+		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': -1 } ], 'label')
+		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 1 }, { 'value': -1 } ], 'label')
 
 	@MultiplexTest.temporary_plot
 	def test_draw_min_percentage_below_0(self):
@@ -74,7 +74,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertRaises(ValueError, bar.draw, [ 1 ], min_percentage=-1)
+		self.assertRaises(ValueError, bar.draw, [ 1 ], 'label', min_percentage=-1)
 
 	@MultiplexTest.temporary_plot
 	def test_draw_min_percentage_0(self):
@@ -84,7 +84,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertTrue(bar.draw([ 1 ], min_percentage=0))
+		self.assertTrue(bar.draw([ 1 ], 'label', min_percentage=0))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_min_percentage_100(self):
@@ -94,7 +94,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertTrue(bar.draw([ 1 ], min_percentage=100))
+		self.assertTrue(bar.draw([ 1 ], 'label', min_percentage=100))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_min_percentage_above_100(self):
@@ -104,7 +104,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertRaises(ValueError, bar.draw, [ 1 ], min_percentage=101)
+		self.assertRaises(ValueError, bar.draw, [ 1 ], 'label', min_percentage=101)
 
 	@MultiplexTest.temporary_plot
 	def test_draw_min_percentage_exceeds_100(self):
@@ -114,10 +114,55 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertRaises(ValueError, bar.draw, [ 1, 1 ], min_percentage=75)
+		self.assertRaises(ValueError, bar.draw, [ 1, 1 ], 'label', min_percentage=75)
 
 	@MultiplexTest.temporary_plot
-	def test_draw_bars_override_pad(self):
+	def test_draw_empty_label(self):
+		"""
+		Test that when drawing bars, the label cannot be empty.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertRaises(ValueError, bar.draw, [ 1, 1 ], '')
+
+	@MultiplexTest.temporary_plot
+	def test_draw_add_labels(self):
+		"""
+		Test that when drawing bars, the label is also drawn.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		bar.draw([ 1, 1 ], 'bar 1')
+		self.assertEqual(1, len(viz.get_yticklabels()))
+		self.assertEqual('bar 1', viz.get_yticklabels()[0].get_text())
+
+	@MultiplexTest.temporary_plot
+	def test_draw_label_order(self):
+		"""
+		Test that when drawing bars, the labels are drawn in the correct order.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+
+		"""
+		Draw the first bar.
+		"""
+		bar.draw([ 1, 1 ], 'bar 1')
+		self.assertEqual(1, len(viz.get_yticklabels()))
+		self.assertEqual('bar 1', viz.get_yticklabels()[-1].get_text())
+
+		"""
+		Draw the second bar.
+		"""
+		bar.draw([ 1, 1 ], 'bar 2')
+		self.assertEqual(2, len(viz.get_yticklabels()))
+		self.assertEqual('bar 2', viz.get_yticklabels()[-1].get_text())
+
+	@MultiplexTest.temporary_plot
+	def test_draw_override_pad(self):
 		"""
 		Test that when drawing bars, padding can be overriden through the style.
 		"""
@@ -126,7 +171,7 @@ class TestBar100(MultiplexTest):
 		bar = Bar100(viz)
 		values = [ { 'value': 10 }, { 'value': 10, 'style': { } },
 				   { 'value': 10, 'style': { 'pad': 0 } }, { 'value': 10 } ]
-		bars = bar.draw(values, pad=1)
+		bars = bar.draw(values, 'label', pad=1)
 		self.assertEqual(24, round(util.get_bb(viz.figure, viz.axis, bars[1]).width, 10))
 		self.assertEqual(25, round(util.get_bb(viz.figure, viz.axis, bars[2]).width, 10))
 

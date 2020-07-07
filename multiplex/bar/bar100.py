@@ -43,7 +43,7 @@ class Bar100(Visualization):
 
 		self.bars = [ ]
 
-	def draw(self, values, style_plot=True,
+	def draw(self, values, label, style_plot=True,
 			 min_percentage=1, pad=0.25, *args, **kwargs):
 		"""
 		Draw a bar on the :class:`~drawable.Drawable`.
@@ -70,6 +70,8 @@ class Bar100(Visualization):
 		:param values: A list of values to draw.
 					   The visualization expects a a `list` of floats or a `list` of `dict` instances as shown above.
 		:type values: list of float or list of dict
+		:param label: The label of the 100% bar chart.
+		:type label: str
 		:param style_plot: A boolean indicating whether the plot should be re-styled.
 						   If it is set to `True`, the visualization:
 
@@ -93,6 +95,7 @@ class Bar100(Visualization):
 		:raises ValueError: When any value is negative.
 		:raises ValueError: When the minimum percentage is below 0% or above 100%.
 		:raises ValueError: When the minimum percentage multiplied by all values exceeds 100%.
+		:raises ValueError: When the label is empty.
 		"""
 
 		values = self._to_dict(values)
@@ -119,6 +122,9 @@ class Bar100(Visualization):
 		if min_percentage * len(values) > 100:
 			raise ValueError(f"The minimum percentage exceeds 100%; { min_percentage } × { len(values) } = { min_percentage * len(values) }")
 
+		if not label:
+			raise ValueError("The label cannot be empty")
+
 		"""
 		Re-style the plot if need be.
 		"""
@@ -131,6 +137,7 @@ class Bar100(Visualization):
 		bars = self._draw_bars(values, min_percentage=min_percentage, pad=pad,
 							   *args, **kwargs)
 		self.bars.append(bars)
+		self._add_label(label)
 
 		return bars
 
@@ -335,3 +342,33 @@ class Bar100(Visualization):
 		The padding is any space aside from the left-over percentage.
 		"""
 		return (percentage - leftover) / 2.
+
+	def _add_label(self, label):
+		"""
+		Add a label to the y-axis.
+
+		This function does two things:
+
+			- Adds a y-tick, and
+			- Gives that y-tick the given label.
+
+		:param label: The label of the drawn bar.
+		:type label: str
+		"""
+
+		"""
+		Add a y-tick based on the number of bars.
+		"""
+		self.drawable.set_yticks(range(len(self.bars)))
+
+		"""
+		Get the current labels and filter them.
+		"""
+		labels = [ label.get_text() for label in self.drawable.get_yticklabels() ]
+		labels = [ label for label in labels if label ]
+		labels.append(label)
+
+		"""
+		Add the new label to the y-axis labels.
+		"""
+		self.drawable.set_yticklabels(labels)
