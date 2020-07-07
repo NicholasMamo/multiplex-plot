@@ -52,8 +52,24 @@ class Bar100(Visualization):
 		The arguments and keyword arguments are passed on to the :func:`~matplotlib.pyplot.barh` method.
 		Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.
 
+		The values can be provided either as a list of floats or as a list of dictionaries.
+		If floats are provided, the function automatically converts them into dictionaries.
+		Dictionaries should have the following format:
+
+		.. code-block:: python
+
+			{
+			  'value': 10,
+			  'style': { 'color': 'C1' },
+			}
+
+		Of these keys, only `value` is required.
+		The correct styling options are those accepted by the :func:`~matplotlib.pyplot.barh` method
+		Anything not given uses default values.
+
 		:param values: A list of values to draw.
-		:type values: list of float
+					   The visualization expects a a `list` of floats or a `list` of `dict` instances as shown above.
+		:type values: list of float or list of dict
 		:param style_plot: A boolean indicating whether the plot should be re-styled.
 						   If it is set to `True`, the visualization:
 
@@ -110,6 +126,7 @@ class Bar100(Visualization):
 		"""
 		Draw the bars.
 		"""
+		values = self._to_dict(values)
 		bars = self._draw_bars(values, min_percentage=min_percentage, pad=pad,
 							   *args, **kwargs)
 		self.bars.append(bars)
@@ -132,12 +149,34 @@ class Bar100(Visualization):
 		axis.spines['bottom'].set_visible(False)
 		self.drawable.grid(False)
 
+	def _to_dict(self, values):
+		"""
+		Convert all values to a list of dictionaries.
+		This is done so that all values are uniform.
+
+		:param values: A list of values.
+		:type values: list of float or list of dict
+
+		:return: A list of values as dictionaries.
+		:rtype: list of dict
+		"""
+
+		dicts = [ ]
+
+		for value in values:
+			value_dict = dict(value) if type(value) is dict else { 'value': value }
+			value_dict['value'] = value_dict.get('value', 0)
+			value_dict['style'] = value_dict.get('style', { })
+			dicts.append(value_dict)
+
+		return dicts
+
 	def _draw_bars(self, values, min_percentage=0, pad=0, *args, **kwargs):
 		"""
 		Draw the bars such that they stack up to 100%.
 
 		:param values: A list of values to draw.
-		:type values: list of float
+		:type values: list of dict
 		:param min_percentage: The minimum percentage to show in the 100% bar chart.
 							   This is used so that bars with 0% percentage are still shown with a thin bar.
 		:type min_percentage: float
@@ -158,7 +197,8 @@ class Bar100(Visualization):
 		"""
 		Convert the values to percentages and draw them.
 		"""
-		percentages = self._to_100(values, min_percentage=min_percentage)
+		percentages = self._to_100([ value['value'] for value in values ],
+								   min_percentage=min_percentage)
 
 		"""
 		Draw each bar, one after the other.
@@ -193,28 +233,6 @@ class Bar100(Visualization):
 			offset += width + padding
 
 		return bars
-
-	def _to_dict(self, values):
-		"""
-		Convert all values to a list of dictionaries.
-		This is done so that all values are uniform.
-
-		:param values: A list of values.
-		:type values: list of float or list of dict
-
-		:return: A list of values as dictionaries.
-		:rtype: list of dict
-		"""
-
-		dicts = [ ]
-
-		for value in values:
-			value_dict = dict(value) if type(value) is dict else { 'value': value }
-			value_dict['value'] = value_dict.get('value', 0)
-			value_dict['style'] = value_dict.get('style', { })
-			dicts.append(value_dict)
-
-		return dicts
 
 	def _to_100(self, values, min_percentage=0):
 		"""
