@@ -214,6 +214,82 @@ class TestBar100(MultiplexTest):
 		self.assertTrue(all( round(util.get_bb(viz.figure, viz.axis, bar).width, 10) >= 10 for bar in bars ))
 
 	@MultiplexTest.temporary_plot
+	def test_to_dict_all_floats_default_value(self):
+		"""
+		Test that when converting a list of floats to a dictionary, their values are all retained.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = list(range(0, 10))
+		dicts = bar._to_dict(values)
+		self.assertEqual(values, [ value['value'] for value in dicts ])
+
+	@MultiplexTest.temporary_plot
+	def test_to_dict_all_floats_default_style(self):
+		"""
+		Test that when converting a list of floats to a dictionary, an empty style is added.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = list(range(0, 10))
+		dicts = bar._to_dict(values)
+		self.assertEqual([ { } ] * 10, [ value['style'] for value in dicts ])
+
+	@MultiplexTest.temporary_plot
+	def test_to_dict_all_dicts_default_value(self):
+		"""
+		Test that when converting a list of dictionaries to a dictionary, their default value is 0.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { }, { 'value': 3 } ]
+		dicts = bar._to_dict(values)
+		self.assertEqual([ 0, 3 ], [ value['value'] for value in dicts ])
+
+	@MultiplexTest.temporary_plot
+	def test_to_dict_all_dicts_default_style(self):
+		"""
+		Test that when converting a list of dictionaries to a dictionary, their default style is an empty dictionary if they do not have a style already.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { }, { 'style': { 'color': 'red' } } ]
+		dicts = bar._to_dict(values)
+		self.assertEqual([ { }, { 'color': 'red' } ], [ value['style'] for value in dicts ])
+
+	@MultiplexTest.temporary_plot
+	def test_to_dict_mix(self):
+		"""
+		Test converting a mixed list of floats and dictionaries to a dictionary.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ 10, { 'value': 5 }, { 'style': { 'color': 'red' } },
+				   { 'value': 2 ,  'style': { 'color': 'blue' } } ]
+		dicts = bar._to_dict(values)
+		self.assertEqual([ 10, 5, 0, 2 ], [ value['value'] for value in dicts ])
+		self.assertEqual([ { }, { }, { 'color': 'red' }, { 'color': 'blue' } ],
+						 [ value['style'] for value in dicts ])
+
+	@MultiplexTest.temporary_plot
+	def test_to_dict_other_keys(self):
+		"""
+		Test that when converting values to dictionaries, any additional keys are retained.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { 'value': 2 ,  'style': { 'color': 'blue' }, 'other': 23 } ]
+		dicts = bar._to_dict(values)
+		self.assertTrue('other' in dicts[0])
+		self.assertEqual(23, dicts[0]['other'])
+
+	@MultiplexTest.temporary_plot
 	def test_to_100_empty_values(self):
 		"""
 		Test that when no values are given to be converted to percentages, an empty list is returned again.

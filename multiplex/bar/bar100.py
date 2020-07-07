@@ -194,6 +194,28 @@ class Bar100(Visualization):
 
 		return bars
 
+	def _to_dict(self, values):
+		"""
+		Convert all values to a list of dictionaries.
+		This is done so that all values are uniform.
+
+		:param values: A list of values.
+		:type values: list of float or list of dict
+
+		:return: A list of values as dictionaries.
+		:rtype: list of dict
+		"""
+
+		dicts = [ ]
+
+		for value in values:
+			value_dict = dict(value) if type(value) is dict else { 'value': value }
+			value_dict['value'] = value_dict.get('value', 0)
+			value_dict['style'] = value_dict.get('style', { })
+			dicts.append(value_dict)
+
+		return dicts
+
 	def _to_100(self, values, min_percentage=0):
 		"""
 		Convert the given list of values to percentages.
