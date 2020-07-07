@@ -49,6 +49,24 @@ class TestBar100(MultiplexTest):
 		self.assertRaises(ValueError, viz.draw_bar_100, [ 1, -1 ])
 
 	@MultiplexTest.temporary_plot
+	def test_draw_all_dict_values_zero(self):
+		"""
+		Test that when drawing a dictionary list made up of only zeroes, a ValueError is raised.
+		"""
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 0 } ])
+		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 0 } ] * 10)
+
+	@MultiplexTest.temporary_plot
+	def test_draw_negative_dict_values(self):
+		"""
+		Test that when drawing a dictionary list that includes negative values, a ValueError is raised.
+		"""
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': -1 } ])
+		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 1 }, { 'value': -1 } ])
+
+	@MultiplexTest.temporary_plot
 	def test_draw_min_percentage_below_0(self):
 		"""
 		Test that when the minimum percentage is below 0, drawing raises a ValueError.

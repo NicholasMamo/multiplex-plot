@@ -95,6 +95,8 @@ class Bar100(Visualization):
 		:raises ValueError: When the minimum percentage multiplied by all values exceeds 100%.
 		"""
 
+		values = self._to_dict(values)
+
 		"""
 		Validate the arguments.
 		The width of the bar cannot be 0.
@@ -102,11 +104,11 @@ class Bar100(Visualization):
 		Furthermore, the width of any of the stacked bars cannot be negative.
 		Therefore the function rejects negative values.
 		"""
-		if not values or not any([ value for value in values ]):
+		if not values or not any([ value['value'] for value in values ]):
 			raise ValueError("At least one non-zero value has to be provided")
 
-		if any([ value < 0 for value in values ]):
-			raise ValueError(f"All values must be non-negative; received { ', '.join([ str(value) for value in values if value < 0 ]) }")
+		if any([ value['value'] < 0 for value in values ]):
+			raise ValueError(f"All values must be non-negative; received { ', '.join([ str(value['value']) for value in values if value['value'] < 0 ]) }")
 
 		"""
 		Validate the inputs.
@@ -126,7 +128,6 @@ class Bar100(Visualization):
 		"""
 		Draw the bars.
 		"""
-		values = self._to_dict(values)
 		bars = self._draw_bars(values, min_percentage=min_percentage, pad=pad,
 							   *args, **kwargs)
 		self.bars.append(bars)
