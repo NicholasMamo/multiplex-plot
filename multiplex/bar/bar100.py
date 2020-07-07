@@ -208,7 +208,7 @@ class Bar100(Visualization):
 		for i, percentage in enumerate(percentages):
 			style = values[i].get('style', { })
 
-			padding = self._pad(percentage, style.get('pad', pad), min_percentage)
+			padding = self._pad(percentage, style.pop('pad', pad), min_percentage)
 
 			"""
 			Apply the left offset based on padding.
@@ -226,8 +226,10 @@ class Bar100(Visualization):
 			"""
 			Draw the bar.
 			"""
+			default_style = dict(kwargs)
+			default_style.update(style)
 			bar = self.drawable.barh(len(self.bars), width, left=offset,
-									 *args, **kwargs)
+									 *args, **default_style)
 			bars.append(bar.patches[0])
 
 			"""

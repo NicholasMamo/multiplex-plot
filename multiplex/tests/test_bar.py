@@ -322,6 +322,34 @@ class TestBar100(MultiplexTest):
 		self.assertTrue(all( round(util.get_bb(viz.figure, viz.axis, bar).width, 10) >= 10 for bar in bars ))
 
 	@MultiplexTest.temporary_plot
+	def test_draw_bars_override_style(self):
+		"""
+		Test that when drawing bars, the style can be overriden.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = bar._to_dict([{ 'value': 10, 'style': { 'color': '#0000FF' } }, { 'value': 10 }])
+		bars = bar._draw_bars(values, color='#FF0000')
+		self.assertEqual(bars[0].get_facecolor(), (0, 0, 1, 1))
+		self.assertEqual(bars[1].get_facecolor(), (1, 0, 0, 1))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_bars_inherit_style(self):
+		"""
+		Test that when drawing bars, style options that are not overriden are inherited.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = bar._to_dict([{ 'value': 10, 'style': { 'alpha': 0.5 } },
+							   { 'value': 10 }])
+		bars = bar._draw_bars(values, color='#FF0000', alpha=1)
+		self.assertTrue(all(bar.get_facecolor() == (1, 0, 0, 1)) for bar in bars)
+		self.assertEqual(bars[0].get_alpha(), 0.5)
+		self.assertEqual(bars[1].get_alpha(), 1)
+
+	@MultiplexTest.temporary_plot
 	def test_to_100_empty_values(self):
 		"""
 		Test that when no values are given to be converted to percentages, an empty list is returned again.
