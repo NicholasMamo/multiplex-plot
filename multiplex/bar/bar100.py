@@ -156,3 +156,36 @@ class Bar100(Visualization):
 			return values
 
 		return [ 100 * value / sum(values) for value in values ]
+
+	def _pad(self, percentage, pad, min_percentage):
+		"""
+		Get the padding to apply to the given percentage value.
+		Padding leaves some space around both ends of the bar.
+
+		:param percentage: The percentage to which padding will be applied.
+		:type percentage: float
+		:param pad: The amount of padding, in percentage, to apply to the given value.
+		:type pad: float
+		:param min_percentage: The minimum percentage to allow.
+							   This is used so that even very small percentages are shown in the 100% bar chart.
+		:type min_percentage: float
+
+		:return: The amount of padding to apply to the given percentage value.
+		:rtype: float
+
+		:raises ValueError: When the percentage is below 0% or above 100%.
+		:raises ValueError: When the padding is below 0% or above 100%.
+		:raises ValueError: When the minimum percentage is below 0% or above 100%.
+		:raises ValueError: When the minimum percentage exceeds the percentage and the padding.
+		"""
+
+		if not 0 <= percentage <= 100:
+			raise ValueError(f"The percentage must be between 0% and 100%; received { percentage }")
+
+		if not 0 <= pad <= 100:
+			raise ValueError(f"The padding must be between 0% and 100%; received { pad }")
+
+		if not 0 <= min_percentage <= 100:
+			raise ValueError(f"The minimum percentage must be between 0% and 100%; received { min_percentage }")
+
+		return True
