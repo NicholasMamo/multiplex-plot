@@ -49,6 +49,56 @@ class TestBar100(MultiplexTest):
 		self.assertRaises(ValueError, viz.draw_bar_100, [ 1, -1 ])
 
 	@MultiplexTest.temporary_plot
+	def test_draw_min_percentage_below_0(self):
+		"""
+		Test that when the minimum percentage is below 0, drawing raises a ValueError.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertRaises(ValueError, bar.draw, [ 1 ], min_percentage=-1)
+
+	@MultiplexTest.temporary_plot
+	def test_draw_min_percentage_0(self):
+		"""
+		Test that when the minimum percentage is 0, drawing does not raise a ValueError.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertTrue(bar.draw([ 1 ], min_percentage=0))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_min_percentage_100(self):
+		"""
+		Test that when the minimum percentage is 100, drawing does not raise a ValueError.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertTrue(bar.draw([ 1 ], min_percentage=100))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_min_percentage_above_100(self):
+		"""
+		Test that when the minimum percentage is above 100, drawing raises a ValueError.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertRaises(ValueError, bar.draw, [ 1 ], min_percentage=101)
+
+	@MultiplexTest.temporary_plot
+	def test_draw_min_percentage_exceeds_100(self):
+		"""
+		Test that when the minimum percentage multiplied by the number of values exceeds 100, drawing raises a ValueError.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertRaises(ValueError, bar.draw, [ 1, 1 ], min_percentage=75)
+
+	@MultiplexTest.temporary_plot
 	def test_draw_bars_0(self):
 		"""
 		Test that when drawing bars, they all start at 0.

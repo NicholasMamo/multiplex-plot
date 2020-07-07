@@ -43,7 +43,8 @@ class Bar100(Visualization):
 
 		self.bars = [ ]
 
-	def draw(self, values, style_plot=True, *args, **kwargs):
+	def draw(self, values, style_plot=True,
+			 min_percentage=1, *args, **kwargs):
 		"""
 		Draw a bar on the :class:`~drawable.Drawable`.
 		All values are converted to percentages.
@@ -60,9 +61,18 @@ class Bar100(Visualization):
 						   - Moves the x-axis label to the top of the plot, and
 						   - Removes the grid.
 		:type style_plot: bool
+		:param min_percentage: The minimum percentage to show in the 100% bar chart.
+							   This is used so that bars with 0% percentage are still shown with a thin bar.
+		:type min_percentage: float
 
 		:return: A list of drawn bars.
 		:rtype: list of :class:`matplotlib.patches.Rectangle`
+
+		:raises ValueError: When no values are given.
+		:raises ValueError: When all values are zero.
+		:raises ValueError: When any value is negative.
+		:raises ValueError: When the minimum percentage is below 0% or above 100%.
+		:raises ValueError: When the minimum percentage multiplied by all values exceeds 100%.
 		"""
 
 		"""
@@ -79,6 +89,15 @@ class Bar100(Visualization):
 			raise ValueError(f"All values must be non-negative; received { ', '.join([ str(value) for value in values if value < 0 ]) }")
 
 		"""
+		Validate the inputs.
+		"""
+		if not 0 <= min_percentage <= 100:
+			raise ValueError(f"The minimum percentage must be between 0% and 100%; received { min_percentage }")
+
+		if min_percentage * len(values) > 100:
+			raise ValueError(f"The minimum percentage exceeds 100%; { min_percentage } × { len(values) } = { min_percentage * len(values) }")
+
+		"""
 		Re-style the plot if need be.
 		"""
 		if style_plot:
@@ -87,7 +106,8 @@ class Bar100(Visualization):
 		"""
 		Draw the bars.
 		"""
-		bars = self._draw_bars(values, *args, **kwargs)
+		bars = self._draw_bars(values, min_percentage=min_percentage,
+							   *args, **kwargs)
 		self.bars.append(bars)
 
 		return bars
@@ -108,12 +128,15 @@ class Bar100(Visualization):
 		axis.spines['bottom'].set_visible(False)
 		self.drawable.grid(False)
 
-	def _draw_bars(self, values, *args, **kwargs):
+	def _draw_bars(self, values, min_percentage=0, *args, **kwargs):
 		"""
 		Draw the bars such that they stack up to 100%.
 
 		:param values: A list of values to draw.
 		:type values: list of float
+		:param min_percentage: The minimum percentage to show in the 100% bar chart.
+							   This is used so that bars with 0% percentage are still shown with a thin bar.
+		:type min_percentage: float
 
 		:return: A list of drawn bars.
 		:rtype: list of :class:`matplotlib.patches.Rectangle`
@@ -127,7 +150,7 @@ class Bar100(Visualization):
 		"""
 		Convert the values to percentages and draw them.
 		"""
-		percentages = self._to_100(values)
+		percentages = self._to_100(values, min_percentage=min_percentage)
 
 		"""
 		Draw each bar, one after the other.
@@ -149,9 +172,6 @@ class Bar100(Visualization):
 		:type values: list of float
 		:param min_percentage: The minimum percentage, defaults to 0%.
 							   This is used so that bars with 0% percentage are still shown with a thin bar.
-							   This is applied before the function calculates the percentages.
-							   It brings up all values that would work out to below this percentage to it.
-							   Therefore some percentages can still be lower than this minimum percentage.
 		:type min_percentage: float
 
 		:return: A list of percentages that add up to 100%.
