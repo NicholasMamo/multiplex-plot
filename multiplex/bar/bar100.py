@@ -209,7 +209,7 @@ class Bar100(Visualization):
 		:raises ValueError: When the percentage is below 0% or above 100%.
 		:raises ValueError: When the padding is below 0% or above 100%.
 		:raises ValueError: When the minimum percentage is below 0% or above 100%.
-		:raises ValueError: When the minimum percentage exceeds the percentage and the padding.
+		:raises ValueError: When the minimum percentage exceeds the percentage.
 		"""
 
 		if not 0 <= percentage <= 100:
@@ -220,5 +220,8 @@ class Bar100(Visualization):
 
 		if not 0 <= min_percentage <= 100:
 			raise ValueError(f"The minimum percentage must be between 0% and 100%; received { min_percentage }")
+
+		if min_percentage > percentage:
+			raise ValueError(f"The minimum percentage cannot exceed the percentage; { min_percentage } > { percentage }")
 
 		return True

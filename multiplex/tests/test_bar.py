@@ -378,7 +378,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertTrue(bar._pad(0, 0, 100))
+		self.assertTrue(bar._pad(100, 0, 100))
 
 	@MultiplexTest.temporary_plot
 	def test_pad_min_percentage_above_100(self):
@@ -389,3 +389,23 @@ class TestBar100(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
 		self.assertRaises(ValueError, bar._pad, 0, 0, 101)
+
+	@MultiplexTest.temporary_plot
+	def test_pad_min_percentage_exceeds_percentage(self):
+		"""
+		Test that when the minimum percentage exceeds the percentage, padding raises a ValueError.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertRaises(ValueError, bar._pad, 50, 0, 51)
+
+	@MultiplexTest.temporary_plot
+	def test_pad_min_percentage_equals_percentage(self):
+		"""
+		Test that when the minimum percentage is equal to the percentage, padding does not raise a ValueError.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertTrue(ValueError, bar._pad(50, 0, 50))
