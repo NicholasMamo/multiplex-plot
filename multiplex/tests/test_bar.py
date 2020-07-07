@@ -338,7 +338,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertTrue(bar._pad(0, 0, 0))
+		self.assertEqual(0, bar._pad(10, 0, 0))
 
 	@MultiplexTest.temporary_plot
 	def test_pad_percentage_100(self):
@@ -348,7 +348,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertTrue(bar._pad(100, 0, 0))
+		self.assertEqual(0, bar._pad(100, 0, 0))
 
 	@MultiplexTest.temporary_plot
 	def test_pad_percentage_above_100(self):
@@ -378,7 +378,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertTrue(bar._pad(0, 0, 0))
+		self.assertEqual(0, bar._pad(10, 0, 0))
 
 	@MultiplexTest.temporary_plot
 	def test_pad_pad_100(self):
@@ -388,7 +388,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertTrue(bar._pad(0, 100, 0))
+		self.assertEqual(0, bar._pad(0, 100, 0))
 
 	@MultiplexTest.temporary_plot
 	def test_pad_pad_above_100(self):
@@ -418,7 +418,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertTrue(bar._pad(0, 0, 0))
+		self.assertEqual(0, bar._pad(10, 0, 0))
 
 	@MultiplexTest.temporary_plot
 	def test_pad_min_percentage_100(self):
@@ -428,7 +428,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertTrue(bar._pad(100, 0, 100))
+		self.assertEqual(0, bar._pad(100, 0, 100))
 
 	@MultiplexTest.temporary_plot
 	def test_pad_min_percentage_above_100(self):
@@ -458,4 +458,54 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertTrue(ValueError, bar._pad(50, 0, 50))
+		self.assertEqual(0, bar._pad(50, 0, 20))
+
+	@MultiplexTest.temporary_plot
+	def test_pad_no_padding(self):
+		"""
+		Test that when applying no padding, zero is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertEqual(0, bar._pad(50, 0, 20))
+
+	@MultiplexTest.temporary_plot
+	def test_pad_no_space(self):
+		"""
+		Test that when the minimum percentage is equal to the percentage, the original percentage is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertEqual(0, bar._pad(50, 10, 50))
+
+	@MultiplexTest.temporary_plot
+	def test_pad_one_side(self):
+		"""
+		Test that the returned padding is half of the amount of padding applied.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertEqual(5, bar._pad(50, 10, 20))
+
+	@MultiplexTest.temporary_plot
+	def test_pad_all_space(self):
+		"""
+		Test that padding and the left-over percentage fill in all the space.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertEqual(50, bar._pad(50, 10, 20) * 2 + 40)
+
+	@MultiplexTest.temporary_plot
+	def test_too_much_pad(self):
+		"""
+		Test that when too much padding is given, not all of it is used.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		self.assertEqual(15, bar._pad(50, 50, 20))

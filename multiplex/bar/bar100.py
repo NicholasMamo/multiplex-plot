@@ -218,12 +218,14 @@ class Bar100(Visualization):
 		:param percentage: The percentage to which padding will be applied.
 		:type percentage: float
 		:param pad: The amount of padding, in percentage, to apply to the given value.
+					This padding will be split equally on the left and right of the bar.
 		:type pad: float
 		:param min_percentage: The minimum percentage to allow.
 							   This is used so that even very small percentages are shown in the 100% bar chart.
 		:type min_percentage: float
 
 		:return: The amount of padding to apply to the given percentage value.
+				 The padding returned is for one side.
 		:rtype: float
 
 		:raises ValueError: When the percentage is below 0% or above 100%.
@@ -232,6 +234,9 @@ class Bar100(Visualization):
 		:raises ValueError: When the minimum percentage exceeds the percentage.
 		"""
 
+		"""
+		Validate the inputs.
+		"""
 		if not 0 <= percentage <= 100:
 			raise ValueError(f"The percentage must be between 0% and 100%; received { percentage }")
 
@@ -244,4 +249,13 @@ class Bar100(Visualization):
 		if min_percentage > percentage:
 			raise ValueError(f"The minimum percentage cannot exceed the percentage; { min_percentage } > { percentage }")
 
-		return True
+		"""
+		Calculate the left-over percentage after applying padding.
+		The left-over percentage cannot be lower than the minimum percentage.
+		"""
+		leftover = max(percentage - pad, min_percentage)
+
+		"""
+		The padding is any space aside from the left-over percentage.
+		"""
+		return (percentage - leftover) / 2.
