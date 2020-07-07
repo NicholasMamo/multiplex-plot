@@ -117,6 +117,20 @@ class TestBar100(MultiplexTest):
 		self.assertRaises(ValueError, bar.draw, [ 1, 1 ], min_percentage=75)
 
 	@MultiplexTest.temporary_plot
+	def test_draw_bars_override_pad(self):
+		"""
+		Test that when drawing bars, padding can be overriden through the style.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { 'value': 10 }, { 'value': 10, 'style': { } },
+				   { 'value': 10, 'style': { 'pad': 0 } }, { 'value': 10 } ]
+		bars = bar.draw(values, pad=1)
+		self.assertEqual(24, round(util.get_bb(viz.figure, viz.axis, bars[1]).width, 10))
+		self.assertEqual(25, round(util.get_bb(viz.figure, viz.axis, bars[2]).width, 10))
+
+	@MultiplexTest.temporary_plot
 	def test_to_dict_all_floats_default_value(self):
 		"""
 		Test that when converting a list of floats to a dictionary, their values are all retained.

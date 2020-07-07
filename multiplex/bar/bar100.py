@@ -206,7 +206,9 @@ class Bar100(Visualization):
 		"""
 		offset = 0
 		for i, percentage in enumerate(percentages):
-			padding = self._pad(percentage, pad, min_percentage)
+			style = values[i].get('style', { })
+
+			padding = self._pad(percentage, style.get('pad', pad), min_percentage)
 
 			"""
 			Apply the left offset based on padding.
