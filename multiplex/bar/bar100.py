@@ -141,21 +141,54 @@ class Bar100(Visualization):
 
 		return bars
 
-	def _to_100(self, values):
+	def _to_100(self, values, min_percentage=0):
 		"""
 		Convert the given list of values to percentages.
 
 		:param values: A list of values to convert to percentages.
 		:type values: list of float
+		:param min_percentage: The minimum percentage, defaults to 0%.
+							   This is used so that bars with 0% percentage are still shown with a thin bar.
+							   This is applied before the function calculates the percentages.
+							   It brings up all values that would work out to below this percentage to it.
+							   Therefore some percentages can still be lower than this minimum percentage.
+		:type min_percentage: float
 
 		:return: A list of percentages that add up to 100%.
 		:rtype: list of float
+
+		:raises ValueError: When the minimum percentage is below 0% or above 100%.
+		:raises ValueError: When the minimum percentage multiplied by all values exceeds 100%.
 		"""
 
+		percentages = [ ]
+
+		"""
+		Validate the inputs.
+		"""
+		if not 0 <= min_percentage <= 100:
+			raise ValueError(f"The minimum percentage must be between 0% and 100%; received { min_percentage }")
+
+		if min_percentage * len(values) > 100:
+			raise ValueError(f"The minimum percentage exceeds 100%; { min_percentage } × { len(values) } = { min_percentage * len(values) }")
+
+		"""
+		Return immediately if there are no input values or all values are zero.
+		"""
 		if not values or not any([ value for value in values ]):
 			return values
 
-		return [ 100 * value / sum(values) for value in values ]
+		"""
+		Calculate the percentages and boost any that are below the minimum percentage.
+		Then, rescale them back to 100%.
+		This process is repeated recursively until all percentages meet the minimum percentage.
+		"""
+		percentages = [ 100 * value / sum(values) for value in values ]
+		if min_percentage and any(round(percentage, 10) < round(min_percentage, 10) for percentage in percentages):
+			percentages = [ max(min_percentage, percentage) for percentage in percentages ]
+			percentages = self._to_100(percentages, min_percentage=min_percentage)
+
+		return percentages
 
 	def _pad(self, percentage, pad, min_percentage):
 		"""
