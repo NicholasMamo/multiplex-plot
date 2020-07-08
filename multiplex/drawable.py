@@ -117,15 +117,21 @@ class Drawable():
 		Re-create the title with the necessary padding to fit the caption and the legend.
 		"""
 
-		figure = self.figure
-		axis = self.axis
+		self._redraw_caption()
+		self._redraw_title()
+
+	def _redraw_caption(self):
+		"""
+		Re-draw the caption, re-positioning so that it does not overlap with the legend or axis.
+		"""
+
+		figure, axis = self.figure, self.axis
 
 		"""
 		Move the caption up to make space for the legend and the label.
 		"""
-		y = 1.01
-		legend_bb = self.legend.get_virtual_bb(transform=self.axis.transAxes)
-		y += legend_bb.height
+		y = 1
+		y += self.legend.get_virtual_bb(transform=self.axis.transAxes).height
 
 		"""
 		If the x-label is on top, make space for it in the caption.
@@ -133,33 +139,89 @@ class Drawable():
 		This is because for some reason they may be set to 'unknown'.
 		"""
 		if axis.xaxis.get_label_position() == 'top':
-			label_bb = util.get_bb(figure, axis, axis.xaxis.get_label(), transform=self.axis.transAxes)
-			y += label_bb.height * 4
+			y += self._get_xlabel(transform=self.axis.transAxes).height * 2
+
+			xtick_labels_bb = self._get_xtick_labels(transform=axis.transAxes)
+			if xtick_labels_bb:
+				y += max(xtick_labels_bb, key=lambda bb: bb.height).height * 2
 
 		self.caption.set_position((0, y), ha='left', va='bottom', transform=self.axis.transAxes)
+
+	def _redraw_title(self):
+		"""
+		Re-draw the title, adding enough padding so that there is enough space for the axis label, the legend and the caption.
+		"""
+
+		figure, axis = self.figure, self.axis
+
+		title = axis.get_title(loc='left')
 
 		"""
 		Get the height of the caption and the height of the legend.
 		The title should allow enough padding to make space for both.
 		"""
-		title = self.axis.get_title(loc='left')
-		caption_bb = self.axis.transData.transform(self.caption.get_virtual_bb())
-		height = abs(caption_bb[0][1] - caption_bb[1][1])
-		legend_bb = self.axis.transData.transform(self.legend.get_virtual_bb())
-		height += abs(legend_bb[0][1] - legend_bb[1][1])
+		caption_height = util.to_px(axis, self.caption.get_virtual_bb(),
+									transform=axis.transData).height
+		legend_height = util.to_px(axis, self.legend.get_virtual_bb(),
+								   transform=axis.transData).height
 
 		"""
 		If the x-label is on top, make space for it in the title.
 		In this case, it is assumed that the ticks are also at the top.
 		This is because for some reason they may be set to 'unknown'.
 		"""
+		label_height = 0
 		if axis.xaxis.get_label_position() == 'top':
-			label_bb = util.get_bb(figure, axis, axis.xaxis.get_label(), transform=self.axis.transData)
-			label_bb = self.axis.transData.transform(label_bb)
-			height += abs(label_bb[0][1] - label_bb[1][1]) * 4
+			label_bb = self._get_xlabel(transform=axis.transData)
+			label_height = util.to_px(axis, label_bb,
+									  transform=axis.transData).height * 2
+			xtick_labels_bb = self._get_xtick_labels(transform=axis.transData)
+			if xtick_labels_bb:
+				label_bb = max(xtick_labels_bb, key=lambda bb: bb.height)
+				label_height += util.to_px(axis, label_bb, transform=axis.transData).height * 2
 
+		"""
+		Add some extra padding to the height.
+		"""
+		height = caption_height + legend_height + label_height
 		pad_px = self.axis.transAxes.transform((0, 0.01))[1] - self.axis.transAxes.transform((0, 0))[1]
 		self.axis.set_title(title, loc='left', pad=(5 + height + pad_px * 2))
+
+	def _get_xlabel(self, transform=None):
+		"""
+		Get the bounding box of the x-axis label.
+
+		:param transform: The bounding box transformation.
+						  If `None` is given, the data transformation is used.
+		:type transform: None or :class:`matplotlib.transforms.TransformNode`
+
+		:return: The bounding box of the x-axis label.
+		:rtype: :class:`matplotlib.transforms.Bbox`
+		"""
+
+		figure, axis = self.figure, self.axis
+
+		transform = transform or axis.transData
+		return util.get_bb(figure, axis, axis.xaxis.get_label(), transform=transform)
+
+	def _get_xtick_labels(self, transform=None):
+		"""
+		Get the bounding box of the x-axis tick labels.
+
+		:param transform: The bounding box transformation.
+						  If `None` is given, the data transformation is used.
+		:type transform: None or :class:`matplotlib.transforms.TransformNode`
+
+		:return: The bounding box of the x-axis label.
+		:rtype: :class:`matplotlib.transforms.Bbox`
+		"""
+
+		figure, axis = self.figure, self.axis
+
+		figure.canvas.draw()
+		transform = transform or axis.transData
+		return [ util.get_bb(figure, axis, label, transform=transform)
+				 for label in axis.xaxis.get_ticklabels(which='both') ]
 
 	def __getattr__(self, name):
 		"""

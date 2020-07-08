@@ -11,7 +11,7 @@ if path not in sys.path:
 	sys.path.insert(1, path)
 
 from .test import MultiplexTest
-import drawable, text
+import drawable, text, util
 
 class TestDrawable(MultiplexTest):
 	"""
@@ -57,6 +57,44 @@ class TestDrawable(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		caption = viz.set_caption(text)
 		self.assertEqual('This is a multi-level caption.', str(caption))
+
+	@MultiplexTest.temporary_plot
+	def test_redraw_bottom_xaxis(self):
+		"""
+		Test that when the x-axis label is at the bototm, the caption is at y=1.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		caption = viz.set_caption("sample caption")
+		caption_bb = caption.get_virtual_bb(transform=viz.axis.transAxes)
+		self.assertEqual(1, caption_bb.y0)
+
+	@MultiplexTest.temporary_plot
+	def test_redraw_top_xaxis(self):
+		"""
+		Test that when the x-axis label is at the top, the caption does not overlap with it.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		caption = viz.set_caption("sample caption")
+		caption_bb = caption.get_virtual_bb(transform=viz.axis.transAxes)
+		self.assertFalse(util.overlapping_bb(caption_bb, viz._get_xlabel(transform=viz.axis.transAxes)))
+
+		"""
+		Move the x-axis label and ticks to the top.
+		"""
+		viz.axis.xaxis.set_label_position('top')
+		viz.axis.xaxis.tick_top()
+		viz.axis.spines['top'].set_visible(True)
+		viz.axis.spines['bottom'].set_visible(False)
+
+		"""
+		After adding a label, the caption should move up.
+		"""
+		viz.set_xlabel('label')
+		xlabel_bb = viz._get_xlabel(transform=viz.axis.transAxes)
+		viz.redraw()
+		self.assertLess(caption_bb.y0, viz.caption.get_virtual_bb(transform=viz.axis.transAxes).y0)
 
 	@MultiplexTest.temporary_plot
 	def test_annotate_returns_annotation(self):
