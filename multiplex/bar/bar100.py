@@ -162,7 +162,9 @@ class Bar100(Visualization):
 		axis.xaxis.tick_top()
 		axis.spines['top'].set_visible(True)
 		axis.spines['bottom'].set_visible(False)
-		# self.drawable.set_xlabel('Percentage of total')
+		self.drawable.set_xlim((0, 100))
+		self.drawable.set_xticks(range(0, 101, 20))
+		self.drawable.set_xticklabels([ f"{ percent }%" for percent in range(0, 101, 20)])
 		self.drawable.grid(False)
 
 	def _to_dict(self, values):
