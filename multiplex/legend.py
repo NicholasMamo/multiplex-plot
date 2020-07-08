@@ -115,6 +115,62 @@ class Legend(object):
 
 		return wrapper
 
+	def draw_annotation(self, label, x, y, va='bottom', *args, **kwargs):
+		"""
+		Get the annotation for the legend.
+		The arguments and keyword arguments are passed on to the :func:`~text.annotation.Annotation.draw` function.
+
+		:param label: The text of the legend label.
+		:type label: str
+		:param x: The starting x-coordinate of the annotation.
+		:type x: float
+		:param y: The y-coordinate of the annotation.
+		:type y: float
+		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
+				   If the vertical alignment is `top`, the given y-coordinate becomes the highest point of the annotation.
+				   If the vertical alignment is `center`, the given y-coordinate becomes the center point of the annotation.
+				   If the vertical alignment is `bottom`, the given y-coordinate becomes the lowest point of the annotation.
+		:type va: str
+
+		:return: The drawn annotation.
+		:rtype: :class:`~text.annotation.Annotation`
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		annotation = Annotation(self.drawable)
+		annotation.draw(label, (x, 1), y, va=va, transform=axis.transAxes, **kwargs)
+		return annotation
+
+	@draw
+	def draw_arrow(self, offset, y=1, linespacing=1, *args, **kwargs):
+		"""
+		Draw an arrow legend for the given label.
+		Any additional arguments and keyword arguments are provided to the plotting function.
+
+		:param offset: The x-offset where to draw the annotation.
+		:type offset: float
+		:param y: The y-position of the annotation.
+		:type y: float
+		:param linespacing: The linespacing of the accompanying text annotation.
+		:type linespacing: float
+
+		:return: The drawn arrow.
+		:rtype: :class:`matplotlib.text.annotation`
+		"""
+
+		figure = self.drawable.figure
+		axis = self.drawable.axis
+
+		arrow = text.Annotation('', xy=(offset + 0.025, y + linespacing / 2.),
+								xytext=(offset, y + linespacing / 2.),
+								xycoords=axis.transAxes, textcoords=axis.transAxes, arrowprops=kwargs)
+		arrow.set_clip_on(False)
+		axis.add_artist(arrow)
+
+		return arrow
+
 	@draw
 	def draw_line(self, offset, y=1, linespacing=1, horizontal=True, *args, **kwargs):
 		"""
@@ -144,34 +200,6 @@ class Legend(object):
 		axis.add_line(line)
 
 		return line
-
-	@draw
-	def draw_arrow(self, offset, y=1, linespacing=1, *args, **kwargs):
-		"""
-		Draw an arrow legend for the given label.
-		Any additional arguments and keyword arguments are provided to the plotting function.
-
-		:param offset: The x-offset where to draw the annotation.
-		:type offset: float
-		:param y: The y-position of the annotation.
-		:type y: float
-		:param linespacing: The linespacing of the accompanying text annotation.
-		:type linespacing: float
-
-		:return: The drawn arrow.
-		:rtype: :class:`matplotlib.text.annotation`
-		"""
-
-		figure = self.drawable.figure
-		axis = self.drawable.axis
-
-		arrow = text.Annotation('', xy=(offset + 0.025, y + linespacing / 2.),
-								xytext=(offset, y + linespacing / 2.),
-								xycoords=axis.transAxes, textcoords=axis.transAxes, arrowprops=kwargs)
-		arrow.set_clip_on(False)
-		axis.add_artist(arrow)
-
-		return arrow
 
 	@draw
 	def draw_point(self, offset, y=1, linespacing=1, *args, **kwargs):
@@ -206,33 +234,6 @@ class Legend(object):
 
 		return point
 
-	def draw_annotation(self, label, x, y, va='bottom', *args, **kwargs):
-		"""
-		Get the annotation for the legend.
-		The arguments and keyword arguments are passed on to the :func:`~text.annotation.Annotation.draw` function.
-
-		:param label: The text of the legend label.
-		:type label: str
-		:param x: The starting x-coordinate of the annotation.
-		:type x: float
-		:param y: The y-coordinate of the annotation.
-		:type y: float
-		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
-				   If the vertical alignment is `top`, the given y-coordinate becomes the highest point of the annotation.
-				   If the vertical alignment is `center`, the given y-coordinate becomes the center point of the annotation.
-				   If the vertical alignment is `bottom`, the given y-coordinate becomes the lowest point of the annotation.
-		:type va: str
-
-		:return: The drawn annotation.
-		:rtype: :class:`~text.annotation.Annotation`
-		"""
-
-		figure = self.drawable.figure
-		axis = self.drawable.axis
-
-		annotation = Annotation(self.drawable)
-		annotation.draw(label, (x, 1), y, va=va, transform=axis.transAxes, **kwargs)
-		return annotation
 
 	def get_virtual_bb(self, transform=None):
 		"""
