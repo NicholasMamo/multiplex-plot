@@ -2,6 +2,7 @@
 A set of utility functions that are common to all types of visualizations.
 """
 
+from matplotlib.transforms import Bbox
 from operator import sub
 
 import re
@@ -30,6 +31,26 @@ def get_bb(figure, axis, component, transform=None):
 	renderer = figure.canvas.get_renderer()
 	bb = component.get_window_extent(renderer).inverse_transformed(transform)
 	return bb
+
+def to_px(axis, bb, transform=None):
+	"""
+	Convert the given bounding box to pixels based on the given transform.
+
+	:param axis: The axis (or subplot) where the component is plotted.
+	:type axis: :class:`matplotlib.axis.Axis`
+	:param bb: The bounding box of the component.
+	:type bb: :class:`matplotlib.transforms.Bbox`
+	:param transform: The bounding box transformation.
+					  If `None` is given, the data transformation is used.
+	:type transform: None or :class:`matplotlib.transforms.TransformNode`
+
+	:return: A new bounding box with values as pixels.
+	:rtype: :class:`matplotlib.transforms.Bbox`
+	"""
+
+	transform = transform or axis.transData
+	bb = transform.transform(bb)
+	return Bbox(bb)
 
 def overlapping(figure, axis, c1, c2, *args, **kwargs):
 	"""
