@@ -464,8 +464,6 @@ class Graph(LabelledVisualization):
 		:type label_style: dict
 		"""
 
-		drawn = [ ]
-
 		for node in nodes:
 			"""
 			Go through each node and look for the label.
@@ -474,9 +472,6 @@ class Graph(LabelledVisualization):
 			"""
 			if 'label' in nodes[node]:
 				label = nodes[node]['label']
-
-				if label in drawn:
-					continue
 
 				default_style = dict(**kwargs)
 				default_style.update(nodes[node].get('style', { }))
@@ -489,8 +484,6 @@ class Graph(LabelledVisualization):
 				self.drawable.legend.draw_point(label, label_style=label_style,
 												*args, **default_style)
 				self.drawable.axis.set_ylim(ylim)
-
-				drawn.append(label)
 
 	def _draw_edge_labels(self, edges, directed, label_style, *args, **kwargs):
 		"""
@@ -507,8 +500,6 @@ class Graph(LabelledVisualization):
 		:type label_style: dict
 		"""
 
-		drawn = [ ]
-
 		for edge in edges:
 			"""
 			Go through each edge and look for the label.
@@ -518,9 +509,6 @@ class Graph(LabelledVisualization):
 			if 'label' in edges[edge]:
 				label = edges[edge]['label']
 
-				if label in drawn:
-					continue
-
 				default_style = dict(**kwargs)
 				default_style.update(edges[edge].get('style', { }))
 				if directed:
@@ -529,7 +517,6 @@ class Graph(LabelledVisualization):
 				else:
 					self.drawable.legend.draw_line(label, label_style=label_style,
 													*args, **default_style)
-				drawn.append(label)
 
 	def _get_distance(self, u, v):
 		"""
