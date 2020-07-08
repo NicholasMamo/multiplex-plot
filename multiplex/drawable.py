@@ -160,8 +160,10 @@ class Drawable():
 		Get the height of the caption and the height of the legend.
 		The title should allow enough padding to make space for both.
 		"""
-		caption_height = util.to_px(axis, self.caption.get_virtual_bb(),
-									transform=axis.transData).height
+		caption_height = 0
+		if str(self.caption):
+			caption_height = util.to_px(axis, self.caption.get_virtual_bb(), transform=axis.transData).height
+
 		legend_height = util.to_px(axis, self.legend.get_virtual_bb(),
 								   transform=axis.transData).height
 
