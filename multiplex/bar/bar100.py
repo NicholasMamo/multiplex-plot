@@ -44,7 +44,7 @@ class Bar100(Visualization):
 		self.bars = [ ]
 
 	def draw(self, values, name, style_plot=True,
-			 min_percentage=1, pad=0.25, *args, **kwargs):
+			 min_percentage=1, pad=0.25, label_style=None, *args, **kwargs):
 		"""
 		Draw a bar on the :class:`~drawable.Drawable`.
 		All values are converted to percentages.
@@ -86,6 +86,8 @@ class Bar100(Visualization):
 					This padding will be split equally on the left and right of the bar.
 					In any case, the padding cannot reduce a bar to below the minimum percentage.
 		:type pad: float
+		:param label_style: The style of the label.
+		:type label_style: dict or None
 
 		:return: A list of drawn bars.
 		:rtype: list of :class:`matplotlib.patches.Rectangle`
@@ -139,6 +141,11 @@ class Bar100(Visualization):
 		self.bars.append(bars)
 		self._add_name(name)
 
+		"""
+		Draw the legend.
+		"""
+		self._draw_legend(values, label_style=label_style, *args, **kwargs)
+
 		return bars
 
 	def _style(self):
@@ -155,7 +162,7 @@ class Bar100(Visualization):
 		axis.xaxis.tick_top()
 		axis.spines['top'].set_visible(True)
 		axis.spines['bottom'].set_visible(False)
-		self.drawable.set_xlabel('Percentage of total')
+		# self.drawable.set_xlabel('Percentage of total')
 		self.drawable.grid(False)
 
 	def _to_dict(self, values):
@@ -365,11 +372,39 @@ class Bar100(Visualization):
 		"""
 		Get the current labels and filter them.
 		"""
-		labels = [ label.get_text() for label in self.drawable.get_yticklabels() ]
-		labels = [ label for label in labels if label ]
-		labels.append(label)
+		names = [ name.get_text() for name in self.drawable.get_yticklabels() ]
+		names = [ name for name in names if name ]
+		names.append(name)
 
 		"""
 		Add the new label to the y-axis labels.
 		"""
-		self.drawable.set_yticklabels(labels)
+		self.drawable.set_yticklabels(names)
+
+	def _draw_legend(self, values, label_style=None, *args, **kwargs):
+		"""
+		Draw the value labels in the legend.
+
+		Any additional arguments and keyword arguments are passed on to the legend drawing functions.
+
+		:param values: A list of values to draw.
+		:type values: list of dict
+		:param label_style: The style of the labels.
+		:type label_style: dict or None
+		"""
+
+		label_style = label_style or { }
+
+		for value in values:
+			if 'label' not in value:
+				continue
+
+			label = value['label']
+			style = value.get('style', { })
+			default_style = dict(**kwargs)
+			default_style.update(style)
+			default_style.update(label_style)
+			default_style.update(value.get('label_style', { }))
+			default_style.pop('pad', None)
+
+			self.drawable.legend.draw_text_only(label, label_style=default_style)

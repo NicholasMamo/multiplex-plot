@@ -27,6 +27,7 @@ class TestBar100(MultiplexTest):
 		"""
 		Test that when drawing an empty list of values, a ValueError is raised.
 		"""
+
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		self.assertRaises(ValueError, viz.draw_bar_100, [ ], 'label')
 
@@ -35,6 +36,7 @@ class TestBar100(MultiplexTest):
 		"""
 		Test that when drawing a list made up of only zeroes, a ValueError is raised.
 		"""
+
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		self.assertRaises(ValueError, viz.draw_bar_100, [ 0 ], 'label')
 		self.assertRaises(ValueError, viz.draw_bar_100, [ 0 ] * 10, 'label')
@@ -44,6 +46,7 @@ class TestBar100(MultiplexTest):
 		"""
 		Test that when drawing a list that includes negative values, a ValueError is raised.
 		"""
+
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		self.assertRaises(ValueError, viz.draw_bar_100, [ -1 ], 'label')
 		self.assertRaises(ValueError, viz.draw_bar_100, [ 1, -1 ], 'label')
@@ -53,6 +56,7 @@ class TestBar100(MultiplexTest):
 		"""
 		Test that when drawing a dictionary list made up of only zeroes, a ValueError is raised.
 		"""
+
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 0 } ], 'label')
 		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 0 } ] * 10, 'label')
@@ -62,6 +66,7 @@ class TestBar100(MultiplexTest):
 		"""
 		Test that when drawing a dictionary list that includes negative values, a ValueError is raised.
 		"""
+
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': -1 } ], 'label')
 		self.assertRaises(ValueError, viz.draw_bar_100, [ { 'value': 1 }, { 'value': -1 } ], 'label')
@@ -174,6 +179,152 @@ class TestBar100(MultiplexTest):
 		bars = bar.draw(values, 'label', pad=1)
 		self.assertEqual(24, round(util.get_bb(viz.figure, viz.axis, bars[1]).width, 10))
 		self.assertEqual(25, round(util.get_bb(viz.figure, viz.axis, bars[2]).width, 10))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_legend_no_labels(self):
+		"""
+		Test that when providing no labels, the legend remains empty.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = list(range(10))
+		bars = bar.draw(values, 'label')
+		self.assertEqual(0, len(viz.legend.lines[0]))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_legend_labels(self):
+		"""
+		Test that when providing labels, they are drawn in the legend.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { 'value': 10, 'label': 'A' }, { 'value': 10, 'label': 'B' },
+				   { 'value': 10, 'label': 'C' }, { 'value': 10, 'label': 'D' } ]
+		bars = bar.draw(values, 'label')
+		self.assertEqual(4, len(viz.legend.lines[0]))
+		self.assertEqual([ 'A', 'B', 'C', 'D' ],
+						 [ str(annotation) for _, annotation in viz.legend.lines[0] ])
+
+	@MultiplexTest.temporary_plot
+	def test_draw_legend_repeated_labels(self):
+		"""
+		Test that when providing repeated labels, only the first one is drawn.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { 'value': 10, 'label': 'A' }, { 'value': 10, 'label': 'B' },
+				   { 'value': 10, 'label': 'C' }, { 'value': 10, 'label': 'A' } ]
+		bars = bar.draw(values, 'label')
+		self.assertEqual(3, len(viz.legend.lines[0]))
+		self.assertEqual([ 'A', 'B', 'C' ],
+						 [ str(annotation) for _, annotation in viz.legend.lines[0] ])
+
+	@MultiplexTest.temporary_plot
+	def test_draw_legend_inherits_general_bar_style(self):
+		"""
+		Test that the legend labels inherit the general bar style.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { 'value': 10, 'label': 'label' } ]
+		bars = bar.draw(values, 'label', color='#FF0000')
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		_, annotation = viz.legend.lines[0][0]
+		self.assertEqual('#FF0000', annotation.lines[0][0].get_color())
+
+	@MultiplexTest.temporary_plot
+	def test_draw_legend_bar_style_overrides_general_bar_style(self):
+		"""
+		Test that drawing legend labels, the bar style overrides the general bar style.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { 'value': 10, 'label': 'label' },
+				   { 'value': 10, 'label': 'another', 'style': { 'color': '#00FF00' } } ]
+		bars = bar.draw(values, 'label', color='#FF0000')
+		self.assertEqual(2, len(viz.legend.lines[0]))
+		_, annotation = viz.legend.lines[0][0]
+		self.assertEqual('#FF0000', annotation.lines[0][0].get_color())
+		_, annotation = viz.legend.lines[0][1]
+		self.assertEqual('#00FF00', annotation.lines[0][0].get_color())
+
+	@MultiplexTest.temporary_plot
+	def test_draw_legend_label_style_overrides_bar_style(self):
+		"""
+		Test that drawing legend labels, the label style overrides the bar style.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { 'value': 10, 'label': 'label' },
+				   { 'value': 10, 'label': 'another', 'style': { 'color': '#00FF00' } } ]
+		label_style = { 'color': '#0000FF' }
+		bars = bar.draw(values, 'label', color='#FF0000', label_style=label_style)
+		self.assertEqual(2, len(viz.legend.lines[0]))
+		_, annotation = viz.legend.lines[0][0]
+		self.assertEqual('#0000FF', annotation.lines[0][0].get_color())
+		_, annotation = viz.legend.lines[0][1]
+		self.assertEqual('#0000FF', annotation.lines[0][0].get_color())
+
+	@MultiplexTest.temporary_plot
+	def test_draw_legend_bar_label_style_overrides_label_style(self):
+		"""
+		Test that drawing legend labels, the bar's specific label style overrides the general label style.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { 'value': 10, 'label': 'label' },
+				   { 'value': 10, 'label': 'another', 'style': { 'color': '#00FF00' }, 'label_style': { 'color': '#FFFF00' } } ]
+		label_style = { 'color': '#0000FF' }
+		bars = bar.draw(values, 'label', color='#FF0000', label_style=label_style)
+		self.assertEqual(2, len(viz.legend.lines[0]))
+		_, annotation = viz.legend.lines[0][0]
+		self.assertEqual('#0000FF', annotation.lines[0][0].get_color())
+		_, annotation = viz.legend.lines[0][1]
+		self.assertEqual('#FFFF00', annotation.lines[0][0].get_color())
+
+	@MultiplexTest.temporary_plot
+	def test_draw_legend_inherit_not_overriden(self):
+		"""
+		Test that drawing legend labels, any value that is not overriden is inherited.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { 'value': 10, 'label': 'label' },
+				   { 'value': 10, 'label': 'another', 'style': { 'color': '#00FF00' }, 'label_style': { 'color': '#FFFF00' } } ]
+		label_style = { 'color': '#0000FF', 'alpha': 0.5 }
+		bars = bar.draw(values, 'label', color='#FF0000', label_style=label_style)
+		self.assertEqual(2, len(viz.legend.lines[0]))
+		_, annotation = viz.legend.lines[0][0]
+		self.assertEqual('#0000FF', annotation.lines[0][0].get_color())
+		self.assertEqual(0.5, annotation.lines[0][0].get_alpha())
+		_, annotation = viz.legend.lines[0][1]
+		self.assertEqual('#FFFF00', annotation.lines[0][0].get_color())
+		self.assertEqual(0.5, annotation.lines[0][0].get_alpha())
+
+	@MultiplexTest.temporary_plot
+	def test_draw_legend_ignores_pad(self):
+		"""
+		Test that drawing legend labels, the label style ignores the padding style.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { 'value': 10, 'label': 'label' },
+				   { 'value': 10, 'label': 'another', 'style': { 'pad': 0 } } ]
+		bars = bar.draw(values, 'label', color='#FF0000')
+		self.assertEqual(2, len(viz.legend.lines[0]))
+		_, annotation = viz.legend.lines[0][0]
+		self.assertEqual('#FF0000', annotation.lines[0][0].get_color())
+		_, annotation = viz.legend.lines[0][1]
+		self.assertEqual('#FF0000', annotation.lines[0][0].get_color())
 
 	@MultiplexTest.temporary_plot
 	def test_to_dict_all_floats_default_value(self):
