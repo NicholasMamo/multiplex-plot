@@ -85,7 +85,7 @@ class Legend(object):
 			Then, draw the line first and the annotation second.
 			"""
 			offset = self._get_offset(transform=axis.transAxes)
-			linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes, **default_style) * 1.5
+			linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes, **default_style)
 			visual = f(self, *args, offset=offset, linespacing=linespacing, **kwargs)
 
 			"""
