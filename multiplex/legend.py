@@ -116,7 +116,7 @@ class Legend(object):
 		return wrapper
 
 	@draw
-	def draw_line(self, offset, y=1, linespacing=1, *args, **kwargs):
+	def draw_line(self, offset, y=1, linespacing=1, horizontal=True, *args, **kwargs):
 		"""
 		Draw a line legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
@@ -126,7 +126,9 @@ class Legend(object):
 		:param y: The y-position of the annotation.
 		:type y: float
 		:param linespacing: The linespacing of the accompanying text annotation.
-		:type linspacing: float
+		:type linespacing: float
+		:param horizontal: A boolean indicating whether the line should be horizontal.
+		:type horizontal: bool
 
 		:return: The drawn line.
 		:rtype: :class:`matplotlib.lines.Line2D`
@@ -135,8 +137,8 @@ class Legend(object):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		x = [ offset, offset + 0.0125 ]
-		y = [ y + linespacing / 2. ] * 2
+		x = [ offset, offset + 0.0125 ] if horizontal else [ offset ] * 2
+		y = [ y + linespacing / 2. ] * 2 if horizontal else [ y, y + linespacing ]
 		line = lines.Line2D(x, y, transform=axis.transAxes, *args, **kwargs)
 		line.set_clip_on(False)
 		axis.add_line(line)
@@ -154,7 +156,7 @@ class Legend(object):
 		:param y: The y-position of the annotation.
 		:type y: float
 		:param linespacing: The linespacing of the accompanying text annotation.
-		:type linspacing: float
+		:type linespacing: float
 
 		:return: The drawn arrow.
 		:rtype: :class:`matplotlib.text.annotation`
@@ -182,7 +184,7 @@ class Legend(object):
 		:param y: The y-position of the annotation.
 		:type y: float
 		:param linespacing: The linespacing of the accompanying text annotation.
-		:type linspacing: float
+		:type linespacing: float
 
 		:return: The drawn point.
 		:rtype: :class:`matplotlib.collections.PathCollection`
