@@ -43,7 +43,7 @@ class Bar100(Visualization):
 
 		self.bars = [ ]
 
-	def draw(self, values, label, style_plot=True,
+	def draw(self, values, name, style_plot=True,
 			 min_percentage=1, pad=0.25, *args, **kwargs):
 		"""
 		Draw a bar on the :class:`~drawable.Drawable`.
@@ -70,8 +70,8 @@ class Bar100(Visualization):
 		:param values: A list of values to draw.
 					   The visualization expects a a `list` of floats or a `list` of `dict` instances as shown above.
 		:type values: list of float or list of dict
-		:param label: The label of the 100% bar chart.
-		:type label: str
+		:param name: The name of the 100% bar chart.
+		:type name: str
 		:param style_plot: A boolean indicating whether the plot should be re-styled.
 						   If it is set to `True`, the visualization:
 
@@ -95,7 +95,7 @@ class Bar100(Visualization):
 		:raises ValueError: When any value is negative.
 		:raises ValueError: When the minimum percentage is below 0% or above 100%.
 		:raises ValueError: When the minimum percentage multiplied by all values exceeds 100%.
-		:raises ValueError: When the label is empty.
+		:raises ValueError: When the name is empty.
 		"""
 
 		values = self._to_dict(values)
@@ -122,8 +122,8 @@ class Bar100(Visualization):
 		if min_percentage * len(values) > 100:
 			raise ValueError(f"The minimum percentage exceeds 100%; { min_percentage } × { len(values) } = { min_percentage * len(values) }")
 
-		if not label:
-			raise ValueError("The label cannot be empty")
+		if not name:
+			raise ValueError("The name cannot be empty")
 
 		"""
 		Re-style the plot if need be.
@@ -137,7 +137,7 @@ class Bar100(Visualization):
 		bars = self._draw_bars(values, min_percentage=min_percentage, pad=pad,
 							   *args, **kwargs)
 		self.bars.append(bars)
-		self._add_label(label)
+		self._add_name(name)
 
 		return bars
 
@@ -343,17 +343,17 @@ class Bar100(Visualization):
 		"""
 		return (percentage - leftover) / 2.
 
-	def _add_label(self, label):
+	def _add_name(self, name):
 		"""
-		Add a label to the y-axis.
+		Add a name to the y-axis.
 
 		This function does two things:
 
 			- Adds a y-tick, and
-			- Gives that y-tick the given label.
+			- Gives that y-tick the given name.
 
-		:param label: The label of the drawn bar.
-		:type label: str
+		:param name: The name of the drawn bar.
+		:type name: str
 		"""
 
 		"""

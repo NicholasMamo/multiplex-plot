@@ -139,9 +139,9 @@ class TestBar100(MultiplexTest):
 		self.assertEqual('bar 1', viz.get_yticklabels()[0].get_text())
 
 	@MultiplexTest.temporary_plot
-	def test_draw_label_order(self):
+	def test_draw_name_order(self):
 		"""
-		Test that when drawing bars, the labels are drawn in the correct order.
+		Test that when drawing bars, the names are drawn in the correct order.
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
