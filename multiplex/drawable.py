@@ -146,7 +146,8 @@ class Drawable():
 			if xtick_labels_bb:
 				y += max(xtick_labels_bb, key=lambda bb: bb.height).height * 2
 
-		self.caption.set_position((0, y), ha='left', va='bottom', transform=self.axis.transAxes)
+		pad = 0.1
+		self.caption.set_position((0, y + pad), ha='left', va='bottom', transform=self.axis.transAxes)
 
 	def _redraw_title(self):
 		"""
@@ -188,7 +189,7 @@ class Drawable():
 		Add some extra padding to the height.
 		"""
 		height = abs(caption_height) + abs(legend_height) + abs(label_height)
-		pad_px = abs(self.axis.transAxes.transform((0, 0.01))[1] - self.axis.transAxes.transform((0, 0))[1])
+		pad_px = abs(self.axis.transAxes.transform((0, 0.05))[1] - self.axis.transAxes.transform((0, 0))[1])
 		self.axis.set_title(title, loc='left', pad=(5 + height + pad_px * 2))
 
 	def _get_xlabel(self, transform=None):

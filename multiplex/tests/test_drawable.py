@@ -67,7 +67,7 @@ class TestDrawable(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		caption = viz.set_caption("sample caption")
 		caption_bb = caption.get_virtual_bb(transform=viz.axis.transAxes)
-		self.assertEqual(1, caption_bb.y0)
+		self.assertEqual(1.1, round(caption_bb.y0, 10))
 
 	@MultiplexTest.temporary_plot
 	def test_redraw_top_xaxis(self):
