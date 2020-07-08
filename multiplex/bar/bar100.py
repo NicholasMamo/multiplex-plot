@@ -279,10 +279,10 @@ class Bar100(Visualization):
 		Validate the inputs.
 		"""
 		if not 0 <= min_percentage <= 100:
-			raise ValueError(f"The minimum percentage must be between 0% and 100%; received { min_percentage }")
+			raise ValueError(f"The minimum percentage must be between 0% and 100%; received { min_percentage }%")
 
 		if min_percentage * len(values) > 100:
-			raise ValueError(f"The minimum percentage exceeds 100%; { min_percentage } × { len(values) } = { min_percentage * len(values) }")
+			raise ValueError(f"The minimum percentage exceeds 100%; { min_percentage }% × { len(values) } = { min_percentage * len(values) }%")
 
 		"""
 		Return immediately if there are no input values or all values are zero.
