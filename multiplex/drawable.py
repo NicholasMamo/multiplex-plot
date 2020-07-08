@@ -225,6 +225,26 @@ class Drawable():
 		return [ util.get_bb(figure, axis, label, transform=transform)
 				 for label in axis.xaxis.get_ticklabels(which='both') ]
 
+	def savefig(self, *args, **kwargs):
+		"""
+		A special function that calls the :func:`matplotlib.pyplot.savefig` function.
+		Before doing that, the function redraws the drawable.
+		This can be used when the title and caption are set before drawing the data.
+		"""
+
+		self.redraw()
+		plt.savefig(*args, **kwargs)
+
+	def show(self, *args, **kwargs):
+		"""
+		A special function that calls the :func:`matplotlib.pyplot.savefig` function.
+		Before doing that, the function redraws the drawable.
+		This can be used when the title and caption are set before drawing the data.
+		"""
+
+		self.redraw()
+		plt.show(*args, **kwargs)
+
 	def __getattr__(self, name):
 		"""
 		Get an attribute indicated by `name` from the class.
