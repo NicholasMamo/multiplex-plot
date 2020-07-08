@@ -81,18 +81,26 @@ class Legend(object):
 			default_style['alpha'] = default_style.get('alpha', 0.8)
 
 			"""
-			Get the offset for the new legend.
+			Get the x and y offsets for the new legend.
 			Then, draw the line first and the annotation second.
 			"""
 			offset = self._get_offset(transform=axis.transAxes)
 			linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes, **default_style)
-			visual = f(self, *args, offset=offset, linespacing=linespacing, **kwargs)
+			y = 1
+			if axis.xaxis.get_label_position() == 'top':
+				y += self.drawable._get_xlabel(transform=axis.transAxes).height * 2
+
+				xtick_labels_bb = self.drawable._get_xtick_labels(transform=axis.transAxes)
+				if xtick_labels_bb:
+					y += max(xtick_labels_bb, key=lambda bb: bb.height).height * 2
+
+			visual = f(self, *args, offset=offset, y=y, linespacing=linespacing, **kwargs)
 
 			"""
 			Calculate the offset of the annotation.
 			"""
 			offset = util.get_bb(figure, axis, visual, transform=axis.transAxes).x1 + 0.00625
-			annotation = self.draw_annotation(label, offset, 1, **default_style)
+			annotation = self.draw_annotation(label, offset, y, **default_style)
 
 			"""
 			If need be, create a new line for the legend.
@@ -108,13 +116,15 @@ class Legend(object):
 		return wrapper
 
 	@draw
-	def draw_line(self, offset, linespacing=1, *args, **kwargs):
+	def draw_line(self, offset, y=1, linespacing=1, *args, **kwargs):
 		"""
 		Draw a line legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
 
 		:param offset: The x-offset where to draw the annotation.
 		:type offset: float
+		:param y: The y-position of the annotation.
+		:type y: float
 		:param linespacing: The linespacing of the accompanying text annotation.
 		:type linspacing: float
 
@@ -125,21 +135,24 @@ class Legend(object):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		line = lines.Line2D([ offset, offset + 0.0125 ], [ 1 + linespacing / 2. ] * 2,
-							transform=axis.transAxes, *args, **kwargs)
+		x = [ offset, offset + 0.0125 ]
+		y = [ y + linespacing / 2. ] * 2
+		line = lines.Line2D(x, y, transform=axis.transAxes, *args, **kwargs)
 		line.set_clip_on(False)
 		axis.add_line(line)
 
 		return line
 
 	@draw
-	def draw_arrow(self, offset, linespacing=1, *args, **kwargs):
+	def draw_arrow(self, offset, y=1, linespacing=1, *args, **kwargs):
 		"""
 		Draw an arrow legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
 
 		:param offset: The x-offset where to draw the annotation.
 		:type offset: float
+		:param y: The y-position of the annotation.
+		:type y: float
 		:param linespacing: The linespacing of the accompanying text annotation.
 		:type linspacing: float
 
@@ -150,8 +163,8 @@ class Legend(object):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		arrow = text.Annotation('', xy=(offset + 0.025, 1 + linespacing / 2.),
-								xytext=(offset, 1 + linespacing / 2.),
+		arrow = text.Annotation('', xy=(offset + 0.025, y + linespacing / 2.),
+								xytext=(offset, y + linespacing / 2.),
 								xycoords=axis.transAxes, textcoords=axis.transAxes, arrowprops=kwargs)
 		arrow.set_clip_on(False)
 		axis.add_artist(arrow)
@@ -159,13 +172,15 @@ class Legend(object):
 		return arrow
 
 	@draw
-	def draw_point(self, offset, linespacing=1, *args, **kwargs):
+	def draw_point(self, offset, y=1, linespacing=1, *args, **kwargs):
 		"""
 		Draw a scatter point legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
 
 		:param offset: The x-offset where to draw the annotation.
 		:type offset: float
+		:param y: The y-position of the annotation.
+		:type y: float
 		:param linespacing: The linespacing of the accompanying text annotation.
 		:type linspacing: float
 
@@ -184,7 +199,7 @@ class Legend(object):
 		x = (self.drawable.axis.transAxes.inverted().transform((kwargs['s'] ** 0.5, 0))[0] - origin[0]) / 2.
 		offset += x
 
-		point = axis.scatter(offset, 1 + linespacing / 2., transform=axis.transAxes, *args, **kwargs)
+		point = axis.scatter(offset, y + linespacing / 2., transform=axis.transAxes, *args, **kwargs)
 		point.set_clip_on(False)
 
 		return point
