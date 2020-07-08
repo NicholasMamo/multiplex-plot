@@ -21,7 +21,7 @@ def get_bb(figure, axis, component, transform=None):
 					  If `None` is given, the data transformation is used.
 	:type transform: None or :class:`matplotlib.transforms.TransformNode`
 
-	:return: The bounding box of the text object.
+	:return: The bounding box of the component.
 	:rtype: :class:`matplotlib.transforms.Bbox`
 	"""
 
