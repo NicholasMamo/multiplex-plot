@@ -155,6 +155,7 @@ class Bar100(Visualization):
 		axis.xaxis.tick_top()
 		axis.spines['top'].set_visible(True)
 		axis.spines['bottom'].set_visible(False)
+		self.drawable.set_xlabel('Percentage of total')
 		self.drawable.grid(False)
 
 	def _to_dict(self, values):
