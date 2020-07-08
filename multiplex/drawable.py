@@ -162,10 +162,11 @@ class Drawable():
 		"""
 		caption_height = 0
 		if str(self.caption):
-			caption_height = util.to_px(axis, self.caption.get_virtual_bb(), transform=axis.transData).height
+			caption_height = util.to_px(axis, self.caption.get_virtual_bb(transform=axis.transAxes),
+										transform=axis.transAxes).height
 
-		legend_height = util.to_px(axis, self.legend.get_virtual_bb(),
-								   transform=axis.transData).height
+		legend_height = util.to_px(axis, self.legend.get_virtual_bb(transform=axis.transAxes),
+								   transform=axis.transAxes).height
 
 		"""
 		If the x-label is on top, make space for it in the title.
@@ -185,8 +186,8 @@ class Drawable():
 		"""
 		Add some extra padding to the height.
 		"""
-		height = caption_height + legend_height + label_height
-		pad_px = self.axis.transAxes.transform((0, 0.01))[1] - self.axis.transAxes.transform((0, 0))[1]
+		height = abs(caption_height) + abs(legend_height) + abs(label_height)
+		pad_px = abs(self.axis.transAxes.transform((0, 0.01))[1] - self.axis.transAxes.transform((0, 0))[1])
 		self.axis.set_title(title, loc='left', pad=(5 + height + pad_px * 2))
 
 	def _get_xlabel(self, transform=None):
