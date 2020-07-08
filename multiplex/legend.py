@@ -72,6 +72,13 @@ class Legend(object):
 			axis = self.drawable.axis
 
 			"""
+			If the label is already in the legend, return it.
+			"""
+			drawn = self._contains(label)
+			if drawn:
+				return drawn
+
+			"""
 			Load the default legend style and update the styling.
 			If a custom style is given, it overwrites the styling.
 			"""
@@ -343,6 +350,24 @@ class Legend(object):
 			y1 = max( annotation.get_virtual_bb(transform=transform).y1 for _, annotation in top )
 			y0 = min( annotation.get_virtual_bb(transform=transform).y0 for _, annotation in bottom )
 			return Bbox(((0, y0), (1, y1)))
+
+	def _contains(self, label):
+		"""
+		Check whether the legend already contains a legend for the given label.
+		If it exists, the visual and the annotation are returned as a tuple.
+
+		:param label: The label to look for.
+		:type label: str
+
+		:return: Check whether the legend already contains the given label.
+				 If it exists, the visual and the annotation are returned as a tuple.
+		:rtype: tuple or None
+		"""
+
+		for line in self.lines:
+			for visual, annotation in line:
+				if str(annotation) == label:
+					return (visual, annotation)
 
 	def _get_offset(self, pad=0.025, transform=None):
 		"""

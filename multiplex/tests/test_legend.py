@@ -22,6 +22,48 @@ class TestLegend(MultiplexTest):
 	"""
 
 	@MultiplexTest.temporary_plot
+	def test_draw_duplicates(self):
+		"""
+		Test that the legend does not re-draw duplicate labels.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		figure, axis = viz.figure, viz.axis
+		viz.legend.draw_text_only('label')
+		self.assertEqual(1, len(viz.legend.lines))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+
+		"""
+		Test that even when trying to draw new legends with the same label, they are not drawn.
+		"""
+		for i in range(0, 10):
+			viz.legend.draw_text_only('label')
+
+		self.assertEqual(1, len(viz.legend.lines))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+
+	@MultiplexTest.temporary_plot
+	def test_draw_duplicates_visual_type(self):
+		"""
+		Test that the legend does not re-draw duplicate labels even though the types may be different.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+		figure, axis = viz.figure, viz.axis
+		viz.legend.draw_text_only('label')
+		self.assertEqual(1, len(viz.legend.lines))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+
+		"""
+		Try drawing a line next.
+		The legend should reject it.
+		"""
+
+		viz.legend.draw_line('label')
+		self.assertEqual(1, len(viz.legend.lines))
+		self.assertEqual(1, len(viz.legend.lines[0]))
+
+	@MultiplexTest.temporary_plot
 	def test_redraw_bottom_xaxis(self):
 		"""
 		Test that when the x-axis label is at the bottom, the legend's bottom is at y=1.
@@ -126,7 +168,7 @@ class TestLegend(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 		figure, axis = viz.figure, viz.axis
 		for i in range(0, 20):
-			viz.legend.draw_line('label')
+			viz.legend.draw_line(f"label { i }")
 		legend_bb = viz.legend.get_virtual_bb(transform=axis.transAxes)
 		self.assertGreater(len(viz.legend.lines), 1)
 
@@ -161,7 +203,7 @@ class TestLegend(MultiplexTest):
 							 for v1, v2 in zip(before_visuals, after_visuals) ))
 
 	@MultiplexTest.temporary_plot
-	def no_test_visual_annotation_do_not_overlap(self):
+	def test_visual_annotation_do_not_overlap(self):
 		"""
 		Test that when drawing a legend, the visual and the annotation do not overlap.
 		"""
@@ -172,7 +214,7 @@ class TestLegend(MultiplexTest):
 		self.assertFalse(util.overlapping_bb(linebb, annotation.get_virtual_bb()))
 
 	@MultiplexTest.temporary_plot
-	def no_test_offset_new_legend(self):
+	def test_offset_new_legend(self):
 		"""
 		Test that when getting the offset of an empty legend, the offset returned is 0.
 		"""
@@ -181,7 +223,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(0, viz.legend._get_offset())
 
 	@MultiplexTest.temporary_plot
-	def no_test_offset_legend(self):
+	def test_offset_legend(self):
 		"""
 		Test that when getting the offset of a legend with one component, the offset returned is beyond that component.
 		"""
@@ -191,7 +233,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(annotation.get_virtual_bb().x1, viz.legend._get_offset(pad=0))
 
 	@MultiplexTest.temporary_plot
-	def no_test_offset_pad_new_legend(self):
+	def test_offset_pad_new_legend(self):
 		"""
 		Test that when getting the offset of an empty legend, the offset returned has no padding applied to it.
 		"""
@@ -200,7 +242,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(0, viz.legend._get_offset())
 
 	@MultiplexTest.temporary_plot
-	def no_test_offset_pad_legend(self):
+	def test_offset_pad_legend(self):
 		"""
 		Test that when getting the offset of a legend with one component, the offset returned has padding applied to it.
 		"""
@@ -210,7 +252,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(annotation.get_virtual_bb().x1 + 0.025, viz.legend._get_offset(pad=0.025))
 
 	@MultiplexTest.temporary_plot
-	def no_test_new_line(self):
+	def test_new_line(self):
 		"""
 		Test that when creating a new line, the legend starts at x-coordinate 0.
 		"""
@@ -224,7 +266,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(0, new_line.get_xdata()[0])
 
 	@MultiplexTest.temporary_plot
-	def no_test_new_line_overlap(self):
+	def test_new_line_overlap(self):
 		"""
 		Test that when creating a new line, the lines do not overlap.
 		"""
@@ -244,7 +286,7 @@ class TestLegend(MultiplexTest):
 								 round(top.get_virtual_bb().y0, 10))
 
 	@MultiplexTest.temporary_plot
-	def no_test_new_line_top(self):
+	def test_new_line_top(self):
 		"""
 		Test that when creating a new line, the last line is at the top of the axis.
 		"""
@@ -258,7 +300,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axis.transAxes).y0))
 
 	@MultiplexTest.temporary_plot
-	def no_test_new_line_text_only(self):
+	def test_new_line_text_only(self):
 		"""
 		Test that when creating a new line for text-only annotations, the new line does not crash because there is no annotation.
 		"""
@@ -279,7 +321,7 @@ class TestLegend(MultiplexTest):
 			self.assertFalse(util.overlapping_bb(bb1, bb2))
 
 	@MultiplexTest.temporary_plot
-	def no_test_text_only_no_visual(self):
+	def test_text_only_no_visual(self):
 		"""
 		Test that when adding text-only annotations, the annotation part is `None`.
 		"""
@@ -296,7 +338,7 @@ class TestLegend(MultiplexTest):
 		self.assertFalse(any(annotations))
 
 	@MultiplexTest.temporary_plot
-	def no_test_text_only_overlap(self):
+	def test_text_only_overlap(self):
 		"""
 		Test that when adding text-only annotations, they do not overlap.
 		"""
@@ -316,7 +358,7 @@ class TestLegend(MultiplexTest):
 			self.assertFalse(util.overlapping_bb(bb1, bb2))
 
 	@MultiplexTest.temporary_plot
-	def no_test_new_arrow(self):
+	def test_new_arrow(self):
 		"""
 		Test that when creating a new arrow, the legend starts at x-coordinate 0.
 		"""
@@ -327,7 +369,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(0, bb.x0)
 
 	@MultiplexTest.temporary_plot
-	def no_test_new_line_arrow_overlap(self):
+	def test_new_line_arrow_overlap(self):
 		"""
 		Test that when creating a new line with arrows, the lines do not overlap.
 		"""
@@ -347,7 +389,7 @@ class TestLegend(MultiplexTest):
 								 round(top.get_virtual_bb().y0, 10))
 
 	@MultiplexTest.temporary_plot
-	def no_test_new_line_arrow_top(self):
+	def test_new_line_arrow_top(self):
 		"""
 		Test that when creating a new line with arrows, the last line is at the top of the axis.
 		"""
@@ -361,7 +403,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axis.transAxes).y0))
 
 	@MultiplexTest.temporary_plot
-	def no_test_new_point(self):
+	def test_new_point(self):
 		"""
 		Test that when creating a new point, the legend starts at x-coordinate 0.
 		"""
@@ -372,7 +414,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(0, round(bb.x0, 2))
 
 	@MultiplexTest.temporary_plot
-	def no_test_new_line_point_overlap(self):
+	def test_new_line_point_overlap(self):
 		"""
 		Test that when creating a new line with points, the lines do not overlap.
 		"""
@@ -401,7 +443,7 @@ class TestLegend(MultiplexTest):
 			self.assertLessEqual(round(bb_bottom.y1, 10), round(bb_top.y0, 10))
 
 	@MultiplexTest.temporary_plot
-	def no_test_new_line_point_top(self):
+	def test_new_line_point_top(self):
 		"""
 		Test that when creating a new line with points, the last line is at the top of the axis.
 		"""
@@ -415,7 +457,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axis.transAxes).y0))
 
 	@MultiplexTest.temporary_plot
-	def no_test_virtual_bb_no_legend(self):
+	def test_virtual_bb_no_legend(self):
 		"""
 		Test that when getting the virtual bounding box of an empty legend, a flat one is returned.
 		"""
@@ -427,7 +469,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(1, viz.legend.get_virtual_bb().y1)
 
 	@MultiplexTest.temporary_plot
-	def no_test_virtual_bb_one_legend(self):
+	def test_virtual_bb_one_legend(self):
 		"""
 		Test that when getting the virtual bounding box of a legend with one legend, it is equivalent to the virtual bounding box of the annotation.
 		"""
@@ -445,7 +487,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(annotation.get_virtual_bb().y1, viz.legend.get_virtual_bb().y1)
 
 	@MultiplexTest.temporary_plot
-	def no_test_virtual_bb_one_line(self):
+	def test_virtual_bb_one_line(self):
 		"""
 		Test that when getting the virtual bounding box of a legend with one line, it is equivalent to any annotation in the line.
 		"""
@@ -462,7 +504,7 @@ class TestLegend(MultiplexTest):
 			self.assertEqual(annotation.get_virtual_bb().y1, viz.legend.get_virtual_bb().y1)
 
 	@MultiplexTest.temporary_plot
-	def no_test_virtual_bb_multiple_lines(self):
+	def test_virtual_bb_multiple_lines(self):
 		"""
 		Test that when getting the virtual bounding box of a legend with multiple lines, it grows from the top of the axis.
 		"""
@@ -476,3 +518,35 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(1, viz.legend.get_virtual_bb().y0)
 		self.assertEqual(1, viz.legend.get_virtual_bb().x1)
 		self.assertEqual(viz.legend.lines[0][0][1].get_virtual_bb().y1, viz.legend.get_virtual_bb().y1)
+
+	@MultiplexTest.temporary_plot
+	def test_contains_empty(self):
+		"""
+		Test that when checking whether an empty legend contains a label, `None` is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertEqual(None, viz.legend._contains('label'))
+
+	@MultiplexTest.temporary_plot
+	def test_contains_contained(self):
+		"""
+		Test that when a legend contains a label, the tuple is returned.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertEqual(None, viz.legend._contains('label'))
+		visual, annotation = viz.legend.draw_line('label')
+		self.assertEqual((visual, annotation), viz.legend._contains('label'))
+
+	@MultiplexTest.temporary_plot
+	def test_contains_does_not_contain(self):
+		"""
+		Test that when a legend does not contain a label, `None` is returned
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		self.assertEqual(None, viz.legend._contains('label'))
+		visual, annotation = viz.legend.draw_line('label')
+		self.assertEqual((visual, annotation), viz.legend._contains('label'))
+		self.assertEqual(None, viz.legend._contains('another label'))
