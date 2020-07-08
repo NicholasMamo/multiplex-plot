@@ -93,7 +93,7 @@ class Legend(object):
 			"""
 			offset = self._get_offset(transform=axis.transAxes)
 			linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes, **default_style)
-			y = 1
+			y = 1.05
 			if axis.xaxis.get_label_position() == 'top':
 				y += self.drawable._get_xlabel(transform=axis.transAxes).height * 2
 
@@ -140,7 +140,7 @@ class Legend(object):
 		"""
 		Get the position at which the legend should be.
 		"""
-		y = 1
+		y = 1.05
 		if axis.xaxis.get_label_position() == 'top':
 			y += self.drawable._get_xlabel(transform=axis.transAxes).height * 2
 
