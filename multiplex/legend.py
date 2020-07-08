@@ -116,6 +116,60 @@ class Legend(object):
 
 		return wrapper
 
+	def redraw(self):
+		"""
+		Redraw the legend.
+		This moves the legend up whenever the x-axis label and ticks are moved to the top.
+		"""
+
+		figure, axis = self.drawable.figure, self.drawable.axis
+
+		"""
+		If the legend is empty, do nothing.
+		"""
+		if not(self.lines[-1]):
+			return
+
+		"""
+		Get the position at which the legend should be.
+		"""
+		y = 1
+		if axis.xaxis.get_label_position() == 'top':
+			y += self.drawable._get_xlabel(transform=axis.transAxes).height * 2
+
+			xtick_labels_bb = self.drawable._get_xtick_labels(transform=axis.transAxes)
+			if xtick_labels_bb:
+				y += max(xtick_labels_bb, key=lambda bb: bb.height).height * 2
+
+		"""
+		Get the position of the last line.
+		"""
+		bottom = self.get_virtual_bb(transform=axis.transAxes).y0
+
+		"""
+		If the legend is below the x-axis label and tick labels, move all lines up by that amount.
+		"""
+		if bottom < y:
+			offset = y - bottom
+			for line in self.lines:
+				for (visual, text) in line:
+					"""
+					Move the visual first, then the text.
+					"""
+					if visual:
+						bb = util.get_bb(figure, axis, visual, transform=axis.transAxes)
+						if type(visual) == lines.Line2D:
+							visual.set_ydata([ bb.y0 + offset ] * 2)
+						elif type(visual) == text.Annotation:
+							visual.xyann = (bb.x0, bb.y1 + offset)
+							visual.xy = (bb.x1, bb.y1 + offset)
+						elif type(visual) == collections.PathCollection:
+							offsets = visual.get_offsets()[0]
+							visual.set_offsets([[ offsets[0], offsets[1] + offset ]])
+
+					bb = text.get_virtual_bb(transform=axis.transAxes)
+					text.set_position((bb.x0, bb.y0 + offset), transform=axis.transAxes)
+
 	def draw_annotation(self, label, x, y, va='bottom', *args, **kwargs):
 		"""
 		Get the annotation for the legend.
@@ -246,7 +300,6 @@ class Legend(object):
 		point.set_clip_on(False)
 
 		return point
-
 
 	def get_virtual_bb(self, transform=None):
 		"""
