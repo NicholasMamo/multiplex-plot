@@ -119,6 +119,64 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axis.transAxes).y0))
 
 	@MultiplexTest.temporary_plot
+	def test_new_line_text_only(self):
+		"""
+		Test that when creating a new line for text-only annotations, the new line does not crash because there is no annotation.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		vocab = string.ascii_uppercase
+		labels = [ ''.join(vocab[i:(i+3)])
+				   for i in range(len(vocab) - 3) ]
+		for label in labels:
+			line, annotation = viz.legend.draw_text_only(label)
+		self.assertGreaterEqual(len(viz.legend.lines), 2)
+
+		annotations = [ annotation for line in viz.legend.lines
+								   for _, annotation in line ]
+		for i in range(len(annotations) - 1):
+			bb1 = annotations[i].get_virtual_bb()
+			bb2 = annotations[i + 1].get_virtual_bb()
+			self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+	@MultiplexTest.temporary_plot
+	def test_text_only_no_visual(self):
+		"""
+		Test that when adding text-only annotations, the annotation part is `None`.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		vocab = string.ascii_uppercase
+		labels = [ ''.join(vocab[i:(i+3)])
+				   for i in range(len(vocab) - 3) ]
+		for label in labels:
+			line, annotation = viz.legend.draw_text_only(label)
+
+		annotations = [ visual for line in viz.legend.lines
+							   for visual, _ in line ]
+		self.assertFalse(any(annotations))
+
+	@MultiplexTest.temporary_plot
+	def test_text_only_overlap(self):
+		"""
+		Test that when adding text-only annotations, they do not overlap.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		vocab = string.ascii_uppercase
+		labels = [ ''.join(vocab[i:(i+3)])
+				   for i in range(len(vocab) - 3) ]
+		for label in labels:
+			line, annotation = viz.legend.draw_text_only(label)
+
+		annotations = [ annotation for line in viz.legend.lines
+								   for _, annotation in line ]
+		for i in range(len(annotations) - 1):
+			bb1 = annotations[i].get_virtual_bb()
+			bb2 = annotations[i + 1].get_virtual_bb()
+			self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+	@MultiplexTest.temporary_plot
 	def test_new_arrow(self):
 		"""
 		Test that when creating a new arrow, the legend starts at x-coordinate 0.

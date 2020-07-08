@@ -99,7 +99,8 @@ class Legend(object):
 			"""
 			Calculate the offset of the annotation.
 			"""
-			offset = util.get_bb(figure, axis, visual, transform=axis.transAxes).x1 + 0.00625
+			if visual:
+				offset = util.get_bb(figure, axis, visual, transform=axis.transAxes).x1 + 0.00625
 			annotation = self.draw_annotation(label, offset, y, **default_style)
 
 			"""
@@ -142,6 +143,18 @@ class Legend(object):
 		annotation = Annotation(self.drawable)
 		annotation.draw(label, (x, 1), y, va=va, transform=axis.transAxes, **kwargs)
 		return annotation
+
+	@draw
+	def draw_text_only(self, *args, **kwargs):
+		"""
+		Draw nothing as an annotation.
+		This is used for text-based annotations that require no visual annotation.
+
+		:return: `None`
+		:rtype: None
+		"""
+
+		return None
 
 	@draw
 	def draw_arrow(self, offset, y=1, linespacing=1, *args, **kwargs):
@@ -327,17 +340,18 @@ class Legend(object):
 		for line in self.lines:
 			for push_visual, push_annotation in line:
 				"""
-				The lines can be pushed up by the height of the line.
+				The lines that have been drawn can be pushed up by the height of the line.
 				"""
-				bb = util.get_bb(figure, axis, push_visual, transform=axis.transAxes)
-				if type(push_visual) == lines.Line2D:
-					push_visual.set_ydata([ bb.y0 + linespacing ] * 2)
-				elif type(push_visual) == text.Annotation:
-					push_visual.xyann = (bb.x0, bb.y1 + linespacing / 2.)
-					push_visual.xy = (bb.x1, bb.y1 + linespacing / 2.)
-				elif type(push_visual) == collections.PathCollection:
-					offsets = push_visual.get_offsets()[0]
-					push_visual.set_offsets([[ offsets[0], offsets[1] + linespacing ]])
+				if push_visual:
+					bb = util.get_bb(figure, axis, push_visual, transform=axis.transAxes)
+					if type(push_visual) == lines.Line2D:
+						push_visual.set_ydata([ bb.y0 + linespacing ] * 2)
+					elif type(push_visual) == text.Annotation:
+						push_visual.xyann = (bb.x0, bb.y1 + linespacing / 2.)
+						push_visual.xy = (bb.x1, bb.y1 + linespacing / 2.)
+					elif type(push_visual) == collections.PathCollection:
+						offsets = push_visual.get_offsets()[0]
+						push_visual.set_offsets([[ offsets[0], offsets[1] + linespacing ]])
 
 				"""
 				The annotations are moved differently depending on the vertical alignment.
@@ -359,16 +373,17 @@ class Legend(object):
 		Move the visual and the annotation to the start of the line.
 		Finally, create a new line container.
 		"""
-		bb = util.get_bb(figure, axis, visual, transform=axis.transAxes)
-		if type(visual) == lines.Line2D:
-			visual.set_xdata([ 0, 0.025 ])
-		elif type(visual) == text.Annotation:
-			visual.xyann = (0, bb.y0 + linespacing / 2.)
-			visual.xy = (0.025, bb.y0 + linespacing / 2.)
-		elif type(push_visual) == collections.PathCollection:
-			origin = self.drawable.axis.transData.inverted().transform((0, 0))
-			x = (self.drawable.axis.transData.inverted().transform((100 ** 0.5, 0))[0] - origin[0]) / 4.
-			visual.set_offsets([[ x, 1 + linespacing / 2. ]])
+		if visual:
+			bb = util.get_bb(figure, axis, visual, transform=axis.transAxes)
+			if type(visual) == lines.Line2D:
+				visual.set_xdata([ 0, 0.025 ])
+			elif type(visual) == text.Annotation:
+				visual.xyann = (0, bb.y0 + linespacing / 2.)
+				visual.xy = (0.025, bb.y0 + linespacing / 2.)
+			elif type(push_visual) == collections.PathCollection:
+				origin = self.drawable.axis.transData.inverted().transform((0, 0))
+				x = (self.drawable.axis.transData.inverted().transform((100 ** 0.5, 0))[0] - origin[0]) / 4.
+				visual.set_offsets([[ x, 1 + linespacing / 2. ]])
 
 		annotationbb = annotation.get_virtual_bb(transform=axis.transAxes)
 		annotation.set_position((bb.width + 0.00625, 1), va=va, transform=axis.transAxes)
