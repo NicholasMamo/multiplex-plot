@@ -113,6 +113,11 @@ class Legend(object):
 		Draw a line legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
 
+		:param offset: The x-offset where to draw the annotation.
+		:type offset: float
+		:param linespacing: The linespacing of the accompanying text annotation.
+		:type linspacing: float
+
 		:return: The drawn line.
 		:rtype: :class:`matplotlib.lines.Line2D`
 		"""
@@ -132,6 +137,11 @@ class Legend(object):
 		"""
 		Draw an arrow legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
+
+		:param offset: The x-offset where to draw the annotation.
+		:type offset: float
+		:param linespacing: The linespacing of the accompanying text annotation.
+		:type linspacing: float
 
 		:return: The drawn arrow.
 		:rtype: :class:`matplotlib.text.annotation`
@@ -153,6 +163,11 @@ class Legend(object):
 		"""
 		Draw a scatter point legend for the given label.
 		Any additional arguments and keyword arguments are provided to the plotting function.
+
+		:param offset: The x-offset where to draw the annotation.
+		:type offset: float
+		:param linespacing: The linespacing of the accompanying text annotation.
+		:type linspacing: float
 
 		:return: The drawn point.
 		:rtype: :class:`matplotlib.collections.PathCollection`
