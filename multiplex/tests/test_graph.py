@@ -147,46 +147,6 @@ class TestGraph(MultiplexTest):
 		self.assertTrue(all(type(edge) == matplotlib.lines.Line2D for edge in edges.values()))
 
 	@MultiplexTest.temporary_plot
-	def test_draw_graph_undirected_with_single_edge(self):
-		"""
-		Test that when drawing a graph with one edge, the correct nodes are connected.
-		"""
-
-		G = nx.Graph()
-		G.add_node(1)
-		G.add_node(2)
-		G.add_node(3)
-		G.add_edge(1, 3)
-
-		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges, edge_names = viz.draw_graph(G)
-		self.assertEqual(3, len(nodes))
-		self.assertEqual(1, len(edges))
-		self.assertEqual(nodes[1].get_offsets()[0][0], edges[(1, 3)].get_xdata()[0])
-		self.assertEqual(nodes[1].get_offsets()[0][1], edges[(1, 3)].get_ydata()[0])
-		self.assertEqual(nodes[3].get_offsets()[0][0], edges[(1, 3)].get_xdata()[1])
-		self.assertEqual(nodes[3].get_offsets()[0][1], edges[(1, 3)].get_ydata()[1])
-
-	@MultiplexTest.temporary_plot
-	def test_draw_graph_undirected_with_multiple_edges(self):
-		"""
-		Test that when drawing a graph with one edge, the correct nodes are connected.
-		"""
-
-		E = [ ('A', 'C'), ('B', 'A') ]
-		G = nx.from_edgelist(E)
-
-		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		nodes, node_names, edges, edge_names = viz.draw_graph(G)
-		self.assertEqual(3, len(nodes))
-		self.assertEqual(2, len(edges))
-		for (source, target), edge in edges.items():
-			self.assertEqual(nodes[source].get_offsets()[0][0], edge.get_xdata()[0])
-			self.assertEqual(nodes[source].get_offsets()[0][1], edge.get_ydata()[0])
-			self.assertEqual(nodes[target].get_offsets()[0][0], edge.get_xdata()[1])
-			self.assertEqual(nodes[target].get_offsets()[0][1], edge.get_ydata()[1])
-
-	@MultiplexTest.temporary_plot
 	def test_draw_graph_undirected_edge_style(self):
 		"""
 		Test that when providing the edge style, it is used when creating edges.
