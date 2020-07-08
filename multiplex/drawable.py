@@ -117,8 +117,9 @@ class Drawable():
 		Re-create the title with the necessary padding to fit the caption and the legend.
 		"""
 
-		self._redraw_caption()
 		self._redraw_title()
+		self._redraw_caption()
+		self.legend.redraw()
 
 	def _redraw_caption(self):
 		"""

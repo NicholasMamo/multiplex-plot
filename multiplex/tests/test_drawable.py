@@ -61,7 +61,7 @@ class TestDrawable(MultiplexTest):
 	@MultiplexTest.temporary_plot
 	def test_redraw_bottom_xaxis(self):
 		"""
-		Test that when the x-axis label is at the bototm, the caption is at y=1.
+		Test that when the x-axis label is at the bottom, the caption is at y=1.
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
@@ -72,7 +72,7 @@ class TestDrawable(MultiplexTest):
 	@MultiplexTest.temporary_plot
 	def test_redraw_top_xaxis(self):
 		"""
-		Test that when the x-axis label is at the top, the caption does not overlap with it.
+		Test that when the x-axis label is at the top, the caption moves up.
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
@@ -92,7 +92,6 @@ class TestDrawable(MultiplexTest):
 		After adding a label, the caption should move up.
 		"""
 		viz.set_xlabel('label')
-		xlabel_bb = viz._get_xlabel(transform=viz.axis.transAxes)
 		viz.redraw()
 		self.assertLess(caption_bb.y0, viz.caption.get_virtual_bb(transform=viz.axis.transAxes).y0)
 
