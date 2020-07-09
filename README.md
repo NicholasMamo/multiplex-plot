@@ -2,9 +2,9 @@
 
 # Multiplex
 
-Multiplex is a visualization library for Python built on [matplotlib](https://github.com/matplotlib/matplotlib/).
-Multiplex follows the principle that visualizations should tell a story in a beautiful way.
-This package is built with the intent of making it as easy as possible to transform data into beautiful visualizations.
+Visualizations should tell a story, and tell it in a beautiful way.
+Multiplex is a visualization library for Python built on these principles using [matplotlib](https://github.com/matplotlib/matplotlib/).
+This library aims to make it as easy as possible for you to transform data into beautiful visualizations that tell a story.
 
 > The instructions in this README.md file will get you a copy of the project up and running.
 > For use-cases of Multiplex, check out the [Jupyter Notebook examples](https://github.com/NicholasMamo/multiplex-plot/tree/master/examples).
@@ -13,21 +13,26 @@ This package is built with the intent of making it as easy as possible to transf
 ## Who is Multiplex for?
 
 Multiplex is aimed at data scientists, researchers, students and all those who work with data and are familiar with Python.
-This library aims to make it easier to explore and explain data by creating beautiful visualizations.
 
-## Why Multiplex?
+## Why should I use Multiplex?
 
 > If Multiplex is based on matplotlib, why not use matplotlib directly?
 
 Multiplex does not replace matplotlib.
 Anything that you can do with Multiplex, you can also do with matplotlib.
-What Multiplex does is make it easier to create beautiful visualizations.
+
+Multiplex makes it easier to create beautiful visualizations.
 This is achieved by providing:
 
-* Custom matplotlib styles;
+* [4 custom matplotlib styles](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/0.%20Styles.ipynb);
 * Functionality to caption visualizations;
 * Functionality to annotate any visualization with text; and
-* New types of visualizations not available in matplotlib, such as the network graph and text-based visualizations.
+* New types of visualizations not available in matplotlib:
+	*  100% bar chart,
+	*  Network graph, and
+	*  Text-only visualizations.
+
+Multiplex automatically lays out your data so that you can focus on telling your story.
 
 ## How do I use Multiplex?
 
@@ -46,10 +51,10 @@ Multiplex also uses the following libraries in certain visualizations:
 
 You can install Multiplex using pip: `python -m pip install -U multiplex-plot`.
 
-### Creating visualizations
+### Quickstart
 
 Creating visualizations with Multiplex is very easy.
-For example, you can create a text visualization with a simple function call, including all styling options:
+For example, you can create a text-only visualization in just 10 lines of code, including all styling options:
 
 ```python
 import matplotlib.pyplot as plt
@@ -61,24 +66,25 @@ style = { 'align': 'justify', 'fontfamily': 'serif', 'alpha': 0.9, 'lineheight':
 viz.draw_text_annotation(paragraph, **style)
 viz.set_title('Profile: Anthony Lopes', loc='left')
 viz.set_caption("""Wikipedia is a useful repository to get more information about anything. Below is an excerpt from the Wikipedia profile of footballer Anthony Lopes.""")
-plt.show()
+viz.show()
 ```
 
 ![Example text annotation](https://raw.githubusercontent.com/NicholasMamo/multiplex-plot/master/examples/exports/2-simple-text.png)
 
 All it takes to draw a simple text visualization is 10 lines of code:
 
-1. Three lines to import matplotlib, Multiplex and the visualization style;
-2. Three lines to set up the visualization object, load the data and set the style;
-3. Four lines to draw and show the visualization, including a title and caption.
+1. 3 lines to import matplotlib, Multiplex and the visualization style;
+2. 3 lines to set up the visualization object, load the data and set the style;
+3. 4 lines to draw and show the visualization, including a title and caption.
 
-Multiplex abstracts the tedious process of manually programming which elements go where, and lets you create beautiful visualizations with ease.
+Multiplex does all the tedious work for you: the layout, alignment and more.
+At the same time, you can take as much control as you want.
 
-For a quick start, check out the [Jupyter Notebook examples](https://github.com/NicholasMamo/multiplex-plot/tree/master/examples) for an easy-to-follow tour of Multiplex's capabilities.
+Using Multiplex is very easy, but you can get started by checking out the [Jupyter Notebook tutorials](https://github.com/NicholasMamo/multiplex-plot/tree/master/examples) for an easy-to-follow tour of Multiplex's capabilities.
 
 ## Example visualizations
 
-![Example time series](https://raw.githubusercontent.com/NicholasMamo/multiplex-plot/master/examples/exports/3-temperatures.png)
+![Example bar chart](https://raw.githubusercontent.com/NicholasMamo/multiplex-plot/master/examples/exports/5-natural-gas.png)
 
 ![Example time series](https://raw.githubusercontent.com/NicholasMamo/multiplex-plot/master/examples/exports/3-time-series.png)
 
