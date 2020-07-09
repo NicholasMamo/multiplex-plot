@@ -12,7 +12,7 @@ All too often, we rely on that simplicity to tell a story.
 Multiplex's time series makes it easier for data to tell a story clearly.
 
 Keep reading to learn more about time series visualizations.
-You can also check out the `time series tutorial Jupyter Notebook <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20Series.ipynb>`_.
+You can also check out the `time series Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20Series.ipynb>`_.
 
 .. automodule:: timeseries
    :members:

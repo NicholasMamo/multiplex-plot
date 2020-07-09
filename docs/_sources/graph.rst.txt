@@ -18,8 +18,7 @@ Keep reading to learn more about graph visualizations.
 
 .. note::
 
-	Check out the `network graph tutorial Jupyter Notebook <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/4.%20Network%20Graph.ipynb>`_.
-
+	Check out the `network graph Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/4.%20Network%20graphs.ipynb>`_.
 
 .. automodule:: graph.graph
    :members:

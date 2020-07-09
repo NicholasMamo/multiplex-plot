@@ -36,7 +36,7 @@ The same attributes can be passed on to the `style` key in the code block above.
 
 .. note::
 
-	More complex text visualization examples are in the `tutorial Jupyter Notebook <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb>`_.
+	More complex text visualization examples are in the `Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb>`_.
 """
 
 import os

@@ -22,7 +22,7 @@ Keep reading to learn more about text visualizations.
 
 .. note::
 
-	Check out the `text visualizations tutorial Jupyter Notebook <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb>`_.
+	Check out the `text visualizations Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb>`_.
 
 Annotation
 ==========

@@ -27,7 +27,7 @@ class Bar100(Visualization):
 	This class revolves around the :func:`~bar.100.Bar100.draw` function.
 	The :func:`~bar.100.Bar100.draw` function receives a list of numbers and automatically converts them to percentages.
 
-	This class keeps track of all the bars that it has drawn in the :ivar:`~bar.100.Bar100.bars` instance variable.
+	This class keeps track of all the bars that it has drawn in the `~bar.100.Bar100.bars` instance variable.
 
 	:ivar bars: A list of bars drawn so far.
 				Each bar is, in turn, made up of more bars, all of which add up to 100%.
