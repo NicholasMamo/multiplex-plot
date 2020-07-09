@@ -195,10 +195,10 @@ lines.antialiased : True  ## render lines in antialiased (no jaggies)
 #boxplot.medianprops.linewidth : 1.0
 #boxplot.medianprops.linestyle : -
 
-#boxplot.meanprops.color           : C2
+#boxplot.meanprops.color           : C4
 #boxplot.meanprops.marker          : ^
-#boxplot.meanprops.markerfacecolor : C2
-#boxplot.meanprops.markeredgecolor : C2
+#boxplot.meanprops.markerfacecolor : C4
+#boxplot.meanprops.markeredgecolor : C4
 #boxplot.meanprops.markersize      :  6
 #boxplot.meanprops.linestyle       : --
 #boxplot.meanprops.linewidth       : 1.0
@@ -351,7 +351,7 @@ text.color : C0
 ## Following are default face and edge colors, default tick sizes,
 ## default fontsizes for ticklabels, and so on.  See
 ## https://matplotlib.org/api/axes_api.html#module-matplotlib.axes
-axes.facecolor     : C2   ## axes background color
+axes.facecolor     : C4   ## axes background color
 axes.edgecolor     : (0.212, 0.271, 0.31, 0.2)   ## axes edge color
 axes.linewidth     : 1     ## edge linewidth
 axes.grid          : True   ## display grid or not
@@ -400,7 +400,7 @@ axes.spines.right  : False
 #axes.unicode_minus : True  ## use Unicode for the minus symbol
                             ## rather than hyphen.  See
                             ## https://en.wikipedia.org/wiki/Plus_and_minus_signs#Character_codes
-axes.prop_cycle : cycler('color', [ '21282F', 'D91919', 'FFFFFF' ])
+axes.prop_cycle : cycler('color', [ '21282F', 'D91919', '00A878', '05417D', 'FFFFFF' ])
                    ## color cycle for plot lines as list of string colorspecs:
                    ##     single letter, long name, or web-style hex
 				   ## As opposed to all other paramters in this file, the color
@@ -527,8 +527,8 @@ legend.labelspacing  : 1  ## the vertical space between the legend entries
 #figure.titleweight : normal    ## weight of the figure title
 #figure.figsize     : 6.4, 4.8  ## figure size in inches
 #figure.dpi         : 100       ## figure dots per inch
-figure.facecolor   : C2     ## figure facecolor
-#figure.edgecolor   : C2     ## figure edgecolor
+figure.facecolor   : C4     ## figure facecolor
+#figure.edgecolor   : C4     ## figure edgecolor
 #figure.frameon     : True      ## enable figure frame
 #figure.max_open_warning : 20   ## The maximum number of figures to open through
                                 ## the pyplot interface before emitting a warning.
@@ -639,10 +639,10 @@ figure.subplot.hspace : 0.3    ## the amount of height reserved for space betwee
 ## ***************************************************************************
 ## The default savefig params can be different from the display params
 ## e.g., you may want a higher resolution, or to make the figure
-## background C2
+## background C4
 #savefig.dpi       : figure      ## figure dots per inch or 'figure'
-#savefig.facecolor : C2       ## figure facecolor when saving
-#savefig.edgecolor : C2       ## figure edgecolor when saving
+#savefig.facecolor : C4       ## figure facecolor when saving
+#savefig.edgecolor : C4       ## figure edgecolor when saving
 #savefig.format    : png         ## {png, ps, pdf, svg}
 #savefig.bbox      : standard    ## {tight, standard}
                                  ## 'tight' is incompatible with pipe-based animation
