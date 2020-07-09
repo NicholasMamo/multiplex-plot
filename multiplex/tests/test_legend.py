@@ -73,10 +73,10 @@ class TestLegend(MultiplexTest):
 		figure, axis = viz.figure, viz.axis
 
 		viz.legend.draw_line('label')
-		self.assertEqual(1, viz.legend.get_virtual_bb(transform=axis.transAxes).y0)
+		self.assertEqual(1.05, viz.legend.get_virtual_bb(transform=axis.transAxes).y0)
 		line, text = viz.legend.lines[0][0]
-		self.assertLessEqual(1, util.get_bb(figure, axis, line, transform=axis.transAxes).y0)
-		self.assertEqual(1, text.get_virtual_bb().y0)
+		self.assertLessEqual(1.05, util.get_bb(figure, axis, line, transform=axis.transAxes).y0)
+		self.assertEqual(1.05, text.get_virtual_bb().y0)
 
 	@MultiplexTest.temporary_plot
 	def test_redraw_text_only(self):
@@ -97,9 +97,9 @@ class TestLegend(MultiplexTest):
 		viz.axis.spines['bottom'].set_visible(False)
 		viz.set_xlabel('label')
 
-		self.assertEqual(1, viz.legend.get_virtual_bb(transform=axis.transAxes).y0)
+		self.assertEqual(1.05, viz.legend.get_virtual_bb(transform=axis.transAxes).y0)
 		_, text = viz.legend.lines[0][0]
-		self.assertEqual(1, text.get_virtual_bb().y0)
+		self.assertEqual(1.05, text.get_virtual_bb().y0)
 
 	@MultiplexTest.temporary_plot
 	def test_redraw_top_xaxis(self):
@@ -366,7 +366,7 @@ class TestLegend(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		arrow, annotation = viz.legend.draw_arrow('A')
 		bb = util.get_bb(viz.figure, viz.axis, arrow)
-		self.assertEqual(0, bb.x0)
+		self.assertEqual(0, round(bb.x0, 10))
 
 	@MultiplexTest.temporary_plot
 	def test_new_line_arrow_overlap(self):
@@ -480,7 +480,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(1, len(viz.legend.lines))
 
 		self.assertEqual(0, viz.legend.get_virtual_bb().x0)
-		self.assertEqual(1, viz.legend.get_virtual_bb().y0)
+		self.assertEqual(1.05, viz.legend.get_virtual_bb().y0)
 		self.assertEqual(1, viz.legend.get_virtual_bb().x1)
 		_, annotation = viz.legend.lines[0][0]
 		self.assertEqual(annotation.get_virtual_bb().y0, viz.legend.get_virtual_bb().y0)
@@ -498,7 +498,7 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(1, len(viz.legend.lines))
 
 		self.assertEqual(0, viz.legend.get_virtual_bb().x0)
-		self.assertEqual(1, viz.legend.get_virtual_bb().y0)
+		self.assertEqual(1.05, viz.legend.get_virtual_bb().y0)
 		self.assertEqual(1, viz.legend.get_virtual_bb().x1)
 		for _, annotation in viz.legend.lines[0]:
 			self.assertEqual(annotation.get_virtual_bb().y1, viz.legend.get_virtual_bb().y1)
@@ -515,7 +515,7 @@ class TestLegend(MultiplexTest):
 		self.assertGreaterEqual(len(viz.legend.lines), 3)
 
 		self.assertEqual(0, viz.legend.get_virtual_bb().x0)
-		self.assertEqual(1, viz.legend.get_virtual_bb().y0)
+		self.assertEqual(1.05, viz.legend.get_virtual_bb().y0)
 		self.assertEqual(1, viz.legend.get_virtual_bb().x1)
 		self.assertEqual(viz.legend.lines[0][0][1].get_virtual_bb().y1, viz.legend.get_virtual_bb().y1)
 
