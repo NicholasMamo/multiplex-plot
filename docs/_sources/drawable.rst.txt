@@ -54,6 +54,9 @@ Basic Visualization
    :members:
    :special-members:
 
+Labelled Visualization
+^^^^^^^^^^^^^^^^^^^^^^
+
 .. automodule:: labelled
    :members:
    :special-members:

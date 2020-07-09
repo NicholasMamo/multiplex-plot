@@ -1,7 +1,7 @@
 """
-A labelled visualization is one that allows labels.
-These labels are normal :class:`~text.text.TextAnnotation`.
-However, a labelled visualization has functionality to ensure that the labels do not overlap.
+A labelled visualization is a visualization that support labelling.
+Whereas labels are normal :class:`~text.text.TextAnnotation` instances, this visualization type automatically moves annotations so that they do not overlap.
+All functionality goes through the :func:`~labelled.LabelledVisualization.draw_label` function.
 """
 
 import os
@@ -17,7 +17,7 @@ from text.text import Annotation
 class LabelledVisualization(Visualization):
 	"""
 	The labelled visualization adds functionality to visualizations that use labels.
-	Labels are normal :class:`~text.text.TextAnnotation`.
+	Labels are normal :class:`~text.text.TextAnnotation`, which the class stores as instance variables.
 	This class adds functionality to distribute overlapping labels.
 
 	:ivar labels: The labels in the visualizations.

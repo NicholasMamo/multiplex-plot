@@ -103,6 +103,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-drawable">Drawable</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#visualizations">Visualizations</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#module-visualization">Basic Visualization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-labelled">Labelled Visualization</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#module-legend">Legend</a></li>
@@ -471,14 +472,17 @@ Any other functionality is up to the visualization type.</p>
 
 </dd></dl>
 
-<span class="target" id="module-labelled"></span><p>A labelled visualization is one that allows labels.
-These labels are normal <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a>.
-However, a labelled visualization has functionality to ensure that the labels do not overlap.</p>
+</div>
+<div class="section" id="module-labelled">
+<span id="labelled-visualization"></span><h3>Labelled Visualization<a class="headerlink" href="#module-labelled" title="Permalink to this headline">¶</a></h3>
+<p>A labelled visualization is a visualization that support labelling.
+Whereas labels are normal <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> instances, this visualization type automatically moves annotations so that they do not overlap.
+All functionality goes through the <a class="reference internal" href="#labelled.LabelledVisualization.draw_label" title="labelled.LabelledVisualization.draw_label"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_label()</span></code></a> function.</p>
 <dl class="class">
 <dt id="labelled.LabelledVisualization">
 <em class="property">class </em><code class="sig-prename descclassname">labelled.</code><code class="sig-name descname">LabelledVisualization</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization" title="Permalink to this definition">¶</a></dt>
 <dd><p>The labelled visualization adds functionality to visualizations that use labels.
-Labels are normal <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a>.
+Labels are normal <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a>, which the class stores as instance variables.
 This class adds functionality to distribute overlapping labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
