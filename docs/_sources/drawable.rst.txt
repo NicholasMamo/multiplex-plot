@@ -44,7 +44,6 @@ Drawable
 
 .. automodule:: drawable
    :members:
-   :private-members:
    :special-members:
 
 Visualizations
@@ -54,19 +53,15 @@ Multiplex also contains visualization types to help you get started creating new
 
 .. automodule:: visualization
    :members:
-   :private-members:
    :special-members:
 
 .. automodule:: labelled
    :members:
-   :private-members:
    :special-members:
-
 
 Legend
 ======
 
 .. automodule:: legend
    :members:
-   :private-members:
    :special-members:
