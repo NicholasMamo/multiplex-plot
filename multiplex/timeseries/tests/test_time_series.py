@@ -103,6 +103,22 @@ class TestTimeSeries(MultiplexTest):
 		self.assertFalse(line_style['color'] == label.lines[0][0].get_color())
 
 	@MultiplexTest.temporary_plot
+	def test_draw_legend_linewidth(self):
+		"""
+		Test that when drawing a time series legend, the linewidth is ignored.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		line_style = { 'color': '#FF0000', 'linewidth': 1 }
+		line, label = viz.draw_time_series([ 1 ] * 5, [ 1 ] * 5, label='A',
+										   **line_style, with_legend=True)
+
+		self.assertEqual(1, len(viz.legend.lines[0]))
+		line, label = viz.legend.lines[0][0]
+		self.assertEqual('A', str(label))
+		self.assertFalse(line_style['color'] == label.lines[0][0].get_color())
+
+	@MultiplexTest.temporary_plot
 	def test_line_series(self):
 		"""
 		Test that if a pandas series is provided, the line points are drawn just like a list.

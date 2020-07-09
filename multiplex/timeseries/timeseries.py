@@ -109,6 +109,7 @@ class TimeSeries(LabelledVisualization):
 		if label is not None and len(x) and len(y):
 			default_label_style = { 'color': line.get_color() }
 			default_label_style.update(kwargs)
+			default_label_style.pop('linewidth', 0)
 			if with_legend:
 				self.drawable.legend.draw_line(label, label_style=label_style,
 											   *args, **default_label_style)
