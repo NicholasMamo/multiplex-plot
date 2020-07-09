@@ -60,7 +60,7 @@ and was chosen for Euro 2016 and the 2018 World Cup."
                 tokens.append({
                     'style': {
                         'facecolor': 'C1',
-                        'color': 'C0' if dark else 'C2',
+                        'color': 'C0' if dark else 'C4',
                     },
                     'text': entity
                 })
@@ -97,7 +97,7 @@ def draw_graph(viz):
     positions = { 'A': (-1, 0), 'B': (0, 1), 'C': (1, 0), 'D': (0, -1) }
     node_style = { 's': 1000, 'color': 'C0', 'alpha': 1 }
     edge_style = { 'color': 'C0', 'linewidth': 2.5 }
-    name_style = { 'facecolor': 'C2', 'color': 'C0', 'fontweight': 900 }
+    name_style = { 'facecolor': 'C4', 'color': 'C0', 'fontweight': 900 }
     viz.draw_graph(G, positions=positions,
                    node_style=node_style, edge_style=edge_style,
                    name_style=name_style, seed=24)
