@@ -237,8 +237,8 @@ class Legend(object):
 		figure = self.drawable.figure
 		axis = self.drawable.axis
 
-		arrow = text.Annotation('', xy=(offset + 0.025, y + linespacing / 2.),
-								xytext=(offset, y + linespacing / 2.),
+		arrow = text.Annotation('', xy=(offset + 0.025, y - linespacing / 2.),
+								xytext=(offset, y - linespacing / 2.),
 								xycoords=axis.transAxes, textcoords=axis.transAxes, arrowprops=kwargs)
 		arrow.set_clip_on(False)
 		axis.add_artist(arrow)
