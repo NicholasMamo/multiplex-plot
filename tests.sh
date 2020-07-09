@@ -13,4 +13,4 @@ python3 -m unittest multiplex.tests.test_graph
 python3 -m unittest multiplex.tests.test_labelled
 python3 -m unittest multiplex.tests.test_legend
 python3 -m unittest multiplex.text.tests.test_text
-python3 -m unittest multiplex.tests.test_time_series
+python3 -m unittest multiplex.timeseries.tests.test_time_series
