@@ -44,7 +44,11 @@ Drawable
 Visualizations
 ==============
 
-Multiplex also contains visualization types to help you get started creating new types of visualizations.
+Although it is not likely that you will need them, Multiplex also contains visualization types.
+These classes can help you get started creating new types of visualizations.
+
+Basic Visualization
+^^^^^^^^^^^^^^^^^^^
 
 .. automodule:: visualization
    :members:

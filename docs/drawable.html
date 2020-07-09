@@ -101,7 +101,10 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">1. Getting started</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-drawable">Drawable</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#visualizations">Visualizations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visualizations">Visualizations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-visualization">Basic Visualization</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#module-legend">Legend</a></li>
 </ul>
 </li>
@@ -434,15 +437,19 @@ The arguments and keyword arguments are those supported by the <a class="referen
 </div>
 <div class="section" id="visualizations">
 <h2>Visualizations<a class="headerlink" href="#visualizations" title="Permalink to this headline">¶</a></h2>
-<p>Multiplex also contains visualization types to help you get started creating new types of visualizations.</p>
-<span class="target" id="module-visualization"></span><p>All types of visualizations are made up of <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.</p>
+<p>Although it is not likely that you will need them, Multiplex also contains visualization types.
+These classes can help you get started creating new types of visualizations.</p>
+<div class="section" id="module-visualization">
+<span id="basic-visualization"></span><h3>Basic Visualization<a class="headerlink" href="#module-visualization" title="Permalink to this headline">¶</a></h3>
+<p>All visualizations must have, at least, a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+Any other functionality is up to the visualization type.</p>
 <dl class="class">
 <dt id="visualization.Visualization">
 <em class="property">class </em><code class="sig-prename descclassname">visualization.</code><code class="sig-name descname">Visualization</code><span class="sig-paren">(</span><em class="sig-param">drawable</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization" title="Permalink to this definition">¶</a></dt>
 <dd><p>All visualizations contain at least a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the time series visualization will be drawn.</p>
+<dd class="field-odd"><p><a class="reference internal" href="#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the visualization will be drawn.</p>
 </dd>
 </dl>
 <dl class="method">
@@ -451,7 +458,7 @@ The arguments and keyword arguments are those supported by the <a class="referen
 <dd><p>Create the visualization with a drawable.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>drawable</strong> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the time series visualization will be drawn.</p>
+<dd class="field-odd"><p><strong>drawable</strong> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the visualization will be drawn.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -518,6 +525,7 @@ If the vertical alignment is <cite>bottom</cite>, the annotation grows up.</p></
 
 </dd></dl>
 
+</div>
 </div>
 <div class="section" id="module-legend">
 <span id="legend"></span><h2>Legend<a class="headerlink" href="#module-legend" title="Permalink to this headline">¶</a></h2>
