@@ -115,3 +115,27 @@ def draw_graph(viz, node_style=None, edge_style=None, name_style=None, highlight
 				   name_style=default_name_style, seed=24)
 	viz.set_title('Network graph', loc='left')
 	viz.set_caption('A simple network graph visualization.')
+
+def draw_bar_100(viz, bar_style=None):
+	"""
+	Draw a 100% bar chart on the given visualization.
+
+	:param viz: The visualization where the text annotation will be drawn.
+	:type viz: :class:`multiple.drawable.Drawable`
+	:param bar_style: The style of the bars.
+	:type bar_style: None or dict
+	"""
+
+	np.random.seed(9)
+	for i in range(1, 20):
+		values = list(np.random.normal(30, 5, 5))
+		highest = max(values)
+		index = values.index(highest)
+		default_bar_style = { 'color': 'C0', 'alpha': 0.5 }
+		default_bar_style.update(bar_style or { })
+		values[index] = { 'value': values[index], 'style': { 'color': 'C1', 'alpha': 1 } }
+		viz.draw_bar_100(values, f"Bar { i }", **default_bar_style)
+
+	viz.set_xlabel('Percentage of total')
+	viz.set_title('100% bar chart', loc='left')
+	viz.set_caption('A simple 100% bar chart visualization.')
