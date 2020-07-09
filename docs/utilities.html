@@ -211,7 +211,29 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The bounding box of the text object.</p>
+<dd class="field-even"><p>The bounding box of the component.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.Bbox</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="util.to_px">
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">to_px</code><span class="sig-paren">(</span><em class="sig-param">axis</em>, <em class="sig-param">bb</em>, <em class="sig-param">transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#util.to_px" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the given bounding box to pixels based on the given transform.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>bb</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.Bbox</span></code>) – The bounding box of the component.</p></li>
+<li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
+If <cite>None</cite> is given, the data transformation is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A new bounding box with values as pixels.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.Bbox</span></code></p>

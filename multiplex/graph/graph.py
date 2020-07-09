@@ -96,7 +96,7 @@ class Graph(LabelledVisualization):
 		"""
 		Draw the nodes onto the :class:`~drawable.Drawable`.
 
-		Any additional arguments and keyword arguments are passed on to the :func:`matplotlib.pyplot.scatter` function.
+		Any additional arguments and keyword arguments are passed on to the `matplotlib.pyplot.scatter <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.scatter.html>`_ function.
 
 		The nodes should be given as dictionaries, whose keys are the node names.
 		The corresponding values are their positions.
@@ -194,7 +194,7 @@ class Graph(LabelledVisualization):
 		Draw the edges connecting the given nodes.
 		Depending on whether the graph is undirected or directed, the edges are drawn with arrows.
 
-		Any additional arguments and keyword arguments are passed on to the :func:`matplotlib.pyplot.plot` function or as arrowprops.
+		Any additional arguments and keyword arguments are passed on to the `matplotlib.pyplot.plot <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html>`_ function or as arrowprops.
 
 		:param edges: The list of edges to draw.
 					  The edges should be a list of tuples representing the source and target.

@@ -230,7 +230,7 @@ class Drawable():
 
 	def savefig(self, *args, **kwargs):
 		"""
-		A special function that calls the :func:`matplotlib.pyplot.savefig` function.
+		A special function that calls the `matplotlib.pyplot.savefig <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.savefig.html>`_ function.
 		Before doing that, the function redraws the drawable.
 		This can be used when the title and caption are set before drawing the data.
 		"""
@@ -240,7 +240,7 @@ class Drawable():
 
 	def show(self, *args, **kwargs):
 		"""
-		A special function that calls the :func:`matplotlib.pyplot.savefig` function.
+		A special function that calls the `matplotlib.pyplot.show <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.show.html>`_ function.
 		Before doing that, the function redraws the drawable.
 		This can be used when the title and caption are set before drawing the data.
 		"""

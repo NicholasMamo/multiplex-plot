@@ -49,7 +49,7 @@ class Bar100(Visualization):
 		Draw a bar on the :class:`~drawable.Drawable`.
 		All values are converted to percentages.
 
-		The arguments and keyword arguments are passed on to the :func:`~matplotlib.pyplot.barh` method.
+		The arguments and keyword arguments are passed on to the `matplotlib.pyplot.barh <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.barh.html>`_ method.
 		Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.
 
 		The values can be provided either as a list of floats or as a list of dictionaries.
@@ -64,7 +64,7 @@ class Bar100(Visualization):
 			}
 
 		Of these keys, only `value` is required.
-		The correct styling options are those accepted by the :func:`~matplotlib.pyplot.barh` method
+		The correct styling options are those accepted by the `matplotlib.pyplot.barh <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.barh.html>`_ method.
 		Anything not given uses default values.
 
 		:param values: A list of values to draw.

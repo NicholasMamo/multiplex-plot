@@ -53,7 +53,7 @@ class TimeSeries(LabelledVisualization):
 	def draw(self, x, y, label=None, label_style=None, with_legend=False, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`~drawable.Drawable`.
-		The arguments and keyword arguments are passed on to the :func:`~matplotlib.pyplot.plot` method.
+		The arguments and keyword arguments are passed on to the `matplotlib.pyplot.plot <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html>`_ method.
 		Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.
 
 		:param x: The list of x-coordinates to plot.
