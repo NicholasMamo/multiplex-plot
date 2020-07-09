@@ -533,16 +533,20 @@ If the vertical alignment is <cite>bottom</cite>, the annotation grows up.</p></
 </div>
 <div class="section" id="module-legend">
 <span id="legend"></span><h2>Legend<a class="headerlink" href="#module-legend" title="Permalink to this headline">¶</a></h2>
-<p>Legends are a common sight in visualizations, and a helpful one as well.
-They give a name to the components that you include in your visualization.</p>
+<p>Legends are a common sight in visualizations, and a helpful one at that.
+Multiplex places legends just beneath the caption and above the plot.
+That way, readers can understand how to interpret the visualization before seeing it.</p>
 <img alt="_images/3-time-series.png" class="example" src="_images/3-time-series.png" />
-<p>Legends are alternatives to inline labels in time series.
-Multiplex’s legends are drawn just below the caption.
-In this way, users can look at the drawn data and understand it immediately.</p>
+<p>Apart from drawing the annotations, the legend aligns and organizes them on different lines.</p>
 <dl class="class">
 <dt id="legend.Legend">
 <em class="property">class </em><code class="sig-prename descclassname">legend.</code><code class="sig-name descname">Legend</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend" title="Permalink to this definition">¶</a></dt>
-<dd><p>The legend is made up of visual elements and a short label describing what they represent.</p>
+<dd><p>The legend is made up of tuples: a visual element and a short label describing what they represent.
+The legend class stores these and the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> as instance variables.</p>
+<p>All of the drawn legend annotations go through the <a class="reference internal" href="#legend.Legend.draw" title="legend.Legend.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> decorator.
+This function first draws the visual part of the annotation.
+Then, it draws the label next to it.
+This function is also responsible to lay out the legend annotations, creating new lines when necessary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><ul class="simple">
@@ -566,8 +570,13 @@ Each component is a tuple of the visual representation and the associated label.
 <dl class="method">
 <dt id="legend.Legend.draw">
 <code class="sig-name descname">draw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>The drawing decorator is used to manage the legend’s lines.
-After each drawn label, the function checks if a new line should be created.</p>
+<dd><p>This function is the most important one in the <a class="reference internal" href="#legend.Legend" title="legend.Legend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Legend</span></code></a> class.
+This decorator wraps all of the legend annotations and draws them in three steps:</p>
+<ol class="arabic simple">
+<li><p>First, it draws the visual part of the legend annotation.</p></li>
+<li><p>Second, it draws the textual label next to the visual part.</p></li>
+<li><p>Third, it adds a new line to the legend if need be.</p></li>
+</ol>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>f</strong> (<em>function</em>) – The function to wrap.</p>
@@ -585,13 +594,16 @@ After each drawn label, the function checks if a new line should be created.</p>
 <dt id="legend.Legend.redraw">
 <code class="sig-name descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.redraw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Redraw the legend.
-This moves the legend up whenever the x-axis label and ticks are moved to the top.</p>
+This function only has an effect when the x-axis label and ticks are at the top, instead of at the bottom.
+In this case, this function moves the legend up to make room for the label and ticks.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="legend.Legend.draw_annotation">
 <code class="sig-name descname">draw_annotation</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">va='bottom'</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_annotation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the annotation for the legend.
+<dd><p>Draw a text annotation.
+This function is called by the <a class="reference internal" href="#legend.Legend.draw" title="legend.Legend.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function after drawing the visual part of the legend annotation.</p>
+<p>The text annotation is based on the <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a> class.
 The arguments and keyword arguments are passed on to the <a class="reference internal" href="text.html#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -616,84 +628,82 @@ If the vertical alignment is <cite>bottom</cite>, the given y-coordinate becomes
 
 <dl class="method">
 <dt id="legend.Legend.draw_text_only">
-<code class="sig-name descname">draw_text_only</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">label_style=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_text_only" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call the test function with any arguments and keyword arguments.</p>
+<code class="sig-name descname">draw_text_only</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_text_only" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw nothing as the visual part of the annotation.
+This is used for text-based annotations that require no visual annotation.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> (<em>str</em>) – The text of the legend label.</p></li>
-<li><p><strong>label_style</strong> (<em>None</em><em> or </em><em>dict</em>) – The style of the label.
-If <cite>None</cite> is given, a default style is used.</p></li>
-</ul>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><cite>None</cite></p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A tuple containing the drawn visual and the annotation.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="legend.Legend.draw_arrow">
-<code class="sig-name descname">draw_arrow</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">label_style=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_arrow" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call the test function with any arguments and keyword arguments.</p>
+<code class="sig-name descname">draw_arrow</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">offset</em>, <em class="sig-param">y=1</em>, <em class="sig-param">linespacing=1</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_arrow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw an arrow visual annotation.
+Any additional arguments and keyword arguments are provided to the <a class="reference external" href="https://matplotlib.org/3.2.2/tutorials/text/annotations.html">matplotlib.text.Annotation</a> class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> (<em>str</em>) – The text of the legend label.</p></li>
-<li><p><strong>label_style</strong> (<em>None</em><em> or </em><em>dict</em>) – The style of the label.
-If <cite>None</cite> is given, a default style is used.</p></li>
+<li><p><strong>offset</strong> (<em>float</em>) – The x-offset where to draw the annotation.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-position of the annotation.</p></li>
+<li><p><strong>linespacing</strong> (<em>float</em>) – The linespacing of the accompanying text annotation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A tuple containing the drawn visual and the annotation.</p>
+<dd class="field-even"><p>The drawn arrow.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.annotation</span></code></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="legend.Legend.draw_line">
-<code class="sig-name descname">draw_line</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">label_style=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_line" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call the test function with any arguments and keyword arguments.</p>
+<code class="sig-name descname">draw_line</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">offset</em>, <em class="sig-param">y=1</em>, <em class="sig-param">linespacing=1</em>, <em class="sig-param">horizontal=True</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a line visual annotation.
+Any additional arguments and keyword arguments are provided to the <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.lines.Line2D.html">matplotlib.lines.Line2D</a> class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> (<em>str</em>) – The text of the legend label.</p></li>
-<li><p><strong>label_style</strong> (<em>None</em><em> or </em><em>dict</em>) – The style of the label.
-If <cite>None</cite> is given, a default style is used.</p></li>
+<li><p><strong>offset</strong> (<em>float</em>) – The x-offset where to draw the annotation.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-position of the annotation.</p></li>
+<li><p><strong>linespacing</strong> (<em>float</em>) – The linespacing of the accompanying text annotation.</p></li>
+<li><p><strong>horizontal</strong> (<em>bool</em>) – A boolean indicating whether the line should be horizontal.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A tuple containing the drawn visual and the annotation.</p>
+<dd class="field-even"><p>The drawn line.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.lines.Line2D</span></code></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="legend.Legend.draw_point">
-<code class="sig-name descname">draw_point</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">label_style=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_point" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call the test function with any arguments and keyword arguments.</p>
+<code class="sig-name descname">draw_point</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">offset</em>, <em class="sig-param">y=1</em>, <em class="sig-param">linespacing=1</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a scatter point visual annotation.
+Any additional arguments and keyword arguments are provided to the <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.scatter.html">matplotlib.pyplot.scatter</a> class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> (<em>str</em>) – The text of the legend label.</p></li>
-<li><p><strong>label_style</strong> (<em>None</em><em> or </em><em>dict</em>) – The style of the label.
-If <cite>None</cite> is given, a default style is used.</p></li>
+<li><p><strong>offset</strong> (<em>float</em>) – The x-offset where to draw the annotation.</p></li>
+<li><p><strong>y</strong> (<em>float</em>) – The y-position of the annotation.</p></li>
+<li><p><strong>linespacing</strong> (<em>float</em>) – The linespacing of the accompanying text annotation.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A tuple containing the drawn visual and the annotation.</p>
+<dd class="field-even"><p>The drawn point.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.collections.PathCollection</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -703,18 +713,15 @@ If <cite>None</cite> is given, a default style is used.</p></li>
 <code class="sig-name descname">get_virtual_bb</code><span class="sig-paren">(</span><em class="sig-param">transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.get_virtual_bb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the bounding box of the entire annotation.
 This is called a virtual bounding box because it is not a real bounding box.
-Rather, it is a bounding box that covers all of the bounding boxes of the legend.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The legend always spans the entire x-axis.</p>
-</div>
+Rather, it is a rectangular bounding box that covers all of the bounding boxes of the legend.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
 If <cite>None</cite> is given, the data transformation is used.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The bounding box of the annotation.</p>
+<dd class="field-even"><p>The bounding box of the legend.
+This bounding box covers all of the annotations in the legend.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.Bbox</span></code></p>

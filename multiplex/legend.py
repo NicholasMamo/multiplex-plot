@@ -1,13 +1,12 @@
 """
-Legends are a common sight in visualizations, and a helpful one as well.
-They give a name to the components that you include in your visualization.
+Legends are a common sight in visualizations, and a helpful one at that.
+Multiplex places legends just beneath the caption and above the plot.
+That way, readers can understand how to interpret the visualization before seeing it.
 
 .. image:: ../examples/exports/3-time-series.png
    :class: example
 
-Legends are alternatives to inline labels in time series.
-Multiplex's legends are drawn just below the caption.
-In this way, users can look at the drawn data and understand it immediately.
+Apart from drawing the annotations, the legend aligns and organizes them on different lines.
 """
 
 import os
@@ -22,12 +21,18 @@ import util
 
 class Legend(object):
 	"""
-	The legend is made up of visual elements and a short label describing what they represent.
+	The legend is made up of tuples: a visual element and a short label describing what they represent.
+	The legend class stores these and the :class:`~drawable.Drawable` as instance variables.
+
+	All of the drawn legend annotations go through the :func:`~legend.Legend.draw` decorator.
+	This function first draws the visual part of the annotation.
+	Then, it draws the label next to it.
+	This function is also responsible to lay out the legend annotations, creating new lines when necessary.
 
 	:ivar drawable: The :class:`~drawable.Drawable` where the legend will be drawn.
 	:vartype drawable: :class:`~drawable.Drawable`
 	:ivar lines: The legend components, separated into lines.
-				  Each component is a tuple of the visual representation and the associated label.
+				 Each component is a tuple of the visual representation and the associated label.
 	:vartype lines: list of list of tuple
 	"""
 
@@ -44,8 +49,12 @@ class Legend(object):
 
 	def draw(f):
 		"""
-		The drawing decorator is used to manage the legend's lines.
-		After each drawn label, the function checks if a new line should be created.
+		This function is the most important one in the :class:`~legend.Legend` class.
+		This decorator wraps all of the legend annotations and draws them in three steps:
+
+		1. First, it draws the visual part of the legend annotation.
+		2. Second, it draws the textual label next to the visual part.
+		3. Third, it adds a new line to the legend if need be.
 
 		:param f: The function to wrap.
 		:type f: function
@@ -121,12 +130,14 @@ class Legend(object):
 			self.drawable.redraw()
 			return (visual, annotation)
 
+		wrapper.__doc__ = f.__doc__
 		return wrapper
 
 	def redraw(self):
 		"""
 		Redraw the legend.
-		This moves the legend up whenever the x-axis label and ticks are moved to the top.
+		This function only has an effect when the x-axis label and ticks are at the top, instead of at the bottom.
+		In this case, this function moves the legend up to make room for the label and ticks.
 		"""
 
 		figure, axis = self.drawable.figure, self.drawable.axis
@@ -179,7 +190,10 @@ class Legend(object):
 
 	def draw_annotation(self, label, x, y, va='bottom', *args, **kwargs):
 		"""
-		Get the annotation for the legend.
+		Draw a text annotation.
+		This function is called by the :func:`~legend.Legend.draw` function after drawing the visual part of the legend annotation.
+
+		The text annotation is based on the :class:`~text.annotation.Annotation` class.
 		The arguments and keyword arguments are passed on to the :func:`~text.annotation.Annotation.draw` function.
 
 		:param label: The text of the legend label.
@@ -208,7 +222,9 @@ class Legend(object):
 	@draw
 	def draw_text_only(self, *args, **kwargs):
 		"""
-		Draw nothing as an annotation.
+		draw_text_only(self, *args, **kwargs)
+
+		Draw nothing as the visual part of the annotation.
 		This is used for text-based annotations that require no visual annotation.
 
 		:return: `None`
@@ -220,8 +236,10 @@ class Legend(object):
 	@draw
 	def draw_arrow(self, offset, y=1, linespacing=1, *args, **kwargs):
 		"""
-		Draw an arrow legend for the given label.
-		Any additional arguments and keyword arguments are provided to the plotting function.
+		draw_arrow(self, offset, y=1, linespacing=1, *args, **kwargs)
+
+		Draw an arrow visual annotation.
+		Any additional arguments and keyword arguments are provided to the `matplotlib.text.Annotation <https://matplotlib.org/3.2.2/tutorials/text/annotations.html>`_ class.
 
 		:param offset: The x-offset where to draw the annotation.
 		:type offset: float
@@ -248,8 +266,10 @@ class Legend(object):
 	@draw
 	def draw_line(self, offset, y=1, linespacing=1, horizontal=True, *args, **kwargs):
 		"""
-		Draw a line legend for the given label.
-		Any additional arguments and keyword arguments are provided to the plotting function.
+		draw_line(self, offset, y=1, linespacing=1, horizontal=True, *args, **kwargs)
+
+		Draw a line visual annotation.
+		Any additional arguments and keyword arguments are provided to the `matplotlib.lines.Line2D <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.lines.Line2D.html>`_ class.
 
 		:param offset: The x-offset where to draw the annotation.
 		:type offset: float
@@ -278,8 +298,10 @@ class Legend(object):
 	@draw
 	def draw_point(self, offset, y=1, linespacing=1, *args, **kwargs):
 		"""
-		Draw a scatter point legend for the given label.
-		Any additional arguments and keyword arguments are provided to the plotting function.
+		draw_point(self, offset, y=1, linespacing=1, *args, **kwargs)
+
+		Draw a scatter point visual annotation.
+		Any additional arguments and keyword arguments are provided to the `matplotlib.pyplot.scatter <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.scatter.html>`_ class.
 
 		:param offset: The x-offset where to draw the annotation.
 		:type offset: float
@@ -312,17 +334,14 @@ class Legend(object):
 		"""
 		Get the bounding box of the entire annotation.
 		This is called a virtual bounding box because it is not a real bounding box.
-		Rather, it is a bounding box that covers all of the bounding boxes of the legend.
-
-		.. note::
-
-			The legend always spans the entire x-axis.
+		Rather, it is a rectangular bounding box that covers all of the bounding boxes of the legend.
 
 		:param transform: The bounding box transformation.
 						  If `None` is given, the data transformation is used.
 		:type transform: None or :class:`matplotlib.transforms.TransformNode`
 
-		:return: The bounding box of the annotation.
+		:return: The bounding box of the legend.
+				 This bounding box covers all of the annotations in the legend.
 		:rtype: :class:`matplotlib.transforms.Bbox`
 		"""
 
