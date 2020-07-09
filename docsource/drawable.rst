@@ -10,11 +10,6 @@ There is one thing that is more important than anything else in Multiplex: the :
 All of Multiplex's visualizations revolve around it.
 Indeed, if you are using Multiplex, you can—and should—work only with :class:`~drawable.Drawable` class.
 
-A :class:`~drawable.Drawable` is nothing more than a class that wraps a matplotlib figure and an axis.
-All of the functions that you would call on a `matplotlib axis <https://matplotlib.org/api/axes_api.html>`_, you can call on the :class:`~drawable.Drawable`.
-If you call any function that belongs to a `matplotlib axis <https://matplotlib.org/api/axes_api.html>`_, then matplotlib handles it as usual.
-However, if you call a function that is new to Multiplex, such as a new visualization, then the library handles it.
-
 .. image:: ../examples/exports/3-temperatures.png
 
 To start working with a :class:`~drawable.Drawable`, create it from a normal plot:

@@ -50,7 +50,7 @@
   <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="4. Graph" href="graph.html" /> 
+    <link rel="prev" title="5. Bar Charts" href="bar.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -100,6 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="text.html">2. Text Visualizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timeseries.html">3. Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="graph.html">4. Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bar.html">5. Bar Charts</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Utilities</a></li>
 </ul>
 
@@ -177,7 +178,7 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
 This is used to get the figure renderer.</p></li>
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
 <li><p><strong>text</strong> (<em>str</em>) – The text token to draw.</p></li>
 <li><p><strong>x</strong> (<em>int</em>) – The x-position of the token.</p></li>
 <li><p><strong>y</strong> (<em>int</em>) – The y-position of the token.</p></li>
@@ -204,7 +205,7 @@ This is used to get the figure renderer.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
 This is used to get the figure renderer.</p></li>
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
 <li><p><strong>component</strong> (<em>object</em>) – The component whose bounding box will be fetched.</p></li>
 <li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
 If <cite>None</cite> is given, the data transformation is used.</p></li>
@@ -226,7 +227,7 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
 <li><p><strong>bb</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.Bbox</span></code>) – The bounding box of the component.</p></li>
 <li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
 If <cite>None</cite> is given, the data transformation is used.</p></li>
@@ -251,7 +252,7 @@ The overlap considers the bounding box, and is therefore not perfectly precise.<
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
 This is used to get the figure renderer.</p></li>
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
 <li><p><strong>c1</strong> (<em>object</em>) – The first component.
 Its bounding box will be compared to the second component.</p></li>
 <li><p><strong>c2</strong> (<em>object</em>) – The second component.
@@ -299,7 +300,7 @@ The token’s styling have to be provided as keyword arguments.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
 This is used to get the figure renderer.</p></li>
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
 <li><p><strong>wordspacing</strong> (<em>float</em>) – The spacing between tokens.
 This is used to be able to create the padding around words.</p></li>
 <li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
@@ -348,7 +349,7 @@ Otherwise, <cite>justify</cite> is returned.</p></li>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
 This is used to get the figure renderer.</p></li>
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
 <li><p><strong>items</strong> (<em>list of objcet</em>) – The list of objects to organize.</p></li>
 <li><p><strong>align</strong> (<em>str</em>) – <p>The text’s alignment.
 Possible values:</p>
@@ -392,7 +393,7 @@ The calculation considers the display ratio as well as the data ratio.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axis.Axis</span></code>) – The axis whose aspect ratio will be calculated.</p>
+<dd class="field-odd"><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis whose aspect ratio will be calculated.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The aspect ratio as a fraction of the display ratio and the data ratio.</p>
@@ -414,7 +415,7 @@ The calculation considers the display ratio as well as the data ratio.</p>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="graph.html" class="btn btn-neutral float-left" title="4. Graph" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="bar.html" class="btn btn-neutral float-left" title="5. Bar Charts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

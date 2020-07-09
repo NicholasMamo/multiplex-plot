@@ -10,7 +10,7 @@ def draw_token(figure, axis, text, x, y, style, wordspacing, *args, **kwargs):
 				   This is used to get the figure renderer.
 	:type figure: :class:`matplotlib.figure.Figure`
 	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axis.Axis`
+	:type axis: :class:`matplotlib.axes.Axes`
 	:param text: The text token to draw.
 	:type text: str
 	:param x: The x-position of the token.

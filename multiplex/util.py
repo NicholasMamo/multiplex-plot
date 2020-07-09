@@ -15,7 +15,7 @@ def get_bb(figure, axis, component, transform=None):
 				   This is used to get the figure renderer.
 	:type figure: :class:`matplotlib.figure.Figure`
 	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axis.Axis`
+	:type axis: :class:`matplotlib.axes.Axes`
 	:param component: The component whose bounding box will be fetched.
 	:type component: object
 	:param transform: The bounding box transformation.
@@ -37,7 +37,7 @@ def to_px(axis, bb, transform=None):
 	Convert the given bounding box to pixels based on the given transform.
 
 	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axis.Axis`
+	:type axis: :class:`matplotlib.axes.Axes`
 	:param bb: The bounding box of the component.
 	:type bb: :class:`matplotlib.transforms.Bbox`
 	:param transform: The bounding box transformation.
@@ -61,7 +61,7 @@ def overlapping(figure, axis, c1, c2, *args, **kwargs):
 				   This is used to get the figure renderer.
 	:type figure: :class:`matplotlib.figure.Figure`
 	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axis.Axis`
+	:type axis: :class:`matplotlib.axes.Axes`
 	:param c1: The first component.
 			   Its bounding box will be compared to the second component.
 	:type c1: object
@@ -108,7 +108,7 @@ def get_linespacing(figure, axis, wordspacing=0, transform=None, *args, **kwargs
 				   This is used to get the figure renderer.
 	:type figure: :class:`matplotlib.figure.Figure`
 	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axis.Axis`
+	:type axis: :class:`matplotlib.axes.Axes`
 	:param wordspacing: The spacing between tokens.
 						This is used to be able to create the padding around words.
 	:type wordspacing: float
@@ -183,7 +183,7 @@ def align(figure, axis, items, align='left', xpad=0,
 				   This is used to get the figure renderer.
 	:type figure: :class:`matplotlib.figure.Figure`
 	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axis.Axis`
+	:type axis: :class:`matplotlib.axes.Axes`
 	:param items: The list of objects to organize.
 	:type items: list of objcet
 	:param align: The text's alignment.
@@ -296,7 +296,7 @@ def get_aspect(axis):
 		Solution based on `Mad Physicist's answer on Stack Overflow <https://stackoverflow.com/a/42014041/1771724>`_.
 
 	:param axis: The axis whose aspect ratio will be calculated.
-	:type axis: :class:`matplotlib.axis.Axis`
+	:type axis: :class:`matplotlib.axes.Axes`
 
 	:return: The aspect ratio as a fraction of the display ratio and the data ratio.
 	:rtype: float

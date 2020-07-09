@@ -1,9 +1,32 @@
 """
-All of Multiplex's visualizations revolve around the :class:`~Drawable` class.
 A :class:`~Drawable` is nothing more than a class that wraps a matplotlib figure and an axis.
-All of the functions that you would call on a matplotlib axis, you can call on the :class:`~Drawable`.
-The :class:`~Drawable` instance re-routes unknown functions to the matplotlib axis.
-However, the :class:`~Drawable` also comes with new visualizations to help you explore or explain data faster.
+All of the functions that you would call on a `matplotlib axis <https://matplotlib.org/api/axes_api.html>`_, you can call on the :class:`~Drawable`.
+If you call any function that belongs to a `matplotlib axis <https://matplotlib.org/api/axes_api.html>`_, then matplotlib handles it as usual.
+However, if you call a function that is new to Multiplex, such as a new visualization, then the library handles it.
+
+To create a :class:`~Drawable` instance from a normal plot:
+
+.. code-block:: python
+
+  viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+
+To create a :class:`~Drawable` instance from an axis, or a subplot:
+
+.. code-block:: python
+
+  figure, axis = plt.subplots(2, 1, figsize=(10, 10))
+  viz = drawable.Drawable(figure, axis[0])
+
+Some important functionality that the :class:`~Drawable` class provides:
+
+- The :func:`~drawable.Drawable.set_caption` function.
+  This function sets a caption under the title so that readers immediately know what the visualization is about.
+- The :func:`~drawable.Drawable.savefig` and :func:`~drawable.Drawable.show` functions.
+  These functions mirror matplotlib's `savefig <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.savefig.html>`_ and `show <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.show.html>`_ functions respectively.
+  When you call these functions, the :class:`~Drawable` re-draws the visualization, making sure that the title, caption and legend do not overlap.
+- The :func:`~drawable.Drawable.annotate` function.
+  You can call this function to add text to any plot.
+  This function is useful to point to information that is not immediately obvious, or to draw your readers' attention.
 """
 
 import matplotlib.pyplot as plt
@@ -24,27 +47,14 @@ class Drawable():
 	"""
 	The :class:`~Drawable` class wraps a matplotlib figure and axis to provide additional functionality.
 	If no axis is given, the default plot axis (:code:`plt.gca()`) is used.
-	The :class:`~Drawable` class can be used as a normal :class:`matplotlib.axis.Axis` object with additional functionality.
+	The :class:`~Drawable` class can be used as a normal `matplotlib.axes.Axes <https://matplotlib.org/api/axes_api.html>`_ object with additional functionality.
 	The axis functionality can be called on the :class:`~Drawable` class.
-	The :class:`~Drawable` instance re-routes method and attribute calls to the :class:`matplotlib.axis.Axis` instance.
-
-	To create a :class:`~Drawable` instance from a normal plot:
-
-	.. code-block:: python
-
-	  viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-
-	To create a :class:`~Drawable` instance from an axis, or a subplot:
-
-	.. code-block:: python
-
-	  figure, axis = plt.subplots(2, 1, figsize=(10, 10))
-	  viz = drawable.Drawable(figure, axis[0])
+	The :class:`~Drawable` instance re-routes method and attribute calls to the `matplotlib.axes.Axes <https://matplotlib.org/api/axes_api.html>`_ instance.
 
 	:ivar figure: The figure that the :class:`~Drawable` class wraps.
 	:vartype figure: :class:`matplotlib.figure.Figure`
 	:ivar axis: The axis where the drawable will draw.
-	:vartype axis: :class:`matplotlib.axis.Axis`
+	:vartype axis: :class:`matplotlib.axes.Axes`
 	:var caption: The caption, displayed under the title.
 	:vartype caption: :class:`~text.annotation.Annotation`
 
@@ -71,8 +81,8 @@ class Drawable():
 					   This is mainly used to get the figure renderer.
 		:type figure: :class:`matplotlib.figure.Figure`
 		:param axis: The axis (or subplot) where to plot visualizations.
-					 If `None` is not given, the plot's main subplot is used instead.
-		:type axis: `None` or :class:`matplotlib.axis.Axis`
+					 If `None` is given, the plot's main subplot is used instead.
+		:type axis: `None` or :class:`matplotlib.axes.Axes`
 		"""
 
 		self.figure = figure
@@ -114,7 +124,8 @@ class Drawable():
 
 	def redraw(self):
 		"""
-		Re-create the title with the necessary padding to fit the caption and the legend.
+		Re-create the title, with the goal of leaving enough space to fit the caption and the legend.
+		Afterwards, it redraws the legend.
 		"""
 
 		self._redraw_title()
@@ -231,8 +242,10 @@ class Drawable():
 	def savefig(self, *args, **kwargs):
 		"""
 		A special function that calls the `matplotlib.pyplot.savefig <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.savefig.html>`_ function.
-		Before doing that, the function redraws the drawable.
-		This can be used when the title and caption are set before drawing the data.
+		Before doing that, the function first redraws the drawable.
+
+		This function is very important when the title and caption are set before drawing the visualization.
+		In these cases, it is possible that the legend or the plot labels cause the caption or title to overlap with the plot.
 		"""
 
 		self.redraw()
@@ -241,8 +254,10 @@ class Drawable():
 	def show(self, *args, **kwargs):
 		"""
 		A special function that calls the `matplotlib.pyplot.show <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.show.html>`_ function.
-		Before doing that, the function redraws the drawable.
-		This can be used when the title and caption are set before drawing the data.
+		Before doing that, the function first redraws the drawable.
+
+		This function is very important when the title and caption are set before drawing the visualization.
+		In these cases, it is possible that the legend or the plot labels cause the caption or title to overlap with the plot.
 		"""
 
 		self.redraw()
@@ -250,9 +265,9 @@ class Drawable():
 
 	def __getattr__(self, name):
 		"""
-		Get an attribute indicated by `name` from the class.
-		If it gets to this point, then the attribute does not exist.
-		Instead, it is retrieved from the :class:`~Drawable` axis.
+		The magic function through which most of :class:`~Drawable`'s functionality passes.
+		This function receives any unknown call and passes it on to the :class:`~Drawable`'s `matplotlib.axes.Axes <https://matplotlib.org/api/axes_api.html>`_.
+		This function automatically checks whether the call is referencing a function or a variable.
 
 		:param name: The name of the attribute.
 		:type name: str
@@ -281,10 +296,11 @@ class Drawable():
 
 	def annotate(self, text, x, y, marker=None, pad=0.01, *args, **kwargs):
 		"""
-		Add an annotation to the plot.
-		Any additional arguments and keyword arguments are passed on to the annotation's :func:`~text.text.Annotation.draw` function.
-		For example, the `va` can be provided to specify the vertical alignment.
-		The `align` parameter can be used to specify the text's alignment.
+		Add a text annotation to the plot.
+		This function can be used to draw attention to certain or describe the visualization on the plot itself.
+
+		Any additional arguments and keyword arguments are passed on to the :class:`~text.annotation.Annotation`'s :func:`~text.annotation.Annotation.draw` function.
+		For example, the `va` can be provided to specify the text's vertical alignment, andthe `align` parameter can be used to specify the text's alignment.
 
 		:param text: The text of the annotation to draw.
 		:type text: str
@@ -327,7 +343,7 @@ class Drawable():
 	def draw_bar_100(self, *args, **kwargs):
 		"""
 		Draw a bar chart that stacks up to 100% on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :func:`~bar.100.Bar100.draw` method.
+		The arguments and keyword arguments are those supported by the :class:`~bar.bar100.Bar100`'s :func:`~bar.bar100.Bar100.draw` method.
 
 		:return: A list of drawn bars.
 		:rtype: list of :class:`matplotlib.patches.Rectangle`
@@ -339,7 +355,7 @@ class Drawable():
 	def draw_graph(self, *args, **kwargs):
 		"""
 		Draw a graph visualization on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :func:`~graph.graph.Graph.draw` method.
+		The arguments and keyword arguments are those supported by the :class:`~graph.graph.Graph`'s :func:`~graph.graph.Graph.draw` method.
 
 		:return: A tuple containing the list of drawn nodes, the rendered node names, edges, and the rendered edge names.
 		:rtype: tuple
@@ -351,7 +367,7 @@ class Drawable():
 	def draw_text_annotation(self, *args, **kwargs):
 		"""
 		Draw a text annotation visualization on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :func:`~text.annotation.TextAnnotation.draw` method.
+		The arguments and keyword arguments are those supported by the :class:`~text.text.TextAnnotation`'s :func:`~text.text.TextAnnotation.draw` method.
 
 		:return: The drawn text annotation's lines.
 				 Each line is made up of tuples of lists.
@@ -366,7 +382,7 @@ class Drawable():
 	def draw_time_series(self, *args, **kwargs):
 		"""
 		Draw a time series visualization on this :class:`~Drawable`.
-		The arguments and keyword arguments are those supported by :func:`~timeseries.timeseries.TimeSeries.draw` method.
+		The arguments and keyword arguments are those supported by the :class:`~timeseries.timeseries.TimeSeries`' :func:`~timeseries.timeseries.TimeSeries.draw` method.
 
 		:return: A tuple made up of the drawn plot and label.
 		:rtype: tuple
