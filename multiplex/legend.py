@@ -159,7 +159,7 @@ class Legend(object):
 		if bottom < y:
 			offset = y - bottom
 			for line in self.lines:
-				for (visual, text) in line:
+				for (visual, annotation) in line:
 					"""
 					Move the visual first, then the text.
 					"""
@@ -174,8 +174,8 @@ class Legend(object):
 							offsets = visual.get_offsets()[0]
 							visual.set_offsets([[ offsets[0], offsets[1] + offset ]])
 
-					bb = text.get_virtual_bb(transform=axis.transAxes)
-					text.set_position((bb.x0, bb.y0 + offset), transform=axis.transAxes)
+					bb = annotation.get_virtual_bb(transform=axis.transAxes)
+					annotation.set_position((bb.x0, bb.y0 + offset), transform=axis.transAxes)
 
 	def draw_annotation(self, label, x, y, va='bottom', *args, **kwargs):
 		"""
