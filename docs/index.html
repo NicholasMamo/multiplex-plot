@@ -172,46 +172,68 @@
 <img alt="_images/3-time-series.png" class="example" src="_images/3-time-series.png" />
 <div class="section" id="multiplex">
 <h1>Multiplex<a class="headerlink" href="#multiplex" title="Permalink to this headline">¶</a></h1>
-<p>Multiplex is a visualization library for Python built on <a class="reference external" href="https://github.com/matplotlib/matplotlib/">matplotlib</a>.
-Multiplex follows the principle that visualizations should tell a story in a beautiful way.
-This package is built with the intent of making it as easy as possible to transform data into beautiful visualizations.</p>
+<p>Visualizations should tell a story, and tell it in a beautiful way.
+Multiplex is a visualization library for Python built on these principles using <a class="reference external" href="https://github.com/matplotlib/matplotlib/">matplotlib</a>.
+This library aims to make it as easy as possible for you to transform data into beautiful visualizations that tell a story.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This website documents all of Multiplex’s functionality.
-If you want to get started right away, check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/tree/master/examples">example notebooks</a>.</p>
-</div>
-<div class="section" id="who-is-multiplex-for">
-<h2>Who is Multiplex for?<a class="headerlink" href="#who-is-multiplex-for" title="Permalink to this headline">¶</a></h2>
-<p>Multiplex is aimed at data scientists, researchers, students and all those who work with data and are familiar with Python.
-This library aims to make it easier to explore and explain data by creating beautiful visualizations.</p>
-</div>
-<div class="section" id="how-do-i-use-multiplex">
-<h2>How do I use Multiplex?<a class="headerlink" href="#how-do-i-use-multiplex" title="Permalink to this headline">¶</a></h2>
-<p>To start using Multiplex, you can clone it using pip:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m pip install -U multiplex-plot
-</pre></div>
-</div>
 <p>This website describes all of Multiplex’s functionality and is only meant to be used as reference.
 You can browse this website when you need to know what arguments are supported by the visualizations.</p>
 <p>If you are a new Multiplex user, a better starting point is the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/tree/master/examples">example notebooks</a>.</p>
 </div>
-<div class="section" id="why-multiplex">
-<h2>Why Multiplex?<a class="headerlink" href="#why-multiplex" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><p>If Multiplex is based on matplotlib, why not use matplotlib directly?</p>
-</div></blockquote>
-<img alt="_images/0-multiplex-dark-style.png" class="example" src="_images/0-multiplex-dark-style.png" />
+<div class="section" id="who-is-multiplex-for">
+<h2>Who is Multiplex for?<a class="headerlink" href="#who-is-multiplex-for" title="Permalink to this headline">¶</a></h2>
+<p>Multiplex is aimed at data scientists, researchers, students and all those who work with data and are familiar with Python.</p>
+</div>
+<div class="section" id="why-should-i-use-multiplex">
+<h2>Why should I use Multiplex?<a class="headerlink" href="#why-should-i-use-multiplex" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If Multiplex is based on matplotlib, why not use matplotlib directly?</p>
+</div>
 <p>Multiplex does not replace matplotlib.
-Anything that you can do with Multiplex, you can also do with matplotlib.
-What Multiplex does is make it easier to create beautiful visualizations.
+Anything that you can do with Multiplex, you can also do with matplotlib.</p>
+<p>Multiplex makes it easier to create beautiful visualizations.
 This is achieved by providing:</p>
-<ul class="simple">
-<li><p>Custom matplotlib styles;</p></li>
+<ul>
+<li><p><a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/0.%20Styles.ipynb">4 custom matplotlib styles</a>;</p></li>
 <li><p>Functionality to caption visualizations;</p></li>
 <li><p>Functionality to annotate any visualization with text; and</p></li>
-<li><p>New types of visualizations not available in matplotlib, such as the network graph and text-based visualizations.</p></li>
+<li><p>New types of visualizations not available in matplotlib:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>100% bar chart,</p></li>
+<li><p>Network graph, and</p></li>
+<li><p>Text-only visualizations.</p></li>
 </ul>
-<p>For example, you can create a text visualization with a simple function call, including all styling options:</p>
+</div></blockquote>
+</li>
+</ul>
+<p>Multiplex automatically lays out your data so that you can focus on telling your story.</p>
+</div>
+<div class="section" id="how-do-i-use-multiplex">
+<h2>How do I use Multiplex?<a class="headerlink" href="#how-do-i-use-multiplex" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/0-multiplex-dark-style.png" class="example" src="_images/0-multiplex-dark-style.png" />
+<p>To start using Multiplex, you can clone it using pip:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m pip install -U multiplex-plot
+</pre></div>
+</div>
+<div class="section" id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h3>
+<p>Multiplex is based on <a class="reference external" href="https://github.com/matplotlib/matplotlib">matplotlib</a>.
+You can install matplotlib using pip:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m pip install -U matplotlib
+</pre></div>
+</div>
+<p>More details about it are available in <a class="reference external" href="https://github.com/matplotlib/matplotlib">matplotlib’s repository</a>.</p>
+<p>Multiplex also uses the following libraries in certain visualizations:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/networkx/networkx">networkx</a></p></li>
+<li><p><a class="reference external" href="https://github.com/pandas-dev/pandas">pandas</a></p></li>
+</ul>
+<p>### Quickstart</p>
+<p>Creating visualizations with Multiplex is very easy.
+For example, you can create a text-only visualization in just 10 lines of code, including all styling options:</p>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -230,19 +252,18 @@ This is achieved by providing:</p>
 <span class="n">viz</span><span class="o">.</span><span class="n">draw_text_annotation</span><span class="p">(</span><span class="n">paragraph</span><span class="p">,</span> <span class="o">**</span><span class="n">style</span><span class="p">)</span>
 <span class="n">viz</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Profile: Anthony Lopes&#39;</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
 <span class="n">viz</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Wikipedia is a useful repository to get more information about anything. Below is an excerpt from the Wikipedia profile of footballer Anthony Lopes.&quot;&quot;&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </td></tr></table></div>
 <a class="center reference internal image-reference" href="_images/2-simple-text.png"><img alt="_images/2-simple-text.png" class="center" src="_images/2-simple-text.png" style="width: 62%;" /></a>
 <p>All it takes to draw a simple text visualization is 10 lines of code:</p>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p>Three lines to import matplotlib, Multiplex and the visualization style;</p></li>
-<li><p>Three lines to set up the visualization object, load the data and set the style;</p></li>
-<li><p>Four lines to draw and show the visualization, including a title and caption.</p></li>
+<ol class="arabic simple">
+<li><p>3 lines to import matplotlib, Multiplex and the visualization style;</p></li>
+<li><p>3 lines to set up the visualization object, load the data and set the style;</p></li>
+<li><p>4 lines to draw and show the visualization, including a title and caption.</p></li>
 </ol>
-</div></blockquote>
-<p>Multiplex abstracts the tedious process of manually programming which elements go where, and lets you create beautiful visualizations with ease.</p>
+<p>Multiplex does all the tedious work for you: the layout, alignment and more.
+At the same time, you can take as much control as you want.</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
@@ -262,6 +283,7 @@ This is achieved by providing:</p>
 <li class="toctree-l1"><a class="reference internal" href="bar.html">5. Bar Charts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
+</div>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
