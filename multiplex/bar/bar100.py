@@ -46,13 +46,16 @@ from visualization import Visualization
 class Bar100(Visualization):
 	"""
 	The 100% bar chart visualization draws bars that, unsurprisingly, always sums up to 100%.
-	This class revolves around the :func:`~Bar100.draw` function.
-	The :func:`~Bar100.draw` function receives a list of numbers and automatically converts them to percentages.
+	Although the 100% bar chart is based on `matplotlib's barh <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.barh.html>`_ function, the :class:`~Bar100` visualization does a lot of work behind the scenes to make it easier to create 100% bar charts.
 
-	This class keeps track of all the bars that it has drawn in the `~Bar100.bars` instance variable.
+	This class stores the :class:`~drawable.Drawable` instance.
+	As usual, the main functionality goes through the :func:`~Bar100.draw` function.
+
+	The :func:`~Bar100.draw` function receives a list of numbers, converts them to percentages and then draws them.
+	This class keeps track of all the bars that it has drawn in the ``bars`` instance variable.
 
 	:ivar bars: A list of bars drawn so far.
-				Each bar is, in turn, made up of more bars, all of which add up to 100%.
+				Each bar is split into a number of bars that together add up to 100%.
 	:vartype bars: list of list of :class:`matplotlib.patches.Rectangle`
 	"""
 
@@ -68,11 +71,9 @@ class Bar100(Visualization):
 	def draw(self, values, name, style_plot=True,
 			 min_percentage=1, pad=0.25, label_style=None, *args, **kwargs):
 		"""
-		Draw a bar on the :class:`~drawable.Drawable`.
-		All values are converted to percentages.
+		Draws a bar on the :class:`~drawable.Drawable` that spans 100% of the x-axis.
+		The function automatically converts the given values into percentages.
 
-		The arguments and keyword arguments are passed on to the `matplotlib.pyplot.barh <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.barh.html>`_ method.
-		Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.
 
 		The values can be provided either as a list of floats or as a list of dictionaries.
 		If floats are provided, the function automatically converts them into dictionaries.
@@ -83,35 +84,54 @@ class Bar100(Visualization):
 			{
 			  'value': 10,
 			  'style': { 'color': 'C1' },
+			  'label': None
 			}
 
-		Of these keys, only `value` is required.
-		The correct styling options are those accepted by the `matplotlib.pyplot.barh <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.barh.html>`_ method.
-		Anything not given uses default values.
+		Of these keys, only the ``value`` is required.
+
+		If you provide a ``label``, the function automatically adds a legend for the bar.
+
+		You can use the ``style`` to override the general styling options, which you can specify as ``kwargs``.
+		The accepted styling options are those supported by the `matplotlib.pyplot.barh <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.barh.html>`_ method.
+
+		Use the ``kwargs`` as a general style, and the dictionary's ``style`` as a specific style for each bar.
+		If you specify a ``kwargs`` styling option, but it is missing from the dictionary's ``style``, the general style is used.
+
+		.. note::
+
+			For example, imagine you specify the bar ``color`` to be ``blue`` and the ``alpha`` to be ``0.2`` in the ``**kwargs``.
+			If in the dictionary's ``style`` of a particular bar you set the ``alpha`` to be ``1``, the bar will be opaque.
+			However, since the ``color`` is not specified, it will use the general color: ``blue``.
 
 		:param values: A list of values to draw.
-					   The visualization expects a a `list` of floats or a `list` of `dict` instances as shown above.
+					   The visualization expects a ``list`` of floats or a ``list`` of ``dict`` instances as shown above.
 		:type values: list of float or list of dict
 		:param name: The name of the 100% bar chart.
+					 The function automatically adds this name to the y-axis tick labels next to the drawn bar.
 		:type name: str
 		:param style_plot: A boolean indicating whether the plot should be re-styled.
-						   If it is set to `True`, the visualization:
+						   If it is set to ``True``, the visualization:
 
-						   - Moves the x-ticks to the top of the plot,
-						   - Moves the x-axis label to the top of the plot, and
-						   - Removes the grid.
+						       - Moves the x-axis label to the top of the plot,
+					   	       - Moves the x-ticks to the top of the plot,
+					   	       - Converts the x-ticks to percentages, and
+					   	       - Removes the grid.
 		:type style_plot: bool
 		:param min_percentage: The minimum percentage to show in the 100% bar chart.
-							   This is used so that bars with 0% percentage are still shown with a thin bar.
+							   This is used so that bars with 0% percentage are still shown with a very thin bar.
 		:type min_percentage: float
 		:param pad: The amount of padding, in percentage, to apply to the given value.
 					This padding will be split equally on the left and right of the bar.
 					In any case, the padding cannot reduce a bar to below the minimum percentage.
 		:type pad: float
 		:param label_style: The style of the label.
+							By default, the label inherits the style from the ``kwargs`` so that the label is visually similar to the bar.
+							The ``label_style`` accepts any styling option supported by the :class:`~text.annotation.Annotation`'s :func:`~text.annotation.Annotation.draw` function.
 		:type label_style: dict or None
 
-		:return: A list of drawn bars.
+		:return: The list of drawn bars.
+				 These bars are ordered in the same way as the provided values.
+				 Together, they add up to 100%.
 		:rtype: list of :class:`matplotlib.patches.Rectangle`
 
 		:raises ValueError: When no values are given.

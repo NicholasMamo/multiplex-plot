@@ -62,7 +62,6 @@ class TimeSeries(LabelledVisualization):
 
 		If a ``label`` is given, it is drawn at the end of the time series.
 		You can use the ``label_style`` to style the label.
-		By default, the time series' ``color`` is used for the label's color, even if the ``color`` is not set in the ``kwargs``.
 		If you prefer to add the label to the :class:`~legend.Legend`, set ``with_legend=True``.
 
 		Any additional arguments and keyword arguments are used to style the line.
@@ -78,6 +77,8 @@ class TimeSeries(LabelledVisualization):
 					  If given, the label is drawn at the end of the line or in the legend, depending on the value of the ``with_legend`` parameter.
 		:type label: str or None
 		:param label_style: The style of the label.
+							By default, the time series' ``color`` is used for the label's color, even if the ``color`` is not set in the ``kwargs``.
+							The ``label_style`` accepts any styling option supported by the :class:`~text.annotation.Annotation`'s :func:`~text.annotation.Annotation.draw` function.
 		:type label_style: dict or None
 		:param with_legend: A boolean indicating whether the labels should be drawn as a legend.
 							If it is set to ``False``, the labels are drawn at the end of the line.

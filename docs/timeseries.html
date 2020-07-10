@@ -225,7 +225,6 @@ Instead of labels, you can also label time series in the <a class="reference int
 The function expects, at the very least, the points on the time series: a list of x-coordinates and their corresponding y-coordinates.</p>
 <p>If a <code class="docutils literal notranslate"><span class="pre">label</span></code> is given, it is drawn at the end of the time series.
 You can use the <code class="docutils literal notranslate"><span class="pre">label_style</span></code> to style the label.
-By default, the time series’ <code class="docutils literal notranslate"><span class="pre">color</span></code> is used for the label’s color, even if the <code class="docutils literal notranslate"><span class="pre">color</span></code> is not set in the <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.
 If you prefer to add the label to the <a class="reference internal" href="drawable.html#legend.Legend" title="legend.Legend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Legend</span></code></a>, set <code class="docutils literal notranslate"><span class="pre">with_legend=True</span></code>.</p>
 <p>Any additional arguments and keyword arguments are used to style the line.
 The function accepts any arguments and keyword arguments accepted by the <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html">matplotlib.pyplot.plot</a> function.</p>
@@ -238,7 +237,9 @@ The x-coordinates must have the same number of points as the y-coordinates.</p><
 The y-coordinates must have the same number of points as the x-coordinates.</p></li>
 <li><p><strong>label</strong> (<em>str</em><em> or </em><em>None</em>) – The plot’s label.
 If given, the label is drawn at the end of the line or in the legend, depending on the value of the <code class="docutils literal notranslate"><span class="pre">with_legend</span></code> parameter.</p></li>
-<li><p><strong>label_style</strong> (<em>dict</em><em> or </em><em>None</em>) – The style of the label.</p></li>
+<li><p><strong>label_style</strong> (<em>dict</em><em> or </em><em>None</em>) – The style of the label.
+By default, the time series’ <code class="docutils literal notranslate"><span class="pre">color</span></code> is used for the label’s color, even if the <code class="docutils literal notranslate"><span class="pre">color</span></code> is not set in the <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.
+The <code class="docutils literal notranslate"><span class="pre">label_style</span></code> accepts any styling option supported by the <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>’s <a class="reference internal" href="text.html#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p></li>
 <li><p><strong>with_legend</strong> (<em>bool</em>) – A boolean indicating whether the labels should be drawn as a legend.
 If it is set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, the labels are drawn at the end of the line.
 Otherwise, the label is added to the <a class="reference internal" href="drawable.html#legend.Legend" title="legend.Legend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Legend</span></code></a>.</p></li>
