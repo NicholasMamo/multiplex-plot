@@ -11,6 +11,8 @@ For readability, the 100% bar chart visualization also makes a few changes to th
 - Moving the x-ticks to the top of the plot,
 - Moving the x-axis label to the top of the plot, and
 - Removing the grid.
+
+
 """
 
 import os

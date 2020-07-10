@@ -40,7 +40,6 @@
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
         <script type="text/javascript" src="_static/language_data.js"></script>
-        <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -103,7 +102,10 @@
 <li class="toctree-l1"><a class="reference internal" href="text.html">2. Text Visualizations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="timeseries.html">3. Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="graph.html">4. Graph</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Bar Charts</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Bar Charts</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-bar.bar100">100% Bar Charts</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 
@@ -171,14 +173,19 @@
             
     <div class="section" id="bar-charts">
 <h1>5. Bar Charts<a class="headerlink" href="#bar-charts" title="Permalink to this headline">¶</a></h1>
-<span class="target" id="module-bar"></span><p>Bar charts are one of the most intuitive types of available visualizations.
-Multiplex makes it easier to create more complex types of bar charts.</p>
-<p>Keep reading to learn more about bar chart visualizations.</p>
+<span class="target" id="module-bar"></span><p>Bar charts are one of the most intuitive types of visualizations.
+As with the rest of the library, Multiplex makes it easier to create more complex types of bar charts.</p>
+<p>At the moment, Multiplex supports only horizontal bar charts, not column charts.
+Horizontal bar charts are slightly better for comparisons and readability because they are read from top to bottom.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/5.%20Bar%20charts.ipynb">bar chart Jupyter Notebook tutorial</a>.</p>
+<p>Are you looking to create bar chart visualizations, not read the in-depth documentation about them?
+<a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/tree/master/examples">Multiplex’s Jupyter Notebook examples</a> are a quick guide to get you up and running.
+Check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/5.%20Bar%20charts.ipynb">bar chart Jupyter Notebook tutorial</a> to learn how to create your own bar chart visualizations.</p>
 </div>
-<span class="target" id="module-bar.bar100"></span><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Bar100</span></code> visualization draws stacked bar charts that all add up to 100%.
+<div class="section" id="module-bar.bar100">
+<span id="id1"></span><h2>100% Bar Charts<a class="headerlink" href="#module-bar.bar100" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Bar100</span></code> visualization draws stacked bar charts that all add up to 100%.
 The 100% bar chart visualization is useful to show the make-up of data.</p>
 <p>This visualization is based on <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.barh.html">matplotlib’s barh</a> function.
 However, it also comes with functionality to make it easier to construct 100% bar chart visualizations.
@@ -268,155 +275,9 @@ In any case, the padding cannot reduce a bar to below the minimum percentage.</p
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="bar.bar100.Bar100._style">
-<code class="sig-name descname">_style</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bar.bar100.Bar100._style" title="Permalink to this definition">¶</a></dt>
-<dd><p>Style the plot by:</p>
-<ul class="simple">
-<li><p>Moving the x-ticks to the top of the plot,</p></li>
-<li><p>Moving the x-axis label to the top of the plot, and</p></li>
-<li><p>Removing the grid.</p></li>
-</ul>
 </dd></dl>
 
-<dl class="method">
-<dt id="bar.bar100.Bar100._to_dict">
-<code class="sig-name descname">_to_dict</code><span class="sig-paren">(</span><em class="sig-param">values</em><span class="sig-paren">)</span><a class="headerlink" href="#bar.bar100.Bar100._to_dict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert all values to a list of dictionaries.
-This is done so that all values are uniform.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>values</strong> (<em>list of float</em><em> or </em><em>list of dict</em>) – A list of values.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of values as dictionaries.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list of dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="bar.bar100.Bar100._draw_bars">
-<code class="sig-name descname">_draw_bars</code><span class="sig-paren">(</span><em class="sig-param">values</em>, <em class="sig-param">min_percentage=0</em>, <em class="sig-param">pad=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#bar.bar100.Bar100._draw_bars" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw the bars such that they stack up to 100%.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>values</strong> (<em>list of dict</em>) – A list of values to draw.</p></li>
-<li><p><strong>min_percentage</strong> (<em>float</em>) – The minimum percentage to show in the 100% bar chart.
-This is used so that bars with 0% percentage are still shown with a thin bar.</p></li>
-<li><p><strong>pad</strong> (<em>float</em>) – The amount of padding, in percentage, to apply to the given value.
-This padding will be split equally on the left and right of the bar.
-In any case, the padding cannot reduce a bar to below the minimum percentage.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of drawn bars.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.patches.Rectangle</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="bar.bar100.Bar100._to_100">
-<code class="sig-name descname">_to_100</code><span class="sig-paren">(</span><em class="sig-param">values</em>, <em class="sig-param">min_percentage=0</em><span class="sig-paren">)</span><a class="headerlink" href="#bar.bar100.Bar100._to_100" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert the given list of values to percentages.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>values</strong> (<em>list of float</em>) – A list of values to convert to percentages.</p></li>
-<li><p><strong>min_percentage</strong> (<em>float</em>) – The minimum percentage, defaults to 0%.
-This is used so that bars with 0% percentage are still shown with a thin bar.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A list of percentages that add up to 100%.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>list of float</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – When the minimum percentage is below 0% or above 100%.</p></li>
-<li><p><strong>ValueError</strong> – When the minimum percentage multiplied by all values exceeds 100%.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="bar.bar100.Bar100._pad">
-<code class="sig-name descname">_pad</code><span class="sig-paren">(</span><em class="sig-param">percentage</em>, <em class="sig-param">pad</em>, <em class="sig-param">min_percentage</em><span class="sig-paren">)</span><a class="headerlink" href="#bar.bar100.Bar100._pad" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the padding to apply to the given percentage value.
-Padding leaves some space around both ends of the bar.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>percentage</strong> (<em>float</em>) – The percentage to which padding will be applied.</p></li>
-<li><p><strong>pad</strong> (<em>float</em>) – The amount of padding, in percentage, to apply to the given value.
-This padding will be split equally on the left and right of the bar.
-In any case, the padding cannot reduce a bar to below the minimum percentage.</p></li>
-<li><p><strong>min_percentage</strong> (<em>float</em>) – The minimum percentage to allow.
-This is used so that even very small percentages are shown in the 100% bar chart.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The amount of padding to apply to the given percentage value.
-The padding returned is for one side.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – When the percentage is below 0% or above 100%.</p></li>
-<li><p><strong>ValueError</strong> – When the padding is below 0% or above 100%.</p></li>
-<li><p><strong>ValueError</strong> – When the minimum percentage is below 0% or above 100%.</p></li>
-<li><p><strong>ValueError</strong> – When the minimum percentage exceeds the percentage.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="bar.bar100.Bar100._add_name">
-<code class="sig-name descname">_add_name</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="headerlink" href="#bar.bar100.Bar100._add_name" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a name to the y-axis.</p>
-<p>This function does two things:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Adds a y-tick, and</p></li>
-<li><p>Gives that y-tick the given name.</p></li>
-</ul>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name of the drawn bar.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="bar.bar100.Bar100._draw_legend">
-<code class="sig-name descname">_draw_legend</code><span class="sig-paren">(</span><em class="sig-param">values</em>, <em class="sig-param">label_style=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#bar.bar100.Bar100._draw_legend" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw the value labels in the legend.</p>
-<p>Any additional arguments and keyword arguments are passed on to the legend drawing functions.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>values</strong> (<em>list of dict</em>) – A list of values to draw.</p></li>
-<li><p><strong>label_style</strong> (<em>dict</em><em> or </em><em>None</em>) – The style of the labels.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+</div>
 </div>
 
 
