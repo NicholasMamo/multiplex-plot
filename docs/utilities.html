@@ -181,6 +181,9 @@ Apart from saving you time and improving the quality of your code, these functio
 <dt id="util.get_bb">
 <code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_bb</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes</em>, <em class="sig-param">component</em>, <em class="sig-param">transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_bb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the bounding box of the given component.</p>
+<p>The bounding box is a rectangular box that covers the component.
+It indicates the bounds of the component and it has many uses.
+For example, it can be used to align components, or to make sure that they do not overlap.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -227,7 +230,13 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 <dt id="util.overlapping">
 <code class="sig-prename descclassname">util.</code><code class="sig-name descname">overlapping</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes</em>, <em class="sig-param">c1</em>, <em class="sig-param">c2</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.overlapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check whether the given components overlap.
-The overlap considers the bounding box, and is therefore not perfectly precise.</p>
+To check whether the given components overlap, the function extracts their bounding boxes and calls the <a class="reference internal" href="#util.overlapping_bb" title="util.overlapping_bb"><code class="xref py py-func docutils literal notranslate"><span class="pre">overlapping_bb()</span></code></a> function.</p>
+<p>If a complex component, such as an <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>, is given, it cannot extract its bounding box.
+In such cases, where possible extract the bounding box separately, perhaps by getting the virtual bounding box (<a class="reference internal" href="text.html#text.annotation.Annotation.get_virtual_bb" title="text.annotation.Annotation.get_virtual_bb"><code class="xref py py-func docutils literal notranslate"><span class="pre">get_virtual_bb()</span></code></a>), and call the <a class="reference internal" href="#util.overlapping_bb" title="util.overlapping_bb"><code class="xref py py-func docutils literal notranslate"><span class="pre">overlapping_bb()</span></code></a> function directly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Since the overlap considers the rectangular bounding box, it is not perfectly precise.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -272,10 +281,11 @@ Its bounding box will be compared to the first component.</p></li>
 <dl class="function">
 <dt id="util.get_linespacing">
 <code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_linespacing</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes</em>, <em class="sig-param">wordspacing=0</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_linespacing" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the line spacing of text tokens.
+<dd><p>Calculate the line spacing (or line height) of text tokens.
 The line spacing is calculated by creating a token and getting its height.
-The token is immediately removed.
-The token’s styling have to be provided as keyword arguments.</p>
+The token is immediately removed so it is not visible on the plot.</p>
+<p>When calculating the line spacing, it is important to provide the style as <code class="docutils literal notranslate"><span class="pre">args</span></code> and <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.
+In this way, the line spacing considers the font, font size and other attributes that may affect the line spacing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -289,7 +299,7 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The line spacing.</p>
+<dd class="field-even"><p>The line spacing (or line height).</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>float</p>
@@ -301,8 +311,13 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 <dt id="util.get_alignment">
 <code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_alignment</code><span class="sig-paren">(</span><em class="sig-param">align</em>, <em class="sig-param">end=False</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_alignment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the proper alignment value for the current line.
-This is mainly used for justification values.
-Since the last line of justified items is aligned differently, this function extracts the appropriate value.</p>
+This is mainly used for justification values.</p>
+<p>Justified text justifies all lines except the last one.
+The last line is not full, therefore it is aligned differently: either <code class="docutils literal notranslate"><span class="pre">left</span></code>, <code class="docutils literal notranslate"><span class="pre">center</span></code> or <code class="docutils literal notranslate"><span class="pre">right</span></code>.
+This function extracts the proper alignment depending on whether this is the last line or not.</p>
+<p>This function supports all the alignment options in the <a class="reference internal" href="#util.align" title="util.align"><code class="xref py py-class docutils literal notranslate"><span class="pre">align</span></code></a> function.
+If a simple alignment, such as <code class="docutils literal notranslate"><span class="pre">left</span></code> is given, it returns that value.
+This function only modifies the <code class="docutils literal notranslate"><span class="pre">justify</span></code> options.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -324,7 +339,7 @@ Otherwise, <cite>justify</cite> is returned.</p></li>
 <dl class="function">
 <dt id="util.align">
 <code class="sig-prename descclassname">util.</code><code class="sig-name descname">align</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes</em>, <em class="sig-param">items</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">xpad=0</em>, <em class="sig-param">xlim=None</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.align" title="Permalink to this definition">¶</a></dt>
-<dd><p>Organize the given objects.</p>
+<dd><p>Align the given objects horizontally around the given <code class="docutils literal notranslate"><span class="pre">xlim</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -336,17 +351,18 @@ This is used to get the figure renderer.</p></li>
 Possible values:</p>
 <blockquote>
 <div><ul>
-<li><p>left</p></li>
-<li><p>center</p></li>
-<li><p>right</p></li>
-<li><p>justify</p></li>
-<li><p>justify-start (or justify-left)</p></li>
-<li><p>justify-center</p></li>
-<li><p>justify-end or (justify-right)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">center</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">justify</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">justify-start</span></code> (or <code class="docutils literal notranslate"><span class="pre">justify-left</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">justify-center</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">justify-end</span></code> or (<code class="docutils literal notranslate"><span class="pre">justify-right</span></code>)</p></li>
 </ul>
 </div></blockquote>
 </p></li>
-<li><p><strong>xpad</strong> (<em>float</em>) – The space between objects.</p></li>
+<li><p><strong>xpad</strong> (<em>float</em>) – The space between objects.
+Normally this depends on the <code class="docutils literal notranslate"><span class="pre">wordspacing</span></code>.</p></li>
 <li><p><strong>xlim</strong> (<em>tuple</em>) – The x-limit relative to which to align the objects.
 If it is not given, the axes’ x-limit is used instead.
 The x-limit is a tuple limiting the start and end.</p></li>
@@ -370,7 +386,7 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 The calculation considers the display ratio as well as the data ratio.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Solution based on <a class="reference external" href="https://stackoverflow.com/a/42014041/1771724">Mad Physicist’s answer on Stack Overflow</a>.</p>
+<p>This solution is based on <a class="reference external" href="https://stackoverflow.com/a/42014041/1771724">Mad Physicist’s answer on Stack Overflow</a>.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

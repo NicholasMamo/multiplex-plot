@@ -11,6 +11,10 @@ def get_bb(figure, axes, component, transform=None):
 	"""
 	Get the bounding box of the given component.
 
+	The bounding box is a rectangular box that covers the component.
+	It indicates the bounds of the component and it has many uses.
+	For example, it can be used to align components, or to make sure that they do not overlap.
+
 	:param figure: The figure that the component occupies.
 				   This is used to get the figure renderer.
 	:type figure: :class:`matplotlib.figure.Figure`
@@ -55,7 +59,14 @@ def to_px(axes, bb, transform=None):
 def overlapping(figure, axes, c1, c2, *args, **kwargs):
 	"""
 	Check whether the given components overlap.
-	The overlap considers the bounding box, and is therefore not perfectly precise.
+	To check whether the given components overlap, the function extracts their bounding boxes and calls the :func:`~util.overlapping_bb` function.
+
+	If a complex component, such as an :class:`~text.annotation.Annotation`, is given, it cannot extract its bounding box.
+	In such cases, where possible extract the bounding box separately, perhaps by getting the virtual bounding box (:func:`~text.annotation.Annotation.get_virtual_bb()`), and call the :func:`~util.overlapping_bb` function directly.
+
+	.. note::
+
+		Since the overlap considers the rectangular bounding box, it is not perfectly precise.
 
 	:param figure: The figure that the component occupies.
 				   This is used to get the figure renderer.
@@ -81,6 +92,10 @@ def overlapping_bb(bb1, bb2):
 	"""
 	Check whether the two given bounding boxes overlap.
 
+	.. note:
+
+		Since the overlap considers the rectangular bounding box, it is not perfectly precise.
+
 	:param bb1: The first bounding box.
 	:type bb1: :class:`matplotlib.transforms.Bbox`
 	:param bb2: The second bounding box.
@@ -99,10 +114,12 @@ def overlapping_bb(bb1, bb2):
 
 def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs):
 	"""
-	Calculate the line spacing of text tokens.
+	Calculate the line spacing (or line height) of text tokens.
 	The line spacing is calculated by creating a token and getting its height.
-	The token is immediately removed.
-	The token's styling have to be provided as keyword arguments.
+	The token is immediately removed so it is not visible on the plot.
+
+	When calculating the line spacing, it is important to provide the style as ``args`` and ``kwargs``.
+	In this way, the line spacing considers the font, font size and other attributes that may affect the line spacing.
 
 	:param figure: The figure that the component occupies.
 				   This is used to get the figure renderer.
@@ -116,13 +133,13 @@ def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs
 					  If `None` is given, the data transformation is used.
 	:type transform: None or :class:`matplotlib.transforms.TransformNode`
 
-	:return: The line spacing.
+	:return: The line spacing (or line height).
 	:rtype: float
 	"""
 
 	"""
 	Draw a dummy token first.
-	Some styling are set specifically for the bbox.
+	Some styling options are set specifically for the bbox.
 	"""
 	bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' }
 	for arg in bbox_kwargs:
@@ -152,13 +169,20 @@ def get_alignment(align, end=False):
 	"""
 	Get the proper alignment value for the current line.
 	This is mainly used for justification values.
-	Since the last line of justified items is aligned differently, this function extracts the appropriate value.
+
+	Justified text justifies all lines except the last one.
+	The last line is not full, therefore it is aligned differently: either ``left``, ``center`` or ``right``.
+	This function extracts the proper alignment depending on whether this is the last line or not.
+
+	This function supports all the alignment options in the :class:`~util.align` function.
+	If a simple alignment, such as ``left`` is given, it returns that value.
+	This function only modifies the ``justify`` options.
 
 	:param align: The provided alignment value.
 	:type align: str
 	:param end: A boolean indicating whether this is the end of the group of items to be aligned.
-				 If it is the end line, alignments like `justify-left` transform into `left`.
-				 Otherwise, `justify` is returned.
+				If it is the end line, alignments like `justify-left` transform into `left`.
+				Otherwise, `justify` is returned.
 	:type end: bool
 
 	:return: The alignment value for the current line.
@@ -177,7 +201,7 @@ def get_alignment(align, end=False):
 def align(figure, axes, items, align='left', xpad=0,
 		  xlim=None, va='top', transform=None, *args, **kwargs):
 	"""
-	Organize the given objects.
+	Align the given objects horizontally around the given ``xlim``.
 
 	:param figure: The figure that the component occupies.
 				   This is used to get the figure renderer.
@@ -189,15 +213,16 @@ def align(figure, axes, items, align='left', xpad=0,
 	:param align: The text's alignment.
 				  Possible values:
 
-					- left
-					- center
-					- right
-					- justify
-					- justify-start (or justify-left)
-					- justify-center
-					- justify-end or (justify-right)
+					  - ``left``
+					  - ``center``
+					  - ``right``
+					  - ``justify``
+					  - ``justify-start`` (or ``justify-left``)
+					  - ``justify-center``
+					  - ``justify-end`` or (``justify-right``)
 	:type align: str
 	:param xpad: The space between objects.
+				 Normally this depends on the ``wordspacing``.
 	:type xpad: float
 	:param xlim: The x-limit relative to which to align the objects.
 				  If it is not given, the axes' x-limit is used instead.
@@ -293,7 +318,7 @@ def get_aspect(axes):
 
 	.. note::
 
-		Solution based on `Mad Physicist's answer on Stack Overflow <https://stackoverflow.com/a/42014041/1771724>`_.
+		This solution is based on `Mad Physicist's answer on Stack Overflow <https://stackoverflow.com/a/42014041/1771724>`_.
 
 	:param axes: The axes whose aspect ratio will be calculated.
 	:type axes: :class:`matplotlib.axes.Axes`
