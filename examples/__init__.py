@@ -69,7 +69,7 @@ and was chosen for Euro 2016 and the 2018 World Cup."
 			tokens.append(token)
 
 	viz.draw_text_annotation(tokens, align='justify', alpha=0.8, fontfamily='serif', lpad=0.05, rpad=0.05, tpad=0.1)
-	viz.axis.set_ylim(-0.55, 0.05)
+	viz.axes.set_ylim(-0.55, 0.05)
 	viz.set_title('Text annotation', loc='left')
 	viz.set_caption('A simple text annotation visualization.')
 
