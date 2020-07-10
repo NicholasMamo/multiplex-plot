@@ -7,8 +7,8 @@
    :keywords: Multiplex, Python, visualizations, information retrieval, text mining, natural language processing, nlp
 
 .. automodule:: text
-  :members:
-  :special-members:
+   :members:
+   :special-members:
 
 One of Multiplex's biggest additions to matplotlib is the text visualizations.
 These visualizations embody Multiplex's principles: Multiplex structures the data, and you style it.

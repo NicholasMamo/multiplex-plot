@@ -1,16 +1,32 @@
 """
-The :class:`~Graph` class can be used to draw directed or undirected graphs.
-Each graph is made up of nodes and edges and can be used to show the relations between nodes.
+Multiplex's graph visualizations use the popular `networkx <https://networkx.github.io/>`_ library.
+If you already use networkx, you can visualize networks in a handful of lines:
 
-.. image:: ../examples/exports/4-marvel.png
-   :align: center
-   :class: example
-   :width: 500
+.. code-block:: python
 
-.. note::
+	import matplotlib.pyplot as plt
+	import networkx as nx
+	from multiplex import drawable
+	viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+	G = nx.path_graph(5)
+	viz.draw_graph(G, edge_style={ 'color': 'C1' },
+	               node_style={ 'color': 'C4', 'edgecolor': 'C1', 'linewidth': 2, 's': 250 })
+	viz.show()
 
-	The graph visualization uses the `networkx` package to generate the layout of the graph.
-	Therefore it is a prerequisite to create these visualizations.
+Although Multiplex requires only the graph, you can style the nodes and the edges using the ``node_style`` and ``edge_style`` parameters.
+
+Multiplex supports both undirected and directed edges.
+Moreover, the library also supports self-connections, or edges from a node to itself.
+
+Apart from drawing nodes and edges, Multiplex is also capable of drawing names next to nodes and edges.
+These can be used, for instance, to write node names or describe the types of relations between nodes.
+
+Finally, Multiplex's graphs also support legend labels for both nodes and edges.
+
+.. warning::
+
+	The graph visualization uses the `networkx <https://networkx.github.io/>`_ package to generate the layout of the graph.
+	Therefore it is a prerequisite to have it installed before creating these visualizations.
 """
 
 import math
@@ -26,7 +42,12 @@ from text.annotation import Annotation
 
 class Graph(LabelledVisualization):
 	"""
-	The :class:`~Graph` class draws nodes and edges.
+	The :class:`~Graph` class is a general network graph that plots nodes and creates edges between them.
+	Like all visualizations, it stores a :class:`~drawable.Drawable` instance and revolves around the :func:`~Graph.draw` function.
+
+	The :class:`~Graph` class builds on the :class:`~labelled.LabelledVisualization`.
+	The reason why the :class:`~Graph` builds on that, and not the simpler :class:`~visualization.Visualization`, is that it uses the :class:`~labelled.LabelledVisualization`'s labels for node names.
+	In this way, the :class:`~Graph` automatically ensures that the node names do not overlap.
 	"""
 
 	def __init__(self, *args, **kwargs):
@@ -38,35 +59,91 @@ class Graph(LabelledVisualization):
 
 	def draw(self, G, positions=None, node_style=None, name_style=None, edge_style=None, label_style=None, *args, **kwargs):
 		"""
-		Draw the given graph.
+		Draw the given `networkx graph <https://networkx.github.io/documentation/stable/reference/classes/index.html>`_ on the :class:`~drawable.Drawable`.
 
-		Any additional arguments and keyword arguments are passed on to the :func:`networkx.spring_layout` function.
+		The method expects only a graph.
+		Differently from other visualizations, the styling options are passed on as ``dict`` arguments.
+
+		By default, this method generates the node positions using the `networkx.spring_layout <https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.layout.spring_layout.html?highlight=spring_layout#networkx.drawing.layout.spring_layout>`_ function.
+		The ``args`` and ``kwargs`` are passed on to this function to control how the graph looks.
+		However, you can provide your own node positions in the ``positions`` argument.
+
+		To draw the graph, the :class:`~Graph` draws three types of components:
+
+			1. Nodes using `matplotlib's scatter function <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.scatter.html>`_,
+			2. Undirected edges using `matplotlib's plot function <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.plot.html>`_ and
+			   directed edges using `matplotlib's annotate function <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.annotate.html>`_, and
+			3. Node and edge names using :class:`~text.annotation.Annotation`.
+
+		The :class:`~Graph` automatically draws names next to nodes and edges whenever it finds a ``name`` attribute.
+		You can set the name directly on the node or edge in the graph:
+
+		.. code-block:: python
+
+			G.nodes['u']['name'] = 'node'
+			G.edges[('u', 'v')]['name'] = 'edge'
+
+		Similarly, the :class:`~Graph` adds a legend for nodes and edges whenever it finds a ``label`` attribute.
+		You can set the label directly on the node or edge in the graph:
+
+		.. code-block:: python
+
+			G.nodes['u']['label'] = 'node'
+			G.edges[('u', 'v')]['label'] = 'edge'
 
 		:param G: The networkx graph to draw.
+				  The function automatically detects whether the graph is undirected or directed and draws the edges accordingly.
 		:type G: :class:`networkx.classes.graph.Graph`
 		:param positions: The node's initial positions.
-						  If they are given, the keys should be the node names and the values tuples representing their position.
-						  Nodes without a position are generated using network'x spring layout.
+						  If you provide no positions, the function uses the `networkx.spring_layout <https://networkx.github.io/documentation/stable/reference/generated/networkx.drawing.layout.spring_layout.html?highlight=spring_layout#networkx.drawing.layout.spring_layout>`_ function to find the best position for nodes.
+						  If you provide a position for a subset of the nodes, the rest of the positions are generated automatically.
+
+						  You can provide the positions with node names as keys and their positions as values.
+						  Positions must be tuples: the x and y coordinates.
 		:type positions: dict
 		:param node_style: The general style for nodes.
-						   Keys correspond to the styling parameter and the values are the styling value.
-						   They are passed on as keyword arguments to the :func:`~graph.graph.Graph._draw_nodes` function.
-						   Individual nodes can override this style using the `style` attribute.
+			   			   The ``node_style`` accepts any styling option supported by `matplotlib's scatter function <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.scatter.html>`_.
+
+						   You can override the general style of the nodes by giving them a ``style`` attribute:
+
+						   .. code-block:: python
+
+			   			     G.nodes['u']['style'] = { 'color': '#BB3633' }
+
+						   .. note::
+
+						     You can set the size of nodes by setting the ``s`` key in the ``node_style``.
+						     By default, the size is 100.
 		:type node_style: dict
 		:param name_style: The general style for names.
-						   Keys correspond to the styling parameter and the values are the styling value.
-						   They are passed on as keyword arguments to the :func:`~graph.graph.Graph._draw_node_names` function.
-						   Individual names can override this style using the `style` attribute.
+			   			   The ``name_style`` accepts any styling option supported by the :class:`~text.annotation.Annotation`'s :func:`~text.annotation.Annotation.draw` function.
+
+						   You can override the general style of the names by giving nodes and edges a ``name_style`` attribute:
+
+						   .. code-block:: python
+
+			   			     G.nodes['u']['name_style'] = { 'fontweight': 'bold' }
+			   			     G.edges[('u', 'v')]['name_style'] = { 'fontweight': 'bold' }
 		:type name_style: dict
 		:param edge_style: The general style for edges.
-						   Keys correspond to the styling parameter and the values are the styling value.
-						   They are passed on as keyword arguments to the :func:`~graph.graph.Graph._draw_edges` function.
-						   Individual edges can override this style using the `style` attribute.
+		 				   The ``edge_style`` accepts any styling option supported by `matplotlib's plot <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.plot.html>`_ and `annotate <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.annotate.html>`_ functions.
+
+						   You can override the general style of the edges by giving them a ``style`` attribute:
+
+						   .. code-block:: python
+
+						     G.edges[('u', 'v')]['style'] = { 'color': '#BB3633' }
 		:type edge_style: dict
-		:param label_style: The style of the label.
+		:param label_style: The general style for labels.
+							The ``label_style`` accepts any styling option supported by the :class:`~text.annotation.Annotation`'s :func:`~text.annotation.Annotation.draw` function.
 		:type label_style: dict or None
 
-		:return: A tuple containing the list of drawn nodes, the rendered node names, edges, and the rendered edge names.
+		:return: A tuple containing the drawn components:
+
+				 1. A list of drawn nodes as :class:`matplotlib.collections.PathCollection` instances,
+				 2. A list of rendered node names as :class:`~text.annotation.Annotation` instances,
+				 3. A list of edges as :class:`matplotlib.lines.Line2D` instances if the graph is undirected or as :class:`matplotlib.text.Annotation` if the graph is directed, and
+				 4. A list of rendered edge names as :class:`~text.annotation.Annotation` instances.
 		:rtype: tuple
 		"""
 
@@ -108,7 +185,7 @@ class Graph(LabelledVisualization):
 		:type positions: dict
 
 		:return: A dictionary of rendered nodes.
-				 The keys are the node names and the values are :class:`matplotlib.collections.PathCollection`, representing the rendered nodes.
+				 The keys are the node names and the values are `matplotlib.collections.PathCollection <https://matplotlib.org/3.1.1/api/collections_api.html>`_, representing the rendered nodes.
 		:rtype: dict
 		"""
 
