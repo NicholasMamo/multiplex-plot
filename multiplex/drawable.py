@@ -201,7 +201,8 @@ class Drawable():
 		"""
 		height = abs(caption_height) + abs(legend_height) + abs(label_height)
 		pad_px = abs(self.axis.transAxes.transform((0, 0.05))[1] - self.axis.transAxes.transform((0, 0))[1])
-		self.axis.set_title(title, loc='left', pad=(5 + height + pad_px * 2))
+		pad = pad_px * 2
+		self.axis.set_title(title, loc='left', pad=(5 + height + pad))
 
 	def _get_xlabel(self, transform=None):
 		"""
