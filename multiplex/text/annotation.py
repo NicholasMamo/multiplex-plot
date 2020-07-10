@@ -1,20 +1,26 @@
 """
-The :class:`~Annotation` class is not quite a visualization, but it's an important class nevertheless.
-This class is used to draw text on any visualization or matplotlib plot.
-For example, it is used in the :class:`~timeseries.timeseries.TimeSeries` visualization to draw text on visualizations and explain them better.
-You can also use it on any normal matplotlib plot as long as you wrap it around a :class:`~drawable.Drawable`:
+An :class:`~Annotation` is a text-only description that is added to visualizations.
+The :class:`~Annotation` class is not quite a visualization, but it's one of Multiplex's most important classes.
+It is a tool to help you tell your story.
+
+For example, any visualization based on the :class:`~labelled.LabelledVisualization` class can draw labels—text annotations—anywhere on the plot.
+You can also use it on any normal matplotlib plot as long as you wrap it around a :class:`~drawable.Drawable`.
+All you have to do is create a :class:`~drawable.Drawable` and call the :func:`~drawable.Drawable.annotate` function.
 
 .. code-block:: python
 
 	import matplotlib.pyplot as plt
 	from multiplex import drawable
 	viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-	annotation = Annotation(viz)
-	lines = annotation.draw('Hello world!', (0, 2), 0)
+	lines = viz.annotate('Hello world!', (0, 2), 0)
 
-The :class:`~Annotation` class is most prominent in the :class:`~text.text.TextAnnotation` class, described further down.
-Text visualizations actually revolve around the basic annotation and use it to create text-only visualizations.
-It also adds some extra functionality to annotations, such as legends.
+Annotations can be as simple as providing a string of text, the x-position, and the y-position, as in the example above.
+However, you can also create more complex annotations.
+You can even style each word individually!
+
+The :class:`~Annotation` is most important for the :class:`~text.text.TextAnnotation` class.
+:class:`~text.text.TextAnnotation` visualizations are made up only of text and revolve around the :class:`~Annotation` class.
+It also adds some extra functionality to annotations, such as by drawing legends.
 
 Look over the :class:`~Annotation` class to learn more about what kind of annotations you can create.
 If you want to create text-only visualizations, skip ahead to the :class:`~text.text.TextAnnotation` class.
@@ -32,9 +38,12 @@ import util
 
 class Annotation():
 	"""
-	An annotation is a text-only description that is added to visualizations.
-	Therefore it is not a visualization in and of itself.
-	Text-only visualizations can be created using the :class:`~text.text.TextAnnotation` class.
+	Although the :class:`~Annotation` is not a visualization, it is also based on a :class:`~drawable.Drawable`.
+	Moreover, like any :class:`~visualization.Visualization`, it also revolves around the :func:`~Annotation.draw` method.
+
+	Apart from the :class:`~drawable.Drawable`, the :class:`~Annotation` keeps track of the text it has drawn in the ``lines`` instance variable.
+	The name of this variable comes from the fact that the :class:`~Annotation` is mainly concerned with organizing the text.
+	The annotation draws every bit of the text as a token and organizes these tokens into lines.
 
 	:ivar drawable: The :class:`~drawable.Drawable` where the time series visualization will be drawn.
 	:vartype drawable: :class:`~drawable.Drawable`
@@ -45,9 +54,9 @@ class Annotation():
 
 	def __init__(self, drawable):
 		"""
-		Initialize the text annotation with the figure and axes.
-		The figure is used to get the renderer.
-		The visualization is drawn on the given axes.
+		Initialize the :class:`~Annotation` with the :class:`~drawable.Drawable`.
+		The :class:`~Annotation` uses the :class:`~drawable.Drawable`'s figure to get the renderer and the axes to draw the text.
+		The constructor also creates an instance variable with the lines in the :class:`~Annotation`.
 
 		:param drawable: The :class:`~drawable.Drawable` where the text visualization will be drawn.
 		:type drawable: :class:`~drawable.Drawable`
@@ -59,11 +68,20 @@ class Annotation():
 	def draw(self, annotation, x, y, wordspacing=None, lineheight=1.25,
 			 align='left', va='top', pad=0, *args, **kwargs):
 		"""
-		Draw the text annotation visualization.
-		The method receives text as a list of tokens and draws them as text.
+		Draw a text annotation on the plot.
+		This function requires three types of inputs:
 
-		The text can be provided either as strings or as dictionaries.
-		If strings are provided, the function converts them into dictionaries.
+			1. The text to draw,
+			2. The x-bounds for the annotation, and
+			3. The y-position of the annotation.
+
+		You can use the rest of the defined keyword arguments to style the annotation as a whole.
+		For example, the ``align`` option aligns the entire annotation.
+		Conversely, you can use the keyword arguments (``kwargs``) to style each individual word.
+		The accepted styling options are those supported by the `matplotlib.text.Text <https://matplotlib.org/3.2.2/api/text_api.html#matplotlib.text.Text>`_ class.
+
+		You can provide the text either as a string or as a dictionary.
+		If you provide a string, the function automatically segments it into words.
 		Dictionaries should have the following format:
 
 		.. code-block:: python
@@ -73,20 +91,27 @@ class Annotation():
 			  'text': 'token',
 			}
 
-		Of these keys, only `text` is required.
-		The correct styling options are those accepted by the :class:`matplotlib.text.Text` class.
-		Anything not given uses default values.
+		Of these keys, only the ``text`` is required.
 
-		Any other styling options, common to all tokens, should be provided as keyword arguments.
+		You can use the ``style`` to override the general styling options, which you can specify as ``kwargs``.
+		Once again, the accepted styling options are those supported by the `matplotlib.text.Text <https://matplotlib.org/3.2.2/api/text_api.html#matplotlib.text.Text>`_ class.
+
+		Use the ``kwargs`` as a general style, and the dictionary's ``style`` as a specific style for each word.
+		If you specify a ``kwargs`` styling option, but it is missing from the dictionary's ``style``, the general style is used.
+
+		.. note::
+
+			For example, imagine you specify the text ``color`` to be ``blue`` and the ``fontsize`` to be ``12`` in the ``**kwargs``.
+			If in the dictionary's ``style`` of a particular word you set the ``color`` to be ``red``, its color will be ``red``.
+			However, since the ``fontsize`` is not specified, it will use the general font size: ``12``.
 
 		:param annotation: The text data.
 						   The visualization expects a string, a `list` of tokens, or a `list` of `dict` instances as shown above.
 		:type annotation: str or list of str or list of dict
 		:param x: The x-position of the annotation.
 				  The function expects either a float or a tuple.
-				  If a float is given, it is taken to be the start x-position of the annotation.
-				  The end x-position is taken from the axes limit.
-				  If a tuple is given, the first two values are the start and end x-position of the annotation.
+				  If a float is given, the annotation starts at that x-position and ends at the axes' limit.
+				  If a tuple is given, the annotation starts at the first value and ends at the second value.
 		:type x: float or tuple
 		:param y: The starting y-position of the annotation.
 		:type y: float
@@ -98,27 +123,31 @@ class Annotation():
 		:param align: The text's alignment.
 					  Possible values:
 
-					    - left
-					    - center
-					    - right
-					    - justify
-					    - justify-start (or justify-left)
-					    - justify-center
-					    - justify-end or (justify-right)
+					      - ``left``
+					      - ``center``
+					      - ``right``
+					      - ``justify``
+					      - ``justify-start`` (or ``justify-left``)
+					      - ``justify-center``
+					      - ``justify-end`` or (``justify-right``)
 		:type align: str
-		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
-				   If the vertical alignment is `top`, the annotation grows down.
-				   If the vertical alignment is `center`, the annotation is centered around the given y-coordinate.
-				   If the vertical alignment is `bottom`, the annotation grows up.
+		:param va: The vertical alignment, can be one of:
+
+				       - ``top``: the annotation grows down from the ``y`` position.
+				       - ``center``: the annotation is centered around the given ``y`` position.
+				       - ``bottom``: the annotation grows up from the ``y`` position.
 		:type va: str
-		:param pad: The amount of padding applied to the annotation.
-					The padding is applied to all sides of the annotation.
-					Note that the padding decreases the width of the annotation.
-					In CSS terms, the box-sizing is the border box.
+		:param pad: The amount of padding applied to the annotation along the x-axis.
+					The padding is applied to all sides of the annotation and reduces its size.
+
+					.. note::
+
+						Note that the padding decreases the width of the annotation.
+						In CSS terms, the box-sizing is the border box.
 		:type pad: float
 
 		:return: The drawn annotation's lines.
-				 The second list in each tuple is the list of actual tokens.
+				 Each line is made up of a list of tokens.
 		:rtype: list of :class:`matplotlib.text.Text`
 		"""
 
@@ -148,9 +177,9 @@ class Annotation():
 
 	def get_virtual_bb(self, transform=None):
 		"""
-		Get the bounding box of the entire annotation.
+		Get the bounding box of the entire :class:`~Annotation`.
 		This is called a virtual bounding box because it is not a real bounding box.
-		Rather, it is a bounding box that covers all of the bounding boxes of the annotation's tokens.
+		Rather, it is the smallest rectangular bounding box that covers all of the bounding boxes of the :class:`~Annotation`'s tokens.
 
 		:param transform: The bounding box transformation.
 						  If `None` is given, the data transformation is used.
@@ -185,6 +214,7 @@ class Annotation():
 					 *args, **kwargs):
 		"""
 		Move the annotation to the given position.
+		This function moves all of the tokens stored in the ``lines`` instance variable to its new position.
 
 		.. warning::
 
@@ -192,15 +222,17 @@ class Annotation():
 
 		:param position: A tuple made up of the new x and y coordinates.
 		:type position: tuple
-		:param ha: The horizontal alignment, can be one of `left`, `center` or `right`.
-				   If the horizontal alignment is `left`, the given x-coordinate becomes the leftmost point of the annotation.
-				   If the horizontal alignment is `center`, the given x-coordinate becomes the center point of the annotation.
-				   If the horizontal alignment is `right`, the given x-coordinate becomes the rightmost point of the annotation.
+		:param ha: The horizontal alignment, can be one of:
+
+				       - ``left``: the given x-coordinate becomes the leftmost point of the annotation.
+				       - ``center``: the given x-coordinate becomes the center point of the annotation.
+				       - ``right``: the given x-coordinate becomes the rightmost point of the annotation.
 		:type ha: str
-		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
-				   If the vertical alignment is `top`, the given y-coordinate becomes the highest point of the annotation.
-				   If the vertical alignment is `center`, the given y-coordinate becomes the center point of the annotation.
-				   If the vertical alignment is `bottom`, the given y-coordinate becomes the lowest point of the annotation.
+		:param va: The vertical alignment, can be one of:
+
+				       - ``top``: the given y-coordinate becomes the highest point of the annotation.
+				       - ``center``: the given y-coordinate becomes the center point of the annotation.
+				       - ``bottom``: the given y-coordinate becomes the lowest point of the annotation.
 		:type va: str
 		:param transform: The bounding box transformation.
 						  If `None` is given, the data transformation is used.
@@ -258,7 +290,7 @@ class Annotation():
 	def remove(self):
 		"""
 		Remove all tokens in the annotation from the visualization.
-		This function removes all of the :class:`~Annotation`'s text from the plot and then empties the lines,
+		This function removes all of the :class:`~Annotation`'s text from the plot and then empties the lines.
 		"""
 
 		for line in self.lines:

@@ -334,7 +334,7 @@ class Legend(object):
 		"""
 		Get the bounding box of the entire annotation.
 		This is called a virtual bounding box because it is not a real bounding box.
-		Rather, it is a rectangular bounding box that covers all of the bounding boxes of the legend.
+		Rather, it is the smallest rectangular bounding box that covers all of the bounding boxes of the legend.
 
 		:param transform: The bounding box transformation.
 						  If `None` is given, the data transformation is used.
