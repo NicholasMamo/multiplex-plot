@@ -26,7 +26,7 @@ This method expects, at the very least, the values and the name of the 100% bar:
     from multiplex import drawable
     viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
     viz.draw_bar_100([ 5, 2, 4, 7, 3 ], 'bar', alpha=0.5, color='C1')
-	viz.show()
+    viz.show()
 
 As usual, you can create more complex visualizations by styling each bar individually and adding legends.
 
