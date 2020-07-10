@@ -64,22 +64,30 @@ img.center {
 	color: rgba(255, 255, 255, 0.7);
 }
 
+.wy-menu.wy-menu-vertical .toctree-l1.current a.reference.internal,
+.wy-menu.wy-menu-vertical .toctree-l1.current a:visited.reference.internal.current {
+	color: var(--dark);
+}
+
 .wy-menu-vertical li.on a,
 .wy-menu-vertical li.on a:hover,
 .wy-menu-vertical li.current>a,
 .wy-menu-vertical li.current>a:hover {
-	background: var(--primary);
+	background: white;
 	border-bottom: none;
 	border-top: none;
+	color: var(--dark);
 }
 
 .wy-menu-vertical li.toctree-l2 {
-	background: var(--primary-faded);
+	background: white;
+	color: var(--dark);
 }
 
 .wy-menu-vertical li.toctree-l2.current>a,
 .wy-menu-vertical li.toctree-l2>a:hover {
-	background: var(--primary);
+	background: white;
+	color: var(--dark);
 }
 
 .wy-nav-side {
