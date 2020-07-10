@@ -12,6 +12,16 @@ Indeed, if you are using Multiplex, you can—and should—work only with :class
 
 .. image:: ../examples/exports/3-temperatures.png
 
+The basic process to draw Multiplex's new visualizations under the hood is as follows:
+
+	1. Users create a :class:`~drawable.Drawable` instance.
+	   This is made up of the figure and, optionally, the axis.
+	   Users need only interact with the :class:`~drawable.Drawable` instance.
+	2. To draw a visualization, users call the appropriate function on the :class:`~drawable.Drawable` instance.
+	   These functions start with ``draw_``, for example, :func:`~drawable.Drawable.draw_time_series`.
+	3. The :class:`~drawable.Drawable`, in turn, instantiates the visualization.
+	   Then, it calls the :func:`~visualization.Visualization.draw` function and returns the drawn components.
+
 To start working with a :class:`~drawable.Drawable`, create it from a normal plot:
 
 .. code-block:: python

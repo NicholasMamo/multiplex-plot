@@ -184,6 +184,18 @@
 All of Multiplex’s visualizations revolve around it.
 Indeed, if you are using Multiplex, you can—and should—work only with <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class.</p>
 <img alt="_images/3-temperatures.png" src="_images/3-temperatures.png" />
+<p>The basic process to draw Multiplex’s new visualizations under the hood is as follows:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Users create a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.
+This is made up of the figure and, optionally, the axis.
+Users need only interact with the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.</p></li>
+<li><p>To draw a visualization, users call the appropriate function on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.
+These functions start with <code class="docutils literal notranslate"><span class="pre">draw_</span></code>, for example, <a class="reference internal" href="#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_time_series()</span></code></a>.</p></li>
+<li><p>The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>, in turn, instantiates the visualization.
+Then, it calls the <a class="reference internal" href="#visualization.Visualization.draw" title="visualization.Visualization.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function and returns the drawn components.</p></li>
+</ol>
+</div></blockquote>
 <p>To start working with a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>, create it from a normal plot:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
@@ -443,11 +455,18 @@ These classes can help you get started creating new types of visualizations.</p>
 <div class="section" id="module-visualization">
 <span id="basic-visualization"></span><h3>Basic Visualization<a class="headerlink" href="#module-visualization" title="Permalink to this headline">¶</a></h3>
 <p>All visualizations must have, at least, a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+They must also implement the <a class="reference internal" href="#visualization.Visualization.draw" title="visualization.Visualization.draw"><code class="xref py py-class docutils literal notranslate"><span class="pre">draw</span></code></a> function.
 Any other functionality is up to the visualization type.</p>
+<p>The goal of visualizations is not to run away with the data.
+Their purpose is to structure the data and apply only the styling that is absolutely required.
+They should allow the user to style all aspects of the visualization.</p>
+<p>In short, visualization implementations are largely concerned with the structure, not the style.</p>
 <dl class="class">
 <dt id="visualization.Visualization">
 <em class="property">class </em><code class="sig-prename descclassname">visualization.</code><code class="sig-name descname">Visualization</code><span class="sig-paren">(</span><em class="sig-param">drawable</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization" title="Permalink to this definition">¶</a></dt>
-<dd><p>All visualizations contain at least a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.</p>
+<dd><p>All visualizations contain at least a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+Furthermore, all classes that inherit the <a class="reference internal" href="#visualization.Visualization" title="visualization.Visualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">Visualization</span></code></a> class also need to implement functionality to draw a visualization.
+This is implemented in the <a class="reference internal" href="#visualization.Visualization.draw" title="visualization.Visualization.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the visualization will be drawn.</p>
@@ -462,6 +481,22 @@ Any other functionality is up to the visualization type.</p>
 <dd class="field-odd"><p><strong>drawable</strong> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the visualization will be drawn.</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="visualization.Visualization.draw">
+<em class="property">abstract </em><code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>The draw method is the central method, used to create the visualization on this class’ <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.
+The purpose of this function is two-fold:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Structure the data and apply the bare minimum styling to the visualization, and</p></li>
+<li><p>Allow the user to style the created visualization’s components.</p></li>
+</ul>
+</div></blockquote>
+<p>Therefore the drawing function should mainly be concerned with the layout.</p>
+<p>At the end, the function should return the drawn component.
+If the function draws multiple components, it can return them as a tuple.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -497,6 +532,22 @@ This list is used to ensure that labels do not overlap.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="labelled.LabelledVisualization.draw">
+<em class="property">abstract </em><code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>The draw method is the central method, used to create the visualization.
+The purpose of this function is two-fold:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Structure the data and apply the bare minimum styling to the visualization, and</p></li>
+<li><p>Allow the user to style the created visualization’s components.</p></li>
+</ul>
+</div></blockquote>
+<p>Therefore the drawing function should mainly be concerned with the layout.</p>
+<p>At the end, the function should return the drawn component.
+If the function draws multiple components, it can return them as a tuple.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="labelled.LabelledVisualization.draw_label">
 <code class="sig-name descname">draw_label</code><span class="sig-paren">(</span><em class="sig-param">label</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">va='center'</em>, <em class="sig-param">max_iterations=10</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a label at the end of the line.</p>
@@ -523,6 +574,33 @@ If the vertical alignment is <cite>bottom</cite>, the annotation grows up.</p></
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="labelled.DummyLabelledVisualization">
+<em class="property">class </em><code class="sig-prename descclassname">labelled.</code><code class="sig-name descname">DummyLabelledVisualization</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.DummyLabelledVisualization" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dummy labelled visualization is a simple class used only for testing.
+Its implementation is based on the labelled visualization, but it has an empty <a class="reference internal" href="#labelled.LabelledVisualization.draw" title="labelled.LabelledVisualization.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Variables</dt>
+<dd class="field-odd"><p><strong>labels</strong> (list of <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a>) – The labels in the visualizations.
+This list is used to ensure that labels do not overlap.</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="labelled.DummyLabelledVisualization.draw">
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.DummyLabelledVisualization.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dummy visualization draws nothing, and therefore it returns nothing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Nothing.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><cite>None</cite></p>
 </dd>
 </dl>
 </dd></dl>
