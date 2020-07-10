@@ -3,8 +3,8 @@
 **********************
 
 .. meta::
-   :description: Python text visualizations for information retrieval and natural language processing (NLP)
-   :keywords: Multiplex, Python, visualizations, information retrieval, natural language processing, nlp
+   :description: Python text visualizations for information retrieval, text mining and natural language processing (NLP)
+   :keywords: Multiplex, Python, visualizations, information retrieval, text mining, natural language processing, nlp
 
 .. automodule:: text
   :members:

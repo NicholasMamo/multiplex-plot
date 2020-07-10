@@ -41,7 +41,7 @@ If you want to plot on a particular axes, or a subplot, you can create it as fol
 	viz = drawable.Drawable(figure, axes[0])
 
 To learn more about how Multiplex works, keep reading the documentation.
-If all you want is to get your hands dirty, take a look at the `examples <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_ directory.
+If all you want is to get your hands dirty, take a look at `Multiplex's Jupyter Notebook examples <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_.
 Happy visualizing!
 
 Drawable
