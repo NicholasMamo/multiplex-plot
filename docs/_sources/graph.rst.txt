@@ -7,9 +7,8 @@
    :keywords: Multiplex, Python, visualizations, graph, network, node, edge
 
 .. automodule:: graph
-  :members:
-  :private-members:
-  :special-members:
+   :members:
+   :special-members:
 
 Graphs, sometimes referred-to as networks, show the structure of data through nodes and edges.
 Each graph is made up of nodes and edges and can be directed or undirected.
@@ -22,5 +21,4 @@ Keep reading to learn more about graph visualizations.
 
 .. automodule:: graph.graph
    :members:
-   :private-members:
    :special-members:
