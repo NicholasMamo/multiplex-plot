@@ -21,6 +21,7 @@ However, you can also add your own styling:
     viz.draw_time_series(range(0, 10), range(0, 10),
                          color='#F6B913', linewidth=2,
                          label='A', label_style={ 'fontweight': '500' })
+	viz.show()
 
 Use the ``label`` keyword argument—and the related ``label_style``—to annotate the time series.
 By default, the ``label`` goes at the end of a time series, but you can set ``with_legend=True`` to draw a :class:`~legend.Legend`.
