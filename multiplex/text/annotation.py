@@ -258,11 +258,14 @@ class Annotation():
 	def remove(self):
 		"""
 		Remove all tokens in the annotation from the visualization.
+		This function removes all of the :class:`~Annotation`'s text from the plot and then empties the lines,
 		"""
 
 		for line in self.lines:
 			for token in line:
 				token.remove()
+
+		self.lines = [ ]
 
 	def _draw_tokens(self, tokens, x, y, wordspacing, lineheight, align, va,
 					 transform=None, *args, **kwargs):
