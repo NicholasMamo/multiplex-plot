@@ -404,11 +404,19 @@ The calculation considers the display ratio as well as the data ratio.</p>
 </div>
 <div class="section" id="module-text_util">
 <span id="text-utilities"></span><h2>Text Utilities<a class="headerlink" href="#module-text_util" title="Permalink to this headline">¶</a></h2>
-<p>A set of utility functions to help create text visualizations.</p>
+<p>The text utility functions are generally used only with text.</p>
 <dl class="function">
 <dt id="text_util.draw_token">
 <code class="sig-prename descclassname">text_util.</code><code class="sig-name descname">draw_token</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes</em>, <em class="sig-param">text</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">style</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text_util.draw_token" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the token on the plot.</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> as a general style, and the <code class="docutils literal notranslate"><span class="pre">style</span></code> as a specific style for each word.
+If you specify a <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> styling option, but it is missing from the <code class="docutils literal notranslate"><span class="pre">style</span></code>, the general style is used.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For example, imagine you specify the token <code class="docutils literal notranslate"><span class="pre">color</span></code> to be <code class="docutils literal notranslate"><span class="pre">blue</span></code> and the <code class="docutils literal notranslate"><span class="pre">fontsize</span></code> to be <code class="docutils literal notranslate"><span class="pre">12</span></code> in the <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>.
+If in the dictionary’s <code class="docutils literal notranslate"><span class="pre">style</span></code> of a particular word you set the <code class="docutils literal notranslate"><span class="pre">color</span></code> to be <code class="docutils literal notranslate"><span class="pre">red</span></code>, its color will be <code class="docutils literal notranslate"><span class="pre">red</span></code>.
+However, since the <code class="docutils literal notranslate"><span class="pre">fontsize</span></code> is not specified, it will use the general font size: <code class="docutils literal notranslate"><span class="pre">12</span></code>.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -418,8 +426,10 @@ This is used to get the figure renderer.</p></li>
 <li><p><strong>text</strong> (<em>str</em>) – The text token to draw.</p></li>
 <li><p><strong>x</strong> (<em>int</em>) – The x-position of the token.</p></li>
 <li><p><strong>y</strong> (<em>int</em>) – The y-position of the token.</p></li>
-<li><p><strong>style</strong> (<em>dict</em>) – The style information for the token.</p></li>
-<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
+<li><p><strong>style</strong> (<em>dict</em>) – The style information for the token.
+This <code class="docutils literal notranslate"><span class="pre">dict</span></code> is used to override the styling options in the <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.</p></li>
+<li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.
+This value is used to add padding around words (the whitespace).</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

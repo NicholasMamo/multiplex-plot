@@ -1,10 +1,19 @@
 """
-A set of utility functions to help create text visualizations.
+The text utility functions are generally used only with text.
 """
 
 def draw_token(figure, axes, text, x, y, style, wordspacing, *args, **kwargs):
 	"""
 	Draw the token on the plot.
+
+	Use the ``kwargs`` as a general style, and the ``style`` as a specific style for each word.
+	If you specify a ``kwargs`` styling option, but it is missing from the ``style``, the general style is used.
+
+	.. note::
+
+		For example, imagine you specify the token ``color`` to be ``blue`` and the ``fontsize`` to be ``12`` in the ``**kwargs``.
+		If in the dictionary's ``style`` of a particular word you set the ``color`` to be ``red``, its color will be ``red``.
+		However, since the ``fontsize`` is not specified, it will use the general font size: ``12``.
 
 	:param figure: The figure that the component occupies.
 				   This is used to get the figure renderer.
@@ -18,8 +27,10 @@ def draw_token(figure, axes, text, x, y, style, wordspacing, *args, **kwargs):
 	:param y: The y-position of the token.
 	:type y: int
 	:param style: The style information for the token.
+				  This ``dict`` is used to override the styling options in the ``kwargs``.
 	:type style: dict
 	:param wordspacing: The space between words.
+						This value is used to add padding around words (the whitespace).
 	:type wordspacing: float
 
 	:return: The drawn text box.
