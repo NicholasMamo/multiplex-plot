@@ -62,7 +62,7 @@ class LabelledVisualization(Visualization):
 		:param x: The x-position of the annotation.
 				  The function expects either a float or a tuple.
 				  If a float is given, it is taken to be the start x-position of the annotation.
-				  The end x-position is taken from the axis limit.
+				  The end x-position is taken from the axes limit.
 				  If a tuple is given, the first two values are the start and end x-position of the annotation.
 		:type x: float
 		:param y: The y-position of the last point on the line.
@@ -80,7 +80,7 @@ class LabelledVisualization(Visualization):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		annotation = Annotation(self.drawable)
 		annotation.draw(label, x, y, va=va, *args, **kwargs)
@@ -126,7 +126,7 @@ class LabelledVisualization(Visualization):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		labels = sorted(self.labels, key=lambda label: label.get_virtual_bb().y0)
 
@@ -163,7 +163,7 @@ class LabelledVisualization(Visualization):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		"""
 		Calculate the total height that the labels should occupy.
@@ -201,7 +201,7 @@ class LabelledVisualization(Visualization):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		return sum([ label.get_virtual_bb().height for label in labels ])
 
@@ -218,7 +218,7 @@ class LabelledVisualization(Visualization):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		labels = sorted(labels, key=lambda label: label.get_virtual_bb().y0)
 		bb0, bb1 = labels[0].get_virtual_bb(), labels[-1].get_virtual_bb()

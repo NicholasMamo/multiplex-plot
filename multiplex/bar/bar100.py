@@ -157,11 +157,11 @@ class Bar100(Visualization):
 		- Removing the grid.
 		"""
 
-		axis = self.drawable.axis
-		axis.xaxis.set_label_position('top')
-		axis.xaxis.tick_top()
-		axis.spines['top'].set_visible(True)
-		axis.spines['bottom'].set_visible(False)
+		axes = self.drawable.axes
+		axes.xaxis.set_label_position('top')
+		axes.xaxis.tick_top()
+		axes.spines['top'].set_visible(True)
+		axes.spines['bottom'].set_visible(False)
 		self.drawable.set_xlim((0, 100))
 		self.drawable.set_xticks(range(0, 101, 20))
 		self.drawable.set_xticklabels([ f"{ percent }%" for percent in range(0, 101, 20)])
@@ -210,7 +210,7 @@ class Bar100(Visualization):
 		bars = [ ]
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		"""
 		Convert the values to percentages and draw them.

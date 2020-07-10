@@ -76,7 +76,7 @@ class Graph(LabelledVisualization):
 		edge_style = edge_style or { }
 		label_style = label_style or { }
 
-		self.drawable.axis.axis('off')
+		self.drawable.axes.axis('off')
 		spring = nx.spring_layout(G, *args, **kwargs)
 		spring.update(positions)
 		positions = spring
@@ -241,7 +241,7 @@ class Graph(LabelledVisualization):
 			This is done by calculating the radius of the nodes, which is where the edges should end.
 			Calculate the distance between the two centers and reduce from it the radius of the source and target nodes.
 			"""
-			ratio = util.get_aspect(self.drawable.axis)
+			ratio = util.get_aspect(self.drawable.axes)
 			angle = self._get_angle(u, v)
 			direction = self._get_direction(u, v)
 			for node, position in zip([ source, target ], [ u, v ]):
@@ -269,7 +269,7 @@ class Graph(LabelledVisualization):
 				x, y = (u[0], v[0]), (u[1], v[1])
 				rendered[(source, target)] = self.drawable.plot(x, y, zorder=-1, *args, **edge_style)[0]
 			if directed:
-				rendered[(source, target)] = self.drawable.axis.annotate('', xy=v, xytext=u,
+				rendered[(source, target)] = self.drawable.axes.annotate('', xy=v, xytext=u,
 																		 zorder=-1, arrowprops=edge_style)
 
 		return rendered
@@ -348,7 +348,7 @@ class Graph(LabelledVisualization):
 				Re-draw the annotation, this time positionally centered along the edge.
 				The rotation depends on the elevation from the source to the target node.
 				"""
-				ratio = util.get_aspect(self.drawable.axis)
+				ratio = util.get_aspect(self.drawable.axes)
 				distance = self._get_distance(u, v)
 				direction = self._get_direction(u, v)
 				angle = self._get_elevation(u, v)
@@ -409,7 +409,7 @@ class Graph(LabelledVisualization):
 		"""
 		Calculate the horizontal distance from the center of the node to where the node and the loop intersect.
 		"""
-		ratio = util.get_aspect(self.drawable.axis)
+		ratio = util.get_aspect(self.drawable.axes)
 		x1 = math.sqrt( ( (radius[0]) ** 2 * radius[1] ** 2 - (radius[0]) ** 2 * d1 ** 2 ) / ( (radius[0]) ** 2 ) ) * ratio
 
 		"""
@@ -445,7 +445,7 @@ class Graph(LabelledVisualization):
 				arrowprops['headlength'] = arrowprops.get('headwidth') * 0.75
 			xy = ( x[-1], y[-1] )
 			xytext = ( x[-2], y[-2] )
-			arrow = self.drawable.axis.annotate('', xy=xy, xytext=xytext,
+			arrow = self.drawable.axes.annotate('', xy=xy, xytext=xytext,
 												zorder=-1, arrowprops=arrowprops)
 
 
@@ -480,10 +480,10 @@ class Graph(LabelledVisualization):
 				The y-axis change when drawing points.
 				Therefore save the y-limit and re-set it after drawing.
 				"""
-				ylim = self.drawable.axis.get_ylim()
+				ylim = self.drawable.axes.get_ylim()
 				self.drawable.legend.draw_point(label, label_style=label_style,
 												*args, **default_style)
-				self.drawable.axis.set_ylim(ylim)
+				self.drawable.axes.set_ylim(ylim)
 
 	def _draw_edge_labels(self, edges, directed, label_style, *args, **kwargs):
 		"""
@@ -592,14 +592,14 @@ class Graph(LabelledVisualization):
 		if xdiff == 0:
 			return math.pi / 2.
 
-		ratio = util.get_aspect(self.drawable.axis)
+		ratio = util.get_aspect(self.drawable.axes)
 		ydiff = (v[1] - u[1]) * ratio
 
 		return math.atan(ydiff / xdiff)
 
 	def _get_radius(self, node, s):
 		"""
-		Get the radius of the given node in terms of the data axis.
+		Get the radius of the given node in terms of the data axes.
 		By default, the radius `s` is 100, but it can be overriden using the node's `style` attribute.
 
 		.. note::
@@ -612,15 +612,15 @@ class Graph(LabelledVisualization):
 				  It may be overwritten with the node's own radius.
 		:type s: float
 
-		:return: The radius of the node in terms of the data axis.
+		:return: The radius of the node in terms of the data axes.
 				 Two radii are provided: the x- and y-radii.
 				 This is because scatter points always look like circles, even when the display or data ratios are not equal.
 				 Whn the display or data ratios are not equal, the point is actually an ellipse so that it still looks like a circle.
 		:rtype: tuple
 		"""
 
-		origin = self.drawable.axis.transData.inverted().transform((0, 0))
+		origin = self.drawable.axes.transData.inverted().transform((0, 0))
 
-		x = (self.drawable.axis.transData.inverted().transform((s ** 0.5, 0))[0] - origin[0])/2.
-		y = (self.drawable.axis.transData.inverted().transform((0, s ** 0.5))[1] - origin[1])/2.
+		x = (self.drawable.axes.transData.inverted().transform((s ** 0.5, 0))[0] - origin[0])/2.
+		y = (self.drawable.axes.transData.inverted().transform((0, s ** 0.5))[1] - origin[1])/2.
 		return (x, y)

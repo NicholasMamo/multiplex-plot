@@ -121,7 +121,7 @@ class TextAnnotation(Visualization):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		"""
 		Validate the arguments.
@@ -147,14 +147,14 @@ class TextAnnotation(Visualization):
 		Draw the text as an annotation first.
 		"""
 		annotation = Annotation(self.drawable)
-		lines = annotation.draw(tokens, (lpad, axis.get_xlim()[1] - rpad), 0,
+		lines = annotation.draw(tokens, (lpad, axes.get_xlim()[1] - rpad), 0,
 								 wordspacing=wordspacing, lineheight=lineheight,
 								 align=align, va='top', *args, **kwargs)
 
 		"""
 		Draw a legend if it is requested.
 		"""
-		linespacing = util.get_linespacing(figure, axis, wordspacing, *args, **kwargs)
+		linespacing = util.get_linespacing(figure, axes, wordspacing, *args, **kwargs)
 		labels = self._draw_legend(tokens, lines, wordspacing, linespacing,
 								   *args, **kwargs) if with_legend else [ [] ] * len(lines)
 
@@ -162,12 +162,12 @@ class TextAnnotation(Visualization):
 		The entire visualization is shifted so that the legends start at x-coordinate 0.
 		This way, the title is aligned with the visualization.
 		This process is meant to tighten the layout.
-		The axis is turned off since it has no purpose, and the y-limit is re-calculated.
+		The axes is turned off since it has no purpose, and the y-limit is re-calculated.
 		"""
 		drawn_lines = list(zip(labels, lines))
 		self._tighten(drawn_lines)
-		axis.axis('off')
-		axis.set_ylim(- len(lines) * linespacing, tpad + linespacing)
+		axes.axis('off')
+		axes.set_ylim(- len(lines) * linespacing, tpad + linespacing)
 
 		return drawn_lines
 
@@ -193,7 +193,7 @@ class TextAnnotation(Visualization):
 		labels = []
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		"""
 		Iterate through each line, and then through each token in that line.
@@ -211,7 +211,7 @@ class TextAnnotation(Visualization):
 				"""
 				if label and label not in drawn_labels:
 					drawn_labels.append(label)
-					token = text_util.draw_token(figure, axis, label, 0, line,
+					token = text_util.draw_token(figure, axes, label, 0, line,
 												  style, wordspacing, va='top',
 												  *args, **kwargs)
 					line_labels.append(token)
@@ -221,7 +221,7 @@ class TextAnnotation(Visualization):
 			The labels are aligned to the right.
 			They are reversed so that the first label appears on the left.
 			"""
-			util.align(figure, axis, line_labels[::-1], 'right', wordspacing * 4,
+			util.align(figure, axes, line_labels[::-1], 'right', wordspacing * 4,
 					   (-1, - wordspacing * 4))
 
 			labels.append(line_labels)
@@ -240,7 +240,7 @@ class TextAnnotation(Visualization):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		"""
 		Calculate the necessary offset.
@@ -248,7 +248,7 @@ class TextAnnotation(Visualization):
 		x_offset, y_offset = 0, 0
 		for (labels, tokens) in drawn_lines:
 			for label in labels:
-				bb = util.get_bb(figure, axis, label)
+				bb = util.get_bb(figure, axes, label)
 				x_offset = min(x_offset, bb.x0)
 				y_offset = min(y_offset, bb.y0)
 
@@ -257,5 +257,5 @@ class TextAnnotation(Visualization):
 		"""
 		for (labels, tokens) in drawn_lines:
 			for token in labels + tokens:
-				bb = util.get_bb(figure, axis, token)
+				bb = util.get_bb(figure, axes, token)
 				token.set_position((bb.x0 - x_offset, bb.y0 - y_offset))

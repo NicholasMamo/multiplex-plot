@@ -171,14 +171,14 @@
 <p>A set of utility functions to help create text visualizations.</p>
 <dl class="function">
 <dt id="text_util.draw_token">
-<code class="sig-prename descclassname">text_util.</code><code class="sig-name descname">draw_token</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">text</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">style</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text_util.draw_token" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">text_util.</code><code class="sig-name descname">draw_token</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes</em>, <em class="sig-param">text</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">style</em>, <em class="sig-param">wordspacing</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text_util.draw_token" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the token on the plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
 This is used to get the figure renderer.</p></li>
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where the component is plotted.</p></li>
 <li><p><strong>text</strong> (<em>str</em>) – The text token to draw.</p></li>
 <li><p><strong>x</strong> (<em>int</em>) – The x-position of the token.</p></li>
 <li><p><strong>y</strong> (<em>int</em>) – The y-position of the token.</p></li>
@@ -198,14 +198,14 @@ This is used to get the figure renderer.</p></li>
 <span class="target" id="module-util"></span><p>A set of utility functions that are common to all types of visualizations.</p>
 <dl class="function">
 <dt id="util.get_bb">
-<code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_bb</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">component</em>, <em class="sig-param">transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_bb" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_bb</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes</em>, <em class="sig-param">component</em>, <em class="sig-param">transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_bb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the bounding box of the given component.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
 This is used to get the figure renderer.</p></li>
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where the component is plotted.</p></li>
 <li><p><strong>component</strong> (<em>object</em>) – The component whose bounding box will be fetched.</p></li>
 <li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
 If <cite>None</cite> is given, the data transformation is used.</p></li>
@@ -222,12 +222,12 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 
 <dl class="function">
 <dt id="util.to_px">
-<code class="sig-prename descclassname">util.</code><code class="sig-name descname">to_px</code><span class="sig-paren">(</span><em class="sig-param">axis</em>, <em class="sig-param">bb</em>, <em class="sig-param">transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#util.to_px" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">to_px</code><span class="sig-paren">(</span><em class="sig-param">axes</em>, <em class="sig-param">bb</em>, <em class="sig-param">transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#util.to_px" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the given bounding box to pixels based on the given transform.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where the component is plotted.</p></li>
 <li><p><strong>bb</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.Bbox</span></code>) – The bounding box of the component.</p></li>
 <li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
 If <cite>None</cite> is given, the data transformation is used.</p></li>
@@ -244,7 +244,7 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 
 <dl class="function">
 <dt id="util.overlapping">
-<code class="sig-prename descclassname">util.</code><code class="sig-name descname">overlapping</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">c1</em>, <em class="sig-param">c2</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.overlapping" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">overlapping</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes</em>, <em class="sig-param">c1</em>, <em class="sig-param">c2</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.overlapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check whether the given components overlap.
 The overlap considers the bounding box, and is therefore not perfectly precise.</p>
 <dl class="field-list simple">
@@ -252,7 +252,7 @@ The overlap considers the bounding box, and is therefore not perfectly precise.<
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
 This is used to get the figure renderer.</p></li>
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where the component is plotted.</p></li>
 <li><p><strong>c1</strong> (<em>object</em>) – The first component.
 Its bounding box will be compared to the second component.</p></li>
 <li><p><strong>c2</strong> (<em>object</em>) – The second component.
@@ -290,7 +290,7 @@ Its bounding box will be compared to the first component.</p></li>
 
 <dl class="function">
 <dt id="util.get_linespacing">
-<code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_linespacing</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">wordspacing=0</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_linespacing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_linespacing</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes</em>, <em class="sig-param">wordspacing=0</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_linespacing" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the line spacing of text tokens.
 The line spacing is calculated by creating a token and getting its height.
 The token is immediately removed.
@@ -300,7 +300,7 @@ The token’s styling have to be provided as keyword arguments.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
 This is used to get the figure renderer.</p></li>
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where the component is plotted.</p></li>
 <li><p><strong>wordspacing</strong> (<em>float</em>) – The spacing between tokens.
 This is used to be able to create the padding around words.</p></li>
 <li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
@@ -342,14 +342,14 @@ Otherwise, <cite>justify</cite> is returned.</p></li>
 
 <dl class="function">
 <dt id="util.align">
-<code class="sig-prename descclassname">util.</code><code class="sig-name descname">align</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis</em>, <em class="sig-param">items</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">xpad=0</em>, <em class="sig-param">xlim=None</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.align" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">align</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes</em>, <em class="sig-param">items</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">xpad=0</em>, <em class="sig-param">xlim=None</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#util.align" title="Permalink to this definition">¶</a></dt>
 <dd><p>Organize the given objects.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
 This is used to get the figure renderer.</p></li>
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where the component is plotted.</p></li>
+<li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where the component is plotted.</p></li>
 <li><p><strong>items</strong> (<em>list of objcet</em>) – The list of objects to organize.</p></li>
 <li><p><strong>align</strong> (<em>str</em>) – <p>The text’s alignment.
 Possible values:</p>
@@ -367,7 +367,7 @@ Possible values:</p>
 </p></li>
 <li><p><strong>xpad</strong> (<em>float</em>) – The space between objects.</p></li>
 <li><p><strong>xlim</strong> (<em>tuple</em>) – The x-limit relative to which to align the objects.
-If it is not given, the axis’ x-limit is used instead.
+If it is not given, the axes’ x-limit is used instead.
 The x-limit is a tuple limiting the start and end.</p></li>
 <li><p><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite> or <cite>bottom</cite>.
 If the vertical alignment is <cite>bottom</cite>, the annotation grows up.
@@ -384,8 +384,8 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 
 <dl class="function">
 <dt id="util.get_aspect">
-<code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_aspect</code><span class="sig-paren">(</span><em class="sig-param">axis</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_aspect" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the aspect ratio of the axis.
+<code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_aspect</code><span class="sig-paren">(</span><em class="sig-param">axes</em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_aspect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the aspect ratio of the axes.
 The calculation considers the display ratio as well as the data ratio.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -393,7 +393,7 @@ The calculation considers the display ratio as well as the data ratio.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis whose aspect ratio will be calculated.</p>
+<dd class="field-odd"><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes whose aspect ratio will be calculated.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The aspect ratio as a fraction of the display ratio and the data ratio.</p>

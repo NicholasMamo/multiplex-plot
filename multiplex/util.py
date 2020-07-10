@@ -7,15 +7,15 @@ from operator import sub
 
 import re
 
-def get_bb(figure, axis, component, transform=None):
+def get_bb(figure, axes, component, transform=None):
 	"""
 	Get the bounding box of the given component.
 
 	:param figure: The figure that the component occupies.
 				   This is used to get the figure renderer.
 	:type figure: :class:`matplotlib.figure.Figure`
-	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axes.Axes`
+	:param axes: The axes (or subplot) where the component is plotted.
+	:type axes: :class:`matplotlib.axes.Axes`
 	:param component: The component whose bounding box will be fetched.
 	:type component: object
 	:param transform: The bounding box transformation.
@@ -26,18 +26,18 @@ def get_bb(figure, axis, component, transform=None):
 	:rtype: :class:`matplotlib.transforms.Bbox`
 	"""
 
-	transform = axis.transData if transform is None else transform
+	transform = axes.transData if transform is None else transform
 
 	renderer = figure.canvas.get_renderer()
 	bb = component.get_window_extent(renderer).inverse_transformed(transform)
 	return bb
 
-def to_px(axis, bb, transform=None):
+def to_px(axes, bb, transform=None):
 	"""
 	Convert the given bounding box to pixels based on the given transform.
 
-	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axes.Axes`
+	:param axes: The axes (or subplot) where the component is plotted.
+	:type axes: :class:`matplotlib.axes.Axes`
 	:param bb: The bounding box of the component.
 	:type bb: :class:`matplotlib.transforms.Bbox`
 	:param transform: The bounding box transformation.
@@ -48,11 +48,11 @@ def to_px(axis, bb, transform=None):
 	:rtype: :class:`matplotlib.transforms.Bbox`
 	"""
 
-	transform = transform or axis.transData
+	transform = transform or axes.transData
 	bb = transform.transform(bb)
 	return Bbox(bb)
 
-def overlapping(figure, axis, c1, c2, *args, **kwargs):
+def overlapping(figure, axes, c1, c2, *args, **kwargs):
 	"""
 	Check whether the given components overlap.
 	The overlap considers the bounding box, and is therefore not perfectly precise.
@@ -60,8 +60,8 @@ def overlapping(figure, axis, c1, c2, *args, **kwargs):
 	:param figure: The figure that the component occupies.
 				   This is used to get the figure renderer.
 	:type figure: :class:`matplotlib.figure.Figure`
-	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axes.Axes`
+	:param axes: The axes (or subplot) where the component is plotted.
+	:type axes: :class:`matplotlib.axes.Axes`
 	:param c1: The first component.
 			   Its bounding box will be compared to the second component.
 	:type c1: object
@@ -73,7 +73,7 @@ def overlapping(figure, axis, c1, c2, *args, **kwargs):
 	:rtype: bool
 	"""
 
-	bb1, bb2 = get_bb(figure, axis, c1, *args, **kwargs), get_bb(figure, axis, c2, *args, **kwargs)
+	bb1, bb2 = get_bb(figure, axes, c1, *args, **kwargs), get_bb(figure, axes, c2, *args, **kwargs)
 
 	return overlapping_bb(bb1, bb2)
 
@@ -97,7 +97,7 @@ def overlapping_bb(bb1, bb2):
 		(bb1.y0 < bb2.y0 < bb1.y1 or bb1.y0 < bb2.y1 < bb1.y1)
 	)
 
-def get_linespacing(figure, axis, wordspacing=0, transform=None, *args, **kwargs):
+def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs):
 	"""
 	Calculate the line spacing of text tokens.
 	The line spacing is calculated by creating a token and getting its height.
@@ -107,8 +107,8 @@ def get_linespacing(figure, axis, wordspacing=0, transform=None, *args, **kwargs
 	:param figure: The figure that the component occupies.
 				   This is used to get the figure renderer.
 	:type figure: :class:`matplotlib.figure.Figure`
-	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axes.Axes`
+	:param axes: The axes (or subplot) where the component is plotted.
+	:type axes: :class:`matplotlib.axes.Axes`
 	:param wordspacing: The spacing between tokens.
 						This is used to be able to create the padding around words.
 	:type wordspacing: float
@@ -132,18 +132,18 @@ def get_linespacing(figure, axis, wordspacing=0, transform=None, *args, **kwargs
 
 	"""
 	The bbox's padding is calculated in pixels.
-	Therefore it is transformed from the provided axis coordinates to pixels.
+	Therefore it is transformed from the provided axes coordinates to pixels.
 	"""
 	wordspacing = wordspacing or 0
-	wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
-					  axis.transData.transform((0, 0))[0])
-	token = axis.text(0, 0, 'None', bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
+	wordspacing_px = (axes.transData.transform((wordspacing, 0))[0] -
+					  axes.transData.transform((0, 0))[0])
+	token = axes.text(0, 0, 'None', bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
 					  *args, **kwargs)
 
 	"""
 	Get the height from the bbox.
 	"""
-	bb = get_bb(figure, axis, token, transform)
+	bb = get_bb(figure, axes, token, transform)
 	height = bb.height
 	token.remove()
 	return height
@@ -174,7 +174,7 @@ def get_alignment(align, end=False):
 	else:
 		return alignment[0] if alignment[0] else alignment[1]
 
-def align(figure, axis, items, align='left', xpad=0,
+def align(figure, axes, items, align='left', xpad=0,
 		  xlim=None, va='top', transform=None, *args, **kwargs):
 	"""
 	Organize the given objects.
@@ -182,8 +182,8 @@ def align(figure, axis, items, align='left', xpad=0,
 	:param figure: The figure that the component occupies.
 				   This is used to get the figure renderer.
 	:type figure: :class:`matplotlib.figure.Figure`
-	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axes.Axes`
+	:param axes: The axes (or subplot) where the component is plotted.
+	:type axes: :class:`matplotlib.axes.Axes`
 	:param items: The list of objects to organize.
 	:type items: list of objcet
 	:param align: The text's alignment.
@@ -200,7 +200,7 @@ def align(figure, axis, items, align='left', xpad=0,
 	:param xpad: The space between objects.
 	:type xpad: float
 	:param xlim: The x-limit relative to which to align the objects.
-				  If it is not given, the axis' x-limit is used instead.
+				  If it is not given, the axes' x-limit is used instead.
 				  The x-limit is a tuple limiting the start and end.
 	:type xlim: tuple
 	:param va: The vertical alignment, can be one of `top` or `bottom`.
@@ -214,8 +214,8 @@ def align(figure, axis, items, align='left', xpad=0,
 	:raises: ValueError
 	"""
 
-	xlim = axis.get_xlim() if xlim is None else xlim
-	transform = transform if transform is not None else axis.transData
+	xlim = axes.get_xlim() if xlim is None else xlim
+	transform = transform if transform is not None else axes.transData
 
 	"""
 	If the text is left-aligned or justify, move the last item to the next line.
@@ -235,10 +235,10 @@ def align(figure, axis, items, align='left', xpad=0,
 		"""
 		space = 0
 		for i in range(len(items) - 1):
-			space += (get_bb(figure, axis, items[i + 1], transform=transform).x0 -
-					  get_bb(figure, axis, items[i], transform=transform).x1)
+			space += (get_bb(figure, axes, items[i + 1], transform=transform).x0 -
+					  get_bb(figure, axes, items[i], transform=transform).x1)
 
-		last = get_bb(figure, axis, items[-1], transform=transform)
+		last = get_bb(figure, axes, items[-1], transform=transform)
 		space = space + xlim[1] - last.x1
 		space = space / (len(items) - 1)
 
@@ -250,13 +250,13 @@ def align(figure, axis, items, align='left', xpad=0,
 		"""
 		offset = xlim[0]
 		for item in items:
-			bb = get_bb(figure, axis, item, transform=transform)
+			bb = get_bb(figure, axes, item, transform=transform)
 			item.set_position((offset, bb.y1 if va == 'top' else bb.y0))
 			bb = item.get_bbox_patch()
 			item.set_bbox(dict(
 				facecolor=bb.get_facecolor(), edgecolor=bb.get_edgecolor(),
 				pad=wordspacing_px / 2.))
-			bb = get_bb(figure, axis, item, transform=transform)
+			bb = get_bb(figure, axes, item, transform=transform)
 			offset += bb.width + space
 	elif align == 'right':
 		if len(items):
@@ -266,7 +266,7 @@ def align(figure, axis, items, align='left', xpad=0,
 
 			offset = 0
 			for item in items[::-1]:
-				bb = get_bb(figure, axis, item, transform=transform)
+				bb = get_bb(figure, axes, item, transform=transform)
 				offset += bb.width
 				item.set_position((xlim[1] - offset, bb.y1 if va == 'top' else bb.y0))
 				offset += xpad
@@ -277,41 +277,41 @@ def align(figure, axis, items, align='left', xpad=0,
 			Then, halve it and move all items by that value.
 			"""
 
-			bb = get_bb(figure, axis, items[-1], transform=transform)
+			bb = get_bb(figure, axes, items[-1], transform=transform)
 			offset = (xlim[1] - bb.x1)/2.
 
 			for item in items:
-				bb = get_bb(figure, axis, item, transform=transform)
+				bb = get_bb(figure, axes, item, transform=transform)
 				item.set_position((bb.x0 + offset, bb.y1 if va == 'top' else bb.y0))
 	else:
 		raise ValueError("Unsupported alignment %s" % align)
 
-def get_aspect(axis):
+def get_aspect(axes):
 	"""
-	Get the aspect ratio of the axis.
+	Get the aspect ratio of the axes.
 	The calculation considers the display ratio as well as the data ratio.
 
 	.. note::
 
 		Solution based on `Mad Physicist's answer on Stack Overflow <https://stackoverflow.com/a/42014041/1771724>`_.
 
-	:param axis: The axis whose aspect ratio will be calculated.
-	:type axis: :class:`matplotlib.axes.Axes`
+	:param axes: The axes whose aspect ratio will be calculated.
+	:type axes: :class:`matplotlib.axes.Axes`
 
 	:return: The aspect ratio as a fraction of the display ratio and the data ratio.
 	:rtype: float
 	"""
 
 	"""
-	Get the figure and axis dimensions.
+	Get the figure and axes dimensions.
 	"""
-	fig_w, fig_h = axis.get_figure().get_size_inches()
-	_, _, axis_w, axis_h = axis.get_position().bounds
+	fig_w, fig_h = axes.get_figure().get_size_inches()
+	_, _, axes_w, axes_h = axes.get_position().bounds
 
 	"""
 	Calculate the display ratio and the data ratio.
 	"""
-	display_ratio = (fig_h * axis_h) / (fig_w * axis_w)
-	data_ratio = sub(*axis.get_ylim()) / sub(*axis.get_xlim())
+	display_ratio = (fig_h * axes_h) / (fig_w * axes_w)
+	data_ratio = sub(*axes.get_ylim()) / sub(*axes.get_xlim())
 
 	return display_ratio / data_ratio

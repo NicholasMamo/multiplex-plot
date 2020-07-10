@@ -78,7 +78,7 @@ class Legend(object):
 			"""
 
 			figure = self.drawable.figure
-			axis = self.drawable.axis
+			axes = self.drawable.axes
 
 			"""
 			If the label is already in the legend, return it.
@@ -100,13 +100,13 @@ class Legend(object):
 			Get the x and y offsets for the new legend.
 			Then, draw the line first and the annotation second.
 			"""
-			offset = self._get_offset(transform=axis.transAxes)
-			linespacing = util.get_linespacing(figure, axis, transform=axis.transAxes, **default_style)
+			offset = self._get_offset(transform=axes.transAxes)
+			linespacing = util.get_linespacing(figure, axes, transform=axes.transAxes, **default_style)
 			y = 1.05
-			if axis.xaxis.get_label_position() == 'top':
-				y += self.drawable._get_xlabel(transform=axis.transAxes).height * 2
+			if axes.xaxis.get_label_position() == 'top':
+				y += self.drawable._get_xlabel(transform=axes.transAxes).height * 2
 
-				xtick_labels_bb = self.drawable._get_xtick_labels(transform=axis.transAxes)
+				xtick_labels_bb = self.drawable._get_xtick_labels(transform=axes.transAxes)
 				if xtick_labels_bb:
 					y += max(xtick_labels_bb, key=lambda bb: bb.height).height * 2
 
@@ -116,13 +116,13 @@ class Legend(object):
 			Calculate the offset of the annotation.
 			"""
 			if visual:
-				offset = util.get_bb(figure, axis, visual, transform=axis.transAxes).x1 + 0.00625
+				offset = util.get_bb(figure, axes, visual, transform=axes.transAxes).x1 + 0.00625
 			annotation = self.draw_annotation(label, offset, y, **default_style)
 
 			"""
 			If need be, create a new line for the legend.
 			"""
-			if annotation.get_virtual_bb(transform=axis.transAxes).x1 > 1:
+			if annotation.get_virtual_bb(transform=axes.transAxes).x1 > 1:
 				self._newline(visual, annotation, linespacing)
 			else:
 				self.lines[-1].append((visual, annotation))
@@ -140,7 +140,7 @@ class Legend(object):
 		In this case, this function moves the legend up to make room for the label and ticks.
 		"""
 
-		figure, axis = self.drawable.figure, self.drawable.axis
+		figure, axes = self.drawable.figure, self.drawable.axes
 
 		"""
 		If the legend is empty, do nothing.
@@ -152,17 +152,17 @@ class Legend(object):
 		Get the position at which the legend should be.
 		"""
 		y = 1.05
-		if axis.xaxis.get_label_position() == 'top':
-			y += self.drawable._get_xlabel(transform=axis.transAxes).height * 2
+		if axes.xaxis.get_label_position() == 'top':
+			y += self.drawable._get_xlabel(transform=axes.transAxes).height * 2
 
-			xtick_labels_bb = self.drawable._get_xtick_labels(transform=axis.transAxes)
+			xtick_labels_bb = self.drawable._get_xtick_labels(transform=axes.transAxes)
 			if xtick_labels_bb:
 				y += max(xtick_labels_bb, key=lambda bb: bb.height).height * 2
 
 		"""
 		Get the position of the last line.
 		"""
-		bottom = self.get_virtual_bb(transform=axis.transAxes).y0
+		bottom = self.get_virtual_bb(transform=axes.transAxes).y0
 
 		"""
 		If the legend is below the x-axis label and tick labels, move all lines up by that amount.
@@ -175,7 +175,7 @@ class Legend(object):
 					Move the visual first, then the text.
 					"""
 					if visual:
-						bb = util.get_bb(figure, axis, visual, transform=axis.transAxes)
+						bb = util.get_bb(figure, axes, visual, transform=axes.transAxes)
 						if type(visual) == lines.Line2D:
 							visual.set_ydata([ bb.y0 + offset ] * 2)
 						elif type(visual) == text.Annotation:
@@ -185,8 +185,8 @@ class Legend(object):
 							offsets = visual.get_offsets()[0]
 							visual.set_offsets([[ offsets[0], offsets[1] + offset ]])
 
-					bb = annotation.get_virtual_bb(transform=axis.transAxes)
-					annotation.set_position((bb.x0, bb.y0 + offset), transform=axis.transAxes)
+					bb = annotation.get_virtual_bb(transform=axes.transAxes)
+					annotation.set_position((bb.x0, bb.y0 + offset), transform=axes.transAxes)
 
 	def draw_annotation(self, label, x, y, va='bottom', *args, **kwargs):
 		"""
@@ -213,10 +213,10 @@ class Legend(object):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		annotation = Annotation(self.drawable)
-		annotation.draw(label, (x, 1), y, va=va, transform=axis.transAxes, **kwargs)
+		annotation.draw(label, (x, 1), y, va=va, transform=axes.transAxes, **kwargs)
 		return annotation
 
 	@draw
@@ -253,13 +253,13 @@ class Legend(object):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		arrow = text.Annotation('', xy=(offset + 0.025, y - linespacing / 2.),
 								xytext=(offset, y - linespacing / 2.),
-								xycoords=axis.transAxes, textcoords=axis.transAxes, arrowprops=kwargs)
+								xycoords=axes.transAxes, textcoords=axes.transAxes, arrowprops=kwargs)
 		arrow.set_clip_on(False)
-		axis.add_artist(arrow)
+		axes.add_artist(arrow)
 
 		return arrow
 
@@ -285,13 +285,13 @@ class Legend(object):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		x = [ offset, offset + 0.0125 ] if horizontal else [ offset ] * 2
 		y = [ y + linespacing / 2. ] * 2 if horizontal else [ y, y + linespacing ]
-		line = lines.Line2D(x, y, transform=axis.transAxes, *args, **kwargs)
+		line = lines.Line2D(x, y, transform=axes.transAxes, *args, **kwargs)
 		line.set_clip_on(False)
-		axis.add_line(line)
+		axes.add_line(line)
 
 		return line
 
@@ -315,17 +315,17 @@ class Legend(object):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		"""
 		Update the offset by by calculating the x-radius of the point.
 		"""
 		kwargs['s'] = 100
-		origin = self.drawable.axis.transAxes.inverted().transform((0, 0))
-		x = (self.drawable.axis.transAxes.inverted().transform((kwargs['s'] ** 0.5, 0))[0] - origin[0]) / 2.
+		origin = self.drawable.axes.transAxes.inverted().transform((0, 0))
+		x = (self.drawable.axes.transAxes.inverted().transform((kwargs['s'] ** 0.5, 0))[0] - origin[0]) / 2.
 		offset += x
 
-		point = axis.scatter(offset, y + linespacing / 2., transform=axis.transAxes, *args, **kwargs)
+		point = axes.scatter(offset, y + linespacing / 2., transform=axes.transAxes, *args, **kwargs)
 		point.set_clip_on(False)
 
 		return point
@@ -346,9 +346,9 @@ class Legend(object):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
-		transform = axis.transData if transform is None else transform
+		transform = axes.transData if transform is None else transform
 
 		"""
 		If there are lines that are not empty, get the bounding boxes from the first and last lines.
@@ -429,7 +429,7 @@ class Legend(object):
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		"""
 		Go through each line and move all of its components one line up.
@@ -440,7 +440,7 @@ class Legend(object):
 				The lines that have been drawn can be pushed up by the height of the line.
 				"""
 				if push_visual:
-					bb = util.get_bb(figure, axis, push_visual, transform=axis.transAxes)
+					bb = util.get_bb(figure, axes, push_visual, transform=axes.transAxes)
 					if type(push_visual) == lines.Line2D:
 						push_visual.set_ydata([ bb.y0 + linespacing ] * 2)
 					elif type(push_visual) == text.Annotation:
@@ -456,7 +456,7 @@ class Legend(object):
 				If the vertical alignment is `center`, the annotation is moved from the center.
 				If the vertical alignment is `bottom`, the annotation is moved from the bottom.
 				"""
-				bb = push_annotation.get_virtual_bb(transform=axis.transAxes)
+				bb = push_annotation.get_virtual_bb(transform=axes.transAxes)
 				if va == 'top':
 					y = bb.y1
 				elif va == 'center':
@@ -464,26 +464,26 @@ class Legend(object):
 				elif va == 'bottom':
 					y = bb.y0
 
-				push_annotation.set_position((bb.x0, y + linespacing), va=va, transform=axis.transAxes)
+				push_annotation.set_position((bb.x0, y + linespacing), va=va, transform=axes.transAxes)
 
 		"""
 		Move the visual and the annotation to the start of the line.
 		Finally, create a new line container.
 		"""
 		if visual:
-			bb = util.get_bb(figure, axis, visual, transform=axis.transAxes)
+			bb = util.get_bb(figure, axes, visual, transform=axes.transAxes)
 			if type(visual) == lines.Line2D:
 				visual.set_xdata([ 0, 0.025 ])
 			elif type(visual) == text.Annotation:
 				visual.xyann = (0, bb.y0 + linespacing / 2.)
 				visual.xy = (0.025, bb.y0 + linespacing / 2.)
 			elif type(push_visual) == collections.PathCollection:
-				origin = self.drawable.axis.transData.inverted().transform((0, 0))
-				x = (self.drawable.axis.transData.inverted().transform((100 ** 0.5, 0))[0] - origin[0]) / 4.
+				origin = self.drawable.axes.transData.inverted().transform((0, 0))
+				x = (self.drawable.axes.transData.inverted().transform((100 ** 0.5, 0))[0] - origin[0]) / 4.
 				visual.set_offsets([[ x, 1 + linespacing / 2. ]])
 
-		annotationbb = annotation.get_virtual_bb(transform=axis.transAxes)
-		annotation.set_position((bb.width + 0.00625, 1), va=va, transform=axis.transAxes)
+		annotationbb = annotation.get_virtual_bb(transform=axes.transAxes)
+		annotation.set_position((bb.width + 0.00625, 1), va=va, transform=axes.transAxes)
 		self.lines.append( [ (visual, annotation) ] )
 
 	def _get_legend_params(self, *args):

@@ -495,7 +495,7 @@ The angle of elevation considers the aspect ratio.</p>
 <dl class="method">
 <dt id="graph.graph.Graph._get_radius">
 <code class="sig-name descname">_get_radius</code><span class="sig-paren">(</span><em class="sig-param">node</em>, <em class="sig-param">s</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph._get_radius" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the radius of the given node in terms of the data axis.
+<dd><p>Get the radius of the given node in terms of the data axes.
 By default, the radius <cite>s</cite> is 100, but it can be overriden using the node’s <cite>style</cite> attribute.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -510,7 +510,7 @@ It may be overwritten with the node’s own radius.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The radius of the node in terms of the data axis.
+<dd class="field-even"><p>The radius of the node in terms of the data axes.
 Two radii are provided: the x- and y-radii.
 This is because scatter points always look like circles, even when the display or data ratios are not equal.
 Whn the display or data ratios are not equal, the point is actually an ellipse so that it still looks like a circle.</p>

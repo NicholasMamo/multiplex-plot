@@ -1068,7 +1068,7 @@ class TestGraph(MultiplexTest):
 
 		graph = Graph(viz)
 		point = viz.scatter(0, 0, s=1000)
-		bb = util.get_bb(viz.figure, viz.axis, point)
+		bb = util.get_bb(viz.figure, viz.axes, point)
 		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
 		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
 
@@ -1085,7 +1085,7 @@ class TestGraph(MultiplexTest):
 		viz.set_xlim((-1, 1))
 		viz.set_ylim((-1, 1))
 
-		bb = util.get_bb(viz.figure, viz.axis, point)
+		bb = util.get_bb(viz.figure, viz.axes, point)
 		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
 		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
 
@@ -1096,7 +1096,7 @@ class TestGraph(MultiplexTest):
 		viz.set_xlim((-1, 1))
 		viz.set_ylim((-1, 1))
 
-		bb = util.get_bb(viz.figure, viz.axis, point)
+		bb = util.get_bb(viz.figure, viz.axes, point)
 		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
 		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
 
@@ -1113,13 +1113,13 @@ class TestGraph(MultiplexTest):
 		viz.set_xlim((-2, 2))
 		viz.set_ylim((-1, 1))
 
-		bb = util.get_bb(viz.figure, viz.axis, point)
+		bb = util.get_bb(viz.figure, viz.axes, point)
 		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
 		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
 
 		viz.set_xlim((-1, 1))
 		viz.set_ylim((-2, 2))
 
-		bb = util.get_bb(viz.figure, viz.axis, point)
+		bb = util.get_bb(viz.figure, viz.axes, point)
 		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
 		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))

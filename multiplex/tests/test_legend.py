@@ -28,7 +28,7 @@ class TestLegend(MultiplexTest):
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		figure, axis = viz.figure, viz.axis
+		figure, axes = viz.figure, viz.axes
 		viz.legend.draw_text_only('label')
 		self.assertEqual(1, len(viz.legend.lines))
 		self.assertEqual(1, len(viz.legend.lines[0]))
@@ -49,7 +49,7 @@ class TestLegend(MultiplexTest):
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		figure, axis = viz.figure, viz.axis
+		figure, axes = viz.figure, viz.axes
 		viz.legend.draw_text_only('label')
 		self.assertEqual(1, len(viz.legend.lines))
 		self.assertEqual(1, len(viz.legend.lines[0]))
@@ -64,18 +64,18 @@ class TestLegend(MultiplexTest):
 		self.assertEqual(1, len(viz.legend.lines[0]))
 
 	@MultiplexTest.temporary_plot
-	def test_redraw_bottom_xaxis(self):
+	def test_redraw_bottom_xaxes(self):
 		"""
 		Test that when the x-axis label is at the bottom, the legend's bottom is at y=1.
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		figure, axis = viz.figure, viz.axis
+		figure, axes = viz.figure, viz.axes
 
 		viz.legend.draw_line('label')
-		self.assertEqual(1.05, viz.legend.get_virtual_bb(transform=axis.transAxes).y0)
+		self.assertEqual(1.05, viz.legend.get_virtual_bb(transform=axes.transAxes).y0)
 		line, text = viz.legend.lines[0][0]
-		self.assertLessEqual(1.05, util.get_bb(figure, axis, line, transform=axis.transAxes).y0)
+		self.assertLessEqual(1.05, util.get_bb(figure, axes, line, transform=axes.transAxes).y0)
 		self.assertEqual(1.05, text.get_virtual_bb().y0)
 
 	@MultiplexTest.temporary_plot
@@ -85,47 +85,47 @@ class TestLegend(MultiplexTest):
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		figure, axis = viz.figure, viz.axis
+		figure, axes = viz.figure, viz.axes
 		viz.legend.draw_text_only('label')
 
 		"""
 		Move the x-axis label and ticks to the top.
 		"""
-		viz.axis.xaxis.set_label_position('top')
-		viz.axis.xaxis.tick_top()
-		viz.axis.spines['top'].set_visible(True)
-		viz.axis.spines['bottom'].set_visible(False)
+		viz.axes.xaxis.set_label_position('top')
+		viz.axes.xaxis.tick_top()
+		viz.axes.spines['top'].set_visible(True)
+		viz.axes.spines['bottom'].set_visible(False)
 		viz.set_xlabel('label')
 
-		self.assertEqual(1.05, viz.legend.get_virtual_bb(transform=axis.transAxes).y0)
+		self.assertEqual(1.05, viz.legend.get_virtual_bb(transform=axes.transAxes).y0)
 		_, text = viz.legend.lines[0][0]
 		self.assertEqual(1.05, text.get_virtual_bb().y0)
 
 	@MultiplexTest.temporary_plot
-	def test_redraw_top_xaxis(self):
+	def test_redraw_top_xaxes(self):
 		"""
 		Test that when the x-axis label is at the top, the legend moves up.
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		figure, axis = viz.figure, viz.axis
+		figure, axes = viz.figure, viz.axes
 		viz.legend.draw_text_only('label')
-		legend_bb = viz.legend.get_virtual_bb(transform=axis.transAxes)
+		legend_bb = viz.legend.get_virtual_bb(transform=axes.transAxes)
 
 		"""
 		Move the x-axis label and ticks to the top.
 		"""
-		viz.axis.xaxis.set_label_position('top')
-		viz.axis.xaxis.tick_top()
-		viz.axis.spines['top'].set_visible(True)
-		viz.axis.spines['bottom'].set_visible(False)
+		viz.axes.xaxis.set_label_position('top')
+		viz.axes.xaxis.tick_top()
+		viz.axes.spines['top'].set_visible(True)
+		viz.axes.spines['bottom'].set_visible(False)
 
 		"""
 		After adding a label, the legend should move up.
 		"""
 		viz.set_xlabel('label')
 		viz.legend.redraw()
-		self.assertLess(legend_bb.y0, viz.legend.get_virtual_bb(transform=axis.transAxes).y0)
+		self.assertLess(legend_bb.y0, viz.legend.get_virtual_bb(transform=axes.transAxes).y0)
 
 	@MultiplexTest.temporary_plot
 	def test_redraw_move_all(self):
@@ -134,28 +134,28 @@ class TestLegend(MultiplexTest):
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		figure, axis = viz.figure, viz.axis
+		figure, axes = viz.figure, viz.axes
 		viz.legend.draw_line('label')
-		legend_bb = viz.legend.get_virtual_bb(transform=axis.transAxes)
+		legend_bb = viz.legend.get_virtual_bb(transform=axes.transAxes)
 
 		"""
 		Move the x-axis label and ticks to the top.
 		"""
-		viz.axis.xaxis.set_label_position('top')
-		viz.axis.xaxis.tick_top()
-		viz.axis.spines['top'].set_visible(True)
-		viz.axis.spines['bottom'].set_visible(False)
+		viz.axes.xaxis.set_label_position('top')
+		viz.axes.xaxis.tick_top()
+		viz.axes.spines['top'].set_visible(True)
+		viz.axes.spines['bottom'].set_visible(False)
 
 		"""
 		After adding a label, the legend should move up.
 		"""
 		viz.set_xlabel('label')
 		visual, annotation = viz.legend.lines[0][0]
-		before_annotation = annotation.get_virtual_bb(transform=axis.transAxes)
-		before_visual = util.get_bb(figure, axis, visual, transform=axis.transAxes)
+		before_annotation = annotation.get_virtual_bb(transform=axes.transAxes)
+		before_visual = util.get_bb(figure, axes, visual, transform=axes.transAxes)
 		viz.legend.redraw()
-		after_annotation = annotation.get_virtual_bb(transform=axis.transAxes)
-		after_visual = util.get_bb(figure, axis, visual, transform=axis.transAxes)
+		after_annotation = annotation.get_virtual_bb(transform=axes.transAxes)
+		after_visual = util.get_bb(figure, axes, visual, transform=axes.transAxes)
 		self.assertLess(before_annotation.y0, after_annotation.y0)
 		self.assertLess(before_visual.y0, after_visual.y0)
 
@@ -166,35 +166,35 @@ class TestLegend(MultiplexTest):
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
-		figure, axis = viz.figure, viz.axis
+		figure, axes = viz.figure, viz.axes
 		for i in range(0, 20):
 			viz.legend.draw_line(f"label { i }")
-		legend_bb = viz.legend.get_virtual_bb(transform=axis.transAxes)
+		legend_bb = viz.legend.get_virtual_bb(transform=axes.transAxes)
 		self.assertGreater(len(viz.legend.lines), 1)
 
 		"""
 		Move the x-axis label and ticks to the top.
 		"""
-		viz.axis.xaxis.set_label_position('top')
-		viz.axis.xaxis.tick_top()
-		viz.axis.spines['top'].set_visible(True)
-		viz.axis.spines['bottom'].set_visible(False)
+		viz.axes.xaxis.set_label_position('top')
+		viz.axes.xaxis.tick_top()
+		viz.axes.spines['top'].set_visible(True)
+		viz.axes.spines['bottom'].set_visible(False)
 
 		"""
 		After adding a label, the legend should move up.
 		"""
 		viz.set_xlabel('label')
-		before_annotations = [ annotation.get_virtual_bb(transform=axis.transAxes)
+		before_annotations = [ annotation.get_virtual_bb(transform=axes.transAxes)
 								   for line in viz.legend.lines
 								   for _, annotation in line ]
-		before_visuals = [ util.get_bb(figure, axis, visual, transform=axis.transAxes)
+		before_visuals = [ util.get_bb(figure, axes, visual, transform=axes.transAxes)
 							   for line in viz.legend.lines
 							   for visual, _ in line ]
 		viz.legend.redraw()
-		after_annotations = [ annotation.get_virtual_bb(transform=axis.transAxes)
+		after_annotations = [ annotation.get_virtual_bb(transform=axes.transAxes)
 								   for line in viz.legend.lines
 								   for _, annotation in line ]
-		after_visuals = [ util.get_bb(figure, axis, visual, transform=axis.transAxes)
+		after_visuals = [ util.get_bb(figure, axes, visual, transform=axes.transAxes)
 								   for line in viz.legend.lines
 								   for visual, _ in line ]
 		self.assertTrue(all( a1.y0 < a2.y0
@@ -210,7 +210,7 @@ class TestLegend(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		line, annotation = viz.legend.draw_line('A')
-		linebb = util.get_bb(viz.figure, viz.axis, line)
+		linebb = util.get_bb(viz.figure, viz.axes, line)
 		self.assertFalse(util.overlapping_bb(linebb, annotation.get_virtual_bb()))
 
 	@MultiplexTest.temporary_plot
@@ -288,7 +288,7 @@ class TestLegend(MultiplexTest):
 	@MultiplexTest.temporary_plot
 	def test_new_line_top(self):
 		"""
-		Test that when creating a new line, the last line is at the top of the axis.
+		Test that when creating a new line, the last line is at the top of the axes.
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
@@ -297,7 +297,7 @@ class TestLegend(MultiplexTest):
 		self.assertGreaterEqual(len(viz.legend.lines), 2)
 
 		bottom = viz.legend.lines[-1][0][-1]
-		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axis.transAxes).y0))
+		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axes.transAxes).y0))
 
 	@MultiplexTest.temporary_plot
 	def test_new_line_text_only(self):
@@ -365,7 +365,7 @@ class TestLegend(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		arrow, annotation = viz.legend.draw_arrow('A')
-		bb = util.get_bb(viz.figure, viz.axis, arrow)
+		bb = util.get_bb(viz.figure, viz.axes, arrow)
 		self.assertEqual(0, round(bb.x0, 10))
 
 	@MultiplexTest.temporary_plot
@@ -391,7 +391,7 @@ class TestLegend(MultiplexTest):
 	@MultiplexTest.temporary_plot
 	def test_new_line_arrow_top(self):
 		"""
-		Test that when creating a new line with arrows, the last line is at the top of the axis.
+		Test that when creating a new line with arrows, the last line is at the top of the axes.
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
@@ -400,7 +400,7 @@ class TestLegend(MultiplexTest):
 		self.assertGreaterEqual(len(viz.legend.lines), 2)
 
 		bottom = viz.legend.lines[-1][0][-1]
-		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axis.transAxes).y0))
+		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axes.transAxes).y0))
 
 	@MultiplexTest.temporary_plot
 	def test_new_point(self):
@@ -410,7 +410,7 @@ class TestLegend(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		point, annotation = viz.legend.draw_point('A')
-		bb = util.get_bb(viz.figure, viz.axis, point)
+		bb = util.get_bb(viz.figure, viz.axes, point)
 		self.assertEqual(0, round(bb.x0, 2))
 
 	@MultiplexTest.temporary_plot
@@ -424,7 +424,7 @@ class TestLegend(MultiplexTest):
 			point, annotation = viz.legend.draw_point(label)
 		self.assertGreaterEqual(len(viz.legend.lines), 2)
 
-		axis = viz.axis
+		axes = viz.axes
 		figure = viz.figure
 
 		"""
@@ -438,14 +438,14 @@ class TestLegend(MultiplexTest):
 
 			top = viz.legend.lines[i][0][0]
 			bottom = viz.legend.lines[i + 1][0][0]
-			bb_top = util.get_bb(figure, axis, top)
-			bb_bottom = util.get_bb(figure, axis, bottom)
+			bb_top = util.get_bb(figure, axes, top)
+			bb_bottom = util.get_bb(figure, axes, bottom)
 			self.assertLessEqual(round(bb_bottom.y1, 10), round(bb_top.y0, 10))
 
 	@MultiplexTest.temporary_plot
 	def test_new_line_point_top(self):
 		"""
-		Test that when creating a new line with points, the last line is at the top of the axis.
+		Test that when creating a new line with points, the last line is at the top of the axes.
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
@@ -454,7 +454,7 @@ class TestLegend(MultiplexTest):
 		self.assertGreaterEqual(len(viz.legend.lines), 2)
 
 		bottom = viz.legend.lines[-1][0][-1]
-		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axis.transAxes).y0))
+		self.assertEqual(1, round(bottom.get_virtual_bb(transform=viz.axes.transAxes).y0))
 
 	@MultiplexTest.temporary_plot
 	def test_virtual_bb_no_legend(self):
@@ -506,7 +506,7 @@ class TestLegend(MultiplexTest):
 	@MultiplexTest.temporary_plot
 	def test_virtual_bb_multiple_lines(self):
 		"""
-		Test that when getting the virtual bounding box of a legend with multiple lines, it grows from the top of the axis.
+		Test that when getting the virtual bounding box of a legend with multiple lines, it grows from the top of the axes.
 		"""
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))

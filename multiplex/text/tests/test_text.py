@@ -45,7 +45,7 @@ class TestTextAnnotation(MultiplexTest):
 		for _, tokens in lines:
 			y = 0
 			for i, token in enumerate(tokens):
-				bb = util.get_bb(viz.figure, viz.axis, token)
+				bb = util.get_bb(viz.figure, viz.axes, token)
 				if i > 0:
 					self.assertEqual(y, bb.y0)
 				else:
@@ -63,7 +63,7 @@ class TestTextAnnotation(MultiplexTest):
 
 		for i, (_, tokens) in enumerate(lines):
 			y = 0
-			bb = util.get_bb(viz.figure, viz.axis, tokens[0])
+			bb = util.get_bb(viz.figure, viz.axes, tokens[0])
 			if i > 0:
 				self.assertGreaterEqual(y, bb.y0)
 
@@ -81,7 +81,7 @@ class TestTextAnnotation(MultiplexTest):
 
 		x = 0
 		for i, (_, tokens) in enumerate(lines):
-			bb = util.get_bb(viz.figure, viz.axis, tokens[0])
+			bb = util.get_bb(viz.figure, viz.axes, tokens[0])
 			if i == 0:
 				x = bb.x0
 
@@ -99,7 +99,7 @@ class TestTextAnnotation(MultiplexTest):
 
 		x = 0
 		for i, (_, tokens) in enumerate(lines):
-			bb = util.get_bb(viz.figure, viz.axis, tokens[-1])
+			bb = util.get_bb(viz.figure, viz.axes, tokens[-1])
 			if i == 0:
 				x = bb.x1
 
@@ -117,8 +117,8 @@ class TestTextAnnotation(MultiplexTest):
 
 		x = 0
 		for i, (_, tokens) in enumerate(lines[:-1]):
-			bb0 = util.get_bb(viz.figure, viz.axis, tokens[0])
-			bb1 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+			bb0 = util.get_bb(viz.figure, viz.axes, tokens[0])
+			bb1 = util.get_bb(viz.figure, viz.axes, tokens[-1])
 			center = (bb0.x0 + bb1.x1) / 2.
 			if i == 0:
 				x = center
@@ -138,8 +138,8 @@ class TestTextAnnotation(MultiplexTest):
 
 		x = 0
 		for i, (_, tokens) in enumerate(lines[:-1]): # skip the last line as it is not justified
-			bb0 = util.get_bb(viz.figure, viz.axis, tokens[0])
-			bb1 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+			bb0 = util.get_bb(viz.figure, viz.axes, tokens[0])
+			bb1 = util.get_bb(viz.figure, viz.axes, tokens[-1])
 			center = (bb0.x0 + bb1.x1) / 2.
 			if i == 0:
 				x = center
@@ -156,7 +156,7 @@ class TestTextAnnotation(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		lines = viz.draw_text_annotation(text, align='justify-start')
 
-		bb = util.get_bb(viz.figure, viz.axis, lines[0][-1][0])
+		bb = util.get_bb(viz.figure, viz.axes, lines[0][-1][0])
 		self.assertEqual(0, bb.x0)
 
 	@MultiplexTest.temporary_plot
@@ -169,8 +169,8 @@ class TestTextAnnotation(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		lines = viz.draw_text_annotation(text, align='justify-end')
 
-		bb = util.get_bb(viz.figure, viz.axis, lines[0][-1][-1])
-		self.assertEqual(viz.axis.get_xlim()[1], bb.x1)
+		bb = util.get_bb(viz.figure, viz.axes, lines[0][-1][-1])
+		self.assertEqual(viz.axes.get_xlim()[1], bb.x1)
 
 	@MultiplexTest.temporary_plot
 	def test_align_justify_center(self):
@@ -184,8 +184,8 @@ class TestTextAnnotation(MultiplexTest):
 
 		x = 0
 		for i, (_, tokens) in enumerate(lines):
-			bb0 = util.get_bb(viz.figure, viz.axis, tokens[0])
-			bb1 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+			bb0 = util.get_bb(viz.figure, viz.axes, tokens[0])
+			bb1 = util.get_bb(viz.figure, viz.axes, tokens[-1])
 			center = (bb0.x0 + bb1.x1) / 2.
 			if i == 0:
 				x = center
@@ -326,7 +326,7 @@ class TestTextAnnotation(MultiplexTest):
 	@MultiplexTest.temporary_plot
 	def test_xpad_bounds(self):
 		"""
-		Test that the left and right padding cannot occupy the entire axis.
+		Test that the left and right padding cannot occupy the entire axes.
 		"""
 
 		text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'

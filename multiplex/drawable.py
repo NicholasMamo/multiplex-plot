@@ -1,7 +1,7 @@
 """
-A :class:`~Drawable` is nothing more than a class that wraps a matplotlib figure and an axis.
-All of the functions that you would call on a `matplotlib axis <https://matplotlib.org/api/axes_api.html>`_, you can call on the :class:`~Drawable`.
-If you call any function that belongs to a `matplotlib axis <https://matplotlib.org/api/axes_api.html>`_, then matplotlib handles it as usual.
+A :class:`~Drawable` is nothing more than a class that wraps a matplotlib figure and an axes.
+All of the functions that you would call on a `matplotlib axes <https://matplotlib.org/api/axes_api.html>`_, you can call on the :class:`~Drawable`.
+If you call any function that belongs to a `matplotlib axes <https://matplotlib.org/api/axes_api.html>`_, then matplotlib handles it as usual.
 However, if you call a function that is new to Multiplex, such as a new visualization, then the library handles it.
 
 To create a :class:`~Drawable` instance from a normal plot:
@@ -10,12 +10,12 @@ To create a :class:`~Drawable` instance from a normal plot:
 
   viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 
-To create a :class:`~Drawable` instance from an axis, or a subplot:
+To create a :class:`~Drawable` instance from an axes, or a subplot:
 
 .. code-block:: python
 
-  figure, axis = plt.subplots(2, 1, figsize=(10, 10))
-  viz = drawable.Drawable(figure, axis[0])
+  figure, axes = plt.subplots(2, 1, figsize=(10, 10))
+  viz = drawable.Drawable(figure, axes[0])
 
 Some important functionality that the :class:`~Drawable` class provides:
 
@@ -45,16 +45,16 @@ import util
 
 class Drawable():
 	"""
-	The :class:`~Drawable` class wraps a matplotlib figure and axis to provide additional functionality.
-	If no axis is given, the default plot axis (:code:`plt.gca()`) is used.
+	The :class:`~Drawable` class wraps a matplotlib figure and axes to provide additional functionality.
+	If no axes is given, the default plot axes (:code:`plt.gca()`) is used.
 	The :class:`~Drawable` class can be used as a normal `matplotlib.axes.Axes <https://matplotlib.org/api/axes_api.html>`_ object with additional functionality.
-	The axis functionality can be called on the :class:`~Drawable` class.
+	The axes functionality can be called on the :class:`~Drawable` class.
 	The :class:`~Drawable` instance re-routes method and attribute calls to the `matplotlib.axes.Axes <https://matplotlib.org/api/axes_api.html>`_ instance.
 
 	:ivar figure: The figure that the :class:`~Drawable` class wraps.
 	:vartype figure: :class:`matplotlib.figure.Figure`
-	:ivar axis: The axis where the drawable will draw.
-	:vartype axis: :class:`matplotlib.axes.Axes`
+	:ivar axes: The axes where the drawable will draw.
+	:vartype axes: :class:`matplotlib.axes.Axes`
 	:var caption: The caption, displayed under the title.
 	:vartype caption: :class:`~text.annotation.Annotation`
 
@@ -73,20 +73,20 @@ class Drawable():
 	:vartype annotations: list of :class:`~text.annotation.Annotation`
 	"""
 
-	def __init__(self, figure, axis=None):
+	def __init__(self, figure, axes=None):
 		"""
 		Create the drawable with the figure.
 
 		:param figure: The figure that the :class:`~Drawable` class wraps.
 					   This is mainly used to get the figure renderer.
 		:type figure: :class:`matplotlib.figure.Figure`
-		:param axis: The axis (or subplot) where to plot visualizations.
+		:param axes: The axes (or subplot) where to plot visualizations.
 					 If `None` is given, the plot's main subplot is used instead.
-		:type axis: `None` or :class:`matplotlib.axes.Axes`
+		:type axes: `None` or :class:`matplotlib.axes.Axes`
 		"""
 
 		self.figure = figure
-		self.axis = plt.gca() if axis is None else axis
+		self.axes = plt.gca() if axes is None else axes
 		self.caption = Annotation(self)
 
 		self.annotations = [ ]
@@ -103,7 +103,7 @@ class Drawable():
 		The caption is a :class:`~text.text.Annotation` object.
 		Any arguments that the constructor accepts can be provided to this method.
 
-		:param caption: The caption to add to the axis.
+		:param caption: The caption to add to the axes.
 		:type caption: str
 		:param alpha: The opacity of the caption between 0 and 1.
 		:type alpha: float
@@ -117,7 +117,7 @@ class Drawable():
 		self.caption = Annotation(self)
 		self.caption.draw(caption, (0, 1), 1,
 						  va='bottom', alpha=alpha, lineheight=lineheight,
-						  transform=self.axis.transAxes,
+						  transform=self.axes.transAxes,
 						  *args, **kwargs)
 		self.redraw()
 		return self.caption
@@ -134,40 +134,40 @@ class Drawable():
 
 	def _redraw_caption(self):
 		"""
-		Re-draw the caption, re-positioning so that it does not overlap with the legend or axis.
+		Re-draw the caption, re-positioning so that it does not overlap with the legend or axes.
 		"""
 
-		figure, axis = self.figure, self.axis
+		figure, axes = self.figure, self.axes
 
 		"""
 		Move the caption up to make space for the legend and the label.
 		"""
 		y = 1
-		y += self.legend.get_virtual_bb(transform=self.axis.transAxes).height
+		y += self.legend.get_virtual_bb(transform=self.axes.transAxes).height
 
 		"""
 		If the x-label is on top, make space for it in the caption.
 		In this case, it is assumed that the ticks are also at the top.
 		This is because for some reason they may be set to 'unknown'.
 		"""
-		if axis.xaxis.get_label_position() == 'top':
-			y += self._get_xlabel(transform=self.axis.transAxes).height * 2
+		if axes.xaxis.get_label_position() == 'top':
+			y += self._get_xlabel(transform=self.axes.transAxes).height * 2
 
-			xtick_labels_bb = self._get_xtick_labels(transform=axis.transAxes)
+			xtick_labels_bb = self._get_xtick_labels(transform=axes.transAxes)
 			if xtick_labels_bb:
 				y += max(xtick_labels_bb, key=lambda bb: bb.height).height * 2
 
 		pad = 0.1
-		self.caption.set_position((0, y + pad), ha='left', va='bottom', transform=self.axis.transAxes)
+		self.caption.set_position((0, y + pad), ha='left', va='bottom', transform=self.axes.transAxes)
 
 	def _redraw_title(self):
 		"""
-		Re-draw the title, adding enough padding so that there is enough space for the axis label, the legend and the caption.
+		Re-draw the title, adding enough padding so that there is enough space for the axes label, the legend and the caption.
 		"""
 
-		figure, axis = self.figure, self.axis
+		figure, axes = self.figure, self.axes
 
-		title = axis.get_title(loc='left')
+		title = axes.get_title(loc='left')
 
 		"""
 		Get the height of the caption and the height of the legend.
@@ -175,11 +175,11 @@ class Drawable():
 		"""
 		caption_height = 0
 		if str(self.caption):
-			caption_height = util.to_px(axis, self.caption.get_virtual_bb(transform=axis.transAxes),
-										transform=axis.transAxes).height
+			caption_height = util.to_px(axes, self.caption.get_virtual_bb(transform=axes.transAxes),
+										transform=axes.transAxes).height
 
-		legend_height = util.to_px(axis, self.legend.get_virtual_bb(transform=axis.transAxes),
-								   transform=axis.transAxes).height
+		legend_height = util.to_px(axes, self.legend.get_virtual_bb(transform=axes.transAxes),
+								   transform=axes.transAxes).height
 
 		"""
 		If the x-label is on top, make space for it in the title.
@@ -187,22 +187,22 @@ class Drawable():
 		This is because for some reason they may be set to 'unknown'.
 		"""
 		label_height = 0
-		if axis.xaxis.get_label_position() == 'top':
-			label_bb = self._get_xlabel(transform=axis.transData)
-			label_height = util.to_px(axis, label_bb,
-									  transform=axis.transData).height * 2
-			xtick_labels_bb = self._get_xtick_labels(transform=axis.transData)
+		if axes.xaxis.get_label_position() == 'top':
+			label_bb = self._get_xlabel(transform=axes.transData)
+			label_height = util.to_px(axes, label_bb,
+									  transform=axes.transData).height * 2
+			xtick_labels_bb = self._get_xtick_labels(transform=axes.transData)
 			if xtick_labels_bb:
 				label_bb = max(xtick_labels_bb, key=lambda bb: bb.height)
-				label_height += util.to_px(axis, label_bb, transform=axis.transData).height * 2
+				label_height += util.to_px(axes, label_bb, transform=axes.transData).height * 2
 
 		"""
 		Add some extra padding to the height.
 		"""
 		height = abs(caption_height) + abs(legend_height) + abs(label_height)
-		pad_px = abs(self.axis.transAxes.transform((0, 0.05))[1] - self.axis.transAxes.transform((0, 0))[1])
+		pad_px = abs(self.axes.transAxes.transform((0, 0.05))[1] - self.axes.transAxes.transform((0, 0))[1])
 		pad = pad_px * 2
-		self.axis.set_title(title, loc='left', pad=(5 + height + pad))
+		self.axes.set_title(title, loc='left', pad=(5 + height + pad))
 
 	def _get_xlabel(self, transform=None):
 		"""
@@ -216,10 +216,10 @@ class Drawable():
 		:rtype: :class:`matplotlib.transforms.Bbox`
 		"""
 
-		figure, axis = self.figure, self.axis
+		figure, axes = self.figure, self.axes
 
-		transform = transform or axis.transData
-		return util.get_bb(figure, axis, axis.xaxis.get_label(), transform=transform)
+		transform = transform or axes.transData
+		return util.get_bb(figure, axes, axes.xaxis.get_label(), transform=transform)
 
 	def _get_xtick_labels(self, transform=None):
 		"""
@@ -233,12 +233,12 @@ class Drawable():
 		:rtype: :class:`matplotlib.transforms.Bbox`
 		"""
 
-		figure, axis = self.figure, self.axis
+		figure, axes = self.figure, self.axes
 
 		figure.canvas.draw()
-		transform = transform or axis.transData
-		return [ util.get_bb(figure, axis, label, transform=transform)
-				 for label in axis.xaxis.get_ticklabels(which='both') ]
+		transform = transform or axes.transData
+		return [ util.get_bb(figure, axes, label, transform=transform)
+				 for label in axes.xaxis.get_ticklabels(which='both') ]
 
 	def savefig(self, *args, **kwargs):
 		"""
@@ -273,21 +273,21 @@ class Drawable():
 		:param name: The name of the attribute.
 		:type name: str
 
-		:return: The function applied on the axis.
+		:return: The function applied on the axes.
 		:rtype: function
 		"""
 
 		def method(*args, **kwargs):
 			"""
-			Try to get the attribute from the axis.
+			Try to get the attribute from the axes.
 			If arguments were given, then the attribute is treated as a method call.
 			Otherwise, it is treated as a normal attribute call.
 			"""
 
-			if callable(getattr(self.axis, name)):
-				return getattr(self.axis, name)(*args, **kwargs)
+			if callable(getattr(self.axes, name)):
+				return getattr(self.axes, name)(*args, **kwargs)
 			else:
-				return getattr(self.axis, name)
+				return getattr(self.axes, name)
 
 		return method
 
@@ -330,11 +330,11 @@ class Drawable():
 			marker = dict(marker) # make a copy to avoid overwriting dictionaries
 			marker['color'] = marker.get('color', kwargs.get('color'))
 			if kwargs.get('align', 'left') == 'left':
-				self.axis.plot(x[0], y, *args, **marker)
+				self.axes.plot(x[0], y, *args, **marker)
 			elif kwargs.get('align') == 'right':
-				self.axis.plot(x[1], y, *args, **marker)
+				self.axes.plot(x[1], y, *args, **marker)
 			elif kwargs.get('align') == 'center':
-				self.axis.plot((x[0] + x[1])/2., y, *args, **marker)
+				self.axes.plot((x[0] + x[1])/2., y, *args, **marker)
 
 		tokens = annotation.draw(text, x, y, pad=pad, *args, **kwargs)
 		self.annotations.append(annotation)

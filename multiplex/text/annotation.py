@@ -45,9 +45,9 @@ class Annotation():
 
 	def __init__(self, drawable):
 		"""
-		Initialize the text annotation with the figure and axis.
+		Initialize the text annotation with the figure and axes.
 		The figure is used to get the renderer.
-		The visualization is drawn on the given axis.
+		The visualization is drawn on the given axes.
 
 		:param drawable: The :class:`~drawable.Drawable` where the text visualization will be drawn.
 		:type drawable: :class:`~drawable.Drawable`
@@ -85,7 +85,7 @@ class Annotation():
 		:param x: The x-position of the annotation.
 				  The function expects either a float or a tuple.
 				  If a float is given, it is taken to be the start x-position of the annotation.
-				  The end x-position is taken from the axis limit.
+				  The end x-position is taken from the axes limit.
 				  If a tuple is given, the first two values are the start and end x-position of the annotation.
 		:type x: float or tuple
 		:param y: The starting y-position of the annotation.
@@ -123,7 +123,7 @@ class Annotation():
 		"""
 
 		if type(x) is not tuple and type(x) is not list:
-			x = (x, self.drawable.axis.get_xlim()[1])
+			x = (x, self.drawable.axes.get_xlim()[1])
 
 		x, y = self._pad(x, y, pad, va)
 
@@ -161,9 +161,9 @@ class Annotation():
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
-		transform = axis.transData if transform is None else transform
+		transform = axes.transData if transform is None else transform
 		renderer = figure.canvas.get_renderer()
 
 		"""
@@ -173,7 +173,7 @@ class Annotation():
 		x0, y0, x1, y1 = None, None, None, None
 		for line in self.lines:
 			for token in line:
-				bb = util.get_bb(figure, axis, token, transform)
+				bb = util.get_bb(figure, axes, token, transform)
 				x0 = bb.x0 if x0 is None or bb.x0 < x0 else x0
 				y0 = bb.y0 if y0 is None or bb.y0 < y0 else y0
 				x1 = bb.x1 if x1 is None or bb.x1 > x1 else x1
@@ -211,7 +211,7 @@ class Annotation():
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		bb = self.get_virtual_bb(transform=transform)
 		"""
@@ -247,7 +247,7 @@ class Annotation():
 		"""
 		for line in self.lines:
 			for token in line:
-				bb = util.get_bb(figure, axis, token, transform=transform)
+				bb = util.get_bb(figure, axes, token, transform=transform)
 				if va == 'top':
 					token.set_position((bb.x0 - offset[0], bb.y1 - offset[1]))
 				elif va == 'center':
@@ -306,15 +306,15 @@ class Annotation():
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
-		transform = transform if transform is not None else axis.transData
+		axes = self.drawable.axes
+		transform = transform if transform is not None else axes.transData
 
-		linespacing = util.get_linespacing(figure, axis, wordspacing, transform=transform, *args, **kwargs) * lineheight
+		linespacing = util.get_linespacing(figure, axes, wordspacing, transform=transform, *args, **kwargs) * lineheight
 		if wordspacing is None:
 			wordspacing = linespacing / 10.
 
 		"""
-		Go through each token and draw it on the axis.
+		Go through each token and draw it on the axes.
 		"""
 		drawn_lines, line_tokens = [], []
 		offset = x[0]
@@ -331,7 +331,7 @@ class Annotation():
 			Therefore lines are centered at a later stage.
 			"""
 			va = 'top' if va == 'center' else va
-			text = text_util.draw_token(figure, axis, token.get('text'), offset,
+			text = text_util.draw_token(figure, axes, token.get('text'), offset,
 										y - len(drawn_lines) * linespacing if va == 'top' else y,
 										token.get('style', {}), wordspacing, va=va,
 										transform=transform, *args, **kwargs)
@@ -346,10 +346,10 @@ class Annotation():
 			Note that lists are passed by reference.
 			Therefore when the last token is removed from drawn lines when create a new line, the change is reflected here.
 			"""
-			bb = util.get_bb(figure, axis, text, transform=transform)
+			bb = util.get_bb(figure, axes, text, transform=transform)
 			if bb.x1 > x[1] and token.get('text') not in string.punctuation:
 				self._newline(line_tokens, drawn_lines, linespacing, x[0], y, va, transform=transform)
-				util.align(figure, axis, line_tokens, xpad=wordspacing,
+				util.align(figure, axes, line_tokens, xpad=wordspacing,
 						   align=util.get_alignment(align), xlim=x, va=va, transform=transform)
 				offset = x[0]
 				line_tokens = [ text ]
@@ -360,7 +360,7 @@ class Annotation():
 		Align the last line.
 		"""
 		drawn_lines.append(line_tokens)
-		util.align(figure, axis, line_tokens, xpad=wordspacing,
+		util.align(figure, axes, line_tokens, xpad=wordspacing,
 				   align=util.get_alignment(align, end=True), xlim=x, va=va, transform=transform)
 
 		return drawn_lines
@@ -396,7 +396,7 @@ class Annotation():
 		"""
 
 		figure = self.drawable.figure
-		axis = self.drawable.axis
+		axes = self.drawable.axes
 
 		"""
 		Remove the last token added to the line.
@@ -404,7 +404,7 @@ class Annotation():
 		The line that was being edited, without this token, is added to the list of previous lines—it is 'retired'.
 		"""
 		token = line.pop(-1)
-		bb = util.get_bb(figure, axis, token, transform=transform)
+		bb = util.get_bb(figure, axes, token, transform=transform)
 		previous_lines.append(line)
 
 		if va == 'bottom':
@@ -419,7 +419,7 @@ class Annotation():
 			for line, previous_line in enumerate(previous_lines[::-1]):
 				for token in previous_line:
 					position = token.get_position()
-					bb = util.get_bb(figure, axis, token, transform=transform)
+					bb = util.get_bb(figure, axes, token, transform=transform)
 					token.set_position((position[0], y + (line + 1) * linespacing))
 		elif va == 'top':
 			"""
@@ -479,7 +479,7 @@ class Annotation():
 		:param x: The x-coordinate as a tuple, representing the bounds of the annotation.
 		:type x: tuple
 		:param pad: The padding applied to the annotation.
-					The padding is taken to be a fraction of the axis width.
+					The padding is taken to be a fraction of the axes width.
 		:type pad: float
 
 		:return: The new x-coordinate tuple with padding applied.
@@ -496,7 +496,7 @@ class Annotation():
 		:param y: The starting y-position of the annotation.
 		:type y: float
 		:param pad: The padding applied to the annotation.
-					The padding is taken to be a fraction of the axis width.
+					The padding is taken to be a fraction of the axes width.
 		:type pad: float
 		:param va: The vertical alignment, can be one of `top`, `center` or `bottom`.
 				   If the vertical alignment is `top`, the annotation grows down.

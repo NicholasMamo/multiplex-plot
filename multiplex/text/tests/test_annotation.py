@@ -60,7 +60,7 @@ class TestAnnotation(MultiplexTest):
 
 		x = 0
 		for i, lines in enumerate(lines):
-			bb = util.get_bb(viz.figure, viz.axis, lines[-1])
+			bb = util.get_bb(viz.figure, viz.axes, lines[-1])
 			if i == 0:
 				x = bb.x1
 
@@ -79,8 +79,8 @@ class TestAnnotation(MultiplexTest):
 
 		x = 0
 		for i, lines in enumerate(lines[:-1]):
-			bb0 = util.get_bb(viz.figure, viz.axis, lines[0])
-			bb1 = util.get_bb(viz.figure, viz.axis, lines[-1])
+			bb0 = util.get_bb(viz.figure, viz.axes, lines[0])
+			bb1 = util.get_bb(viz.figure, viz.axes, lines[-1])
 			center = (bb0.x0 + bb1.x1) / 2.
 			if i == 0:
 				x = center
@@ -101,8 +101,8 @@ class TestAnnotation(MultiplexTest):
 
 		x = 0
 		for i, lines in enumerate(lines[:-1]): # skip the last line as it is not justified
-			bb0 = util.get_bb(viz.figure, viz.axis, lines[0])
-			bb1 = util.get_bb(viz.figure, viz.axis, lines[-1])
+			bb0 = util.get_bb(viz.figure, viz.axes, lines[0])
+			bb1 = util.get_bb(viz.figure, viz.axes, lines[-1])
 			center = (bb0.x0 + bb1.x1) / 2.
 			if i == 0:
 				x = center
@@ -120,7 +120,7 @@ class TestAnnotation(MultiplexTest):
 		annotation = Annotation(viz)
 		lines = annotation.draw(text, (0, 2), 0, align='justify-start', va='top')
 
-		bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
+		bb = util.get_bb(viz.figure, viz.axes, lines[0][0])
 		self.assertEqual(0, bb.x0)
 
 	@MultiplexTest.temporary_plot
@@ -134,7 +134,7 @@ class TestAnnotation(MultiplexTest):
 		annotation = Annotation(viz)
 		lines = annotation.draw(text, (0, 2), 0, align='justify-end', va='top')
 
-		bb = util.get_bb(viz.figure, viz.axis, lines[0][-1])
+		bb = util.get_bb(viz.figure, viz.axes, lines[0][-1])
 		self.assertEqual(2, round(bb.x1, 5))
 
 	@MultiplexTest.temporary_plot
@@ -150,8 +150,8 @@ class TestAnnotation(MultiplexTest):
 
 		x = 0
 		for i, lines in enumerate(lines):
-			bb0 = util.get_bb(viz.figure, viz.axis, lines[0])
-			bb1 = util.get_bb(viz.figure, viz.axis, lines[-1])
+			bb0 = util.get_bb(viz.figure, viz.axes, lines[0])
+			bb1 = util.get_bb(viz.figure, viz.axes, lines[-1])
 			center = (bb0.x0 + bb1.x1) / 2.
 			if i == 0:
 				x = center
@@ -208,7 +208,7 @@ class TestAnnotation(MultiplexTest):
 		annotation = Annotation(viz)
 		lines = annotation.draw(text, (0, 1), 0, va='top')
 
-		bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
+		bb = util.get_bb(viz.figure, viz.axes, lines[0][0])
 		self.assertEqual(0, bb.y1)
 
 		for line in lines:
@@ -225,7 +225,7 @@ class TestAnnotation(MultiplexTest):
 		annotation = Annotation(viz)
 		lines = annotation.draw(text, (0, 1), 0, va='bottom')
 
-		bb = util.get_bb(viz.figure, viz.axis, lines[-1][-1])
+		bb = util.get_bb(viz.figure, viz.axes, lines[-1][-1])
 		self.assertEqual(0, bb.y0)
 
 		for line in lines:
@@ -243,11 +243,11 @@ class TestAnnotation(MultiplexTest):
 		lines = annotation.draw(text, (0, 1), 0, va='top')
 
 		for line in lines:
-			bb = util.get_bb(viz.figure, viz.axis, line[0])
+			bb = util.get_bb(viz.figure, viz.axes, line[0])
 			y0 = bb.y0
 
 			for token in line:
-				bb = util.get_bb(viz.figure, viz.axis, token)
+				bb = util.get_bb(viz.figure, viz.axes, token)
 				self.assertEqual(y0, bb.y0)
 
 	@MultiplexTest.temporary_plot
@@ -262,11 +262,11 @@ class TestAnnotation(MultiplexTest):
 		lines = annotation.draw(text, (0, 1), 0, va='bottom')
 
 		for line in lines:
-			bb = util.get_bb(viz.figure, viz.axis, line[0])
+			bb = util.get_bb(viz.figure, viz.axes, line[0])
 			y1 = bb.y1
 
 			for token in line:
-				bb = util.get_bb(viz.figure, viz.axis, token)
+				bb = util.get_bb(viz.figure, viz.axes, token)
 				self.assertEqual(y1, bb.y1)
 
 	@MultiplexTest.temporary_plot
@@ -281,8 +281,8 @@ class TestAnnotation(MultiplexTest):
 		lines = annotation.draw(text, (0, 1), 0, va='top')
 
 		for i in range(0, len(lines) - 1):
-			bb0 = util.get_bb(viz.figure, viz.axis, lines[i][0])
-			bb1 = util.get_bb(viz.figure, viz.axis, lines[i + 1][0])
+			bb0 = util.get_bb(viz.figure, viz.axes, lines[i][0])
+			bb1 = util.get_bb(viz.figure, viz.axes, lines[i + 1][0])
 
 			self.assertGreaterEqual(bb0.y0, bb1.y1)
 
@@ -298,8 +298,8 @@ class TestAnnotation(MultiplexTest):
 		lines = annotation.draw(text, (0, 1), 0, va='bottom')
 
 		for i in range(0, len(lines) - 1):
-			bb0 = util.get_bb(viz.figure, viz.axis, lines[i][0])
-			bb1 = util.get_bb(viz.figure, viz.axis, lines[i + 1][0])
+			bb0 = util.get_bb(viz.figure, viz.axes, lines[i][0])
+			bb1 = util.get_bb(viz.figure, viz.axes, lines[i + 1][0])
 
 			self.assertGreaterEqual(bb0.y0, bb1.y1)
 
@@ -313,7 +313,7 @@ class TestAnnotation(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
 		lines = annotation.draw(text, (0, 1), 0)
-		bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
+		bb = util.get_bb(viz.figure, viz.axes, lines[0][0])
 		virtual_bb = annotation.get_virtual_bb()
 		self.assertEqual(bb.x0, virtual_bb.x0)
 		self.assertEqual(bb.y0, virtual_bb.y0)
@@ -332,10 +332,10 @@ class TestAnnotation(MultiplexTest):
 		lines = annotation.draw(text, (0, 1), 0)
 		self.assertEqual(1, len(lines))
 		virtual_bb = annotation.get_virtual_bb()
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][0]).x0, virtual_bb.x0)
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][0]).y0, virtual_bb.y0)
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][-1]).x1, virtual_bb.x1)
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][-1]).y1, virtual_bb.y1)
+		self.assertEqual(util.get_bb(viz.figure, viz.axes, lines[0][0]).x0, virtual_bb.x0)
+		self.assertEqual(util.get_bb(viz.figure, viz.axes, lines[0][0]).y0, virtual_bb.y0)
+		self.assertEqual(util.get_bb(viz.figure, viz.axes, lines[0][-1]).x1, virtual_bb.x1)
+		self.assertEqual(util.get_bb(viz.figure, viz.axes, lines[0][-1]).y1, virtual_bb.y1)
 
 	@MultiplexTest.temporary_plot
 	def test_get_virtual_bb_multiple_lines(self):
@@ -349,10 +349,10 @@ class TestAnnotation(MultiplexTest):
 		lines = annotation.draw(text, (0, 1), 0)
 		self.assertGreater(len(lines), 1)
 		virtual_bb = annotation.get_virtual_bb()
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][0]).x0, virtual_bb.x0)
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[-1][-1]).y0, virtual_bb.y0)
-		self.assertEqual(max(util.get_bb(viz.figure, viz.axis, lines[line][-1]).x1 for line in range(0, len(lines))), virtual_bb.x1)
-		self.assertEqual(util.get_bb(viz.figure, viz.axis, lines[0][0]).y1, virtual_bb.y1)
+		self.assertEqual(util.get_bb(viz.figure, viz.axes, lines[0][0]).x0, virtual_bb.x0)
+		self.assertEqual(util.get_bb(viz.figure, viz.axes, lines[-1][-1]).y0, virtual_bb.y0)
+		self.assertEqual(max(util.get_bb(viz.figure, viz.axes, lines[line][-1]).x1 for line in range(0, len(lines))), virtual_bb.x1)
+		self.assertEqual(util.get_bb(viz.figure, viz.axes, lines[0][0]).y1, virtual_bb.y1)
 
 	@MultiplexTest.temporary_plot
 	def test_center_one_token(self):
@@ -364,7 +364,7 @@ class TestAnnotation(MultiplexTest):
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		annotation = Annotation(viz)
 		lines = annotation.draw(text, (0, 1), 0, va='center')
-		bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
+		bb = util.get_bb(viz.figure, viz.axes, lines[0][0])
 		self.assertEqual(0, (bb.y1 + bb.y0) / 2.)
 		virtual_bb = annotation.get_virtual_bb()
 		self.assertEqual(0, (virtual_bb.y1 + virtual_bb.y0) / 2.)
@@ -380,7 +380,7 @@ class TestAnnotation(MultiplexTest):
 		annotation = Annotation(viz)
 		lines = annotation.draw(text, (0, 1), 0, va='center')
 		for token in lines[0]:
-			bb = util.get_bb(viz.figure, viz.axis, lines[0][0])
+			bb = util.get_bb(viz.figure, viz.axes, lines[0][0])
 			self.assertEqual(0, (bb.y1 + bb.y0) / 2.)
 
 	@MultiplexTest.temporary_plot
@@ -396,8 +396,8 @@ class TestAnnotation(MultiplexTest):
 		self.assertGreater(len(lines), 1)
 		self.assertFalse(len(lines) % 2)
 		tokens = [ tokens[0] for tokens in lines ]
-		bb1 = util.get_bb(viz.figure, viz.axis, tokens[0])
-		bb2 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		bb1 = util.get_bb(viz.figure, viz.axes, tokens[0])
+		bb2 = util.get_bb(viz.figure, viz.axes, tokens[-1])
 		self.assertEqual(0, round((bb1.y1 + bb2.y0) / 2., 10))
 
 	@MultiplexTest.temporary_plot
@@ -413,14 +413,14 @@ class TestAnnotation(MultiplexTest):
 		self.assertGreater(len(lines), 1)
 		self.assertTrue(len(lines) % 2)
 		tokens = [ tokens[0] for tokens in lines ]
-		bb1 = util.get_bb(viz.figure, viz.axis, tokens[0])
-		bb2 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		bb1 = util.get_bb(viz.figure, viz.axes, tokens[0])
+		bb2 = util.get_bb(viz.figure, viz.axes, tokens[-1])
 		self.assertEqual(0, round((bb1.y1 + bb2.y0) / 2., 10))
 
 		"""
 		Check that the middle line is centered.
 		"""
-		bb = util.get_bb(viz.figure, viz.axis, lines[math.floor(len(lines) / 2)][0])
+		bb = util.get_bb(viz.figure, viz.axes, lines[math.floor(len(lines) / 2)][0])
 		self.assertEqual(0, round((bb.y1 + bb.y0) / 2., 10))
 
 	@MultiplexTest.temporary_plot
@@ -435,7 +435,7 @@ class TestAnnotation(MultiplexTest):
 		annotation.draw(text, (0, 1), 0, va='top')
 		annotation.set_position((0, 2), va='top')
 		for token in annotation.lines[0]:
-			self.assertEqual(2, util.get_bb(viz.figure, viz.axis, token).y1)
+			self.assertEqual(2, util.get_bb(viz.figure, viz.axes, token).y1)
 
 	@MultiplexTest.temporary_plot
 	def test_set_position_top_below(self):
@@ -450,7 +450,7 @@ class TestAnnotation(MultiplexTest):
 		annotation.set_position((0, 2), va='top')
 		for line in annotation.lines:
 			for token in line:
-				self.assertGreaterEqual(2, util.get_bb(viz.figure, viz.axis, token).y1)
+				self.assertGreaterEqual(2, util.get_bb(viz.figure, viz.axes, token).y1)
 
 	@MultiplexTest.temporary_plot
 	def test_set_position_vertical_center(self):
@@ -481,8 +481,8 @@ class TestAnnotation(MultiplexTest):
 		self.assertGreater(len(lines), 1)
 		self.assertFalse(len(lines) % 2)
 		tokens = [ tokens[0] for tokens in lines ]
-		bb1 = util.get_bb(viz.figure, viz.axis, tokens[0])
-		bb2 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		bb1 = util.get_bb(viz.figure, viz.axes, tokens[0])
+		bb2 = util.get_bb(viz.figure, viz.axes, tokens[-1])
 		self.assertEqual(2, round((bb1.y1 + bb2.y0) / 2., 10))
 
 	@MultiplexTest.temporary_plot
@@ -500,14 +500,14 @@ class TestAnnotation(MultiplexTest):
 		self.assertGreater(len(lines), 1)
 		self.assertTrue(len(lines) % 2)
 		tokens = [ tokens[0] for tokens in lines ]
-		bb1 = util.get_bb(viz.figure, viz.axis, tokens[0])
-		bb2 = util.get_bb(viz.figure, viz.axis, tokens[-1])
+		bb1 = util.get_bb(viz.figure, viz.axes, tokens[0])
+		bb2 = util.get_bb(viz.figure, viz.axes, tokens[-1])
 		self.assertEqual(2, round((bb1.y1 + bb2.y0) / 2., 10))
 
 		"""
 		Check that the middle line is centered.
 		"""
-		bb = util.get_bb(viz.figure, viz.axis, lines[math.floor(len(lines) / 2)][0])
+		bb = util.get_bb(viz.figure, viz.axes, lines[math.floor(len(lines) / 2)][0])
 		self.assertEqual(2, round((bb.y1 + bb.y0) / 2., 10))
 
 	@MultiplexTest.temporary_plot
@@ -522,7 +522,7 @@ class TestAnnotation(MultiplexTest):
 		annotation.draw(text, (0, 1), 0, va='bottom')
 		annotation.set_position((0, 2), va='bottom')
 		for token in annotation.lines[-1]:
-			self.assertEqual(2, util.get_bb(viz.figure, viz.axis, token).y0)
+			self.assertEqual(2, util.get_bb(viz.figure, viz.axes, token).y0)
 
 	@MultiplexTest.temporary_plot
 	def test_set_position_bottom_above(self):
@@ -537,7 +537,7 @@ class TestAnnotation(MultiplexTest):
 		annotation.set_position((0, 2), va='bottom')
 		for line in annotation.lines:
 			for token in line:
-				self.assertLessEqual(2, util.get_bb(viz.figure, viz.axis, token).y0)
+				self.assertLessEqual(2, util.get_bb(viz.figure, viz.axes, token).y0)
 
 	@MultiplexTest.temporary_plot
 	def test_set_position_invalid_vertical_alignment(self):
@@ -563,7 +563,7 @@ class TestAnnotation(MultiplexTest):
 		annotation.draw(text, (0, 1), 0, align='left')
 		annotation.set_position((2, 0), ha='left')
 		for tokens in annotation.lines:
-			self.assertEqual(2, round(util.get_bb(viz.figure, viz.axis, tokens[0]).x0, 10))
+			self.assertEqual(2, round(util.get_bb(viz.figure, viz.axes, tokens[0]).x0, 10))
 
 	@MultiplexTest.temporary_plot
 	def test_set_position_left_to_the_right(self):
@@ -578,7 +578,7 @@ class TestAnnotation(MultiplexTest):
 		annotation.set_position((2, 0), ha='left')
 		for line in annotation.lines:
 			for token in line:
-				self.assertLessEqual(2, round(util.get_bb(viz.figure, viz.axis, token).x0, 10))
+				self.assertLessEqual(2, round(util.get_bb(viz.figure, viz.axes, token).x0, 10))
 
 	@MultiplexTest.temporary_plot
 	def test_set_position_horizontal_center(self):
@@ -607,7 +607,7 @@ class TestAnnotation(MultiplexTest):
 		annotation.draw(text, (0, 1), 0, align='right')
 		annotation.set_position((2, 0), ha='right')
 		for tokens in annotation.lines:
-			self.assertEqual(2, round(util.get_bb(viz.figure, viz.axis, tokens[-1]).x1, 10))
+			self.assertEqual(2, round(util.get_bb(viz.figure, viz.axes, tokens[-1]).x1, 10))
 
 	@MultiplexTest.temporary_plot
 	def test_set_position_right_to_the_left(self):
@@ -623,7 +623,7 @@ class TestAnnotation(MultiplexTest):
 		annotation.set_position((2, 0), ha='right')
 		for line in annotation.lines:
 			for token in line:
-				self.assertGreaterEqual(2, round(util.get_bb(viz.figure, viz.axis, token).x1, 10))
+				self.assertGreaterEqual(2, round(util.get_bb(viz.figure, viz.axes, token).x1, 10))
 
 	@MultiplexTest.temporary_plot
 	def test_set_position_invalid_horizontal_alignment(self):

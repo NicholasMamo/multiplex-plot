@@ -188,7 +188,7 @@ Indeed, if you are using Multiplex, you can—and should—work only with <a cla
 <blockquote>
 <div><ol class="arabic simple">
 <li><p>Users create a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.
-This is made up of the figure and, optionally, the axis.
+This is made up of the figure and, optionally, the axes.
 Users need only interact with the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.</p></li>
 <li><p>To draw a visualization, users call the appropriate function on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.
 These functions start with <code class="docutils literal notranslate"><span class="pre">draw_</span></code>, for example, <a class="reference internal" href="#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_time_series()</span></code></a>.</p></li>
@@ -203,11 +203,11 @@ Then, it calls the <a class="reference internal" href="#visualization.Visualizat
 </pre></div>
 </div>
 <p>That code block would use matplotlib’s default plot.
-If you want to plot on a particular axis, or a subplot, you can create it as follows instead:</p>
+If you want to plot on a particular axes, or a subplot, you can create it as follows instead:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
-<span class="n">figure</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">figure</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>To learn more about how Multiplex works, keep reading the documentation.
@@ -215,17 +215,17 @@ If all you want is to get your hands dirty, take a look at the <a class="referen
 Happy visualizing!</p>
 <div class="section" id="module-drawable">
 <span id="drawable"></span><h2>Drawable<a class="headerlink" href="#module-drawable" title="Permalink to this headline">¶</a></h2>
-<p>A <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> is nothing more than a class that wraps a matplotlib figure and an axis.
-All of the functions that you would call on a <a class="reference external" href="https://matplotlib.org/api/axes_api.html">matplotlib axis</a>, you can call on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
-If you call any function that belongs to a <a class="reference external" href="https://matplotlib.org/api/axes_api.html">matplotlib axis</a>, then matplotlib handles it as usual.
+<p>A <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> is nothing more than a class that wraps a matplotlib figure and an axes.
+All of the functions that you would call on a <a class="reference external" href="https://matplotlib.org/api/axes_api.html">matplotlib axes</a>, you can call on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+If you call any function that belongs to a <a class="reference external" href="https://matplotlib.org/api/axes_api.html">matplotlib axes</a>, then matplotlib handles it as usual.
 However, if you call a function that is new to Multiplex, such as a new visualization, then the library handles it.</p>
 <p>To create a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance from a normal plot:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)))</span>
 </pre></div>
 </div>
-<p>To create a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance from an axis, or a subplot:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">axis</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<p>To create a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance from an axes, or a subplot:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">figure</span><span class="p">,</span> <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 <p>Some important functionality that the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class provides:</p>
@@ -241,17 +241,17 @@ This function is useful to point to information that is not immediately obvious,
 </ul>
 <dl class="class">
 <dt id="drawable.Drawable">
-<em class="property">class </em><code class="sig-prename descclassname">drawable.</code><code class="sig-name descname">Drawable</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis=None</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable" title="Permalink to this definition">¶</a></dt>
-<dd><p>The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps a matplotlib figure and axis to provide additional functionality.
-If no axis is given, the default plot axis (<code class="code docutils literal notranslate"><span class="pre">plt.gca()</span></code>) is used.
+<em class="property">class </em><code class="sig-prename descclassname">drawable.</code><code class="sig-name descname">Drawable</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes=None</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps a matplotlib figure and axes to provide additional functionality.
+If no axes is given, the default plot axes (<code class="code docutils literal notranslate"><span class="pre">plt.gca()</span></code>) is used.
 The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class can be used as a normal <a class="reference external" href="https://matplotlib.org/api/axes_api.html">matplotlib.axes.Axes</a> object with additional functionality.
-The axis functionality can be called on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class.
+The axes functionality can be called on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class.
 The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance re-routes method and attribute calls to the <a class="reference external" href="https://matplotlib.org/api/axes_api.html">matplotlib.axes.Axes</a> instance.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Variables</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps.</p></li>
-<li><p><strong>axis</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis where the drawable will draw.</p></li>
+<li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes where the drawable will draw.</p></li>
 <li><p><strong>caption</strong> (<a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>) – The caption, displayed under the title.</p></li>
 <li><p><a class="reference internal" href="timeseries.html#module-timeseries" title="timeseries"><strong>timeseries</strong></a> (None or <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a>) – The time series object that is being used.
 When no visualization has been created, it is set to <cite>None</cite>.
@@ -266,14 +266,14 @@ It is instantiated the first time a 100% bar chart is drawn.</p></li>
 </dl>
 <dl class="method">
 <dt id="drawable.Drawable.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axis=None</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">figure</em>, <em class="sig-param">axes=None</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the drawable with the figure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps.
 This is mainly used to get the figure renderer.</p></li>
-<li><p><strong>axis</strong> (<cite>None</cite> or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axis (or subplot) where to plot visualizations.
+<li><p><strong>axes</strong> (<cite>None</cite> or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where to plot visualizations.
 If <cite>None</cite> is given, the plot’s main subplot is used instead.</p></li>
 </ul>
 </dd>
@@ -291,7 +291,7 @@ Any arguments that the constructor accepts can be provided to this method.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>caption</strong> (<em>str</em>) – The caption to add to the axis.</p></li>
+<li><p><strong>caption</strong> (<em>str</em>) – The caption to add to the axes.</p></li>
 <li><p><strong>alpha</strong> (<em>float</em>) – The opacity of the caption between 0 and 1.</p></li>
 <li><p><strong>lineheight</strong> (<em>float</em>) – The space between lines.</p></li>
 </ul>
@@ -341,7 +341,7 @@ This function automatically checks whether the call is referencing a function or
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name of the attribute.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The function applied on the axis.</p>
+<dd class="field-even"><p>The function applied on the axes.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>function</p>
@@ -559,7 +559,7 @@ If the function draws multiple components, it can return them as a tuple.</p>
 <li><p><strong>x</strong> (<em>float</em>) – The x-position of the annotation.
 The function expects either a float or a tuple.
 If a float is given, it is taken to be the start x-position of the annotation.
-The end x-position is taken from the axis limit.
+The end x-position is taken from the axes limit.
 If a tuple is given, the first two values are the start and end x-position of the annotation.</p></li>
 <li><p><strong>y</strong> (<em>float</em>) – The y-position of the last point on the line.</p></li>
 <li><p><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite>, <cite>center</cite> or <cite>bottom</cite>.

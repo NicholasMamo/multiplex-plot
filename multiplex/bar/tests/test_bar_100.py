@@ -177,8 +177,8 @@ class TestBar100(MultiplexTest):
 		values = [ { 'value': 10 }, { 'value': 10, 'style': { } },
 				   { 'value': 10, 'style': { 'pad': 0 } }, { 'value': 10 } ]
 		bars = bar.draw(values, 'label', pad=1)
-		self.assertEqual(24, round(util.get_bb(viz.figure, viz.axis, bars[1]).width, 10))
-		self.assertEqual(25, round(util.get_bb(viz.figure, viz.axis, bars[2]).width, 10))
+		self.assertEqual(24, round(util.get_bb(viz.figure, viz.axes, bars[1]).width, 10))
+		self.assertEqual(25, round(util.get_bb(viz.figure, viz.axes, bars[2]).width, 10))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_legend_no_labels(self):
@@ -412,7 +412,7 @@ class TestBar100(MultiplexTest):
 		bar = Bar100(viz)
 		values = bar._to_dict(list(range(10)))
 		bars = bar._draw_bars(values)
-		self.assertEqual(0, util.get_bb(viz.figure, viz.axis, bars[0]).x0)
+		self.assertEqual(0, util.get_bb(viz.figure, viz.axes, bars[0]).x0)
 
 	@MultiplexTest.temporary_plot
 	def test_draw_bars_0_pad(self):
@@ -424,7 +424,7 @@ class TestBar100(MultiplexTest):
 		bar = Bar100(viz)
 		values = bar._to_dict(list(range(10)))
 		bars = bar._draw_bars(values, pad=1)
-		self.assertEqual(0, util.get_bb(viz.figure, viz.axis, bars[0]).x0)
+		self.assertEqual(0, util.get_bb(viz.figure, viz.axes, bars[0]).x0)
 
 	@MultiplexTest.temporary_plot
 	def test_draw_bars_100(self):
@@ -436,7 +436,7 @@ class TestBar100(MultiplexTest):
 		bar = Bar100(viz)
 		values = bar._to_dict(list(range(10)))
 		bars = bar._draw_bars(values)
-		self.assertEqual(100, round(util.get_bb(viz.figure, viz.axis, bars[-1]).x1, 7))
+		self.assertEqual(100, round(util.get_bb(viz.figure, viz.axes, bars[-1]).x1, 7))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_bars_100_pad(self):
@@ -448,7 +448,7 @@ class TestBar100(MultiplexTest):
 		bar = Bar100(viz)
 		values = bar._to_dict(list(range(10)))
 		bars = bar._draw_bars(values, pad=1)
-		self.assertEqual(100, round(util.get_bb(viz.figure, viz.axis, bars[-1]).x1, 7))
+		self.assertEqual(100, round(util.get_bb(viz.figure, viz.axes, bars[-1]).x1, 7))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_bars_percentages(self):
@@ -462,7 +462,7 @@ class TestBar100(MultiplexTest):
 		percentages = bar._to_100(values)
 		bars = bar._draw_bars(bar._to_dict(values))
 		for percentage, bar in zip(percentages, bars):
-			self.assertEqual(round(percentage, 7), round(util.get_bb(viz.figure, viz.axis, bar).width, 7))
+			self.assertEqual(round(percentage, 7), round(util.get_bb(viz.figure, viz.axes, bar).width, 7))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_bars_no_overlap(self):
@@ -476,7 +476,7 @@ class TestBar100(MultiplexTest):
 		bars = bar._draw_bars(values)
 		for i in range(0, len(bars)):
 			for j in range(i + 1, len(bars)):
-				self.assertFalse(util.overlapping(viz.figure, viz.axis, bars[i], bars[j]))
+				self.assertFalse(util.overlapping(viz.figure, viz.axes, bars[i], bars[j]))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_bars_no_overlap_pad(self):
@@ -490,7 +490,7 @@ class TestBar100(MultiplexTest):
 		bars = bar._draw_bars(values, pad=1)
 		for i in range(0, len(bars)):
 			for j in range(i + 1, len(bars)):
-				self.assertFalse(util.overlapping(viz.figure, viz.axis, bars[i], bars[j]))
+				self.assertFalse(util.overlapping(viz.figure, viz.axes, bars[i], bars[j]))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_bars_return_rectangles(self):
@@ -515,7 +515,7 @@ class TestBar100(MultiplexTest):
 		bar = Bar100(viz)
 		values = bar._to_dict([ 0, 1, 2, 3 ])
 		bars = bar._draw_bars(values, min_percentage=10)
-		self.assertTrue(all( round(util.get_bb(viz.figure, viz.axis, bar).width, 10) >= 10 for bar in bars ))
+		self.assertTrue(all( round(util.get_bb(viz.figure, viz.axes, bar).width, 10) >= 10 for bar in bars ))
 
 	@MultiplexTest.temporary_plot
 	def test_draw_bars_override_style(self):

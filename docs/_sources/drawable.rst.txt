@@ -15,7 +15,7 @@ Indeed, if you are using Multiplex, you can—and should—work only with :class
 The basic process to draw Multiplex's new visualizations under the hood is as follows:
 
 	1. Users create a :class:`~drawable.Drawable` instance.
-	   This is made up of the figure and, optionally, the axis.
+	   This is made up of the figure and, optionally, the axes.
 	   Users need only interact with the :class:`~drawable.Drawable` instance.
 	2. To draw a visualization, users call the appropriate function on the :class:`~drawable.Drawable` instance.
 	   These functions start with ``draw_``, for example, :func:`~drawable.Drawable.draw_time_series`.
@@ -31,14 +31,14 @@ To start working with a :class:`~drawable.Drawable`, create it from a normal plo
 	viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
 
 That code block would use matplotlib's default plot.
-If you want to plot on a particular axis, or a subplot, you can create it as follows instead:
+If you want to plot on a particular axes, or a subplot, you can create it as follows instead:
 
 .. code-block:: python
 
 	import matplotlib.pyplot as plt
 	from multiplex import drawable
-	figure, axis = plt.subplots(2, 1, figsize=(10, 10))
-	viz = drawable.Drawable(figure, axis[0])
+	figure, axes = plt.subplots(2, 1, figsize=(10, 10))
+	viz = drawable.Drawable(figure, axes[0])
 
 To learn more about how Multiplex works, keep reading the documentation.
 If all you want is to get your hands dirty, take a look at the `examples <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_ directory.

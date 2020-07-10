@@ -99,8 +99,8 @@ class TimeSeries(LabelledVisualization):
 		"""
 		Plot the time series first.
 		"""
-		axis = self.drawable.axis
-		line = axis.plot(x, y, *args, **kwargs)[0]
+		axes = self.drawable.axes
+		line = axes.plot(x, y, *args, **kwargs)[0]
 
 		"""
 		Draw the label.

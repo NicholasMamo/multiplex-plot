@@ -2,15 +2,15 @@
 A set of utility functions to help create text visualizations.
 """
 
-def draw_token(figure, axis, text, x, y, style, wordspacing, *args, **kwargs):
+def draw_token(figure, axes, text, x, y, style, wordspacing, *args, **kwargs):
 	"""
 	Draw the token on the plot.
 
 	:param figure: The figure that the component occupies.
 				   This is used to get the figure renderer.
 	:type figure: :class:`matplotlib.figure.Figure`
-	:param axis: The axis (or subplot) where the component is plotted.
-	:type axis: :class:`matplotlib.axes.Axes`
+	:param axes: The axes (or subplot) where the component is plotted.
+	:type axes: :class:`matplotlib.axes.Axes`
 	:param text: The text token to draw.
 	:type text: str
 	:param x: The x-position of the token.
@@ -38,11 +38,11 @@ def draw_token(figure, axis, text, x, y, style, wordspacing, *args, **kwargs):
 
 	"""
 	The bbox's padding is calculated in pixels.
-	Therefore it is transformed from the provided axis coordinates to pixels.
+	Therefore it is transformed from the provided axes coordinates to pixels.
 	"""
-	wordspacing_px = (axis.transData.transform((wordspacing, 0))[0] -
-					  axis.transData.transform((0, 0))[0])
-	text = axis.text(x, y, text,
+	wordspacing_px = (axes.transData.transform((wordspacing, 0))[0] -
+					  axes.transData.transform((0, 0))[0])
+	text = axes.text(x, y, text,
 					 bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
 					 *args, **kwargs)
 	return text

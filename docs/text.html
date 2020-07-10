@@ -220,9 +220,9 @@ Each line in turn is made up of a list of tokens as <code class="xref py py-clas
 <dl class="method">
 <dt id="text.annotation.Annotation.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize the text annotation with the figure and axis.
+<dd><p>Initialize the text annotation with the figure and axes.
 The figure is used to get the renderer.
-The visualization is drawn on the given axis.</p>
+The visualization is drawn on the given axes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>drawable</strong> (<a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the text visualization will be drawn.</p>
@@ -256,7 +256,7 @@ The visualization expects a string, a <cite>list</cite> of tokens, or a <cite>li
 <li><p><strong>x</strong> (<em>float</em><em> or </em><em>tuple</em>) – The x-position of the annotation.
 The function expects either a float or a tuple.
 If a float is given, it is taken to be the start x-position of the annotation.
-The end x-position is taken from the axis limit.
+The end x-position is taken from the axes limit.
 If a tuple is given, the first two values are the start and end x-position of the annotation.</p></li>
 <li><p><strong>y</strong> (<em>float</em>) – The starting y-position of the annotation.</p></li>
 <li><p><strong>wordspacing</strong> (<em>float</em><em> or </em><em>None</em>) – The space between words.
@@ -479,7 +479,7 @@ The way that the padding is applied depends on the alignment of the text.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>tuple</em>) – The x-coordinate as a tuple, representing the bounds of the annotation.</p></li>
 <li><p><strong>pad</strong> (<em>float</em>) – The padding applied to the annotation.
-The padding is taken to be a fraction of the axis width.</p></li>
+The padding is taken to be a fraction of the axes width.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -501,7 +501,7 @@ The way that the padding is applied depends on the alignment of the text.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y</strong> (<em>float</em>) – The starting y-position of the annotation.</p></li>
 <li><p><strong>pad</strong> (<em>float</em>) – The padding applied to the annotation.
-The padding is taken to be a fraction of the axis width.</p></li>
+The padding is taken to be a fraction of the axes width.</p></li>
 <li><p><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite>, <cite>center</cite> or <cite>bottom</cite>.
 If the vertical alignment is <cite>top</cite>, the annotation grows down.
 If the vertical alignment is <cite>center</cite>, the annotation is centered around the given y-coordinate.
