@@ -29,7 +29,6 @@ Annotation
 
 .. automodule:: text.annotation
    :members:
-   :private-members:
    :special-members:
 
 Text Annotation
@@ -37,5 +36,4 @@ Text Annotation
 
 .. automodule:: text.text
    :members:
-   :private-members:
    :special-members:
