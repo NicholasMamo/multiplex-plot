@@ -1,11 +1,12 @@
 """
-The :class:`~TextAnnotation` class is aimed to help you create text-only visualizations with ease.
-As a visualization, it takes care or organizing text, allowing you to create visualizations by providing as little information as a string.
+The :class:`~TextAnnotation` builds on the :class:`~text.annotation.Annotation`, but is a full-fledged visualization.
+That means the :class:`~TextAnnotation` makes it easier to create a visualization and adds other functionality, such as a legend.
 
-To start creating text visualizations, create a :class:`~TextAnnotation` instance and call the :func:`~TextAnnotation.draw` method.
-If you are using the :class:`~drawable.Drawable` class, just call the :func:`~drawable.Drawable.draw_text_annotation` method on a :class:`~drawable.Drawable` instance instead.
+As with the :class:`~text.annotation.Annotation`, the :class:`~TextAnnotation` takes care of laying out the text for you.
+All you have to do is specify the text to visualize and its style.
 
-This method expects, at the very least, a string to draw a visualization:
+To start creating text visualizations, create a :class:`~drawable.Drawable` class and call the :func:`~drawable.Drawable.draw_text_annotation`.
+This method expects, at the very least, a string of text, but you can also pass on other styling options:
 
 .. code-block:: python
 
@@ -17,26 +18,12 @@ This method expects, at the very least, a string to draw a visualization:
                              fontfamily='serif', alpha=0.9,
                              lineheight=1.25, lpad=0.1, rpad=0.1)
 
-However, you can create richer text visualizations by providing additional parameters.
-For example, instead of a string, you can provide a `list` of text tokens to split them however you want.
-Or, you can input a `list` of `dict` of tokens containing at least a `text` attribute and any of the other keys:
-
-.. code-block:: python
-
-	{
-	  'label': None,
-	  'style': { 'facecolor': 'None' },
-	  'text': 'token',
-	}
-
-Instructions on how the text should be formatted can be passed on to the :func:`~TextAnnotation.draw` method.
-Among others, these attributes include alignment and the line height.
-The text can also be styled by passing on any attributes supported by the :class:`matplotlib.text.Text` class.
-The same attributes can be passed on to the `style` key in the code block above.
+You can even use the :class:`~TextAnnotation` for more complex visualizations.
+For example, instead of a string, you can segment your text into words yourself and style them individually.
 
 .. note::
 
-	More complex text visualization examples are in the `Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb>`_.
+	You can view more complex text visualization examples in the `Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb>`_.
 """
 
 import os
@@ -53,37 +40,56 @@ from visualization import Visualization
 
 class TextAnnotation(Visualization):
 	"""
-	A class of visualization that allows text annotations.
-	The :class:`~TextAnnotation` is mainly concered with organizing text.
+	The :class:`~TextAnnotation` is mainly concerned with organizing text.
+	Like all visualizations, it stores a :class:`~drawable.Drawable` instance and revolves around the :func:`~TextAnnotation.draw` function.
+
+	The main difference from the :class:`~text.annotation.Annotation` is that the :func:`~TextAnnotation.draw` function does not require the x and y positions.
+	Instead, this class assumes that the visualization is made up only of text.
+
+	Moreover, the :class:`~TextAnnotation` adds support for a legend.
+	The legend is added when tokens have a ``label`` key.
+	Therefore the :class:`~TextAnnotation` may only create a legend when tokens are provided as ``dict`` instances.
 	"""
 
-	def draw(self, data, wordspacing=0.005, lineheight=1.25,
+	def draw(self, annotation, wordspacing=0.005, lineheight=1.25,
 			 align='left', with_legend=True, lpad=0, rpad=0, tpad=0, *args, **kwargs):
 		"""
 		Draw the text annotation visualization.
-		The method receives text as a list of tokens and draws them as text.
 
-		The text can be provided either as a string, a list of strings or as dictionaries.
-		If strings are provided, the function converts them into dictionaries.
+		The method expects, at least, the text annotation.
+		You can pass on the text as a string, or segment the text into tokens yourself and pass them on as a ``list``.
+
+		You can also split the text into words and pass them on as ``dict`` instances to style them individually.
 		Dictionaries should have the following format:
 
 		.. code-block:: python
 
 			{
-			  'label': None,
-			  'style': { 'facecolor': 'None' },
 			  'text': 'token',
+			  'style': { 'facecolor': 'None' },
+			  'label': None
 			}
 
-		Of these keys, only `text` is required.
-		The correct styling options are those accepted by the :class:`matplotlib.text.Text` class.
-		Anything not given uses default values.
+		Of these keys, only the ``text`` is required.
 
-		Any other styling options, common to all tokens, should be provided as keyword arguments.
+		You can use the ``style`` to override the general styling options, which you can specify as ``kwargs``.
+		Once again, the accepted styling options are those supported by the `matplotlib.text.Text <https://matplotlib.org/3.2.2/api/text_api.html#matplotlib.text.Text>`_ class.
 
-		:param data: The text data.
+		Use the ``kwargs`` as a general style, and the dictionary's ``style`` as a specific style for each word.
+		If you specify a ``kwargs`` styling option, but it is missing from the dictionary's ``style``, the general style is used.
+
+		.. note::
+
+			For example, imagine you specify the text ``color`` to be ``blue`` and the ``fontsize`` to be ``12`` in the ``**kwargs``.
+			If in the dictionary's ``style`` of a particular word you set the ``color`` to be ``red``, its color will be ``red``.
+			However, since the ``fontsize`` is not specified, it will use the general font size: ``12``.
+
+		The last key is the ``label``.
+		If you set a ``label``, Multiplex automatically creates a legend for you.
+
+		:param annotation: The text annotation.
 					 The visualization expects a string, a `list` of tokens, or a `list` of `dict` instances as shown above.
-		:type data: str or list of str or list of dict
+		:type annotation: str or list of str or list of dict
 		:param wordspacing: The space between words.
 		:type wordspacing: float
 		:param lineheight: The space between lines.
@@ -91,33 +97,35 @@ class TextAnnotation(Visualization):
 		:param align: The text's alignment.
 					  Possible values:
 
-					    - left
-					    - center
-					    - right
-					    - justify
-					    - justify-start (or justify-left)
-					    - justify-center
-					    - justify-end or (justify-right)
+					      - ``left``
+					      - ``center``
+					      - ``right``
+					      - ``justify``
+					      - ``justify-start`` (or ``justify-left``)
+					      - ``justify-center``
+					      - ``justify-end`` or (``justify-right``)
 		:type align: str
-		:param with_legend: A boolean indicating whether labels should create a legend.
+		:param with_legend: A boolean indicating whether the visualization should create a legend when it finds labels.
 		:type with_legend: bool
-		:param lpad: The left padding as a percentage of the plot.
+		:param lpad: The left padding as a fraction of the plot.
 					 The range is expected to be between 0 and 1.
 		:type lpad: float
-		:param rpad: The right padding as a percentage of the plot.
+		:param rpad: The right padding as a fraction of the plot.
 					 The range is expected to be between 0 and 1.
 		:type rpad: float
 		:param tpad: The top padding as a percentage of the plot.
-					 The range is expected to be between 0 and 1.
 		:type tpad: float
 
 		:return: The drawn lines.
-				 Each line is made up of tuples of lists.
-				 The first list in each tuple is the list of legend labels.
-				 The second list in each tuple is the list of actual tokens.
+				 Each line is made up of tuples, and each tuple is made up of:
+
+				     1. The list of legend labels in the line, and
+				     2. The list of tokens drawn in the line.
 		:rtype: list of tuple
 
-		:raises: ValueError
+		:raises ValueError: When the left padding is not between 0 and 1.
+		:raises ValueError: When the right padding is not between 0 and 1.
+		:raises ValueError: When the left padding and the right padding combined are larger than 1.
 		"""
 
 		figure = self.drawable.figure
@@ -128,10 +136,10 @@ class TextAnnotation(Visualization):
 		All padding arguments should be non-negative.
 		The left-padding and the right-padding should not overlap.
 		"""
-		if lpad < 0:
+		if not 0 <= lpad <= 1:
 			raise ValueError("The left padding should be between 0 and 1, received %d" % lpad)
 
-		if rpad < 0:
+		if not 0 <= rpad <= 1:
 			raise ValueError("The right padding should be between 0 and 1, received %d" % rpad)
 
 		if lpad + rpad >= 1:
@@ -140,7 +148,7 @@ class TextAnnotation(Visualization):
 		"""
 		Gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
 		"""
-		tokens = data.split() if type(data) is str else data
+		tokens = annotation.split() if type(annotation) is str else annotation
 		tokens = [ { 'text': token } if type(token) is str else token for token in tokens ]
 
 		"""
@@ -171,14 +179,14 @@ class TextAnnotation(Visualization):
 
 		return drawn_lines
 
-	def _draw_legend(self, data, lines, wordspacing, linespacing, *args, **kwargs):
+	def _draw_legend(self, annotation, lines, wordspacing, linespacing, *args, **kwargs):
 		"""
 		Draw a legend by iterating through all the lines.
 		The labels are drawn on the same line as the corresponding token.
 
-		:data: The text data as a dictionary.
+		:annotation: The text annotation as a dictionary.
 			   This is used to look for `label` attributes.
-		:type data: dict
+		:type annotation: dict
 		:param lines: The drawn lines.
 		:type lines: list of list of :class:`matplotlib.text.Text`
 		:param wordspacing: The space between tokens.
@@ -203,7 +211,7 @@ class TextAnnotation(Visualization):
 		for line, line_tokens in enumerate(lines):
 			line_labels = []
 			for token in line_tokens:
-				label, style = data[i].get('label', ''), data[i].get('style', { })
+				label, style = annotation[i].get('label', ''), annotation[i].get('style', { })
 				i += 1
 
 				"""

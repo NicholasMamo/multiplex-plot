@@ -261,8 +261,8 @@ The accepted styling options are those supported by the <a class="reference exte
 If you provide a string, the function automatically segments it into words.
 Dictionaries should have the following format:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">},</span>
   <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;token&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -424,11 +424,12 @@ The representation is the concatenated text.</p>
 </div>
 <div class="section" id="module-text.text">
 <span id="id2"></span><h2>Text Visualizations<a class="headerlink" href="#module-text.text" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> class is aimed to help you create text-only visualizations with ease.
-As a visualization, it takes care or organizing text, allowing you to create visualizations by providing as little information as a string.</p>
-<p>To start creating text visualizations, create a <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> instance and call the <a class="reference internal" href="#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> method.
-If you are using the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class, just call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_text_annotation" title="drawable.Drawable.draw_text_annotation"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_text_annotation()</span></code></a> method on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance instead.</p>
-<p>This method expects, at the very least, a string to draw a visualization:</p>
+<p>The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> builds on the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>, but is a full-fledged visualization.
+That means the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> makes it easier to create a visualization and adds other functionality, such as a legend.</p>
+<p>As with the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>, the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> takes care of laying out the text for you.
+All you have to do is specify the text to visualize and its style.</p>
+<p>To start creating text visualizations, create a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class and call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_text_annotation" title="drawable.Drawable.draw_text_annotation"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_text_annotation()</span></code></a>.
+This method expects, at the very least, a string of text, but you can also pass on other styling options:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
 <span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
@@ -438,52 +439,54 @@ If you are using the <a class="reference internal" href="drawable.html#drawable.
                          <span class="n">lineheight</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span> <span class="n">lpad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">rpad</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>However, you can create richer text visualizations by providing additional parameters.
-For example, instead of a string, you can provide a <cite>list</cite> of text tokens to split them however you want.
-Or, you can input a <cite>list</cite> of <cite>dict</cite> of tokens containing at least a <cite>text</cite> attribute and any of the other keys:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
-  <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">},</span>
-  <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;token&#39;</span><span class="p">,</span>
-<span class="p">}</span>
-</pre></div>
-</div>
-<p>Instructions on how the text should be formatted can be passed on to the <a class="reference internal" href="#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> method.
-Among others, these attributes include alignment and the line height.
-The text can also be styled by passing on any attributes supported by the <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code> class.
-The same attributes can be passed on to the <cite>style</cite> key in the code block above.</p>
+<p>You can even use the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> for more complex visualizations.
+For example, instead of a string, you can segment your text into words yourself and style them individually.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>More complex text visualization examples are in the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb">Jupyter Notebook tutorial</a>.</p>
+<p>You can view more complex text visualization examples in the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb">Jupyter Notebook tutorial</a>.</p>
 </div>
 <dl class="class">
 <dt id="text.text.TextAnnotation">
 <em class="property">class </em><code class="sig-prename descclassname">text.text.</code><code class="sig-name descname">TextAnnotation</code><span class="sig-paren">(</span><em class="sig-param">drawable</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation" title="Permalink to this definition">¶</a></dt>
-<dd><p>A class of visualization that allows text annotations.
-The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> is mainly concered with organizing text.</p>
+<dd><p>The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> is mainly concerned with organizing text.
+Like all visualizations, it stores a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance and revolves around the <a class="reference internal" href="#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
+<p>The main difference from the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a> is that the <a class="reference internal" href="#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function does not require the x and y positions.
+Instead, this class assumes that the visualization is made up only of text.</p>
+<p>Moreover, the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> adds support for a legend.
+The legend is added when tokens have a <code class="docutils literal notranslate"><span class="pre">label</span></code> key.
+Therefore the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> may only create a legend when tokens are provided as <code class="docutils literal notranslate"><span class="pre">dict</span></code> instances.</p>
 <dl class="method">
 <dt id="text.text.TextAnnotation.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">wordspacing=0.005</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">with_legend=True</em>, <em class="sig-param">lpad=0</em>, <em class="sig-param">rpad=0</em>, <em class="sig-param">tpad=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw the text annotation visualization.
-The method receives text as a list of tokens and draws them as text.</p>
-<p>The text can be provided either as a string, a list of strings or as dictionaries.
-If strings are provided, the function converts them into dictionaries.
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">annotation</em>, <em class="sig-param">wordspacing=0.005</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">with_legend=True</em>, <em class="sig-param">lpad=0</em>, <em class="sig-param">rpad=0</em>, <em class="sig-param">tpad=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw the text annotation visualization.</p>
+<p>The method expects, at least, the text annotation.
+You can pass on the text as a string, or segment the text into tokens yourself and pass them on as a <code class="docutils literal notranslate"><span class="pre">list</span></code>.</p>
+<p>You can also split the text into words and pass them on as <code class="docutils literal notranslate"><span class="pre">dict</span></code> instances to style them individually.
 Dictionaries should have the following format:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
-  <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">},</span>
   <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;token&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">},</span>
+  <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">None</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Of these keys, only <cite>text</cite> is required.
-The correct styling options are those accepted by the <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.Text</span></code> class.
-Anything not given uses default values.</p>
-<p>Any other styling options, common to all tokens, should be provided as keyword arguments.</p>
+<p>Of these keys, only the <code class="docutils literal notranslate"><span class="pre">text</span></code> is required.</p>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">style</span></code> to override the general styling options, which you can specify as <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.
+Once again, the accepted styling options are those supported by the <a class="reference external" href="https://matplotlib.org/3.2.2/api/text_api.html#matplotlib.text.Text">matplotlib.text.Text</a> class.</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> as a general style, and the dictionary’s <code class="docutils literal notranslate"><span class="pre">style</span></code> as a specific style for each word.
+If you specify a <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> styling option, but it is missing from the dictionary’s <code class="docutils literal notranslate"><span class="pre">style</span></code>, the general style is used.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For example, imagine you specify the text <code class="docutils literal notranslate"><span class="pre">color</span></code> to be <code class="docutils literal notranslate"><span class="pre">blue</span></code> and the <code class="docutils literal notranslate"><span class="pre">fontsize</span></code> to be <code class="docutils literal notranslate"><span class="pre">12</span></code> in the <code class="docutils literal notranslate"><span class="pre">**kwargs</span></code>.
+If in the dictionary’s <code class="docutils literal notranslate"><span class="pre">style</span></code> of a particular word you set the <code class="docutils literal notranslate"><span class="pre">color</span></code> to be <code class="docutils literal notranslate"><span class="pre">red</span></code>, its color will be <code class="docutils literal notranslate"><span class="pre">red</span></code>.
+However, since the <code class="docutils literal notranslate"><span class="pre">fontsize</span></code> is not specified, it will use the general font size: <code class="docutils literal notranslate"><span class="pre">12</span></code>.</p>
+</div>
+<p>The last key is the <code class="docutils literal notranslate"><span class="pre">label</span></code>.
+If you set a <code class="docutils literal notranslate"><span class="pre">label</span></code>, Multiplex automatically creates a legend for you.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>str</em><em> or </em><em>list of str</em><em> or </em><em>list of dict</em>) – The text data.
+<li><p><strong>annotation</strong> (<em>str</em><em> or </em><em>list of str</em><em> or </em><em>list of dict</em>) – The text annotation.
 The visualization expects a string, a <cite>list</cite> of tokens, or a <cite>list</cite> of <cite>dict</cite> instances as shown above.</p></li>
 <li><p><strong>wordspacing</strong> (<em>float</em>) – The space between words.</p></li>
 <li><p><strong>lineheight</strong> (<em>float</em>) – The space between lines.</p></li>
@@ -491,36 +494,44 @@ The visualization expects a string, a <cite>list</cite> of tokens, or a <cite>li
 Possible values:</p>
 <blockquote>
 <div><ul>
-<li><p>left</p></li>
-<li><p>center</p></li>
-<li><p>right</p></li>
-<li><p>justify</p></li>
-<li><p>justify-start (or justify-left)</p></li>
-<li><p>justify-center</p></li>
-<li><p>justify-end or (justify-right)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">left</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">center</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">right</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">justify</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">justify-start</span></code> (or <code class="docutils literal notranslate"><span class="pre">justify-left</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">justify-center</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">justify-end</span></code> or (<code class="docutils literal notranslate"><span class="pre">justify-right</span></code>)</p></li>
 </ul>
 </div></blockquote>
 </p></li>
-<li><p><strong>with_legend</strong> (<em>bool</em>) – A boolean indicating whether labels should create a legend.</p></li>
-<li><p><strong>lpad</strong> (<em>float</em>) – The left padding as a percentage of the plot.
+<li><p><strong>with_legend</strong> (<em>bool</em>) – A boolean indicating whether the visualization should create a legend when it finds labels.</p></li>
+<li><p><strong>lpad</strong> (<em>float</em>) – The left padding as a fraction of the plot.
 The range is expected to be between 0 and 1.</p></li>
-<li><p><strong>rpad</strong> (<em>float</em>) – The right padding as a percentage of the plot.
+<li><p><strong>rpad</strong> (<em>float</em>) – The right padding as a fraction of the plot.
 The range is expected to be between 0 and 1.</p></li>
-<li><p><strong>tpad</strong> (<em>float</em>) – The top padding as a percentage of the plot.
-The range is expected to be between 0 and 1.</p></li>
+<li><p><strong>tpad</strong> (<em>float</em>) – The top padding as a percentage of the plot.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The drawn lines.
-Each line is made up of tuples of lists.
-The first list in each tuple is the list of legend labels.
-The second list in each tuple is the list of actual tokens.</p>
+<dd class="field-even"><p><p>The drawn lines.
+Each line is made up of tuples, and each tuple is made up of:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>The list of legend labels in the line, and</p></li>
+<li><p>The list of tokens drawn in the line.</p></li>
+</ol>
+</div></blockquote>
+</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>list of tuple</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p>ValueError</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – When the left padding is not between 0 and 1.</p></li>
+<li><p><strong>ValueError</strong> – When the right padding is not between 0 and 1.</p></li>
+<li><p><strong>ValueError</strong> – When the left padding and the right padding combined are larger than 1.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

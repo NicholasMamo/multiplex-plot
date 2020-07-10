@@ -87,8 +87,8 @@ class Annotation():
 		.. code-block:: python
 
 			{
-			  'style': { 'facecolor': 'None' },
 			  'text': 'token',
+			  'style': { 'facecolor': 'None' }
 			}
 
 		Of these keys, only the ``text`` is required.
