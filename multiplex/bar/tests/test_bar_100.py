@@ -208,6 +208,18 @@ class TestBar100(MultiplexTest):
 						 [ str(annotation) for _, annotation in viz.legend.lines[0] ])
 
 	@MultiplexTest.temporary_plot
+	def test_draw_legend_labels_empty(self):
+		"""
+		Test that when providing empty or `None` labels, they are not drawn in the legend.
+		"""
+
+		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+		bar = Bar100(viz)
+		values = [ { 'value': 10, 'label': None }, { 'value': 10, 'label': '' } ]
+		bars = bar.draw(values, 'label')
+		self.assertEqual(0, len(viz.legend.lines[0]))
+
+	@MultiplexTest.temporary_plot
 	def test_draw_legend_repeated_labels(self):
 		"""
 		Test that when providing repeated labels, only the first one is drawn.

@@ -444,6 +444,13 @@ class Bar100(Visualization):
 				continue
 
 			label = value['label']
+
+			"""
+			If the label is empty or `None`, there is nothing to draw, so skip it.
+			"""
+			if not label:
+				continue
+
 			style = value.get('style', { })
 			default_style = dict(**kwargs)
 			default_style.update(style)
