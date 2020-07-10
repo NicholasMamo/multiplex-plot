@@ -17,6 +17,7 @@ This method expects, at the very least, a string of text, but you can also pass 
     viz.draw_text_annotation(text, align='justify',
                              fontfamily='serif', alpha=0.9,
                              lineheight=1.25, lpad=0.1, rpad=0.1)
+	viz.show()
 
 You can even use the :class:`~TextAnnotation` for more complex visualizations.
 For example, instead of a string, you can segment your text into words yourself and style them individually.
