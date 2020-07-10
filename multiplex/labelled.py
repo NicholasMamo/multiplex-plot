@@ -4,6 +4,7 @@ Whereas labels are normal :class:`~text.text.TextAnnotation` instances, this vis
 All functionality goes through the :func:`~labelled.LabelledVisualization.draw_label` function.
 """
 
+from abc import abstractmethod
 import os
 import sys
 
@@ -32,6 +33,23 @@ class LabelledVisualization(Visualization):
 
 		super().__init__(*args, **kwargs)
 		self.labels = [ ]
+
+	@abstractmethod
+	def draw(self, *args, **kwargs):
+		"""
+		The draw method is the central method, used to create the visualization.
+		The purpose of this function is two-fold:
+
+			- Structure the data and apply the bare minimum styling to the visualization, and
+			- Allow the user to style the created visualization's components.
+
+		Therefore the drawing function should mainly be concerned with the layout.
+
+		At the end, the function should return the drawn component.
+		If the function draws multiple components, it can return them as a tuple.
+		"""
+
+		pass
 
 	def draw_label(self, label, x, y, va='center', max_iterations=10, *args, **kwargs):
 		"""
@@ -206,3 +224,23 @@ class LabelledVisualization(Visualization):
 		bb0, bb1 = labels[0].get_virtual_bb(), labels[-1].get_virtual_bb()
 
 		return (bb0.y0 + bb1.y1) / 2.
+
+class DummyLabelledVisualization(LabelledVisualization):
+	"""
+	The dummy labelled visualization is a simple class used only for testing.
+	Its implementation is based on the labelled visualization, but it has an empty :func:`~labelled.LabelledVisualization.draw` function.
+
+	:ivar labels: The labels in the visualizations.
+				  This list is used to ensure that labels do not overlap.
+	:vartype labels: list of :class:`~text.text.TextAnnotation`
+	"""
+
+	def draw(self, *args, **kwargs):
+		"""
+		The dummy visualization draws nothing, and therefore it returns nothing.
+
+		:return: Nothing.
+		:rtype: `None`
+		"""
+
+		return

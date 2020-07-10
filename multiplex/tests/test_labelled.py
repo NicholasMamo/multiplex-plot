@@ -11,7 +11,7 @@ if path not in sys.path:
 	sys.path.insert(1, path)
 
 from .test import MultiplexTest
-from labelled import LabelledVisualization
+from labelled import DummyLabelledVisualization
 import drawable
 import util
 
@@ -26,7 +26,7 @@ class TestLabelledVisualization(MultiplexTest):
 		Test that when a label is drawn with normal alignment, it is drawn at the given position.
 		"""
 
-		viz = LabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
+		viz = DummyLabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
 		label = viz.draw_label('A', 4, 10)
 		self.assertEqual(4, label.get_virtual_bb().x0)
 		self.assertEqual(10, (label.get_virtual_bb().y0 + label.get_virtual_bb().y1)/2.)
@@ -37,7 +37,7 @@ class TestLabelledVisualization(MultiplexTest):
 		Test that when two labels overlap, they are distributed vertically.
 		"""
 
-		viz = LabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
+		viz = DummyLabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
 		label1 = viz.draw_label('A', 4, 10)
 		label2 = viz.draw_label('B', 4, 10)
 
