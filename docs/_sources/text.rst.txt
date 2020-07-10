@@ -8,7 +8,6 @@
 
 .. automodule:: text
   :members:
-  :private-members:
   :special-members:
 
 One of Multiplex's biggest additions to matplotlib is the text visualizations.

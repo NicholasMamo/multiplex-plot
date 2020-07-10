@@ -1,13 +1,17 @@
 """
-The :class:`~TimeSeries` class borrows heavily from matplotlib's `plot` function.
-This class builds on matplotlib's plotting and introduces more functionality.
+The basic :class:`~TimeSeries` class borrows heavily from `matplotlib's plot function <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.plot.html>`_.
+The only thing that it modifies is the way in which time series plots are labelled.
 
-.. image:: ../examples/exports/3-time-series.png
-   :class: example
+For example, Multiplex's :class:`~TimeSeries` visualizations do not have a legend by default.
+Instead, to aid readability, the label is added to the end of the time series.
+If you prefer the more traditional way, you can also create a normal legend.
 
-For example, Multiplex time series do not have a legend by default.
-Instead, to aid readability, the line's label is added to the end of the plot.
-Creating a time series is very easy:
+Creating a time series is very easy.
+All you have to do is create a :class:`~drawable.Drawable` class and call the :func:`~drawable.Drawable.draw_time_series` function.
+You can keep calling the :func:`~drawable.Drawable.draw_time_series` function on the same :class:`~drawable.Drawable` instance to draw more time series.
+
+Like `matplotlib's plot function <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.plot.html>`_, it expects the x and y-coordinates of the time series:
+However, you can also add your own styling:
 
 .. code-block:: python
 
@@ -18,10 +22,8 @@ Creating a time series is very easy:
                          color='#F6B913', linewidth=2,
                          label='A', label_style={ 'fontweight': '500' })
 
-You can keep calling the :func:`~drawable.Drawable.draw_time_series` function on the same :class:`~drawable.Drawable` instance to draw on the same plot.
-
-To start creating time series visualizations, create a :class:`~TimeSeries` instance and call the :func:`~TimeSeries.draw` method.
-If you are using the :class:`~drawable.Drawable` class, just call the :func:`~drawable.Drawable.draw_time_series` method on a :class:`~drawable.Drawable` instance instead.
+Use the ``label`` keyword argument—and the related ``label_style``—to annotate the time series.
+By default, the ``label`` goes at the end of a time series, but you can set ``with_legend=True`` to draw a :class:`~legend.Legend`.
 """
 
 import os
@@ -35,12 +37,14 @@ from labelled import LabelledVisualization
 
 class TimeSeries(LabelledVisualization):
 	"""
-	The :class:`~TimeSeries` class borrows heavily on matplotlib's `plot` function.
-	This class builds on matplotlib's plotting and introduces more functionality.
+	The :class:`~TimeSeries` class builds on the :class:`~labelled.LabelledVisualization`.
+	The reason why the :class:`~TimeSeries` builds on that, and not the simpler :class:`~visualization.Visualization`, is that it supports drawing time series names at the end of the line.
+	In these cases, the :class:`~labelled.LabelledVisualization` automatically ensures that the labels do not overlap.
+	Like all visualizations, it revolves around the :func:`~TimeSeries.draw` function.
 
-	For example, Multiplex's time series have no legend.
-	Instead, it adds a label at the end of the time series for readability.
-	Multiplex also makes it easy to annotate points on the time series with descriptions to explain their significance.
+	Aside from that, the :class:`~TimeSeries` class borrows heavily from `matplotlib's plot function <https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.plot.html>`_.
+	The new functionality is the ability to add labels at the end of the lines.
+	Instead of labels, you can also label time series in the :class:`~legend.Legend`.
 	"""
 
 	def __init__(self, *args, **kwargs):
@@ -53,8 +57,15 @@ class TimeSeries(LabelledVisualization):
 	def draw(self, x, y, label=None, label_style=None, with_legend=False, *args, **kwargs):
 		"""
 		Draw a time series on the :class:`~drawable.Drawable`.
-		The arguments and keyword arguments are passed on to the `matplotlib.pyplot.plot <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html>`_ method.
-		Thus, all of the arguments and keyword arguments accepted by it are also accepted by this function.
+		The function expects, at the very least, the points on the time series: a list of x-coordinates and their corresponding y-coordinates.
+
+		If a ``label`` is given, it is drawn at the end of the time series.
+		You can use the ``label_style`` to style the label.
+		By default, the time series' ``color`` is used for the label's color, even if the ``color`` is not set in the ``kwargs``.
+		If you prefer to add the label to the :class:`~legend.Legend`, set ``with_legend=True``.
+
+		Any additional arguments and keyword arguments are used to style the line.
+		The function accepts any arguments and keyword arguments accepted by the `matplotlib.pyplot.plot <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html>`_ function.
 
 		:param x: The list of x-coordinates to plot.
 				  The x-coordinates must have the same number of points as the y-coordinates.
@@ -63,12 +74,13 @@ class TimeSeries(LabelledVisualization):
 				  The y-coordinates must have the same number of points as the x-coordinates.
 		:type y: list of float or :class:`pandas.core.series.Series`
 		:param label: The plot's label.
-					  If given, the label is drawn at the end of the line.
+					  If given, the label is drawn at the end of the line or in the legend, depending on the value of the ``with_legend`` parameter.
 		:type label: str or None
 		:param label_style: The style of the label.
 		:type label_style: dict or None
 		:param with_legend: A boolean indicating whether the labels should be drawn as a legend.
-							If false, the labels are drawn at the end of the line.
+							If it is set to ``False``, the labels are drawn at the end of the line.
+							Otherwise, the label is added to the :class:`~legend.Legend`.
 		:type with_legend: bool
 
 		:return: A tuple made up of the drawn plot and label.

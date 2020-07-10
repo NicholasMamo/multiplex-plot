@@ -5,7 +5,7 @@ That means the :class:`~TextAnnotation` makes it easier to create a visualizatio
 As with the :class:`~text.annotation.Annotation`, the :class:`~TextAnnotation` takes care of laying out the text for you.
 All you have to do is specify the text to visualize and its style.
 
-To start creating text visualizations, create a :class:`~drawable.Drawable` class and call the :func:`~drawable.Drawable.draw_text_annotation`.
+To start creating text visualizations, create a :class:`~drawable.Drawable` class and call the :func:`~drawable.Drawable.draw_text_annotation` function.
 This method expects, at the very least, a string of text, but you can also pass on other styling options:
 
 .. code-block:: python

@@ -7,22 +7,23 @@
    :keywords: Multiplex, Python, visualizations, time series, big data, data mining
 
 .. automodule:: timeseries
-  :members:
-  :private-members:
-  :special-members:
+   :members:
+   :special-members:
+
+.. image:: ../examples/exports/3-time-series.png
+   :class: example
 
 Time series are among the most common types of visualizations, and with good reason.
 They are easy to create because they are simple, which means that they are also intuitive.
-All too often, we rely on that simplicity to tell a story.
+All too often, we rely on that simplicity to tell a story well.
 Multiplex's time series makes it easier for data to tell a story clearly.
-
-Keep reading to learn more about time series visualizations.
 
 .. note::
 
-	Check out the `time series Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20Series.ipynb>`_.
+	Eager to start creating time series visualizations?
+	`Multiplex's Jupyter Notebook examples <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_ are a quick guide to get you up and running.
+	Check out the `time series Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20Series.ipynb>`_ to learn how to create the time series shown above, or to start creating your own time series visualizations.
 
 .. automodule:: timeseries.timeseries
    :members:
-   :private-members:
    :special-members:
