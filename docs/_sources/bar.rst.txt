@@ -23,7 +23,7 @@ Horizontal bar charts are slightly better for comparisons and readability becaus
 	Check out the `bar chart Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/5.%20Bar%20charts.ipynb>`_ to learn how to create your own bar chart visualizations.
 
 100% Bar Charts
----------------
+===============
 
 .. automodule:: bar.bar100
    :members:

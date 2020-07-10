@@ -1,5 +1,5 @@
 """
-A set of utility functions that are common to all types of visualizations.
+These utilities are very general: they are used in almost all visualization types, or re-usable in various scenarios.
 """
 
 from matplotlib.transforms import Bbox
