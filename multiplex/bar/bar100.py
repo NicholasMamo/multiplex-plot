@@ -1,18 +1,38 @@
 """
-The :class:`~bar.100.Bar100` visualization draws stacked bar charts that all add up to 100%.
-The 100% bar chart visualization is useful to show the make-up of data.
+The :class:`~Bar100` visualization draws stacked bar charts that all add up to 100%.
+These types of visualizations are useful to show the make-up of data in terms of percentages.
 
-This visualization is based on `matplotlib's barh <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.barh.html>`_ function.
-However, it also comes with functionality to make it easier to construct 100% bar chart visualizations.
-For example, you don't have to provide percentages; the :class:`~bar.100.Bar100` visualization automatically converts numbers to percentages.
+.. image:: ../examples/exports/5-natural-gas.png
+   :class: example inline
+
+The :class:`~Bar100` visualization is based on `matplotlib's barh <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.barh.html>`_ function.
+This class, like the rest of Multiplex's new visualizations, simplifies the construction of 100% bar chart.
+For example, you don't have to provide percentages; the :class:`~Bar100` visualization automatically converts numbers to percentages.
 
 For readability, the 100% bar chart visualization also makes a few changes to the plot by:
 
-- Moving the x-ticks to the top of the plot,
-- Moving the x-axis label to the top of the plot, and
-- Removing the grid.
+	- Moving the x-axis label to the top of the plot,
+	- Moving the x-ticks to the top of the plot,
+	- Converting the x-ticks to percentages, and
+	- Removing the grid.
 
+It is very easy to create 100% bar charts.
+All you have to do is create a :class:`~drawable.Drawable` class and call the :func:`~drawable.Drawable.draw_bar_100` function.
+This method expects, at the very least, the values and the name of the 100% bar:
 
+.. code-block:: python
+
+    import matplotlib.pyplot as plt
+    from multiplex import drawable
+    viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+    viz.draw_bar_100([ 5, 2, 4, 7, 3 ], 'bar', alpha=0.5, color='C1')
+	viz.show()
+
+As usual, you can create more complex visualizations by styling each bar individually and adding legends.
+
+.. note::
+
+	You can view more complex 100% bar chart visualization examples in the `bar chart Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/5.%20Bar%20charts.ipynb>`_.
 """
 
 import os
@@ -26,10 +46,10 @@ from visualization import Visualization
 class Bar100(Visualization):
 	"""
 	The 100% bar chart visualization draws bars that, unsurprisingly, always sums up to 100%.
-	This class revolves around the :func:`~bar.100.Bar100.draw` function.
-	The :func:`~bar.100.Bar100.draw` function receives a list of numbers and automatically converts them to percentages.
+	This class revolves around the :func:`~Bar100.draw` function.
+	The :func:`~Bar100.draw` function receives a list of numbers and automatically converts them to percentages.
 
-	This class keeps track of all the bars that it has drawn in the `~bar.100.Bar100.bars` instance variable.
+	This class keeps track of all the bars that it has drawn in the `~Bar100.bars` instance variable.
 
 	:ivar bars: A list of bars drawn so far.
 				Each bar is, in turn, made up of more bars, all of which add up to 100%.
