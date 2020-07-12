@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.4.0",
     author="Nicholas Mamo",
     author_email="nicholasmamo@gmail.com",
-    description="Multiplex: visualizations that tell stories",
+    description="Multiplex: visualizations that tell stories—A Python library to create and annotate beautiful network graph visualizations, text visualizations and more.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/NicholasMamo/multiplex-plot",
