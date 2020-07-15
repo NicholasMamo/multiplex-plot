@@ -852,7 +852,7 @@ class TestBar100(MultiplexTest):
 
 		viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
 		bar = Bar100(viz)
-		self.assertTrue(bar._pad(50, 20))
+		self.assertEqual(10, bar._pad(50, 20))
 
 	@MultiplexTest.temporary_plot
 	def test_pad_no_padding(self):
