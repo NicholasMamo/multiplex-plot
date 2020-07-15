@@ -137,9 +137,10 @@ class Bar100(Visualization):
 		:raises ValueError: When no values are given.
 		:raises ValueError: When all values are zero.
 		:raises ValueError: When any value is negative.
+		:raises ValueError: When the name is empty.
 		:raises ValueError: When the minimum percentage is below 0% or above 100%.
 		:raises ValueError: When the minimum percentage multiplied by all values exceeds 100%.
-		:raises ValueError: When the name is empty.
+		:raises ValueError: When the padding is higher than the percentage.
 		"""
 
 		values = self._to_dict(values)
@@ -160,14 +161,17 @@ class Bar100(Visualization):
 		"""
 		Validate the inputs.
 		"""
+		if not name:
+			raise ValueError("The name cannot be empty")
+
 		if not 0 <= min_percentage <= 100:
 			raise ValueError(f"The minimum percentage must be between 0% and 100%; received { min_percentage }")
 
 		if min_percentage * len(values) > 100:
 			raise ValueError(f"The minimum percentage exceeds 100%; { min_percentage } × { len(values) } = { min_percentage * len(values) }")
 
-		if not name:
-			raise ValueError("The name cannot be empty")
+		if round(pad, 10) > round(min_percentage, 10):
+			raise ValueError(f"The padding cannot exceed the minimum percentage; { pad } > { min_percentage }")
 
 		"""
 		Re-style the plot if need be.
@@ -267,7 +271,7 @@ class Bar100(Visualization):
 		for i, percentage in enumerate(percentages):
 			style = values[i].get('style', { })
 
-			padding = self._pad(percentage, style.pop('pad', pad), min_percentage)
+			padding = self._pad(percentage, style.pop('pad', pad))
 
 			"""
 			Apply the left offset based on padding.
@@ -344,7 +348,7 @@ class Bar100(Visualization):
 
 		return percentages
 
-	def _pad(self, percentage, pad, min_percentage):
+	def _pad(self, percentage, pad):
 		"""
 		Get the padding to apply to the given percentage value.
 		Padding leaves some space around both ends of the bar.
@@ -355,9 +359,6 @@ class Bar100(Visualization):
 					This padding will be split equally on the left and right of the bar.
 					In any case, the padding cannot reduce a bar to below the minimum percentage.
 		:type pad: float
-		:param min_percentage: The minimum percentage to allow.
-							   This is used so that even very small percentages are shown in the 100% bar chart.
-		:type min_percentage: float
 
 		:return: The amount of padding to apply to the given percentage value.
 				 The padding returned is for one side.
@@ -365,8 +366,7 @@ class Bar100(Visualization):
 
 		:raises ValueError: When the percentage is below 0% or above 100%.
 		:raises ValueError: When the padding is below 0% or above 100%.
-		:raises ValueError: When the minimum percentage is below 0% or above 100%.
-		:raises ValueError: When the minimum percentage exceeds the percentage.
+		:raises ValueError: When the padding is higher than the percentage.
 		"""
 
 		"""
@@ -378,17 +378,13 @@ class Bar100(Visualization):
 		if not 0 <= round(pad, 10) <= 100:
 			raise ValueError(f"The padding must be between 0% and 100%; received { pad }%")
 
-		if not 0 <= min_percentage <= 100:
-			raise ValueError(f"The minimum percentage must be between 0% and 100%; received { min_percentage }")
-
-		if round(min_percentage, 10) > round(percentage, 10):
-			raise ValueError(f"The minimum percentage cannot exceed the percentage; { min_percentage } > { percentage }")
+		if round(pad, 10) > round(percentage, 10):
+			raise ValueError(f"The padding cannot exceed the percentage; { pad } > { percentage }")
 
 		"""
 		Calculate the left-over percentage after applying padding.
-		The left-over percentage cannot be lower than the minimum percentage.
 		"""
-		leftover = max(percentage - pad, min_percentage)
+		leftover = percentage - pad
 
 		"""
 		The padding is any space aside from the left-over percentage.
