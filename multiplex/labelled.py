@@ -83,7 +83,10 @@ class LabelledVisualization(Visualization):
 		axes = self.drawable.axes
 
 		annotation = Annotation(self.drawable)
-		annotation.draw(label, x, y, va=va, *args, **kwargs)
+		style = dict(kwargs)
+		style = { key: value for key, value in style.items()
+							 if not (key.startswith('marker') or key.startswith('line')) }
+		annotation.draw(label, x, y, va=va, *args, **style)
 		self.labels.append(annotation)
 		self._arrange_labels(max_iterations=max_iterations)
 		return annotation
