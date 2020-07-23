@@ -289,7 +289,10 @@ class Legend(object):
 
 		x = [ offset, offset + 0.025 ] if horizontal else [ offset ] * 2
 		y = [ y + linespacing / 2. ] * 2 if horizontal else [ y, y + linespacing ]
-		line = lines.Line2D(x, y, transform=axes.transAxes, *args, **kwargs)
+		style = dict(kwargs)
+		style['markersize'] = 5 if 'markersize' in style else 0
+		style['markeredgewidth'] = 1 if 'markeredgewidth' in style else 0
+		line = lines.Line2D(x, y, transform=axes.transAxes, *args, **style)
 		line.set_clip_on(False)
 		axes.add_line(line)
 
