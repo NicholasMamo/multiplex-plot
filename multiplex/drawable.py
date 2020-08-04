@@ -330,11 +330,11 @@ class Drawable():
 			marker = dict(marker) # make a copy to avoid overwriting dictionaries
 			marker['color'] = marker.get('color', kwargs.get('color'))
 			if kwargs.get('align', 'left') == 'left':
-				self.axes.plot(x[0], y, *args, **marker)
+				self.axes.scatter(x[0], y, *args, **marker)
 			elif kwargs.get('align') == 'right':
-				self.axes.plot(x[1], y, *args, **marker)
+				self.axes.scatter(x[1], y, *args, **marker)
 			elif kwargs.get('align') == 'center':
-				self.axes.plot((x[0] + x[1])/2., y, *args, **marker)
+				self.axes.scatter((x[0] + x[1])/2., y, *args, **marker)
 
 		tokens = annotation.draw(text, x, y, pad=pad, *args, **kwargs)
 		self.annotations.append(annotation)
