@@ -3,6 +3,7 @@ These utilities are very general: they are used in almost all visualization type
 """
 
 from matplotlib.transforms import Bbox
+from matplotlib.collections import PathCollection
 from operator import sub
 
 import re
@@ -34,6 +35,34 @@ def get_bb(figure, axes, component, transform=None):
 
 	renderer = figure.canvas.get_renderer()
 	bb = component.get_window_extent(renderer).transformed(transform.inverted())
+
+def get_scatter_bb(figure, axes, component, transform):
+	"""
+	Get the bounding box of the given scatter path component.
+	This function assumes that the component is a :class:`matplotlib.collections.PathCollection` with just one scatter point.
+
+	:param figure: The figure that the component occupies.
+				   This is used to get the figure renderer.
+	:type figure: :class:`matplotlib.figure.Figure`
+	:param axes: The axes (or subplot) where the component is plotted.
+	:type axes: :class:`matplotlib.axes.Axes`
+	:param component: The scatter path collection, whose bounding box will be fetched.
+	:type component: matplotlib.collections.PathCollection
+	:param transform: The bounding box transformation.
+					  If `None` is given, the data transformation is used.
+	:type transform: None or :class:`matplotlib.transforms.TransformNode`
+
+	:return: The bounding box of the scatter path.
+	:rtype: :class:`matplotlib.transforms.Bbox`
+	"""
+
+	s = component.get_sizes()[0]
+	origin = transform.inverted().transform((0, 0))
+	x = (transform.inverted().transform((s ** 0.5, 0))[0] - origin[0])/2.
+	y = (transform.inverted().transform((0, s ** 0.5))[1] - origin[1])/2.
+	offset = component.get_offsets()[0]
+	bb = Bbox([[offset[0] - x, offset[1] - y],
+			   [offset[0] + x, offset[1] + y]])
 	return bb
 
 def to_px(axes, bb, transform=None):
