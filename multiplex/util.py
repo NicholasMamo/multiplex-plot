@@ -33,8 +33,16 @@ def get_bb(figure, axes, component, transform=None):
 
 	transform = axes.transData if transform is None else transform
 
-	renderer = figure.canvas.get_renderer()
-	bb = component.get_window_extent(renderer).transformed(transform.inverted())
+	"""
+	If the component is a PathCollection, assume it's a scatter point plot.
+	"""
+	if type(component) is PathCollection:
+		bb = get_scatter_bb(figure, axes, component, transform)
+	else:
+		renderer = figure.canvas.get_renderer()
+		bb = component.get_window_extent(renderer).transformed(transform.inverted())
+
+	return bb
 
 def get_scatter_bb(figure, axes, component, transform):
 	"""

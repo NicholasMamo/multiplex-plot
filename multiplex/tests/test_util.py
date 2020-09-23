@@ -22,7 +22,24 @@ class TestUtil(MultiplexTest):
     """
 
     @MultiplexTest.temporary_plot
-    def test_util_get_scatter_bb_middle_x(self):
+    def test_get_bb_scatter(self):
+        """
+        Test that when getting the bounding box with a scatter point, the get_scatter_bb function is called.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+        figure, axes = viz.figure, viz.axes
+        point = viz.scatter(0, 0, s=10)
+
+        bb1 = util.get_scatter_bb(figure, axes, point, transform=axes.transData)
+        bb2 = util.get_bb(figure, axes, point, transform=axes.transData)
+        self.assertEqual(bb1.x0, bb2.x0)
+        self.assertEqual(bb1.y0, bb2.y0)
+        self.assertEqual(bb1.x1, bb2.x1)
+        self.assertEqual(bb1.y1, bb2.y1)
+
+    @MultiplexTest.temporary_plot
+    def test_get_scatter_bb_middle_x(self):
         """
         Test that the bounding box of a scatter point is centered at the scatter point's offset.
         """
@@ -39,7 +56,7 @@ class TestUtil(MultiplexTest):
         self.assertEqual(1, (bb.x0 + bb.x1) / 2)
 
     @MultiplexTest.temporary_plot
-    def test_util_get_scatter_bb_middle_y(self):
+    def test_get_scatter_bb_middle_y(self):
         """
         Test that the bounding box of a scatter point is centered at the scatter point's offset.
         """
@@ -57,7 +74,7 @@ class TestUtil(MultiplexTest):
 
 
     @MultiplexTest.temporary_plot
-    def test_util_get_scatter_bb_radius_x(self):
+    def test_get_scatter_bb_radius_x(self):
         """
         Test that the bounding box radius of a scatter point is equal to its radius.
         """
@@ -74,7 +91,7 @@ class TestUtil(MultiplexTest):
         self.assertEqual(round(radius, 10), round(bb.width / 2, 10))
 
     @MultiplexTest.temporary_plot
-    def test_util_get_scatter_bb_radius_y(self):
+    def test_get_scatter_bb_radius_y(self):
         """
         Test that the bounding box radius of a scatter point is equal to its radius.
         """
