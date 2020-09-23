@@ -33,7 +33,7 @@ def get_bb(figure, axes, component, transform=None):
 	transform = axes.transData if transform is None else transform
 
 	renderer = figure.canvas.get_renderer()
-	bb = component.get_window_extent(renderer).inverse_transformed(transform)
+	bb = component.get_window_extent(renderer).transformed(transform.inverted())
 	return bb
 
 def to_px(axes, bb, transform=None):
