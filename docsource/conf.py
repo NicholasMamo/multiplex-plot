@@ -31,7 +31,7 @@ release = '0.4.0'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
-	'sphinx.ext.autodoc', 'sphinx_sitemap'
+    'sphinx.ext.autodoc', 'sphinx_sitemap'
 ]
 
 # Modules that Sphinx should ignore.

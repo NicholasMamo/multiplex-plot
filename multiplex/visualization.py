@@ -13,38 +13,38 @@ In short, visualization implementations are largely concerned with the structure
 from abc import ABC, abstractmethod
 
 class Visualization(ABC):
-	"""
-	All visualizations contain at least a :class:`~drawable.Drawable`.
-	Furthermore, all classes that inherit the :class:`~visualization.Visualization` class also need to implement functionality to draw a visualization.
-	This is implemented in the :func:`~visualization.Visualization.draw` function.
+    """
+    All visualizations contain at least a :class:`~drawable.Drawable`.
+    Furthermore, all classes that inherit the :class:`~visualization.Visualization` class also need to implement functionality to draw a visualization.
+    This is implemented in the :func:`~visualization.Visualization.draw` function.
 
-	:ivar drawable: The :class:`~drawable.Drawable` where the visualization will be drawn.
-	:vartype drawable: :class:`~drawable.Drawable`
-	"""
+    :ivar drawable: The :class:`~drawable.Drawable` where the visualization will be drawn.
+    :vartype drawable: :class:`~drawable.Drawable`
+    """
 
-	def __init__(self, drawable, *args, **kwargs):
-		"""
-		Create the visualization with a drawable.
+    def __init__(self, drawable, *args, **kwargs):
+        """
+        Create the visualization with a drawable.
 
-		:param drawable: The :class:`~drawable.Drawable` where the visualization will be drawn.
-		:type drawable: :class:`~drawable.Drawable`
-		"""
+        :param drawable: The :class:`~drawable.Drawable` where the visualization will be drawn.
+        :type drawable: :class:`~drawable.Drawable`
+        """
 
-		self.drawable = drawable
+        self.drawable = drawable
 
-	@abstractmethod
-	def draw(self, *args, **kwargs):
-		"""
-		The draw method is the central method, used to create the visualization on this class' :class:`~drawable.Drawable` instance.
-		The purpose of this function is two-fold:
+    @abstractmethod
+    def draw(self, *args, **kwargs):
+        """
+        The draw method is the central method, used to create the visualization on this class' :class:`~drawable.Drawable` instance.
+        The purpose of this function is two-fold:
 
-			- Structure the data and apply the bare minimum styling to the visualization, and
-			- Allow the user to style the created visualization's components.
+            - Structure the data and apply the bare minimum styling to the visualization, and
+            - Allow the user to style the created visualization's components.
 
-		Therefore the drawing function should mainly be concerned with the layout.
+        Therefore the drawing function should mainly be concerned with the layout.
 
-		At the end, the function should return the drawn component.
-		If the function draws multiple components, it can return them as a tuple.
-		"""
+        At the end, the function should return the drawn component.
+        If the function draws multiple components, it can return them as a tuple.
+        """
 
-		pass
+        pass
