@@ -157,7 +157,7 @@ class Graph(LabelledVisualization):
 		spring = nx.spring_layout(G, *args, **kwargs)
 		spring.update(positions)
 		positions = spring
-		nodes = self._draw_nodes(G.node, positions, **node_style)
+		nodes = self._draw_nodes(G.nodes, positions, **node_style)
 		node_names = self._draw_node_names(G.nodes, positions,
 										   s=node_style.get('s', 100), **name_style)
 		edges = self._draw_edges(G.edges, G.nodes, positions,
