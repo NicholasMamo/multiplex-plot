@@ -170,7 +170,7 @@ class TestTextAnnotation(MultiplexTest):
 		lines = viz.draw_text_annotation(text, align='justify-end')
 
 		bb = util.get_bb(viz.figure, viz.axes, lines[0][-1][-1])
-		self.assertEqual(viz.axes.get_xlim()[1], bb.x1)
+		self.assertEqual(viz.axes.get_xlim()[1], round(bb.x1, 10))
 
 	@MultiplexTest.temporary_plot
 	def test_align_justify_center(self):
