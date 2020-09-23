@@ -1068,9 +1068,13 @@ class TestGraph(MultiplexTest):
 
 		graph = Graph(viz)
 		point = viz.scatter(0, 0, s=1000)
-		bb = util.get_bb(viz.figure, viz.axes, point)
-		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
-		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
+		viz.figure.canvas.draw()
+
+		origin = viz.axes.transData.inverted().transform((0, 0))
+		offset = viz.axes.transData.inverted().transform((1000 ** 0.5, 1000 ** 0.5))
+
+		self.assertEqual(round((offset[0] - origin[0]) / 2., 10), round(graph._get_radius(point, s=1000)[0], 10))
+		self.assertEqual(round((offset[1] - origin[1]) / 2., 10), round(graph._get_radius(point, s=1000)[1], 10))
 
 	@MultiplexTest.temporary_plot
 	def test_get_radius_unequal_display_ratio(self):
@@ -1085,9 +1089,11 @@ class TestGraph(MultiplexTest):
 		viz.set_xlim((-1, 1))
 		viz.set_ylim((-1, 1))
 
-		bb = util.get_bb(viz.figure, viz.axes, point)
-		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
-		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
+		origin = viz.axes.transData.inverted().transform((0, 0))
+		offset = viz.axes.transData.inverted().transform((1000 ** 0.5, 1000 ** 0.5))
+
+		self.assertEqual(round((offset[0] - origin[0]) / 2., 10), round(graph._get_radius(point, s=1000)[0], 10))
+		self.assertEqual(round((offset[1] - origin[1]) / 2., 10), round(graph._get_radius(point, s=1000)[1], 10))
 
 		viz = drawable.Drawable(plt.figure(figsize=(5, 10)))
 
@@ -1096,9 +1102,11 @@ class TestGraph(MultiplexTest):
 		viz.set_xlim((-1, 1))
 		viz.set_ylim((-1, 1))
 
-		bb = util.get_bb(viz.figure, viz.axes, point)
-		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
-		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
+		origin = viz.axes.transData.inverted().transform((0, 0))
+		offset = viz.axes.transData.inverted().transform((1000 ** 0.5, 1000 ** 0.5))
+
+		self.assertEqual(round((offset[0] - origin[0]) / 2., 10), round(graph._get_radius(point, s=1000)[0], 10))
+		self.assertEqual(round((offset[1] - origin[1]) / 2., 10), round(graph._get_radius(point, s=1000)[1], 10))
 
 	@MultiplexTest.temporary_plot
 	def test_get_radius_unequal_data_ratio(self):
@@ -1113,13 +1121,17 @@ class TestGraph(MultiplexTest):
 		viz.set_xlim((-2, 2))
 		viz.set_ylim((-1, 1))
 
-		bb = util.get_bb(viz.figure, viz.axes, point)
-		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
-		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
+		origin = viz.axes.transData.inverted().transform((0, 0))
+		offset = viz.axes.transData.inverted().transform((1000 ** 0.5, 1000 ** 0.5))
+
+		self.assertEqual(round((offset[0] - origin[0]) / 2., 10), round(graph._get_radius(point, s=1000)[0], 10))
+		self.assertEqual(round((offset[1] - origin[1]) / 2., 10), round(graph._get_radius(point, s=1000)[1], 10))
 
 		viz.set_xlim((-1, 1))
 		viz.set_ylim((-2, 2))
 
-		bb = util.get_bb(viz.figure, viz.axes, point)
-		self.assertEqual(round(bb.width/2, 10), round(graph._get_radius(point, s=1000)[0], 10))
-		self.assertEqual(round(bb.height/2, 10), round(graph._get_radius(point, s=1000)[1], 10))
+		origin = viz.axes.transData.inverted().transform((0, 0))
+		offset = viz.axes.transData.inverted().transform((1000 ** 0.5, 1000 ** 0.5))
+
+		self.assertEqual(round((offset[0] - origin[0]) / 2., 10), round(graph._get_radius(point, s=1000)[0], 10))
+		self.assertEqual(round((offset[1] - origin[1]) / 2., 10), round(graph._get_radius(point, s=1000)[1], 10))
