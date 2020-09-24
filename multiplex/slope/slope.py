@@ -24,7 +24,7 @@ class Slope(LabelledVisualization):
     Like all visualizations, it revolves around the :func:`~Slope.draw` function.
     """
 
-    def draw(self):
+    def draw(self, *args, **kargs):
         """
         Draw a slope graph.
         The function returns a two-tuple with the drawn plot (a line with optional markers) and any drawn labels.
