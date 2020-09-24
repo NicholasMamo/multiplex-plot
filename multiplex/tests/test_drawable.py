@@ -117,3 +117,20 @@ class TestDrawable(MultiplexTest):
         viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
         viz.annotate('Text', (0, 0), 0, marker=marker, **annotation_style)
         self.assertEqual({ }, marker)
+
+    @MultiplexTest.temporary_plot
+    def test_annotate_redraws(self):
+        """
+        Test that when the drawable draws the canvas before creating an annotation.
+        """
+
+        annotation_style = { 'color': 'blue' }
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+        viz.draw_time_series(range(0, 10), range(0, 10)) # draw a time series to cramp the area
+        annotation = viz.annotate('Text with multiple words', (0, 0), 0, **annotation_style)
+        tokens = [ token for line in annotation.lines
+                         for token in line ]
+        for i, t1 in enumerate(tokens):
+            for j, t2 in enumerate(tokens[(i + 1):]):
+                self.assertFalse(util.overlapping(viz.figure, viz.axes, t1, t2))

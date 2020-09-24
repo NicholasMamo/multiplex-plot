@@ -320,6 +320,7 @@ class Drawable():
         """
 
         annotation = Annotation(self)
+        self.figure.canvas.draw()
 
         """
         Draw the marker if it is given.
