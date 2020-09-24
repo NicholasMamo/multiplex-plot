@@ -21,3 +21,4 @@ Feel free to copy-and-paste the sample code and build on it: telling your story 
 - [3. Time series](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20series.ipynb) - Examples using Multiplex's time series, which make it easier to plot and explain how data changes over time
 - [4. Network graphs](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/4.%20Network%20graphs.ipynb) - Examples using Multiplex's new network graph visualization, which can be used to plot networks
 - [5. Bar charts](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/5.%20Bar%20charts.ipynb) - Examples using Multiplex's new bar chart visualizations, which make it easier to create more complex bar charts
+- [6. Slope graphs](https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/6.%20Slope%20graphs.ipynb) - An introduction to Multiplex's slope graph visualizations, which show how data changes
