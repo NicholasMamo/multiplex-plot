@@ -366,6 +366,18 @@ class Drawable():
         graph = Graph(self)
         return graph.draw(*args, **kwargs)
 
+    def draw_slope(self, *args, **kwargs):
+        """
+        Draw a slope graph with two points on this :class:`~Drawable`.
+        The arguments and keyword arguments are those supported by the :class:`~slope.slope.Slope`'s :func:`~slope.slope.Slope.draw` method.
+
+        :return: A tuple made up of the drawn plot and label.
+        :rtype: tuple
+        """
+
+        self.slope = self.slope if self.slope else Slope(self)
+        return self.slope.draw(*args, **kwargs)
+
     def draw_text_annotation(self, *args, **kwargs):
         """
         Draw a text annotation visualization on this :class:`~Drawable`.
