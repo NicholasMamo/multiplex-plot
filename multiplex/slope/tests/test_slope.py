@@ -19,3 +19,12 @@ class TestSlope(MultiplexTest):
     """
     Unit tests for the :class:`~slope.slope.Slope` class.
     """
+
+    @MultiplexTest.temporary_plot
+    def test_draw_returns_tuple(self):
+        """
+        Test that when drawing a slope graph, it always returns a tuple.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertEqual(tuple, type(viz.draw_slope()))

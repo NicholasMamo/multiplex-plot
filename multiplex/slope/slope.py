@@ -27,4 +27,11 @@ class Slope(LabelledVisualization):
     def draw(self):
         """
         Draw a slope graph.
+        The function returns a two-tuple with the drawn plot (a line with optional markers) and any drawn labels.
+
+        :return: A tuple made up of the drawn plot and any drawn labels.
+                 If the legend label is drawn, only a string is returned.
+        :rtype: tuple
         """
+
+        return (None, None)
