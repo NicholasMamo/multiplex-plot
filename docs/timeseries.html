@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   <meta content="Python time series visualizations that make it easier to create and annotate time series to tell a story through data" name="description" />
@@ -27,28 +26,30 @@
 
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="4. Graph" href="graph.html" />
@@ -66,7 +67,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Multiplex
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Multiplex
           
 
           
@@ -89,6 +90,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -109,6 +111,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -147,7 +150,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>3. Time Series</li>
     
@@ -191,7 +194,7 @@ All you have to do is create a <a class="reference internal" href="drawable.html
 You can keep calling the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_time_series()</span></code></a> function on the same <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance to draw more time series.</p>
 <p>Like <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.plot.html">matplotlib’s plot function</a>, it expects the x and y-coordinates of the time series:
 However, you can also add your own styling:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
 <span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
 <span class="n">viz</span><span class="o">.</span><span class="n">draw_time_series</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
@@ -202,9 +205,9 @@ However, you can also add your own styling:</p>
 </div>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">label</span></code> keyword argument—and the related <code class="docutils literal notranslate"><span class="pre">label_style</span></code>—to annotate the time series.
 By default, the <code class="docutils literal notranslate"><span class="pre">label</span></code> goes at the end of a time series, but you can set <code class="docutils literal notranslate"><span class="pre">with_legend=True</span></code> to draw a <a class="reference internal" href="drawable.html#legend.Legend" title="legend.Legend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Legend</span></code></a>.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="timeseries.timeseries.TimeSeries">
-<em class="property">class </em><code class="sig-prename descclassname">timeseries.timeseries.</code><code class="sig-name descname">TimeSeries</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">timeseries.timeseries.</code><code class="sig-name descname">TimeSeries</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a> class builds on the <a class="reference internal" href="drawable.html#labelled.LabelledVisualization" title="labelled.LabelledVisualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabelledVisualization</span></code></a>.
 The reason why the <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a> builds on that, and not the simpler <a class="reference internal" href="drawable.html#visualization.Visualization" title="visualization.Visualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">Visualization</span></code></a>, is that it supports drawing time series names at the end of the line.
 In these cases, the <a class="reference internal" href="drawable.html#labelled.LabelledVisualization" title="labelled.LabelledVisualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabelledVisualization</span></code></a> automatically ensures that the labels do not overlap.
@@ -212,15 +215,15 @@ Like all visualizations, it revolves around the <a class="reference internal" hr
 <p>Aside from that, the <a class="reference internal" href="#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a> class borrows heavily from <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.plot.html">matplotlib’s plot function</a>.
 The new functionality is the ability to add labels at the end of the lines.
 Instead of labels, you can also label time series in the <a class="reference internal" href="drawable.html#legend.Legend" title="legend.Legend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Legend</span></code></a>.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="timeseries.timeseries.TimeSeries.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the time series.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="timeseries.timeseries.TimeSeries.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">label=None</em>, <em class="sig-param">label_style=None</em>, <em class="sig-param">with_legend=False</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.draw" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">label_style</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">with_legend</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#timeseries.timeseries.TimeSeries.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a time series on the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
 The function expects, at the very least, the points on the time series: a list of x-coordinates and their corresponding y-coordinates.</p>
 <p>If a <code class="docutils literal notranslate"><span class="pre">label</span></code> is given, it is drawn at the end of the time series.
@@ -285,11 +288,19 @@ If the legend label is drawn, only a string is returned.</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2019, Nicholas Mamo
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -300,7 +311,6 @@ If the legend label is drawn, only a string is returned.</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

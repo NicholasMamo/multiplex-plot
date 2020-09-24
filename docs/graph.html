@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   <meta content="Python graph or network visualizations to plot nodes and edges" name="description" />
@@ -27,28 +26,30 @@
 
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="5. Bar Charts" href="bar.html" />
@@ -66,7 +67,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Multiplex
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Multiplex
           
 
           
@@ -89,6 +90,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -109,6 +111,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -147,7 +150,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>4. Graph</li>
     
@@ -182,8 +185,8 @@ Check out the <a class="reference external" href="https://github.com/NicholasMam
 </div>
 <span class="target" id="module-graph.graph"></span><p>Multiplex’s graph visualizations use the popular <a class="reference external" href="https://networkx.github.io/">networkx</a> library.
 If you already use networkx, you can visualize networks in a handful of lines:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
 <span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
 <span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">path_graph</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
@@ -203,23 +206,23 @@ These can be used, for instance, to write node names or describe the types of re
 <p>The graph visualization uses the <a class="reference external" href="https://networkx.github.io/">networkx</a> package to generate the layout of the graph.
 Therefore it is a prerequisite to have it installed before creating these visualizations.</p>
 </div>
-<dl class="class">
+<dl class="py class">
 <dt id="graph.graph.Graph">
-<em class="property">class </em><code class="sig-prename descclassname">graph.graph.</code><code class="sig-name descname">Graph</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">graph.graph.</code><code class="sig-name descname">Graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <a class="reference internal" href="#graph.graph.Graph" title="graph.graph.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> class is a general network graph that plots nodes and creates edges between them.
 Like all visualizations, it stores a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance and revolves around the <a class="reference internal" href="#graph.graph.Graph.draw" title="graph.graph.Graph.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
 <p>The <a class="reference internal" href="#graph.graph.Graph" title="graph.graph.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> class builds on the <a class="reference internal" href="drawable.html#labelled.LabelledVisualization" title="labelled.LabelledVisualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabelledVisualization</span></code></a>.
 The reason why the <a class="reference internal" href="#graph.graph.Graph" title="graph.graph.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> builds on that, and not the simpler <a class="reference internal" href="drawable.html#visualization.Visualization" title="visualization.Visualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">Visualization</span></code></a>, is that it uses the <a class="reference internal" href="drawable.html#labelled.LabelledVisualization" title="labelled.LabelledVisualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabelledVisualization</span></code></a>’s labels for node names.
 In this way, the <a class="reference internal" href="#graph.graph.Graph" title="graph.graph.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a> automatically ensures that the node names do not overlap.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="graph.graph.Graph.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the graph.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="graph.graph.Graph.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">G</em>, <em class="sig-param">positions=None</em>, <em class="sig-param">node_style=None</em>, <em class="sig-param">name_style=None</em>, <em class="sig-param">edge_style=None</em>, <em class="sig-param">label_style=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph.draw" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">G</span></em>, <em class="sig-param"><span class="n">positions</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">node_style</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name_style</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">edge_style</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">label_style</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#graph.graph.Graph.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the given <a class="reference external" href="https://networkx.github.io/documentation/stable/reference/classes/index.html">networkx graph</a> on the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.</p>
 <p>The method expects only a graph.
 Differently from other visualizations, the styling options are passed on as <code class="docutils literal notranslate"><span class="pre">dict</span></code> arguments.</p>
@@ -258,8 +261,10 @@ If you provide a position for a subset of the nodes, the rest of the positions a
 <p>You can provide the positions with node names as keys and their positions as values.
 Positions must be tuples: the x and y coordinates.</p>
 </p></li>
-<li><p><strong>node_style</strong> (<em>dict</em>) – <p>The general style for nodes.
-The <code class="docutils literal notranslate"><span class="pre">node_style</span></code> accepts any styling option supported by <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.scatter.html">matplotlib’s scatter function</a>.</p>
+<li><p><strong>node_style</strong> (<em>dict</em>) – <dl class="simple">
+<dt>The general style for nodes.</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">node_style</span></code> accepts any styling option supported by <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.scatter.html">matplotlib’s scatter function</a>.</p>
+</dd>
+</dl>
 <p>You can override the general style of the nodes by giving them a <code class="docutils literal notranslate"><span class="pre">style</span></code> attribute:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">][</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;#BB3633&#39;</span> <span class="p">}</span>
 </pre></div>
@@ -270,16 +275,20 @@ The <code class="docutils literal notranslate"><span class="pre">node_style</spa
 By default, the size is 100.</p>
 </div>
 </p></li>
-<li><p><strong>name_style</strong> (<em>dict</em>) – <p>The general style for names.
-The <code class="docutils literal notranslate"><span class="pre">name_style</span></code> accepts any styling option supported by the <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>’s <a class="reference internal" href="text.html#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
+<li><p><strong>name_style</strong> (<em>dict</em>) – <dl class="simple">
+<dt>The general style for names.</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">name_style</span></code> accepts any styling option supported by the <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>’s <a class="reference internal" href="text.html#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
+</dd>
+</dl>
 <p>You can override the general style of the names by giving nodes and edges a <code class="docutils literal notranslate"><span class="pre">name_style</span></code> attribute:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="s1">&#39;u&#39;</span><span class="p">][</span><span class="s1">&#39;name_style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;fontweight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span> <span class="p">}</span>
 <span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">[(</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">)][</span><span class="s1">&#39;name_style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;fontweight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span> <span class="p">}</span>
 </pre></div>
 </div>
 </p></li>
-<li><p><strong>edge_style</strong> (<em>dict</em>) – <p>The general style for edges.
-The <code class="docutils literal notranslate"><span class="pre">edge_style</span></code> accepts any styling option supported by <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.plot.html">matplotlib’s plot</a> and <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.annotate.html">annotate</a> functions.</p>
+<li><p><strong>edge_style</strong> (<em>dict</em>) – <dl class="simple">
+<dt>The general style for edges.</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">edge_style</span></code> accepts any styling option supported by <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.plot.html">matplotlib’s plot</a> and <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.annotate.html">annotate</a> functions.</p>
+</dd>
+</dl>
 <p>You can override the general style of the edges by giving them a <code class="docutils literal notranslate"><span class="pre">style</span></code> attribute:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">[(</span><span class="s1">&#39;u&#39;</span><span class="p">,</span> <span class="s1">&#39;v&#39;</span><span class="p">)][</span><span class="s1">&#39;style&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;#BB3633&#39;</span> <span class="p">}</span>
 </pre></div>
@@ -329,11 +338,19 @@ The <code class="docutils literal notranslate"><span class="pre">label_style</sp
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2019, Nicholas Mamo
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -344,7 +361,6 @@ The <code class="docutils literal notranslate"><span class="pre">label_style</sp
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {

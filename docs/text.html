@@ -1,8 +1,7 @@
 
 
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8">
   <meta content="Python text visualizations for information retrieval, text mining and natural language processing (NLP)" name="description" />
@@ -27,28 +26,30 @@
 
 
   
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
+
+  
   
   
   
 
   
-  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/language_data.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="3. Time Series" href="timeseries.html" />
@@ -66,7 +67,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> Multiplex
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Multiplex
           
 
           
@@ -89,6 +90,7 @@
           
         </div>
 
+        
         <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
           
             
@@ -113,6 +115,7 @@
             
           
         </div>
+        
       </div>
     </nav>
 
@@ -151,7 +154,7 @@
 
   <ul class="wy-breadcrumbs">
     
-      <li><a href="index.html">Docs</a> &raquo;</li>
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
       <li>2. Text Visualizations</li>
     
@@ -196,7 +199,7 @@ It is a tool to help you tell your story.</p>
 <p>For example, any visualization based on the <a class="reference internal" href="drawable.html#labelled.LabelledVisualization" title="labelled.LabelledVisualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabelledVisualization</span></code></a> class can draw labels—text annotations—anywhere on the plot.
 You can also use it on any normal matplotlib plot as long as you wrap it around a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
 All you have to do is create a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> and call the <a class="reference internal" href="drawable.html#drawable.Drawable.annotate" title="drawable.Drawable.annotate"><code class="xref py py-func docutils literal notranslate"><span class="pre">annotate()</span></code></a> function.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
 <span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
 <span class="n">lines</span> <span class="o">=</span> <span class="n">viz</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;Hello world!&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
@@ -210,9 +213,9 @@ You can even style each word individually!</p>
 It also adds some extra functionality to annotations, such as by drawing legends.</p>
 <p>Look over the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a> class to learn more about what kind of annotations you can create.
 If you want to create text-only visualizations, skip ahead to the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> class.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="text.annotation.Annotation">
-<em class="property">class </em><code class="sig-prename descclassname">text.annotation.</code><code class="sig-name descname">Annotation</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">text.annotation.</code><code class="sig-name descname">Annotation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">drawable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Although the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a> is not a visualization, it is also based on a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
 Moreover, like any <a class="reference internal" href="drawable.html#visualization.Visualization" title="visualization.Visualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">Visualization</span></code></a>, it also revolves around the <a class="reference internal" href="#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> method.</p>
 <p>Apart from the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>, the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a> keeps track of the text it has drawn in the <code class="docutils literal notranslate"><span class="pre">lines</span></code> instance variable.
@@ -227,9 +230,9 @@ Each line in turn is made up of a list of tokens as <code class="xref py py-clas
 </ul>
 </dd>
 </dl>
-<dl class="method">
+<dl class="py method">
 <dt id="text.annotation.Annotation.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">drawable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Initialize the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a> with the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
 The <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a> uses the <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>’s figure to get the renderer and the axes to draw the text.
 The constructor also creates an instance variable with the lines in the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>.</p>
@@ -240,9 +243,9 @@ The constructor also creates an instance variable with the lines in the <a class
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="text.annotation.Annotation.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">annotation</em>, <em class="sig-param">x</em>, <em class="sig-param">y</em>, <em class="sig-param">wordspacing=None</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">pad=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.draw" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">annotation</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">wordspacing</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lineheight</span><span class="o">=</span><span class="default_value">1.25</span></em>, <em class="sig-param"><span class="n">align</span><span class="o">=</span><span class="default_value">'left'</span></em>, <em class="sig-param"><span class="n">va</span><span class="o">=</span><span class="default_value">'top'</span></em>, <em class="sig-param"><span class="n">pad</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a text annotation on the plot.
 This function requires three types of inputs:</p>
 <blockquote>
@@ -330,9 +333,9 @@ Each line is made up of a list of tokens.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="text.annotation.Annotation.get_virtual_bb">
-<code class="sig-name descname">get_virtual_bb</code><span class="sig-paren">(</span><em class="sig-param">transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.get_virtual_bb" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_virtual_bb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.get_virtual_bb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the bounding box of the entire <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>.
 This is called a virtual bounding box because it is not a real bounding box.
 Rather, it is the smallest rectangular bounding box that covers all of the bounding boxes of the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>’s tokens.</p>
@@ -350,9 +353,9 @@ If <cite>None</cite> is given, the data transformation is used.</p>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="text.annotation.Annotation.set_position">
-<code class="sig-name descname">set_position</code><span class="sig-paren">(</span><em class="sig-param">position</em>, <em class="sig-param">ha='left'</em>, <em class="sig-param">va='top'</em>, <em class="sig-param">transform=None</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.set_position" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_position</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">position</span></em>, <em class="sig-param"><span class="n">ha</span><span class="o">=</span><span class="default_value">'left'</span></em>, <em class="sig-param"><span class="n">va</span><span class="o">=</span><span class="default_value">'top'</span></em>, <em class="sig-param"><span class="n">transform</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.set_position" title="Permalink to this definition">¶</a></dt>
 <dd><p>Move the annotation to the given position.
 This function moves all of the tokens stored in the <code class="docutils literal notranslate"><span class="pre">lines</span></code> instance variable to its new position.</p>
 <div class="admonition warning">
@@ -390,14 +393,14 @@ If <cite>None</cite> is given, the data transformation is used.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="text.annotation.Annotation.remove">
 <code class="sig-name descname">remove</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.remove" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove all tokens in the annotation from the visualization.
 This function removes all of the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>’s text from the plot and then empties the lines.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="text.annotation.Annotation.__repr__">
 <code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#text.annotation.Annotation.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the annotation as text.
@@ -412,7 +415,7 @@ The representation is the concatenated text.</p>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="text.annotation.Annotation.__weakref__">
 <code class="sig-name descname">__weakref__</code><a class="headerlink" href="#text.annotation.Annotation.__weakref__" title="Permalink to this definition">¶</a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
@@ -429,7 +432,7 @@ That means the <a class="reference internal" href="#text.text.TextAnnotation" ti
 All you have to do is specify the text to visualize and its style.</p>
 <p>To start creating text visualizations, create a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class and call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_text_annotation" title="drawable.Drawable.draw_text_annotation"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_text_annotation()</span></code></a> function.
 This method expects, at the very least, a string of text, but you can also pass on other styling options:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
 <span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
 <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Hello world!&#39;</span>
@@ -445,9 +448,9 @@ For example, instead of a string, you can segment your text into words yourself 
 <p class="admonition-title">Note</p>
 <p>You can view more complex text visualization examples in the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/2.%20Text.ipynb">Jupyter Notebook tutorial</a>.</p>
 </div>
-<dl class="class">
+<dl class="py class">
 <dt id="text.text.TextAnnotation">
-<em class="property">class </em><code class="sig-prename descclassname">text.text.</code><code class="sig-name descname">TextAnnotation</code><span class="sig-paren">(</span><em class="sig-param">drawable</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">text.text.</code><code class="sig-name descname">TextAnnotation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">drawable</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> is mainly concerned with organizing text.
 Like all visualizations, it stores a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance and revolves around the <a class="reference internal" href="#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
 <p>The main difference from the <a class="reference internal" href="#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a> is that the <a class="reference internal" href="#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function does not require the x and y positions.
@@ -455,9 +458,9 @@ Instead, this class assumes that the visualization is made up only of text.</p>
 <p>Moreover, the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> adds support for a legend.
 The legend is added when tokens have a <code class="docutils literal notranslate"><span class="pre">label</span></code> key.
 Therefore the <a class="reference internal" href="#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> may only create a legend when tokens are provided as <code class="docutils literal notranslate"><span class="pre">dict</span></code> instances.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="text.text.TextAnnotation.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param">annotation</em>, <em class="sig-param">wordspacing=0.005</em>, <em class="sig-param">lineheight=1.25</em>, <em class="sig-param">align='left'</em>, <em class="sig-param">with_legend=True</em>, <em class="sig-param">lpad=0</em>, <em class="sig-param">rpad=0</em>, <em class="sig-param">tpad=0</em>, <em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">annotation</span></em>, <em class="sig-param"><span class="n">wordspacing</span><span class="o">=</span><span class="default_value">0.005</span></em>, <em class="sig-param"><span class="n">lineheight</span><span class="o">=</span><span class="default_value">1.25</span></em>, <em class="sig-param"><span class="n">align</span><span class="o">=</span><span class="default_value">'left'</span></em>, <em class="sig-param"><span class="n">with_legend</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">lpad</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">rpad</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">tpad</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#text.text.TextAnnotation.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw the text annotation visualization.</p>
 <p>The method expects, at least, the text annotation.
 You can pass on the text as a string, or segment the text into tokens yourself and pass them on as a <code class="docutils literal notranslate"><span class="pre">list</span></code>.</p>
@@ -466,7 +469,7 @@ Dictionaries should have the following format:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s1">&#39;text&#39;</span><span class="p">:</span> <span class="s1">&#39;token&#39;</span><span class="p">,</span>
   <span class="s1">&#39;style&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;facecolor&#39;</span><span class="p">:</span> <span class="s1">&#39;None&#39;</span> <span class="p">},</span>
-  <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="bp">None</span>
+  <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="kc">None</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -561,11 +564,19 @@ Each line is made up of tuples, and each tuple is made up of:</p>
 
   <div role="contentinfo">
     <p>
+        
         &copy; Copyright 2019, Nicholas Mamo
 
     </p>
   </div>
-  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
 
@@ -576,7 +587,6 @@ Each line is made up of tuples, and each tuple is made up of:</p>
 
   </div>
   
-
 
   <script type="text/javascript">
       jQuery(function () {
