@@ -351,7 +351,7 @@ class Drawable():
         :rtype: list of :class:`matplotlib.patches.Rectangle`
         """
 
-        self.bar100 = self.bar100 if self.bar100 else Bar100(self)
+        self.bar100 = self.bar100 or Bar100(self)
         return self.bar100.draw(*args, **kwargs)
 
     def draw_graph(self, *args, **kwargs):
@@ -375,7 +375,7 @@ class Drawable():
         :rtype: tuple
         """
 
-        self.slope = self.slope if self.slope else Slope(self)
+        self.slope = self.slope or Slope(self)
         return self.slope.draw(*args, **kwargs)
 
     def draw_text_annotation(self, *args, **kwargs):
@@ -402,5 +402,5 @@ class Drawable():
         :rtype: tuple
         """
 
-        self.timeseries = self.timeseries if self.timeseries else TimeSeries(self)
+        self.timeseries = self.timeseries or TimeSeries(self)
         return self.timeseries.draw(*args, **kwargs)
