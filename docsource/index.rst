@@ -132,6 +132,7 @@ At the same time, you can take as much control as you want.
    timeseries
    graph
    bar
+   slope
    utilities
 
 Indices and tables
