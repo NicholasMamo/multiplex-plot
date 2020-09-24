@@ -41,6 +41,7 @@ from legend import Legend
 from text.annotation import Annotation
 from text.text import TextAnnotation
 from timeseries.timeseries import TimeSeries
+from slope.slope import Slope
 import util
 
 class Drawable():
@@ -91,8 +92,9 @@ class Drawable():
 
         self.annotations = [ ]
         self.legend = Legend(self)
-        self.timeseries = None
         self.bar100 = None
+        self.timeseries = None
+        self.slope = None
 
     def set_caption(self, caption, alpha=0.8, lineheight=1.25, *args, **kwargs):
         """
