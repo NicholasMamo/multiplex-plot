@@ -22,7 +22,7 @@ Multiplex's time series makes it easier for data to tell a story clearly.
 
 	Can't wait to start creating time series visualizations?
 	`Multiplex's Jupyter Notebook examples <https://github.com/NicholasMamo/multiplex-plot/tree/master/examples>`_ are a quick guide to get you up and running.
-	Check out the `time series Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20Series.ipynb>`_ to learn how to create the time series shown above, or to start creating your own time series visualizations.
+	Check out the `time series Jupyter Notebook tutorial <https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/3.%20Time%20series.ipynb>`_ to learn how to create the time series shown above, or to start creating your own time series visualizations.
 
 .. automodule:: timeseries.timeseries
    :members:
