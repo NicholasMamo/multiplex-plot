@@ -13,7 +13,7 @@ To draw a slope graph, create a :class:`~drawable.Drawable` class and call the :
     import matplotlib.pyplot as plt
     from multiplex import drawable
     viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-    viz.draw_slope()
+    viz.draw_slope(5, 5)
     viz.show()
 """
 
@@ -34,11 +34,18 @@ class Slope(LabelledVisualization):
     Like all visualizations, it revolves around the :func:`~Slope.draw` function.
     """
 
-    def draw(self, style_plot=True, *args, **kargs):
+    def draw(self, y1, y2, style_plot=True, *args, **kwargs):
         """
         Draw a slope graph.
         The function returns a two-tuple with the drawn plot (a line with optional markers) and any drawn labels.
 
+        Any additional arguments and keyword arguments are used as styling options.
+        The accepted styling options are those supported by the `matplotlib.pyplot.plot <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html>`_ method.
+
+        :param y1: The starting value of the slope.
+        :type y1: float
+        :param y2: The end value of the slope.
+        :type y2: float
         :param style_plot: A boolean indicating whether the plot should be re-styled.
                            If it is set to ``True``, the visualization:
 
@@ -53,13 +60,17 @@ class Slope(LabelledVisualization):
         :rtype: tuple
         """
 
+        # TODO: Add support for list of lines
+
         """
         Re-style the plot if need be.
         """
         if style_plot:
             self._style()
 
-        return (None, None)
+        lines = self._draw(y1, y2, *args, **kwargs)
+
+        return (lines, None)
 
     def _style(self):
         """
@@ -72,7 +83,7 @@ class Slope(LabelledVisualization):
         """
 
         # TODO: Add the secondary axes
-        
+
         axes = self.drawable.axes
 
         self.drawable.grid(False)
@@ -86,3 +97,23 @@ class Slope(LabelledVisualization):
         self.drawable.set_yticks([ ])
         axes.xaxis.set_label_position('bottom')
         axes.xaxis.tick_bottom()
+
+    def _draw(self, y1, y2, *args, **kwargs):
+        """
+        Draw a slope starting from ``y1`` to ``y2``.
+
+        Any additional arguments and keyword arguments are used as styling options.
+        The accepted styling options are those supported by the `matplotlib.pyplot.plot <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html>`_ method.
+
+        :param y1: The starting value of the slope.
+        :type y1: float
+        :param y2: The end value of the slope.
+        :type y2: float
+
+        :return: The drawn lines.
+        :rtype: list of :class:`matplotlib.lines.Line2D`
+        """
+
+        # TODO: Ensure the secondary axis share the same y-limit.
+
+        return self.drawable.plot([0, 1], [y1, y2], *args, **kwargs)
