@@ -19,6 +19,15 @@ class TestDrawable(MultiplexTest):
     """
 
     @MultiplexTest.temporary_plot
+    def test_init_secondary_copy(self):
+        """
+        Test that by default, the secondary axes is a copy of the primary axes.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+        self.assertEqual(viz.axes, viz.secondary)
+
+    @MultiplexTest.temporary_plot
     def test_caption(self):
         """
         Test that the caption is set correctly.

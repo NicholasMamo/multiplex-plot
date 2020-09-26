@@ -56,6 +56,9 @@ class Drawable():
     :vartype figure: :class:`matplotlib.figure.Figure`
     :ivar axes: The axes where the drawable will draw.
     :vartype axes: :class:`matplotlib.axes.Axes`
+    :ivar secondary: The secondary axes.
+                     Some visualizations, such as the :class:`~slope.slope.Slope` graph uses them to draw different ticks on each y-axis.
+    :vartype secondary: :class:`matplotlib.axes.Axes`
     :var caption: The caption, displayed under the title.
     :vartype caption: :class:`~text.annotation.Annotation`
 
@@ -88,6 +91,7 @@ class Drawable():
 
         self.figure = figure
         self.axes = plt.gca() if axes is None else axes
+        self.secondary = self.axes
         self.caption = Annotation(self)
 
         self.annotations = [ ]
