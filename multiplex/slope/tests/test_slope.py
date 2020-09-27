@@ -53,7 +53,7 @@ class TestSlope(MultiplexTest):
         self.assertEqual([ ], list(viz.get_yticks()))
 
     @MultiplexTest.temporary_plot
-    def test_draw_default_style_plot(self):
+    def test_draw_style_plot_plot(self):
         """
         Test that when not setting the style, none of the the following changes are made:
 
@@ -74,7 +74,7 @@ class TestSlope(MultiplexTest):
         self.assertEqual([ -6/100, -4/100, -2/100, 0, 2/100, 4/100, 6/100 ], [ round(tick, 2) for tick in viz.get_yticks() ])
 
     @MultiplexTest.temporary_plot
-    def test_draw_default_style_secondary_axis(self):
+    def test_draw_style_plot_secondary_axes(self):
         """
         Test that when drawing a slope graph, the visualization's secondary axes is created.
         """
@@ -85,7 +85,29 @@ class TestSlope(MultiplexTest):
         self.assertFalse(viz.axes == viz.secondary)
 
     @MultiplexTest.temporary_plot
-    def test_draw_default_style_first_time_only(self):
+    def test_draw_style_plot_secondary_axes_too(self):
+        """
+        Test that when setting the style, the following changes are made to the secondary axes:
+
+        - Removes the grid,
+        - Hides the x-axis
+        - Hides the y-axis, and
+        - Adds two x-ticks.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope(5, 5, style_plot=True)
+        self.assertFalse(viz.secondary.spines['top'].get_visible())
+        self.assertFalse(viz.secondary.spines['right'].get_visible())
+        self.assertTrue(viz.secondary.spines['bottom'].get_visible())
+        self.assertEqual((0, 1), viz.secondary.spines['bottom'].get_bounds())
+        self.assertFalse(viz.secondary.spines['left'].get_visible())
+        self.assertEqual((-1, 2), viz.get_xlim())
+        self.assertEqual([ 0, 1 ], list(viz.get_xticks()))
+        self.assertEqual([ ], list(viz.get_yticks()))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_style_plot_first_time_only(self):
         """
         Test that the default style is set only the first time.
         """

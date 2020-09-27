@@ -85,20 +85,22 @@ class Slope(LabelledVisualization):
         if self.drawable.secondary != self.drawable.axes:
             return
 
-        axes = self.drawable.axes
         self.drawable.secondary = self.drawable.axes.twinx()
 
-        self.drawable.grid(False)
-        axes.spines['top'].set_visible(False)
-        axes.spines['right'].set_visible(False)
-        axes.spines['bottom'].set_visible(True)
-        axes.spines['bottom'].set_bounds(0, 1)
-        axes.spines['left'].set_visible(False)
         self.drawable.set_xlim((-1, 2))
         self.drawable.set_xticks(range(0, 2))
-        self.drawable.set_yticks([ ])
-        axes.xaxis.set_label_position('bottom')
-        axes.xaxis.tick_bottom()
+        self.drawable.axes.xaxis.set_label_position('bottom')
+        self.drawable.axes.xaxis.tick_bottom()
+        for axes in (self.drawable.axes, self.drawable.secondary):
+            axes.grid(False)
+            axes.set_yticks([ ])
+            axes.spines['top'].set_visible(False)
+            axes.spines['right'].set_visible(False)
+            axes.spines['right'].set_position(('data', 1))
+            axes.spines['bottom'].set_visible(True)
+            axes.spines['bottom'].set_bounds(0, 1)
+            axes.spines['left'].set_visible(False)
+            axes.spines['left'].set_position(('data', 0))
 
     def _draw(self, y1, y2, *args, **kwargs):
         """
