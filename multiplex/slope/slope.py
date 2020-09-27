@@ -96,11 +96,11 @@ class Slope(LabelledVisualization):
             axes.set_yticks([ ])
             axes.spines['top'].set_visible(False)
             axes.spines['right'].set_visible(False)
-            axes.spines['right'].set_position(('data', 1))
+            axes.spines['right'].set_position(('data', 1.1))
             axes.spines['bottom'].set_visible(True)
             axes.spines['bottom'].set_bounds(0, 1)
             axes.spines['left'].set_visible(False)
-            axes.spines['left'].set_position(('data', 0))
+            axes.spines['left'].set_position(('data', -0.1))
 
     def _draw(self, y1, y2, *args, **kwargs):
         """

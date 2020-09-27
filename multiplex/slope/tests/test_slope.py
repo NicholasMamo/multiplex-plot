@@ -37,7 +37,8 @@ class TestSlope(MultiplexTest):
 
         - Removes the grid,
         - Hides the x-axis
-        - Hides the y-axis, and
+        - Hides the y-axis,
+        - Moves the y-axis position, and
         - Adds two x-ticks.
         """
 
@@ -45,9 +46,11 @@ class TestSlope(MultiplexTest):
         viz.draw_slope(5, 5, style_plot=True)
         self.assertFalse(viz.axes.spines['top'].get_visible())
         self.assertFalse(viz.axes.spines['right'].get_visible())
+        self.assertEqual(('data', 1.1), viz.axes.spines['right'].get_position())
         self.assertTrue(viz.axes.spines['bottom'].get_visible())
         self.assertEqual((0, 1), viz.axes.spines['bottom'].get_bounds())
         self.assertFalse(viz.axes.spines['left'].get_visible())
+        self.assertEqual(('data', -0.1), viz.axes.spines['left'].get_position())
         self.assertEqual((-1, 2), viz.get_xlim())
         self.assertEqual([ 0, 1 ], list(viz.get_xticks()))
         self.assertEqual([ ], list(viz.get_yticks()))
@@ -91,7 +94,8 @@ class TestSlope(MultiplexTest):
 
         - Removes the grid,
         - Hides the x-axis
-        - Hides the y-axis, and
+        - Hides the y-axis,
+        - Moves the y-axis position, and
         - Adds two x-ticks.
         """
 
@@ -99,9 +103,11 @@ class TestSlope(MultiplexTest):
         viz.draw_slope(5, 5, style_plot=True)
         self.assertFalse(viz.secondary.spines['top'].get_visible())
         self.assertFalse(viz.secondary.spines['right'].get_visible())
+        self.assertEqual(('data', 1.1), viz.secondary.spines['right'].get_position())
         self.assertTrue(viz.secondary.spines['bottom'].get_visible())
         self.assertEqual((0, 1), viz.secondary.spines['bottom'].get_bounds())
         self.assertFalse(viz.secondary.spines['left'].get_visible())
+        self.assertEqual(('data', -0.1), viz.secondary.spines['left'].get_position())
         self.assertEqual((-1, 2), viz.get_xlim())
         self.assertEqual([ 0, 1 ], list(viz.get_xticks()))
         self.assertEqual([ ], list(viz.get_yticks()))
