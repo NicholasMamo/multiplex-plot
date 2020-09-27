@@ -82,9 +82,9 @@ class Slope(LabelledVisualization):
         - Adds two x-ticks.
         """
 
-        # TODO: Add the secondary axes
 
         axes = self.drawable.axes
+        self.drawable.secondary = self.drawable.axes.twinx()
 
         self.drawable.grid(False)
         axes.spines['top'].set_visible(False)

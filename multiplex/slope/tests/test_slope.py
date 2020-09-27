@@ -74,6 +74,17 @@ class TestSlope(MultiplexTest):
         self.assertEqual([ -6/100, -4/100, -2/100, 0, 2/100, 4/100, 6/100 ], [ round(tick, 2) for tick in viz.get_yticks() ])
 
     @MultiplexTest.temporary_plot
+    def test_draw_default_style_secondary_axis(self):
+        """
+        Test that when drawing a slope graph, the visualization's secondary axes is created.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertEqual(viz.axes, viz.secondary)
+        viz.draw_slope(0, 0, style_plot=True)
+        self.assertFalse(viz.axes == viz.secondary)
+
+    @MultiplexTest.temporary_plot
     def test_draw_return_list_Line2D(self):
         """
         Test that when drawing a slope graph, the first return object is a list of Line2D.
