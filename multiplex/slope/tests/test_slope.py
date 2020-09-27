@@ -220,3 +220,25 @@ class TestSlope(MultiplexTest):
         for line, (_y1, _y2) in zip(lines, zip(y1, y2)):
             self.assertEqual((0, _y1), tuple(line.get_path().vertices[0]))
             self.assertEqual((1, _y2), tuple(line.get_path().vertices[1]))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_list_correct_start(self):
+        """
+        Test that when providing a list of slopes, all of them start at the same position.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        y1, y2 = range(0, 5), range(5, 0, -1)
+        lines = viz.draw_slope(y1, y2)[0]
+        self.assertTrue(all( line.get_path().vertices[0][0] == 0 for line in lines ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_list_correct_end(self):
+        """
+        Test that when providing a list of slopes, all of them end at the same position.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        y1, y2 = range(0, 5), range(5, 0, -1)
+        lines = viz.draw_slope(y1, y2)[0]
+        self.assertTrue(all( line.get_path().vertices[1][0] == 1 for line in lines ))

@@ -83,9 +83,9 @@ class Slope(LabelledVisualization):
         if style_plot:
             self._style()
 
-        lines = self._draw(y1, y2, *args, **kwargs)
+        slopes = self._draw(y1, y2, *args, **kwargs)
 
-        return (lines, None)
+        return (slopes, None)
 
     def _style(self):
         """
@@ -129,10 +129,10 @@ class Slope(LabelledVisualization):
         :param y2: The end value of the slope.
         :type y2: float
 
-        :return: The drawn lines.
+        :return: The drawn slopes.
         :rtype: list of :class:`matplotlib.lines.Line2D`
         """
 
-        # TODO: Ensure the secondary axis share the same y-limit.
+        slopes = self.drawable.plot([0, 1], [y1, y2], *args, **kwargs)
 
-        return self.drawable.plot([0, 1], [y1, y2], *args, **kwargs)
+        return slopes
