@@ -82,6 +82,8 @@ class Slope(LabelledVisualization):
         - Adds two x-ticks.
         """
 
+        if self.drawable.secondary != self.drawable.axes:
+            return
 
         axes = self.drawable.axes
         self.drawable.secondary = self.drawable.axes.twinx()

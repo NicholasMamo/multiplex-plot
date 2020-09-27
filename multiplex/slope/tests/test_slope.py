@@ -85,6 +85,21 @@ class TestSlope(MultiplexTest):
         self.assertFalse(viz.axes == viz.secondary)
 
     @MultiplexTest.temporary_plot
+    def test_draw_default_style_first_time_only(self):
+        """
+        Test that the default style is set only the first time.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.set_xlim((-10, 10))
+        viz.draw_slope(0, 0, style_plot=True)
+        self.assertEqual((-1, 2), viz.get_xlim()) # the first time, the x-limit should change
+
+        viz.set_xlim((-10, 10))
+        viz.draw_slope(1, 1, style_plot=True)
+        self.assertEqual((-10, 10), viz.get_xlim()) # the second time, the x-limit should not change
+
+    @MultiplexTest.temporary_plot
     def test_draw_return_list_Line2D(self):
         """
         Test that when drawing a slope graph, the first return object is a list of Line2D.
