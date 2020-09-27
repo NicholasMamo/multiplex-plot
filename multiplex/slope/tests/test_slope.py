@@ -51,7 +51,7 @@ class TestSlope(MultiplexTest):
         self.assertEqual((0, 1), viz.axes.spines['bottom'].get_bounds())
         self.assertFalse(viz.axes.spines['left'].get_visible())
         self.assertEqual(('data', -0.1), viz.axes.spines['left'].get_position())
-        self.assertEqual((-1, 2), viz.get_xlim())
+        self.assertEqual((-0.1, 1.1), viz.get_xlim())
         self.assertEqual([ 0, 1 ], list(viz.get_xticks()))
         self.assertEqual([ ], list(viz.get_yticks()))
 
@@ -108,7 +108,7 @@ class TestSlope(MultiplexTest):
         self.assertEqual((0, 1), viz.secondary.spines['bottom'].get_bounds())
         self.assertFalse(viz.secondary.spines['left'].get_visible())
         self.assertEqual(('data', -0.1), viz.secondary.spines['left'].get_position())
-        self.assertEqual((-1, 2), viz.get_xlim())
+        self.assertEqual((-0.1, 1.1), viz.get_xlim())
         self.assertEqual([ 0, 1 ], list(viz.get_xticks()))
         self.assertEqual([ ], list(viz.get_yticks()))
 
@@ -121,7 +121,7 @@ class TestSlope(MultiplexTest):
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         viz.set_xlim((-10, 10))
         viz.draw_slope(0, 0, style_plot=True)
-        self.assertEqual((-1, 2), viz.get_xlim()) # the first time, the x-limit should change
+        self.assertEqual((-0.1, 1.1), viz.get_xlim()) # the first time, the x-limit should change
 
         viz.set_xlim((-10, 10))
         viz.draw_slope(1, 1, style_plot=True)

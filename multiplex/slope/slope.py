@@ -87,7 +87,7 @@ class Slope(LabelledVisualization):
 
         self.drawable.secondary = self.drawable.axes.twinx()
 
-        self.drawable.set_xlim((-1, 2))
+        self.drawable.set_xlim((-0.1, 1.1))
         self.drawable.set_xticks(range(0, 2))
         self.drawable.axes.xaxis.set_label_position('bottom')
         self.drawable.axes.xaxis.tick_bottom()
