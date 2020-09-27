@@ -48,7 +48,7 @@ class TestSlope(MultiplexTest):
         self.assertTrue(viz.axes.spines['bottom'].get_visible())
         self.assertEqual((0, 1), viz.axes.spines['bottom'].get_bounds())
         self.assertFalse(viz.axes.spines['left'].get_visible())
-        self.assertEqual((-0.5, 1.2), viz.get_xlim())
+        self.assertEqual((-1, 2), viz.get_xlim())
         self.assertEqual([ 0, 1 ], list(viz.get_xticks()))
         self.assertEqual([ ], list(viz.get_yticks()))
 

@@ -92,7 +92,7 @@ class Slope(LabelledVisualization):
         axes.spines['bottom'].set_visible(True)
         axes.spines['bottom'].set_bounds(0, 1)
         axes.spines['left'].set_visible(False)
-        self.drawable.set_xlim((-0.5, 1.2))
+        self.drawable.set_xlim((-1, 2))
         self.drawable.set_xticks(range(0, 2))
         self.drawable.set_yticks([ ])
         axes.xaxis.set_label_position('bottom')
