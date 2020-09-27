@@ -134,5 +134,16 @@ class Slope(LabelledVisualization):
         """
 
         slopes = self.drawable.plot([0, 1], [y1, y2], *args, **kwargs)
-
+        self._update_ylim()
         return slopes
+
+    def _update_ylim(self):
+        """
+        Align the y-limits of the primary and secondary axes so that they are the same.
+        This is important so that the y-ticks are aligned properly.
+        """
+
+        ylim = (min(self.drawable.axes.get_ylim()[0], self.drawable.secondary.get_ylim()[0]),
+                max(self.drawable.axes.get_ylim()[1], self.drawable.secondary.get_ylim()[1]))
+        self.drawable.axes.set_ylim(ylim)
+        self.drawable.secondary.set_ylim(ylim)

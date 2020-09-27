@@ -242,3 +242,51 @@ class TestSlope(MultiplexTest):
         y1, y2 = range(0, 5), range(5, 0, -1)
         lines = viz.draw_slope(y1, y2)[0]
         self.assertTrue(all( line.get_path().vertices[1][0] == 1 for line in lines ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_max_ylim_primary(self):
+        """
+        Test that when drawing a slope graph, the maximum y-limits are copied properly when the primary axes has a higher y-limit.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 0, 10 ], [ 0, 1 ])
+        self.assertEqual(viz.axes.get_ylim(), viz.secondary.get_ylim())
+        self.assertEqual(10.5, viz.axes.get_ylim()[1])
+        self.assertEqual(10.5, viz.secondary.get_ylim()[1])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_max_ylim_secondary(self):
+        """
+        Test that when drawing a slope graph, the maximum y-limits are copied properly when the secondary axes has a higher y-limit.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 0, 1 ], [ 0, 10 ])
+        self.assertEqual(viz.axes.get_ylim(), viz.secondary.get_ylim())
+        self.assertEqual(10.5, viz.axes.get_ylim()[1])
+        self.assertEqual(10.5, viz.secondary.get_ylim()[1])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_min_ylim_primary(self):
+        """
+        Test that when drawing a slope graph, the minimum y-limits are copied properly when the primary axes has a higher y-limit.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ -10, 0 ], [ 0, 1 ])
+        self.assertEqual(viz.axes.get_ylim(), viz.secondary.get_ylim())
+        self.assertEqual(-10.55, viz.axes.get_ylim()[0])
+        self.assertEqual(-10.55, viz.secondary.get_ylim()[0])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_min_ylim_secondary(self):
+        """
+        Test that when drawing a slope graph, the minimum y-limits are copied properly when the secondary axes has a higher y-limit.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 0, 1 ], [ -10, 0 ])
+        self.assertEqual(viz.axes.get_ylim(), viz.secondary.get_ylim())
+        self.assertEqual(-10.55, viz.axes.get_ylim()[0])
+        self.assertEqual(-10.55, viz.secondary.get_ylim()[0])
