@@ -15,6 +15,16 @@ To draw a slope graph, create a :class:`~drawable.Drawable` class and call the :
     viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
     viz.draw_slope(5, 5)
     viz.show()
+
+You can also draw multiple slopes at the same time by providing a list instead:
+
+.. code-block:: python
+
+    import matplotlib.pyplot as plt
+    from multiplex import drawable
+    viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+    viz.draw_slope([ 0, 3 ], [ 5, 2 ])
+    viz.show()
 """
 
 import os
@@ -42,10 +52,10 @@ class Slope(LabelledVisualization):
         Any additional arguments and keyword arguments are used as styling options.
         The accepted styling options are those supported by the `matplotlib.pyplot.plot <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html>`_ method.
 
-        :param y1: The starting value of the slope.
-        :type y1: float
-        :param y2: The end value of the slope.
-        :type y2: float
+        :param y1: The start value of the slope, or a list of start values.
+        :type y1: float or list of float
+        :param y2: The end value of the slope, or a list of end values.
+        :type y2: float or list of float
         :param style_plot: A boolean indicating whether the plot should be re-styled.
                            If it is set to ``True``, the visualization:
 
@@ -58,9 +68,14 @@ class Slope(LabelledVisualization):
         :return: A tuple made up of the drawn plot and any drawn labels.
                  If the legend label is drawn, only a string is returned.
         :rtype: tuple
+
+        :raises ValueError: When the ``y1`` and ``y2`` parameters are lists of unequal length.
         """
 
-        # TODO: Add support for list of lines
+        y1 = [ y1 ] if type(y1) in [ float, int ] else y1
+        y2 = [ y2 ] if type(y2) in [ float, int ] else y2
+        if len(y1) != len(y2):
+            raise ValueError(f"The list of points should be equal; received { len(y1) } start and { len(y2) } end values")
 
         """
         Re-style the plot if need be.

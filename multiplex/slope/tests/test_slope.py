@@ -176,3 +176,47 @@ class TestSlope(MultiplexTest):
         self.assertEqual(2, len(line.get_path().vertices))
         self.assertEqual((0, y1[1]), tuple(line.get_path().vertices[0]))
         self.assertEqual((1, y2[1]), tuple(line.get_path().vertices[1]))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_unequal_y1_y2(self):
+        """
+        Test that when ``y1`` and ``y2`` are lists of unequal length, the function raises a ValueError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertRaises(ValueError, viz.draw_slope, [ 0, 1 ], [ 1 ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_unequal_y1_y2_different_types(self):
+        """
+        Test that when ``y1`` and ``y2`` have unequal lengths, but they have different types, the function raises a ValueError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertRaises(ValueError, viz.draw_slope, [ 0, 1 ], 1)
+        self.assertRaises(ValueError, viz.draw_slope, 1, [ 0, 1 ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_list_return_all(self):
+        """
+        Test that when providing a list of slopes, all of them are returned.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        y1, y2 = range(0, 5), range(5, 0, -1)
+        lines = viz.draw_slope(y1, y2)[0]
+        self.assertEqual(5, len(lines))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_list_correct_positions(self):
+        """
+        Test that when providing a list of slopes, the correct positions are drawn.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        y1, y2 = range(0, 5), range(5, 0, -1)
+        lines = viz.draw_slope(y1, y2)[0]
+        self.assertEqual(5, len(lines))
+        for line, (_y1, _y2) in zip(lines, zip(y1, y2)):
+            self.assertEqual((0, _y1), tuple(line.get_path().vertices[0]))
+            self.assertEqual((1, _y2), tuple(line.get_path().vertices[1]))
