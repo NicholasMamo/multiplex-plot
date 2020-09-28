@@ -88,10 +88,10 @@ class LabelledVisualization(Visualization):
                              if not (key.startswith('marker') or key.startswith('line')) }
         annotation.draw(label, x, y, va=va, *args, **style)
         self.labels.append(annotation)
-        self._arrange_labels(max_iterations=max_iterations)
+        self._arrange_labels(annotation, max_iterations=max_iterations)
         return annotation
 
-    def _arrange_labels(self, max_iterations=10):
+    def _arrange_labels(self, labels=None, max_iterations=10):
         """
         Go through the labels and ensure that none overlap.
         If any do overlap, move the labels.
@@ -104,24 +104,37 @@ class LabelledVisualization(Visualization):
         .. image:: ../examples/exports/3-overlapping-labels.png
            :class: example
 
+        :param labels: The labels to check for overlaps.
+                       When adding a new label, it can be assumed that the other labels on the plot already do not overlap.
+                       Therefore checks among the existing labels are not required.
+                       If given, this function only checks for any other labels that overlap with the given label.
+        :type labels: None or :class:`matplotlib.text.Text` or list of :class:`matplotlib.text.Text`
         :param max_iterations: The maximum number of iterations to spend arranging the labels.
         :type max_iterations: int
         """
 
-        overlapping = self._get_overlapping_labels()
+        overlapping = self._get_overlapping_labels(labels)
         iterations = 0
         while overlapping and iterations < max_iterations:
             for group in overlapping:
                 self._distribute_labels(group)
-            overlapping = self._get_overlapping_labels()
+            labels = [ label for group in overlapping
+                             for label in group ]
+            overlapping = self._get_overlapping_labels(labels)
             iterations += 1
 
-    def _get_overlapping_labels(self):
+    def _get_overlapping_labels(self, labels=None):
         """
         Get groups of overlapping labels.
         The function returns a list of lists.
         Each inner list contains the labels that overlap.
         The function automatically excludes labels that do not overlap with other labels.
+
+        :param labels: The labels to check for overlaps.
+                       When adding a new label, it can be assumed that the other labels on the plot already do not overlap.
+                       Therefore checks among the existing labels are not required.
+                       If given, this function only checks for any other labels that overlap with the given label.
+        :type labels: None or :class:`matplotlib.text.Text` or list of :class:`matplotlib.text.Text`
 
         :return: A list of lists.
                  Each inner list represents overlapping labels.
@@ -131,9 +144,12 @@ class LabelledVisualization(Visualization):
         figure = self.drawable.figure
         axes = self.drawable.axes
 
-        labels = sorted(self.labels, key=lambda label: label.get_virtual_bb().y0)
+        all = sorted(self.labels, key=lambda label: label.get_virtual_bb().y0)
+        labels = labels or [ ] # change `None` to an empty list
+        labels = [ labels ] if type(labels) is not list else labels # change a single label to a list
+        labels = labels or all
 
-        overlapping_labels = [ ]
+        overlapping_labels = [ [ label ] for label in all ]
         for label in labels:
             assigned = False
 
