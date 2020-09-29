@@ -208,6 +208,7 @@ class Slope(LabelledVisualization):
         """
         _ticks = dict(zip(axes.get_yticks(), axes.get_yticklabels())) # the current ticks
         _ticks.update(dict(zip(ticks, labels))) # add the new ticks, overwriting old ones in case of overlaps
+        _ticks = { tick: (label if label is not None else tick) for tick, label in _ticks.items() } # replace `None` with the tick
 
         """
         Draw the new ticks.

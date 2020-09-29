@@ -409,6 +409,72 @@ class TestSlope(MultiplexTest):
         self.assertEqual([ 'label 1', 'label 2' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
+    def test_draw_y1_list_of_None(self):
+        """
+        Test that when drawing a slope graph and providing a list made up of `None` for the start ticks, the ticks become the values.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ None, None ])
+        self.assertEqual([ f"{ tick }" for tick in viz.axes.get_yticks() ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y2_list_of_None(self):
+        """
+        Test that when drawing a slope graph and providing a list made up of `None` for the end ticks, the ticks become the values.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ None, None ])
+        self.assertEqual([ f"{ tick }" for tick in viz.secondary.get_yticks() ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y1_list_with_None(self):
+        """
+        Test that when drawing a slope graph and providing a list with a `None` value for the start ticks, it is replaced with the tick value.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ 'label', None ])
+        self.assertEqual([ 'label', '5' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y2_list_with_None(self):
+        """
+        Test that when drawing a slope graph and providing a list with a `None` value for the start ticks, it is replaced with the tick value.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ 'label', None ])
+        self.assertEqual([ 'label', '4' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y1_None_overrides_tick(self):
+        """
+        Test that when drawing a slope graph and providing a list with a `None` value for the start ticks, it replaces any existing ticks.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ 'label', None ])
+        self.assertEqual([ 'label', '5' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
+
+        viz.draw_slope([ 3, 7 ], [ 2, 4 ], y1_ticks=[ None, None ])
+        self.assertEqual([ '3', '5', '7' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y2_None_overrides_tick(self):
+        """
+        Test that when drawing a slope graph and providing a list with a `None` value for the end ticks, it replaces any existing ticks.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ 'label', None ])
+        self.assertEqual([ 'label', '4' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
+
+        viz.draw_slope([ 3, 7 ], [ 2, 6 ], y2_ticks=[ None, None ])
+        self.assertEqual([ '2', '4', '6' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
     def test_draw_y1_tick_labels_at_ticks(self):
         """
         Test that the tick labels at the start of the slope are added to the correct position.
