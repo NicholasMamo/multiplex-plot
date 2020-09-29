@@ -20,11 +20,32 @@ You can also draw multiple slopes at the same time by providing a list instead:
 
 .. code-block:: python
 
-    import matplotlib.pyplot as plt
-    from multiplex import drawable
     viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
     viz.draw_slope([ 0, 3 ], [ 5, 2 ])
-    viz.show()
+
+In addition to the slopes, you can also provide the ticks on both sides.
+Ticks can be:
+
+- ``None`` (default): Adds the values as ticks,
+- Empty string: Add no ticks, or
+- Other (such as a string): Add the given value as a label.
+
+For example, the following snippet adds a tick with label '0' on the left y-axis, and a tick with label '3' on the right y-axis.
+
+.. code-block:: python
+
+    viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+    viz.draw_slope(0, 3, y1_ticks=None, y2_ticks=None)
+
+Multiplex overwrites ticks if you provide ``None`` or a value for the tick labels, but not if you provide an empty string.
+If you are creating multiple slopes at the same time, ``None`` and the empty string apply for all slopes.
+You can, however, provide a list of ticks labels corresponding to each slope.
+For example, the next snippet adds 'A' and 'B' on the left y-axis, and '3' and '5' as ticks on the right y-axis.
+
+.. code-block:: python
+
+    viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+    viz.draw_slope([ 0, 1 ], [ 3, 5 ], y1_ticks=[ 'A', 'B' ], y2_ticks=None)
 """
 
 import os
@@ -66,24 +87,30 @@ class Slope(LabelledVisualization):
         :type style_plot: bool
         :param y1_ticks: The tick labels to show on the left side, which can be:
 
-                         - ``None`` (default): The values are used as ticks,
-                         - Empty string: No ticks are added, or
-                         - A string, or a list of strings: Ticks corresponding to each ``y1`` value.
-        :type y1_ticks: None or str or list of str
+                         - ``None`` (default): Adds the values as ticks,
+                         - Empty string: Add no ticks, or
+                         - Other (such as a string): Add the given value as a label.
+
+                         If you are drawing a list of slopes, you can provide a list.
+                         This list too can be made up of ``None``, empty strings or any other value with the same behavior as above.
+        :type y1_ticks: None or str or list
         :param y2_ticks: The tick labels to show on the right side, which can be:
 
-                         - ``None`` (default): The values are used as ticks,
-                         - Empty string: No ticks are added, or
-                         - A string, or a list of strings: Ticks corresponding to each ``y1`` value.
-        :type y2_ticks: None or str or list of str
+                         - ``None`` (default): Adds the values as ticks,
+                         - Empty string: Add no ticks, or
+                         - Other (such as a string): Add the given value as a label.
+
+                         If you are drawing a list of slopes, you can provide a list.
+                         This list too can be made up of ``None``, empty strings or any other value with the same behavior as above.
+        :type y2_ticks: None or str or list
 
         :return: A tuple made up of the drawn plot and any drawn labels.
                  If the legend label is drawn, only a string is returned.
         :rtype: tuple
 
         :raises ValueError: When the ``y1`` and ``y2`` parameters are lists of unequal length.
-        :raises ValueError: If the number of start points and start labels are not equal.
-        :raises ValueError: If the number of end points and end labels are not equal.
+        :raises ValueError: If the number of start points and start tick labels are not equal.
+        :raises ValueError: If the number of end points and end tick labels are not equal.
         """
 
         y1 = [ y1 ] if type(y1) in [ float, int ] else y1 # TODO: Add support for other numbers
@@ -172,10 +199,13 @@ class Slope(LabelledVisualization):
         :type ticks: list of float
         :param labels: The ticks to add, which can be:
 
-                       - ``None`` (default): The values are used as ticks,
-                       - Empty string: No ticks are added, or
-                       - A string, or a list of strings: Ticks corresponding to each ``y1`` value.
-        :type labels: None or str or list of str
+                       - ``None`` (default): Adds the values as ticks,
+                       - Empty string: Add no ticks, or
+                       - Other (such as a string): Add the given value as a label.
+
+                       If you are drawing a list of slopes, you can provide a list.
+                       This list too can be made up of ``None``, empty strings or any other value with the same behavior as above.
+        :type labels: None or str or list
         :param where: The position of the ticks: ``left`` or ``right``.
                       If ``left`` is given, the ticks are added to the primary (left) axes.
                       If ``right`` is given, the ticks are added to the secondary (right) axes.
@@ -210,7 +240,7 @@ class Slope(LabelledVisualization):
                               if label != '' }
         _ticks = dict(zip(axes.get_yticks(), axes.get_yticklabels())) # the current ticks
         _ticks.update(ticks) # add the new ticks, overwriting old ones in case of overlaps
-        _ticks = { tick: (label if label is not None else tick) for tick, label in _ticks.items() } # replace `None` with the tick
+        _ticks = { tick: (label if label is not None else tick) for tick, label in _ticks.items() } # replace ``None`` with the tick
 
         """
         Draw the new ticks.

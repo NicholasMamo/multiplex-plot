@@ -198,11 +198,28 @@ Check out the <a class="reference external" href="https://github.com/NicholasMam
 </pre></div>
 </div>
 <p>You can also draw multiple slopes at the same time by providing a list instead:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
-<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
 <span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span> <span class="p">])</span>
-<span class="n">viz</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In addition to the slopes, you can also provide the ticks on both sides.
+Ticks can be:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): Adds the values as ticks,</p></li>
+<li><p>Empty string: Add no ticks, or</p></li>
+<li><p>Other (such as a string): Add the given value as a label.</p></li>
+</ul>
+<p>For example, the following snippet adds a tick with label ‘0’ on the left y-axis, and a tick with label ‘3’ on the right y-axis.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y1_ticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y2_ticks</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Multiplex overwrites ticks if you provide <code class="docutils literal notranslate"><span class="pre">None</span></code> or a value for the tick labels, but not if you provide an empty string.
+If you are creating multiple slopes at the same time, <code class="docutils literal notranslate"><span class="pre">None</span></code> and the empty string apply for all slopes.
+You can, however, provide a list of ticks labels corresponding to each slope.
+For example, the next snippet adds ‘A’ and ‘B’ on the left y-axis, and ‘3’ and ‘5’ as ticks on the right y-axis.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span> <span class="p">],</span> <span class="n">y1_ticks</span><span class="o">=</span><span class="p">[</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span> <span class="p">],</span> <span class="n">y2_ticks</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py class">
@@ -233,19 +250,23 @@ If it is set to <code class="docutils literal notranslate"><span class="pre">Tru
 <li><p>Adds two x-ticks.</p></li>
 </ul>
 </p></li>
-<li><p><strong>y1_ticks</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list of str</em>) – <p>The tick labels to show on the left side, which can be:</p>
+<li><p><strong>y1_ticks</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list</em>) – <p>The tick labels to show on the left side, which can be:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): The values are used as ticks,</p></li>
-<li><p>Empty string: No ticks are added, or</p></li>
-<li><p>A string, or a list of strings: Ticks corresponding to each <code class="docutils literal notranslate"><span class="pre">y1</span></code> value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): Adds the values as ticks,</p></li>
+<li><p>Empty string: Add no ticks, or</p></li>
+<li><p>Other (such as a string): Add the given value as a label.</p></li>
 </ul>
+<p>If you are drawing a list of slopes, you can provide a list.
+This list too can be made up of <code class="docutils literal notranslate"><span class="pre">None</span></code>, empty strings or any other value with the same behavior as above.</p>
 </p></li>
-<li><p><strong>y2_ticks</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list of str</em>) – <p>The tick labels to show on the right side, which can be:</p>
+<li><p><strong>y2_ticks</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list</em>) – <p>The tick labels to show on the right side, which can be:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): The values are used as ticks,</p></li>
-<li><p>Empty string: No ticks are added, or</p></li>
-<li><p>A string, or a list of strings: Ticks corresponding to each <code class="docutils literal notranslate"><span class="pre">y1</span></code> value.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): Adds the values as ticks,</p></li>
+<li><p>Empty string: Add no ticks, or</p></li>
+<li><p>Other (such as a string): Add the given value as a label.</p></li>
 </ul>
+<p>If you are drawing a list of slopes, you can provide a list.
+This list too can be made up of <code class="docutils literal notranslate"><span class="pre">None</span></code>, empty strings or any other value with the same behavior as above.</p>
 </p></li>
 </ul>
 </dd>
@@ -259,8 +280,8 @@ If the legend label is drawn, only a string is returned.</p>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>ValueError</strong> – When the <code class="docutils literal notranslate"><span class="pre">y1</span></code> and <code class="docutils literal notranslate"><span class="pre">y2</span></code> parameters are lists of unequal length.</p></li>
-<li><p><strong>ValueError</strong> – If the number of start points and start labels are not equal.</p></li>
-<li><p><strong>ValueError</strong> – If the number of end points and end labels are not equal.</p></li>
+<li><p><strong>ValueError</strong> – If the number of start points and start tick labels are not equal.</p></li>
+<li><p><strong>ValueError</strong> – If the number of end points and end tick labels are not equal.</p></li>
 </ul>
 </dd>
 </dl>
