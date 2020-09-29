@@ -475,6 +475,76 @@ class TestSlope(MultiplexTest):
         self.assertEqual([ '2', '4', '6' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
+    def test_draw_y1_list_of_empty_string(self):
+        """
+        Test that when drawing a slope graph and providing a list made up of empty strings for the start ticks, no ticks are added.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ '', '' ])
+        self.assertEqual([ ], list(viz.axes.get_yticks()))
+        self.assertEqual([ ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y2_list_of_empty_string(self):
+        """
+        Test that when drawing a slope graph and providing a list made up of empty strings for the end ticks, no ticks are added.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ '', '' ])
+        self.assertEqual([ ], list(viz.secondary.get_yticks()))
+        self.assertEqual([ ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y1_list_with_empty_string(self):
+        """
+        Test that when drawing a slope graph and providing a list with an empty string value for the start ticks, no tick is added there.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ None, '' ])
+        self.assertEqual([ 3 ], list(viz.axes.get_yticks()))
+        self.assertEqual([ '3' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y2_list_with_empty_string(self):
+        """
+        Test that when drawing a slope graph and providing a list with an empty string value for the end ticks, no tick is added there.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ None, '' ])
+        self.assertEqual([ 2 ], list(viz.secondary.get_yticks()))
+        self.assertEqual([ '2' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y1_empty_string_does_not_override_tick(self):
+        """
+        Test that when drawing a slope graph and providing a list with an empty string value for the start ticks, it does not replace any existing ticks.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ 'label', None ])
+        self.assertEqual([ 'label', '5' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
+
+        viz.draw_slope([ 3, 7 ], [ 2, 4 ], y1_ticks=[ '', None ])
+        self.assertEqual([ 'label', '5', '7' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y2_empty_string_does_not_override_tick(self):
+        """
+        Test that when drawing a slope graph and providing a list with an empty string value for the end ticks, it does not replace any existing ticks.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ 'label', None ])
+        self.assertEqual([ 'label', '4' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
+
+        viz.draw_slope([ 3, 7 ], [ 2, 6 ], y2_ticks=[ '', None ])
+        self.assertEqual([ 'label', '4', '6' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
     def test_draw_y1_tick_labels_at_ticks(self):
         """
         Test that the tick labels at the start of the slope are added to the correct position.
