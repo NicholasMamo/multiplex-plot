@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import os
 import numpy as np
+import pandas as pd
 import sys
 
 path = os.path.join(os.path.dirname(__file__), '..', '..')
@@ -421,8 +422,8 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ 'label 1', 'label 2' ])
-        self.assertEqual([ 'label 1', 'label 2' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ 'label 1', 'label 2' ])
+        self.assertEqual([ 'label 1', 'label 2' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
     def test_draw_y2_ticks_list_of_string(self):
@@ -431,8 +432,28 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ 'label 1', 'label 2' ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ 'label 1', 'label 2' ])
+        self.assertEqual([ 'label 1', 'label 2' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y1_ticks_series(self):
+        """
+        Test that when using a list of strings for the start tick of one slope, they are all added as tick labels.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=pd.Series([ 'label 1', 'label 2' ]))
         self.assertEqual([ 'label 1', 'label 2' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_y2_ticks_series(self):
+        """
+        Test that when using a list of strings for the end tick of one slope, they are all added as tick labels.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=pd.Series([ 'label 1', 'label 2' ]))
+        self.assertEqual([ 'label 1', 'label 2' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
     def test_draw_y1_list_of_None(self):

@@ -48,6 +48,7 @@ For example, the next snippet adds 'A' and 'B' on the left y-axis, and '3' and '
     viz.draw_slope([ 0, 1 ], [ 3, 5 ], y1_ticks=[ 'A', 'B' ], y2_ticks=None)
 """
 
+from collections.abc import Iterable
 from numbers import Number
 import os
 import sys
@@ -226,10 +227,10 @@ class Slope(LabelledVisualization):
         """
         if labels is None:
             labels = ticks
-        elif labels == '':
+        elif isinstance(labels, str) and labels == '':
             return
 
-        labels = [ labels ] if type(labels) not in [ list, range ] else labels # convert the labels to a list if they are not a list
+        labels = [ labels ] if (not isinstance(labels, Iterable) or isinstance(labels, str)) else labels # convert the labels to a list if they are not a list
         if len(ticks) != len(labels):
             raise ValueError(f"The list of ticks and labels should be equal; received { len(ticks) } ticks and { len(labels) } labels")
 
