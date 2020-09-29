@@ -189,6 +189,22 @@ Check out the <a class="reference external" href="https://github.com/NicholasMam
 <li><p>Over a time period.</p></li>
 </ul>
 <p>Slope graphs are not commonly included in visualization packages, but they can be great tools to tell a story.</p>
+<p>To draw a slope graph, create a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class and call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_slope" title="drawable.Drawable.draw_slope"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_slope()</span></code></a> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can also draw multiple slopes at the same time by providing a list instead:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span> <span class="p">])</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
 <dl class="py class">
 <dt id="slope.slope.Slope">
 <em class="property">class </em><code class="sig-prename descclassname">slope.slope.</code><code class="sig-name descname">Slope</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#slope.slope.Slope" title="Permalink to this definition">¶</a></dt>
@@ -198,8 +214,56 @@ In these cases, the <a class="reference internal" href="drawable.html#labelled.L
 <p>Like all visualizations, it revolves around the <a class="reference internal" href="#slope.slope.Slope.draw" title="slope.slope.Slope.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
 <dl class="py method">
 <dt id="slope.slope.Slope.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#slope.slope.Slope.draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw a slope graph.</p>
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y1</span></em>, <em class="sig-param"><span class="n">y2</span></em>, <em class="sig-param"><span class="n">y1_ticks</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y2_ticks</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">style_plot</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#slope.slope.Slope.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a slope graph.
+The function returns a two-tuple with the drawn plot (a line with optional markers) and any drawn labels.</p>
+<p>Any additional arguments and keyword arguments are used as styling options.
+The accepted styling options are those supported by the <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html">matplotlib.pyplot.plot</a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y1</strong> (<em>float</em><em> or </em><em>list of float</em>) – The start value of the slope, or a list of start values.</p></li>
+<li><p><strong>y2</strong> (<em>float</em><em> or </em><em>list of float</em>) – The end value of the slope, or a list of end values.</p></li>
+<li><p><strong>style_plot</strong> (<em>bool</em>) – <p>A boolean indicating whether the plot should be re-styled.
+If it is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the visualization:</p>
+<ul>
+<li><p>Removes the grid,</p></li>
+<li><p>Hides the x-axis</p></li>
+<li><p>Hides the y-axis, and</p></li>
+<li><p>Adds two x-ticks.</p></li>
+</ul>
+</p></li>
+<li><p><strong>y1_ticks</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list of str</em>) – <p>The tick labels to show on the left side, which can be:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): The values are used as ticks,</p></li>
+<li><p>Empty string: No ticks are added, or</p></li>
+<li><p>A string, or a list of strings: Ticks corresponding to each <code class="docutils literal notranslate"><span class="pre">y1</span></code> value.</p></li>
+</ul>
+</p></li>
+<li><p><strong>y2_ticks</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list of str</em>) – <p>The tick labels to show on the right side, which can be:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): The values are used as ticks,</p></li>
+<li><p>Empty string: No ticks are added, or</p></li>
+<li><p>A string, or a list of strings: Ticks corresponding to each <code class="docutils literal notranslate"><span class="pre">y1</span></code> value.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tuple made up of the drawn plot and any drawn labels.
+If the legend label is drawn, only a string is returned.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – When the <code class="docutils literal notranslate"><span class="pre">y1</span></code> and <code class="docutils literal notranslate"><span class="pre">y2</span></code> parameters are lists of unequal length.</p></li>
+<li><p><strong>ValueError</strong> – If the number of start points and start labels are not equal.</p></li>
+<li><p><strong>ValueError</strong> – If the number of end points and end labels are not equal.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

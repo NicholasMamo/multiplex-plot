@@ -23,7 +23,7 @@ Multiplex
 *********
 
 Visualizations should tell a story, and tell it in a beautiful way.
-Multiplex is a visualization library for Python built on these principles using `matplotlib <https://github.com/matplotlib/matplotlib/>`_.
+Multiplex is a visualization library for Python built on these principles using `matplotlib <https://github.com/matplotlib/matplotlib/>`__.
 This library aims to make it as easy as possible for you to transform data into beautiful visualizations that tell a story.
 
 .. note::
@@ -77,7 +77,7 @@ To start using Multiplex, you can clone it using pip:
 Prerequisites
 -------------
 
-Multiplex is based on `matplotlib <https://github.com/matplotlib/matplotlib>`_.
+Multiplex is based on `matplotlib <https://github.com/matplotlib/matplotlib>`__.
 You can install matplotlib using pip:
 
 .. code-block:: bash
