@@ -48,6 +48,7 @@ For example, the next snippet adds 'A' and 'B' on the left y-axis, and '3' and '
     viz.draw_slope([ 0, 1 ], [ 3, 5 ], y1_ticks=[ 'A', 'B' ], y2_ticks=None)
 """
 
+from numbers import Number
 import os
 import sys
 
@@ -113,8 +114,8 @@ class Slope(LabelledVisualization):
         :raises ValueError: If the number of end points and end tick labels are not equal.
         """
 
-        y1 = [ y1 ] if type(y1) in [ float, int ] else y1 # TODO: Add support for other numbers
-        y2 = [ y2 ] if type(y2) in [ float, int ] else y2 # TODO: Add support for other numbers
+        y1 = [ y1 ] if isinstance(y1, Number) else y1
+        y2 = [ y2 ] if isinstance(y2, Number) else y2
         if len(y1) != len(y2):
             raise ValueError(f"The list of points should be equal; received { len(y1) } start and { len(y2) } end values")
 

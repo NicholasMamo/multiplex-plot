@@ -5,7 +5,7 @@ Unit tests for the :class:`~slope.slope.Slope` class.
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import os
-import pandas as pd
+import numpy as np
 import sys
 
 path = os.path.join(os.path.dirname(__file__), '..', '..')
@@ -32,6 +32,33 @@ class TestSlope(MultiplexTest):
         self.assertEqual(tuple, type(viz.draw_slope(5, 5, )))
 
     @MultiplexTest.temporary_plot
+    def test_draw_int(self):
+        """
+        Test that slope graphs can be drawn using integers as the start and end points.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertTrue(viz.draw_slope(5, 5))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_float(self):
+        """
+        Test that slope graphs can be drawn using floats as the start and end points.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertTrue(viz.draw_slope(4.5, 4.5))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_number(self):
+        """
+        Test that slope graphs can be drawn using other types of numbers as the start and end points.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertTrue(viz.draw_slope(np.float64(3.14159), np.float64(3.14159)))
+
+    @MultiplexTest.temporary_plot
     def test_draw_with_style_plot(self):
         """
         Test that when setting the style, the following changes are made:
@@ -56,7 +83,7 @@ class TestSlope(MultiplexTest):
         self.assertEqual([ 0, 1 ], list(viz.get_xticks()))
 
     @MultiplexTest.temporary_plot
-    def test_draw_style_plot_plot(self):
+    def test_draw_style_plot(self):
         """
         Test that when not setting the style, none of the the following changes are made:
 
