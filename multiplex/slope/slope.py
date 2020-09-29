@@ -44,7 +44,7 @@ class Slope(LabelledVisualization):
     Like all visualizations, it revolves around the :func:`~Slope.draw` function.
     """
 
-    def draw(self, y1, y2, style_plot=True, *args, **kwargs):
+    def draw(self, y1, y2, y1_ticks=None, y2_ticks=None, style_plot=True, *args, **kwargs):
         """
         Draw a slope graph.
         The function returns a two-tuple with the drawn plot (a line with optional markers) and any drawn labels.
@@ -64,16 +64,30 @@ class Slope(LabelledVisualization):
                            - Hides the y-axis, and
                            - Adds two x-ticks.
         :type style_plot: bool
+        :param y1_ticks: The tick labels to show on the left side, which can be:
+
+                         - ``None`` (default): The values are used as ticks,
+                         - Empty string: No ticks are added, or
+                         - A string, or a list of strings: Ticks corresponding to each ``y1`` value.
+        :type y1_ticks: None or str or list of str
+        :param y2_ticks: The tick labels to show on the right side, which can be:
+
+                         - ``None`` (default): The values are used as ticks,
+                         - Empty string: No ticks are added, or
+                         - A string, or a list of strings: Ticks corresponding to each ``y1`` value.
+        :type y2_ticks: None or str or list of str
 
         :return: A tuple made up of the drawn plot and any drawn labels.
                  If the legend label is drawn, only a string is returned.
         :rtype: tuple
 
         :raises ValueError: When the ``y1`` and ``y2`` parameters are lists of unequal length.
+        :raises ValueError: If the number of start points and start labels are not equal.
+        :raises ValueError: If the number of end points and end labels are not equal.
         """
 
-        y1 = [ y1 ] if type(y1) in [ float, int ] else y1
-        y2 = [ y2 ] if type(y2) in [ float, int ] else y2
+        y1 = [ y1 ] if type(y1) in [ float, int ] else y1 # TODO: Add support for other numbers
+        y2 = [ y2 ] if type(y2) in [ float, int ] else y2 # TODO: Add support for other numbers
         if len(y1) != len(y2):
             raise ValueError(f"The list of points should be equal; received { len(y1) } start and { len(y2) } end values")
 
@@ -84,6 +98,8 @@ class Slope(LabelledVisualization):
             self._style()
 
         slopes = self._draw(y1, y2, *args, **kwargs)
+        self._add_ticks(y1, y1_ticks, where='left')
+        self._add_ticks(y2, y2_ticks, where='right')
 
         return (slopes, None)
 
@@ -147,3 +163,57 @@ class Slope(LabelledVisualization):
                 max(self.drawable.axes.get_ylim()[1], self.drawable.secondary.get_ylim()[1]))
         self.drawable.axes.set_ylim(ylim)
         self.drawable.secondary.set_ylim(ylim)
+
+    def _add_ticks(self, ticks, labels, where):
+        """
+        Add ticks to the axes.
+
+        :param ticks: The position of the ticks.
+        :type ticks: list of float
+        :param labels: The ticks to add, which can be:
+
+                       - ``None`` (default): The values are used as ticks,
+                       - Empty string: No ticks are added, or
+                       - A string, or a list of strings: Ticks corresponding to each ``y1`` value.
+        :type labels: None or str or list of str
+        :param where: The position of the ticks: ``left`` or ``right``.
+                      If ``left`` is given, the ticks are added to the primary (left) axes.
+                      If ``right`` is given, the ticks are added to the secondary (right) axes.
+        :type where: str
+
+        :raises ValueError: If the tick position is unknown (not ``left`` or ``right``).
+        :raises ValueError: If the number of ticks and labels are not equal.
+        """
+
+        where = where.lower()
+        if where not in [ 'left', 'right' ]:
+            raise ValueError(f"Unknown tick position { where }; expected 'left' or 'right '")
+        axes = self.drawable.axes if where == 'left' else self.drawable.secondary
+
+        """
+        If the labels are ``None``, the ticks are used as labels.
+        If an empty string is given as labels, no ticks are added.
+        """
+        if labels is None:
+            labels = ticks
+        elif labels == '':
+            return
+
+        labels = [ labels ] if type(labels) not in [ list, range ] else labels # convert the labels to a list if they are not a list
+        if len(ticks) != len(labels):
+            raise ValueError(f"The list of ticks and labels should be equal; received { len(ticks) } ticks and { len(labels) } labels")
+
+        """
+        Get the new list of ticks.
+        """
+        _ticks = dict(zip(axes.get_yticks(), axes.get_yticklabels())) # the current ticks
+        _ticks.update(dict(zip(ticks, labels))) # add the new ticks, overwriting old ones in case of overlaps
+
+        """
+        Draw the new ticks.
+        """
+        _ticks = sorted(_ticks.items(), key=lambda _tick: _tick[0])
+        ticks = [ tick for tick, label in _ticks ]
+        labels = [ label for tick, label in _ticks ]
+        axes.set_yticks(ticks)
+        axes.set_yticklabels(labels)
