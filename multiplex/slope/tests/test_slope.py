@@ -29,7 +29,7 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertEqual(tuple, type(viz.draw_slope(5, 5, )))
+        self.assertEqual(list, type(viz.draw_slope(5, 5)))
 
     @MultiplexTest.temporary_plot
     def test_draw_int(self):
@@ -161,10 +161,9 @@ class TestSlope(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         result = viz.draw_slope(0, 0, style_plot=False)
-        self.assertEqual(tuple, type(result))
+        self.assertEqual(list, type(result))
         self.assertTrue(len(result))
-        self.assertEqual(list, type(result[0]))
-        self.assertEqual(Line2D, type(result[0][0]))
+        self.assertEqual(Line2D, type(result[0]))
 
     @MultiplexTest.temporary_plot
     def test_draw_correct_points(self):
@@ -175,7 +174,7 @@ class TestSlope(MultiplexTest):
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         y1, y2 = 1, 5
         result = viz.draw_slope(y1, y2, style_plot=False)
-        line = result[0][0]
+        line = result[0]
         self.assertEqual(2, len(line.get_path().vertices))
         self.assertEqual((0, y1), tuple(line.get_path().vertices[0]))
         self.assertEqual((1, y2), tuple(line.get_path().vertices[1]))
@@ -189,7 +188,7 @@ class TestSlope(MultiplexTest):
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         y1, y2 = [ 1, 3 ], [ 5, 4 ]
         result = viz.draw_slope(y1[0], y2[0], style_plot=False)
-        line = result[0][0]
+        line = result[0]
         self.assertEqual(2, len(line.get_path().vertices))
         self.assertEqual((0, y1[0]), tuple(line.get_path().vertices[0]))
         self.assertEqual((1, y2[0]), tuple(line.get_path().vertices[1]))
@@ -198,7 +197,7 @@ class TestSlope(MultiplexTest):
         self.assertEqual(2, len(line.get_path().vertices)) # re-check the first line
         self.assertEqual((0, y1[0]), tuple(line.get_path().vertices[0]))
         self.assertEqual((1, y2[0]), tuple(line.get_path().vertices[1]))
-        line = result[0][0] # check the second line
+        line = result[0] # check the second line
         self.assertEqual(2, len(line.get_path().vertices))
         self.assertEqual((0, y1[1]), tuple(line.get_path().vertices[0]))
         self.assertEqual((1, y2[1]), tuple(line.get_path().vertices[1]))
@@ -230,7 +229,7 @@ class TestSlope(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         y1, y2 = range(0, 5), range(5, 0, -1)
-        lines = viz.draw_slope(y1, y2)[0]
+        lines = viz.draw_slope(y1, y2)
         self.assertEqual(5, len(lines))
 
     @MultiplexTest.temporary_plot
@@ -241,7 +240,7 @@ class TestSlope(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         y1, y2 = range(0, 5), range(5, 0, -1)
-        lines = viz.draw_slope(y1, y2)[0]
+        lines = viz.draw_slope(y1, y2)
         self.assertEqual(5, len(lines))
         for line, (_y1, _y2) in zip(lines, zip(y1, y2)):
             self.assertEqual((0, _y1), tuple(line.get_path().vertices[0]))
@@ -255,7 +254,7 @@ class TestSlope(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         y1, y2 = range(0, 5), range(5, 0, -1)
-        lines = viz.draw_slope(y1, y2)[0]
+        lines = viz.draw_slope(y1, y2)
         self.assertTrue(all( line.get_path().vertices[0][0] == 0 for line in lines ))
 
     @MultiplexTest.temporary_plot
@@ -266,7 +265,7 @@ class TestSlope(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         y1, y2 = range(0, 5), range(5, 0, -1)
-        lines = viz.draw_slope(y1, y2)[0]
+        lines = viz.draw_slope(y1, y2)
         self.assertTrue(all( line.get_path().vertices[1][0] == 1 for line in lines ))
 
     @MultiplexTest.temporary_plot

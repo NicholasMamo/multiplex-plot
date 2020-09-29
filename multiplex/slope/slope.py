@@ -105,9 +105,8 @@ class Slope(LabelledVisualization):
                          This list too can be made up of ``None``, empty strings or any other value with the same behavior as above.
         :type y2_ticks: None or str or list
 
-        :return: A tuple made up of the drawn plot and any drawn labels.
-                 If the legend label is drawn, only a string is returned.
-        :rtype: tuple
+        :return: The drawn plot.
+        :rtype: :class:`matplotlib.lines.Line2D`
 
         :raises ValueError: When the ``y1`` and ``y2`` parameters are lists of unequal length.
         :raises ValueError: If the number of start points and start tick labels are not equal.
@@ -129,7 +128,7 @@ class Slope(LabelledVisualization):
         self._add_ticks(y1, y1_ticks, where='left')
         self._add_ticks(y2, y2_ticks, where='right')
 
-        return (slopes, None)
+        return slopes
 
     def _style(self):
         """
