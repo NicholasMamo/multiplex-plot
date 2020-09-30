@@ -109,15 +109,13 @@ class Slope(LabelledVisualization):
         :return: The drawn plot.
         :rtype: :class:`matplotlib.lines.Line2D`
 
-        :raises ValueError: When the ``y1`` and ``y2`` parameters are lists of unequal length.
+        :raises ValueError: If the ``y1`` and ``y2`` parameters are lists of unequal length.
         :raises ValueError: If the number of start points and start tick labels are not equal.
         :raises ValueError: If the number of end points and end tick labels are not equal.
         """
 
         y1 = [ y1 ] if isinstance(y1, Number) else y1
         y2 = [ y2 ] if isinstance(y2, Number) else y2
-        if len(y1) != len(y2):
-            raise ValueError(f"The list of points should be equal; received { len(y1) } start and { len(y2) } end values")
 
         """
         Re-style the plot if need be.
@@ -169,13 +167,18 @@ class Slope(LabelledVisualization):
         The accepted styling options are those supported by the `matplotlib.pyplot.plot <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html>`_ method.
 
         :param y1: The starting value of the slope.
-        :type y1: float
+        :type y1: list of float
         :param y2: The end value of the slope.
-        :type y2: float
+        :type y2: list of float
 
         :return: The drawn slopes.
         :rtype: list of :class:`matplotlib.lines.Line2D`
+
+        :raises ValueError: If the ``y1`` and ``y2`` parameters are lists of unequal length.
         """
+
+        if len(y1) != len(y2):
+            raise ValueError(f"The list of points should be equal; received { len(y1) } start and { len(y2) } end values")
 
         slopes = self.drawable.plot([0, 1], [y1, y2], *args, **kwargs)
         self._update_ylim()
