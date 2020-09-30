@@ -211,7 +211,7 @@ Ticks can be:</p>
 </ul>
 <p>For example, the following snippet adds a tick with label ‘0’ on the left y-axis, and a tick with label ‘3’ on the right y-axis.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
-<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y1_ticks</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y2_ticks</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y1_tick</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y2_tick</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Multiplex overwrites ticks if you provide <code class="docutils literal notranslate"><span class="pre">None</span></code> or a value for the tick labels, but not if you provide an empty string.
@@ -219,7 +219,7 @@ If you are creating multiple slopes at the same time, <code class="docutils lite
 You can, however, provide a list of ticks labels corresponding to each slope.
 For example, the next snippet adds ‘A’ and ‘B’ on the left y-axis, and ‘3’ and ‘5’ as ticks on the right y-axis.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
-<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span> <span class="p">],</span> <span class="n">y1_ticks</span><span class="o">=</span><span class="p">[</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span> <span class="p">],</span> <span class="n">y2_ticks</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span> <span class="p">],</span> <span class="n">y1_tick</span><span class="o">=</span><span class="p">[</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span> <span class="p">],</span> <span class="n">y2_tick</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="py class">
@@ -231,7 +231,7 @@ In these cases, the <a class="reference internal" href="drawable.html#labelled.L
 <p>Like all visualizations, it revolves around the <a class="reference internal" href="#slope.slope.Slope.draw" title="slope.slope.Slope.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
 <dl class="py method">
 <dt id="slope.slope.Slope.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y1</span></em>, <em class="sig-param"><span class="n">y2</span></em>, <em class="sig-param"><span class="n">y1_ticks</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y2_ticks</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">style_plot</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#slope.slope.Slope.draw" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y1</span></em>, <em class="sig-param"><span class="n">y2</span></em>, <em class="sig-param"><span class="n">y1_tick</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y2_tick</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">style_plot</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#slope.slope.Slope.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a slope graph.
 The function returns a two-tuple with the drawn plot (a line with optional markers) and any drawn labels.</p>
 <p>Any additional arguments and keyword arguments are used as styling options.
@@ -241,6 +241,28 @@ The accepted styling options are those supported by the <a class="reference exte
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>y1</strong> (<em>float</em><em> or </em><em>list of float</em>) – The start value of the slope, or a list of start values.</p></li>
 <li><p><strong>y2</strong> (<em>float</em><em> or </em><em>list of float</em>) – The end value of the slope, or a list of end values.</p></li>
+<li><p><strong>y1_tick</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list</em>) – <p>The tick label to show on the left side, which can be:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): Adds the values as ticks,</p></li>
+<li><p>Empty string: Add no ticks, or</p></li>
+<li><p>Other (such as a string): Add the given value as a label.</p></li>
+</ul>
+<p>If you are drawing a list of slopes, you can provide a list.
+This list too can be made up of <code class="docutils literal notranslate"><span class="pre">None</span></code>, empty strings or any other value with the same behavior as above.</p>
+</p></li>
+<li><p><strong>y2_tick</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list</em>) – <p>The tick label to show on the right side, which can be:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): Adds the values as ticks,</p></li>
+<li><p>Empty string: Add no ticks, or</p></li>
+<li><p>Other (such as a string): Add the given value as a label.</p></li>
+</ul>
+<p>If you are drawing a list of slopes, you can provide a list.
+This list too can be made up of <code class="docutils literal notranslate"><span class="pre">None</span></code>, empty strings or any other value with the same behavior as above.</p>
+</p></li>
+<li><p><strong>label</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list</em>) – The slope’s label.
+The label is different from the ticks: ticks show values, labels show the name of the slope.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code> or an empty string is given, no labels added.
+If you provide a list of slopes, you can also provide a list of labels: one for each slope.</p></li>
 <li><p><strong>style_plot</strong> (<em>bool</em>) – <p>A boolean indicating whether the plot should be re-styled.
 If it is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the visualization:</p>
 <ul>
@@ -250,36 +272,17 @@ If it is set to <code class="docutils literal notranslate"><span class="pre">Tru
 <li><p>Adds two x-ticks.</p></li>
 </ul>
 </p></li>
-<li><p><strong>y1_ticks</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list</em>) – <p>The tick labels to show on the left side, which can be:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): Adds the values as ticks,</p></li>
-<li><p>Empty string: Add no ticks, or</p></li>
-<li><p>Other (such as a string): Add the given value as a label.</p></li>
-</ul>
-<p>If you are drawing a list of slopes, you can provide a list.
-This list too can be made up of <code class="docutils literal notranslate"><span class="pre">None</span></code>, empty strings or any other value with the same behavior as above.</p>
-</p></li>
-<li><p><strong>y2_ticks</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list</em>) – <p>The tick labels to show on the right side, which can be:</p>
-<ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): Adds the values as ticks,</p></li>
-<li><p>Empty string: Add no ticks, or</p></li>
-<li><p>Other (such as a string): Add the given value as a label.</p></li>
-</ul>
-<p>If you are drawing a list of slopes, you can provide a list.
-This list too can be made up of <code class="docutils literal notranslate"><span class="pre">None</span></code>, empty strings or any other value with the same behavior as above.</p>
-</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A tuple made up of the drawn plot and any drawn labels.
-If the legend label is drawn, only a string is returned.</p>
+<dd class="field-even"><p>The drawn plot.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>tuple</p>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.lines.Line2D</span></code></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – When the <code class="docutils literal notranslate"><span class="pre">y1</span></code> and <code class="docutils literal notranslate"><span class="pre">y2</span></code> parameters are lists of unequal length.</p></li>
+<li><p><strong>ValueError</strong> – If the <code class="docutils literal notranslate"><span class="pre">y1</span></code> and <code class="docutils literal notranslate"><span class="pre">y2</span></code> parameters are lists of unequal length.</p></li>
 <li><p><strong>ValueError</strong> – If the number of start points and start tick labels are not equal.</p></li>
 <li><p><strong>ValueError</strong> – If the number of end points and end tick labels are not equal.</p></li>
 </ul>

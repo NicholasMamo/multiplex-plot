@@ -318,141 +318,141 @@ class TestSlope(MultiplexTest):
         self.assertEqual(-10.55, viz.secondary.get_ylim()[0])
 
     @MultiplexTest.temporary_plot
-    def test_draw_y1_ticks_None(self):
+    def test_draw_y1_tick_None(self):
         """
         Test that when drawing ticks and setting the start ticks to ``None``, the start values are used as ticks.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 0, 5 ], [ -10, 3 ], y1_ticks=None)
+        viz.draw_slope([ 0, 5 ], [ -10, 3 ], y1_tick=None)
         self.assertEqual([ 0, 5 ], list(viz.axes.get_yticks()))
 
     @MultiplexTest.temporary_plot
-    def test_draw_y2_ticks_None(self):
+    def test_draw_y2_tick_None(self):
         """
         Test that when drawing ticks and setting the end ticks to ``None``, the end values are used as ticks.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 0, 5 ], [ -10, 3 ], y2_ticks=None)
+        viz.draw_slope([ 0, 5 ], [ -10, 3 ], y2_tick=None)
         self.assertEqual([ -10, 3 ], list(viz.secondary.get_yticks()))
 
     @MultiplexTest.temporary_plot
-    def test_draw_y1_ticks_empty(self):
+    def test_draw_y1_tick_empty(self):
         """
         Test that when drawing ticks and setting the start ticks to an empty string, no ticks are added.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 0, 5 ], [ -10, 3 ], y1_ticks='')
+        viz.draw_slope([ 0, 5 ], [ -10, 3 ], y1_tick='')
         self.assertEqual([ ], list(viz.axes.get_yticks()))
 
     @MultiplexTest.temporary_plot
-    def test_draw_y2_ticks_empty(self):
+    def test_draw_y2_tick_empty(self):
         """
         Test that when drawing ticks and setting the end ticks to an empty string, no ticks are added.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 0, 5 ], [ -10, 3 ], y2_ticks='')
+        viz.draw_slope([ 0, 5 ], [ -10, 3 ], y2_tick='')
         self.assertEqual([ ], list(viz.secondary.get_yticks()))
 
     @MultiplexTest.temporary_plot
-    def test_draw_y1_ticks_unequal(self):
+    def test_draw_y1_tick_unequal(self):
         """
         Test that when the number of start ticks is not equal to the number of slopes, the function raises a ValueError.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertRaises(ValueError, viz.draw_slope, [ 0, 5 ], [ -10, 3 ], y1_ticks=[ 'label' ])
+        self.assertRaises(ValueError, viz.draw_slope, [ 0, 5 ], [ -10, 3 ], y1_tick=[ 'label' ])
 
     @MultiplexTest.temporary_plot
-    def test_draw_y2_ticks_unequal(self):
+    def test_draw_y2_tick_unequal(self):
         """
         Test that when the number of end ticks is not equal to the number of slopes, the function raises a ValueError.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertRaises(ValueError, viz.draw_slope, [ 0, 5 ], [ -10, 3 ], y1_ticks=[ 'label' ])
+        self.assertRaises(ValueError, viz.draw_slope, [ 0, 5 ], [ -10, 3 ], y1_tick=[ 'label' ])
 
     @MultiplexTest.temporary_plot
-    def test_draw_y1_ticks_string(self):
+    def test_draw_y1_tick_string(self):
         """
         Test that when using a string for the start tick of one slope, it is added as a tick label.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope(5, 6, y1_ticks='label')
+        viz.draw_slope(5, 6, y1_tick='label')
         self.assertEqual([ 'label' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
-    def test_draw_y2_ticks_string(self):
+    def test_draw_y2_tick_string(self):
         """
         Test that when using a string for the end tick of one slope, it is added as a tick label.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope(5, 6, y2_ticks='label')
+        viz.draw_slope(5, 6, y2_tick='label')
         self.assertEqual([ 'label' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
-    def test_draw_y1_ticks_number(self):
+    def test_draw_y1_tick_number(self):
         """
         Test that when using a number for the start tick of one slope, it is added as a label.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope(5, 6, y1_ticks=20)
+        viz.draw_slope(5, 6, y1_tick=20)
         self.assertEqual([ '20' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
-    def test_draw_y2_ticks_number(self):
+    def test_draw_y2_tick_number(self):
         """
         Test that when using a number for the end tick of one slope, it is added as a label.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope(5, 6, y2_ticks=20)
+        viz.draw_slope(5, 6, y2_tick=20)
         self.assertEqual([ '20' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
-    def test_draw_y1_ticks_list_of_string(self):
+    def test_draw_y1_tick_list_of_string(self):
         """
         Test that when using a list of strings for the start tick of one slope, they are all added as tick labels.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ 'label 1', 'label 2' ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_tick=[ 'label 1', 'label 2' ])
         self.assertEqual([ 'label 1', 'label 2' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
-    def test_draw_y2_ticks_list_of_string(self):
+    def test_draw_y2_tick_list_of_string(self):
         """
         Test that when using a list of strings for the end tick of one slope, they are all added as tick labels.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ 'label 1', 'label 2' ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_tick=[ 'label 1', 'label 2' ])
         self.assertEqual([ 'label 1', 'label 2' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
-    def test_draw_y1_ticks_series(self):
+    def test_draw_y1_tick_series(self):
         """
         Test that when using a list of strings for the start tick of one slope, they are all added as tick labels.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=pd.Series([ 'label 1', 'label 2' ]))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_tick=pd.Series([ 'label 1', 'label 2' ]))
         self.assertEqual([ 'label 1', 'label 2' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
-    def test_draw_y2_ticks_series(self):
+    def test_draw_y2_tick_series(self):
         """
         Test that when using a list of strings for the end tick of one slope, they are all added as tick labels.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=pd.Series([ 'label 1', 'label 2' ]))
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_tick=pd.Series([ 'label 1', 'label 2' ]))
         self.assertEqual([ 'label 1', 'label 2' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
@@ -462,7 +462,7 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ None, None ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_tick=[ None, None ])
         self.assertEqual([ f"{ tick }" for tick in viz.axes.get_yticks() ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
@@ -472,7 +472,7 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ None, None ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_tick=[ None, None ])
         self.assertEqual([ f"{ tick }" for tick in viz.secondary.get_yticks() ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
@@ -482,7 +482,7 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ 'label', None ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_tick=[ 'label', None ])
         self.assertEqual([ 'label', '5' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
@@ -492,7 +492,7 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ 'label', None ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_tick=[ 'label', None ])
         self.assertEqual([ 'label', '4' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
@@ -502,10 +502,10 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ 'label', None ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_tick=[ 'label', None ])
         self.assertEqual([ 'label', '5' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
-        viz.draw_slope([ 3, 7 ], [ 2, 4 ], y1_ticks=[ None, None ])
+        viz.draw_slope([ 3, 7 ], [ 2, 4 ], y1_tick=[ None, None ])
         self.assertEqual([ '3', '5', '7' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
@@ -515,10 +515,10 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ 'label', None ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_tick=[ 'label', None ])
         self.assertEqual([ 'label', '4' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
-        viz.draw_slope([ 3, 7 ], [ 2, 6 ], y2_ticks=[ None, None ])
+        viz.draw_slope([ 3, 7 ], [ 2, 6 ], y2_tick=[ None, None ])
         self.assertEqual([ '2', '4', '6' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
@@ -528,7 +528,7 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ '', '' ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_tick=[ '', '' ])
         self.assertEqual([ ], list(viz.axes.get_yticks()))
         self.assertEqual([ ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
@@ -539,7 +539,7 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ '', '' ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_tick=[ '', '' ])
         self.assertEqual([ ], list(viz.secondary.get_yticks()))
         self.assertEqual([ ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
@@ -550,7 +550,7 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ None, '' ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_tick=[ None, '' ])
         self.assertEqual([ 3 ], list(viz.axes.get_yticks()))
         self.assertEqual([ '3' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
@@ -561,7 +561,7 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ None, '' ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_tick=[ None, '' ])
         self.assertEqual([ 2 ], list(viz.secondary.get_yticks()))
         self.assertEqual([ '2' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
@@ -572,10 +572,10 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_ticks=[ 'label', None ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y1_tick=[ 'label', None ])
         self.assertEqual([ 'label', '5' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
-        viz.draw_slope([ 3, 7 ], [ 2, 4 ], y1_ticks=[ '', None ])
+        viz.draw_slope([ 3, 7 ], [ 2, 4 ], y1_tick=[ '', None ])
         self.assertEqual([ 'label', '5', '7' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
@@ -585,10 +585,10 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_ticks=[ 'label', None ])
+        viz.draw_slope([ 3, 5 ], [ 2, 4 ], y2_tick=[ 'label', None ])
         self.assertEqual([ 'label', '4' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
-        viz.draw_slope([ 3, 7 ], [ 2, 6 ], y2_ticks=[ '', None ])
+        viz.draw_slope([ 3, 7 ], [ 2, 6 ], y2_tick=[ '', None ])
         self.assertEqual([ 'label', '4', '6' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
@@ -598,7 +598,7 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 5, 3 ], [ 2, 4 ], y1_ticks=[ 'label 1', 'label 2' ])
+        viz.draw_slope([ 5, 3 ], [ 2, 4 ], y1_tick=[ 'label 1', 'label 2' ])
         self.assertEqual([ 3, 5 ], list(viz.axes.get_yticks()))
         self.assertEqual([ 'label 2', 'label 1' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
@@ -609,7 +609,7 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 5, 3 ], [ 4, 2 ], y2_ticks=[ 'label 1', 'label 2' ])
+        viz.draw_slope([ 5, 3 ], [ 4, 2 ], y2_tick=[ 'label 1', 'label 2' ])
         self.assertEqual([ 2, 4 ], list(viz.secondary.get_yticks()))
         self.assertEqual([ 'label 2', 'label 1' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
@@ -650,11 +650,11 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 3, 5 ], [ 10, 15 ], y1_ticks=[ 'A', 'C' ])
+        viz.draw_slope([ 3, 5 ], [ 10, 15 ], y1_tick=[ 'A', 'C' ])
         self.assertEqual([ 3, 5 ], list(viz.axes.get_yticks()))
         self.assertEqual([ 'A', 'C' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
-        viz.draw_slope(3, 7, y1_ticks='B')
+        viz.draw_slope(3, 7, y1_tick='B')
         self.assertEqual([ 3, 5 ], list(viz.axes.get_yticks()))
         self.assertEqual([ 'B', 'C' ], [ label.get_text() for label in viz.axes.get_yticklabels() ])
 
@@ -665,11 +665,11 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_slope([ 6, 5 ], [ 10, 15 ], y2_ticks=[ 'A', 'C' ])
+        viz.draw_slope([ 6, 5 ], [ 10, 15 ], y2_tick=[ 'A', 'C' ])
         self.assertEqual([ 10, 15 ], list(viz.secondary.get_yticks()))
         self.assertEqual([ 'A', 'C' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
-        viz.draw_slope(3, 10, y2_ticks='B')
+        viz.draw_slope(3, 10, y2_tick='B')
         self.assertEqual([ 10, 15 ], list(viz.secondary.get_yticks()))
         self.assertEqual([ 'B', 'C' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
