@@ -120,6 +120,7 @@ class Slope(LabelledVisualization):
         :raises ValueError: If the ``y1`` and ``y2`` parameters are lists of unequal length.
         :raises ValueError: If the number of start points and start tick labels are not equal.
         :raises ValueError: If the number of end points and end tick labels are not equal.
+        :raises ValueError: If the number of slopes and labels are not equal.
         """
 
         y1 = [ y1 ] if isinstance(y1, Number) else y1
@@ -289,3 +290,7 @@ class Slope(LabelledVisualization):
         """
         if labels is None or (isinstance(labels, str) and labels == ''):
             return
+
+        labels = [ labels ] if (not isinstance(labels, Iterable) or isinstance(labels, str)) else labels # convert the labels to a list if they are not a list
+        if len(y1) != len(labels):
+            raise ValueError(f"The list of slopes and labels should be equal; received { len(y1) } ticks and { len(labels) } labels")
