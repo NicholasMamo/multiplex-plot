@@ -174,6 +174,8 @@ def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs
     :rtype: float
     """
 
+    transform = axes.transData if transform is None else transform
+
     """
     Draw a dummy token first.
     Some styling options are set specifically for the bbox.
@@ -189,8 +191,8 @@ def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs
     Therefore it is transformed from the provided axes coordinates to pixels.
     """
     wordspacing = wordspacing or 0
-    wordspacing_px = (axes.transData.transform((wordspacing, 0))[0] -
-                      axes.transData.transform((0, 0))[0])
+    wordspacing_px = (transform.transform((wordspacing, 0))[0] -
+                      transform.transform((0, 0))[0])
     token = axes.text(0, 0, 'None', bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
                       *args, **kwargs)
 
