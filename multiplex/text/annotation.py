@@ -344,9 +344,8 @@ class Annotation():
         axes = self.drawable.axes
         transform = transform if transform is not None else axes.transData
 
-        linespacing = util.get_linespacing(figure, axes, wordspacing, transform=transform, *args, **kwargs) * lineheight
-        if wordspacing is None:
-            wordspacing = linespacing / 10.
+        wordspacing = wordspacing if wordspacing is not None else text_util.get_wordspacing(figure, axes, transform=transform, *args, **kwargs)
+        linespacing = text_util.get_linespacing(figure, axes, wordspacing, transform=transform, *args, **kwargs) * lineheight
 
         """
         Go through each token and draw it on the axes.

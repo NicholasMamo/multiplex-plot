@@ -33,8 +33,7 @@ import re
 
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '.'))
-import text_util
-import util
+import text_util, util
 
 from annotation import Annotation
 from visualization import Visualization
@@ -163,7 +162,7 @@ class TextAnnotation(Visualization):
         """
         Draw a legend if it is requested.
         """
-        linespacing = util.get_linespacing(figure, axes, wordspacing, *args, **kwargs)
+        linespacing = text_util.get_linespacing(figure, axes, wordspacing, *args, **kwargs)
         labels = self._draw_legend(tokens, lines, wordspacing, linespacing,
                                    *args, **kwargs) if with_legend else [ [] ] * len(lines)
 

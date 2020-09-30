@@ -17,7 +17,7 @@ from matplotlib.transforms import Bbox
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from text.annotation import Annotation
-import util
+import text_util, util
 
 class Legend(object):
     """
@@ -101,7 +101,7 @@ class Legend(object):
             Then, draw the line first and the annotation second.
             """
             offset = self._get_offset(transform=axes.transAxes)
-            linespacing = util.get_linespacing(figure, axes, transform=axes.transAxes, **default_style)
+            linespacing = text_util.get_linespacing(figure, axes, transform=axes.transAxes, **default_style)
             y = 1.05
             if axes.xaxis.get_label_position() == 'top':
                 y += self.drawable._get_xlabel(transform=axes.transAxes).height * 2
