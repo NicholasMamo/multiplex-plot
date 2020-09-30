@@ -674,6 +674,26 @@ class TestSlope(MultiplexTest):
         self.assertEqual([ 'B', 'C' ], [ label.get_text() for label in viz.secondary.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
+    def test_draw_labels_none(self):
+        """
+        Test that when providing ``None`` as the labels, the visualization adds no labels.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 6, 5 ], [ 10, 15 ], label=None)
+        self.assertEqual([ ], viz.slope.labels)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_labels_empty(self):
+        """
+        Test that when providing an empty string as the labels, the visualization adds no labels.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_slope([ 6, 5 ], [ 10, 15 ], label='')
+        self.assertEqual([ ], viz.slope.labels)
+
+    @MultiplexTest.temporary_plot
     def test_add_ticks_unknown_where(self):
         """
         Test that when the ``where`` parameter is not 'left' or 'right', the function raises a ValueError.

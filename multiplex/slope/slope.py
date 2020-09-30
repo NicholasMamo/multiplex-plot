@@ -67,7 +67,10 @@ class Slope(LabelledVisualization):
     Like all visualizations, it revolves around the :func:`~Slope.draw` function.
     """
 
-    def draw(self, y1, y2, y1_ticks=None, y2_ticks=None, style_plot=True, *args, **kwargs):
+    def draw(self, y1, y2,
+             y1_ticks=None, y2_ticks=None,
+             label=None,
+             style_plot=True, *args, **kwargs):
         """
         Draw a slope graph.
         The function returns a two-tuple with the drawn plot (a line with optional markers) and any drawn labels.
@@ -79,14 +82,6 @@ class Slope(LabelledVisualization):
         :type y1: float or list of float
         :param y2: The end value of the slope, or a list of end values.
         :type y2: float or list of float
-        :param style_plot: A boolean indicating whether the plot should be re-styled.
-                           If it is set to ``True``, the visualization:
-
-                           - Removes the grid,
-                           - Hides the x-axis
-                           - Hides the y-axis, and
-                           - Adds two x-ticks.
-        :type style_plot: bool
         :param y1_ticks: The tick labels to show on the left side, which can be:
 
                          - ``None`` (default): Adds the values as ticks,
@@ -105,6 +100,19 @@ class Slope(LabelledVisualization):
                          If you are drawing a list of slopes, you can provide a list.
                          This list too can be made up of ``None``, empty strings or any other value with the same behavior as above.
         :type y2_ticks: None or str or list
+        :param label: The slope's label.
+                      The label is different from the ticks: ticks show values, labels show the name of the slope.
+                      If ``None`` or an empty string is given, no labels added.
+                      If you provide a list of slopes, you can also provide a list of labels: one for each slope.
+        :type label: None or str or list
+        :param style_plot: A boolean indicating whether the plot should be re-styled.
+                           If it is set to ``True``, the visualization:
+
+                           - Removes the grid,
+                           - Hides the x-axis
+                           - Hides the y-axis, and
+                           - Adds two x-ticks.
+        :type style_plot: bool
 
         :return: The drawn plot.
         :rtype: :class:`matplotlib.lines.Line2D`
@@ -126,6 +134,7 @@ class Slope(LabelledVisualization):
         slopes = self._draw(y1, y2, *args, **kwargs)
         self._add_ticks(y1, y1_ticks, where='left')
         self._add_ticks(y2, y2_ticks, where='right')
+        self._add_labels(y1, y2, label)
 
         return slopes
 
@@ -254,3 +263,29 @@ class Slope(LabelledVisualization):
         labels = [ label for tick, label in _ticks ]
         axes.set_yticks(ticks)
         axes.set_yticklabels(labels)
+
+    def _add_labels(self, y1, y2, labels):
+        """
+        Add labels to the slopes.
+        Labels are added on the outer part of the plot, so left of the left axis and right of the right axis.
+
+        Unlike ticks, there is no option for the labels on the left to be different from the labels on the right.
+        This is simply because it doesn't make sense for one slope to have different labels, or names.
+
+        :param y1: The start position of the slopes on the left.
+        :type y1: list of float
+        :param y2: The end position of the slopes on the right.
+        :type y2: list of float
+        :param labels: The slopes' labels.
+                       If ``None`` or an empty string is given, no labels added.
+                       If you provide a list of slopes, you can also provide a list of labels: one for each slope.
+        :type labels: None or str or list
+
+        :raises ValueError: If the number of slopes and labels are not equal.
+        """
+
+        """
+        If the labels are ``None`` or an empty string is given, no labels are added.
+        """
+        if labels is None or (isinstance(labels, str) and labels == ''):
+            return
