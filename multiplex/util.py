@@ -174,13 +174,15 @@ def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs
     :rtype: float
     """
 
+    # TODO: Move to text utilities
+
     transform = axes.transData if transform is None else transform
 
     """
     Draw a dummy token first.
     Some styling options are set specifically for the bbox.
     """
-    bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' }
+    bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' } # TODO: Create new text utility function
     for arg in bbox_kwargs:
         if arg in kwargs:
             bbox_kwargs[arg] = kwargs.get(arg)
@@ -203,6 +205,52 @@ def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs
     height = bb.height
     token.remove()
     return height
+
+def get_wordspacing(figure, axes, transform=None, *args, **kwargs):
+    """
+    Calculate the word spacing of text tokens.
+    The word spacing is given as half a sample character.
+    The token is immediately removed so it is not visible on the plot.
+
+    When calculating the word spacing, it is important to provide the style as ``args`` and ``kwargs``.
+    In this way, the word spacing considers the font, font size and other attributes that may affect the word spacing.
+
+    :param figure: The figure that the component occupies.
+                   This is used to get the figure renderer.
+    :type figure: :class:`matplotlib.figure.Figure`
+    :param axes: The axes (or subplot) where the component is plotted.
+    :type axes: :class:`matplotlib.axes.Axes`
+    :param transform: The bounding box transformation.
+                      If `None` is given, the data transformation is used.
+    :type transform: None or :class:`matplotlib.transforms.TransformNode`
+
+    :return: The word spacing.
+    :rtype: float
+    """
+
+    # TODO: Move to text utilities
+
+    transform = axes.transData if transform is None else transform
+
+    """
+    Draw a dummy token first.
+    Some styling options are set specifically for the bbox.
+    """
+    bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None', 'pad': 0 } # TODO: Create new text utility function
+    for arg in bbox_kwargs:
+        if arg in kwargs:
+            bbox_kwargs[arg] = kwargs.get(arg)
+            del kwargs[arg]
+
+    token = axes.text(0, 0, '—', bbox=dict(**bbox_kwargs), *args, **kwargs)
+
+    """
+    Get the height from the bbox.
+    """
+    bb = get_bb(figure, axes, token, transform)
+    width = bb.width
+    token.remove()
+    return width / 4.
 
 def get_alignment(align, end=False):
     """
