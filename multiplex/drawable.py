@@ -143,7 +143,7 @@ class Drawable():
 
         # redraw all annotations
         for annotation in self.annotations:
-            annotation.redraw
+            annotation.redraw()
 
         self._redraw_title()
         self._redraw_caption()
