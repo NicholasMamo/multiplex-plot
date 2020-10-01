@@ -87,3 +87,52 @@ class TestLabelledVisualization(MultiplexTest):
             for l2 in viz.labels[(i + 1):]:
                 bb1, bb2 = l1.get_virtual_bb(), l2.get_virtual_bb()
                 self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_unchanged_axes(self):
+        """
+        Test that when redrawing without changing the axes, the labels do not move.
+        """
+
+        viz = DummyLabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
+        l1 = viz.draw_label('Label 1', (0 , 1), 0)
+        l2 = viz.draw_label('Label 2', (0 , 1), 1)
+        pre_bb1, pre_bb2 = l1.get_virtual_bb(), l2.get_virtual_bb()
+        self.assertFalse(util.overlapping_bb(pre_bb1, pre_bb2))
+
+        # redraw and make sure that the labels did not move
+        viz.redraw()
+        post_bb1, post_bb2 = l1.get_virtual_bb(), l2.get_virtual_bb()
+        self.assertFalse(util.overlapping_bb(post_bb1, post_bb2))
+
+        self.assertEqual(pre_bb1.x0, post_bb1.x0)
+        self.assertEqual(pre_bb1.y0, post_bb1.y0)
+        self.assertEqual(pre_bb1.x1, post_bb1.x1)
+        self.assertEqual(pre_bb1.y1, post_bb1.y1)
+
+        self.assertEqual(pre_bb2.x0, post_bb2.x0)
+        self.assertEqual(pre_bb2.y0, post_bb2.y0)
+        self.assertEqual(pre_bb2.x1, post_bb2.x1)
+        self.assertEqual(pre_bb2.y1, post_bb2.y1)
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_overlapping(self):
+        """
+        Test that when labels that overlapped no longer overlap after redrawing.
+        """
+
+        viz = DummyLabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
+        l1 = viz.draw_label('Label 1', (0 , 1), 0)
+        l2 = viz.draw_label('Label 2', (0 , 1), 1)
+        pre_bb1, pre_bb2 = l1.get_virtual_bb(), l2.get_virtual_bb()
+        self.assertFalse(util.overlapping_bb(pre_bb1, pre_bb2))
+
+        # increase the size of the y-axis so that the labels overlap
+        viz.drawable.set_ylim((0, 100))
+        post_bb1, post_bb2 = l1.get_virtual_bb(), l2.get_virtual_bb()
+        self.assertTrue(util.overlapping_bb(post_bb1, post_bb2))
+
+        # redraw and make sure that the labels did not move
+        viz.redraw()
+        post_bb1, post_bb2 = l1.get_virtual_bb(), l2.get_virtual_bb()
+        self.assertFalse(util.overlapping_bb(post_bb1, post_bb2))

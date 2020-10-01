@@ -91,6 +91,15 @@ class LabelledVisualization(Visualization):
         self._arrange_labels(annotation, max_iterations=max_iterations)
         return annotation
 
+    def redraw(self):
+        """
+        Re-draw the visualization.
+        This function arranges the labels so that if they overlap (because the axes changed), they no longer overlap.
+        """
+
+        super().redraw()
+        self._arrange_labels()
+
     def _arrange_labels(self, labels=None, max_iterations=10):
         """
         Go through the labels and ensure that none overlap.
