@@ -92,7 +92,7 @@ class Drawable():
         self.figure = figure
         self.axes = plt.gca() if axes is None else axes
         self.secondary = self.axes
-        self.caption = Annotation(self)
+        self.caption = None
 
         self.annotations = [ ]
         self.legend = Legend(self)
@@ -120,11 +120,11 @@ class Drawable():
         :rtype: :class:`~text.annotation.Annotation`
         """
 
-        self.caption = Annotation(self)
-        self.caption.draw(caption, (0, 1), 1,
-                          va='bottom', alpha=alpha, lineheight=lineheight,
-                          transform=self.axes.transAxes,
-                          *args, **kwargs)
+        self.caption = Annotation(self, caption, (0, 1), 1,
+                                  va='bottom', alpha=alpha, lineheight=lineheight,
+                                  transform=self.axes.transAxes,
+                                  *args, **kwargs)
+        self.caption.draw()
         self.redraw()
         return self.caption
 
@@ -145,14 +145,17 @@ class Drawable():
         for annotation in self.annotations:
             annotation.redraw()
 
-        self._redraw_title()
-        self._redraw_caption()
         self.legend.redraw()
+        self._redraw_caption()
+        self._redraw_title()
 
     def _redraw_caption(self):
         """
         Re-draw the caption, re-positioning so that it does not overlap with the legend or axes.
         """
+
+        if not self.caption:
+            return
 
         figure, axes = self.figure, self.axes
 
@@ -175,6 +178,7 @@ class Drawable():
                 y += max(xtick_labels_bb, key=lambda bb: bb.height).height * 2
 
         pad = 0.1
+        self.caption.redraw()
         self.caption.set_position((0, y + pad), ha='left', va='bottom', transform=self.axes.transAxes)
 
     def _redraw_title(self):
@@ -191,7 +195,7 @@ class Drawable():
         The title should allow enough padding to make space for both.
         """
         caption_height = 0
-        if str(self.caption):
+        if self.caption:
             caption_height = util.to_px(axes, self.caption.get_virtual_bb(transform=axes.transAxes),
                                         transform=axes.transAxes).height
 
@@ -336,7 +340,7 @@ class Drawable():
         :rtype: :class:`~text.annotation.Annotation`
         """
 
-        annotation = Annotation(self)
+        annotation = Annotation(self, text, x, y, pad=pad, *args, **kwargs)
         self.figure.canvas.draw()
 
         """
@@ -354,7 +358,6 @@ class Drawable():
             elif kwargs.get('align') == 'center':
                 self.axes.plot((x[0] + x[1])/2., y, *args, **marker)
 
-        tokens = annotation.draw(text, x, y, pad=pad, *args, **kwargs)
         self.annotations.append(annotation)
 
         return annotation
