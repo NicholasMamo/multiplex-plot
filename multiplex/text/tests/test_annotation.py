@@ -23,7 +23,17 @@ class TestAnnotation(MultiplexTest):
     """
 
     @MultiplexTest.temporary_plot
-    def test_text(self):
+    def test_init_annotation_None(self):
+        """
+        Test that the annotation's original annotation is ``None`` by default.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz)
+        self.assertEqual(None, annotation._annotation)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_text(self):
         """
         Test that the text is written correctly.
         """
@@ -37,7 +47,7 @@ class TestAnnotation(MultiplexTest):
         self.assertEqual(text, drawn_text)
 
     @MultiplexTest.temporary_plot
-    def test_align_left(self):
+    def test_draw_align_left(self):
         """
         Test that when aligning text left, all lines start at the same x-coordinate.
         """
@@ -48,7 +58,7 @@ class TestAnnotation(MultiplexTest):
         lines = annotation.draw(text, (0, 2), 0, align='left', va='top')
 
     @MultiplexTest.temporary_plot
-    def test_align_right(self):
+    def test_draw_align_right(self):
         """
         Test that when aligning text right, all lines end at the same x-coordinate.
         """
@@ -67,7 +77,7 @@ class TestAnnotation(MultiplexTest):
             self.assertEqual(round(x, 5), round(bb.x1, 5))
 
     @MultiplexTest.temporary_plot
-    def test_align_center(self):
+    def test_draw_align_center(self):
         """
         Test that when centering text, all of the lines' centers are the same.
         """
@@ -88,7 +98,7 @@ class TestAnnotation(MultiplexTest):
             self.assertEqual(round(x, 5), round(center, 5))
 
     @MultiplexTest.temporary_plot
-    def test_align_justify(self):
+    def test_draw_align_justify(self):
         """
         Test that when justifying text, all lines start and end at the same x-coordinate.
         The calculation is made on the center since the bboxes of text do not start or end at the exact same coordinate.
@@ -110,7 +120,7 @@ class TestAnnotation(MultiplexTest):
             self.assertEqual(round(x, 5), round(center, 5))
 
     @MultiplexTest.temporary_plot
-    def test_align_justify_left(self):
+    def test_draw_align_justify_left(self):
         """
         Test that when justifying text with the last line being left-aligned, the last line starts at x-coordinate 0.
         """
@@ -124,7 +134,7 @@ class TestAnnotation(MultiplexTest):
         self.assertEqual(0, bb.x0)
 
     @MultiplexTest.temporary_plot
-    def test_align_justify_right(self):
+    def test_draw_align_justify_right(self):
         """
         Test that when justifying text with the last line being right-aligned, the last line ends at the farthest right.
         """
@@ -138,7 +148,7 @@ class TestAnnotation(MultiplexTest):
         self.assertEqual(2, round(bb.x1, 5))
 
     @MultiplexTest.temporary_plot
-    def test_align_justify_center(self):
+    def test_draw_align_justify_center(self):
         """
         Test that when justifying text with the last line centered, all lines have the exact same center.
         """
@@ -159,7 +169,7 @@ class TestAnnotation(MultiplexTest):
             self.assertEqual(round(x, 5), round(center, 5))
 
     @MultiplexTest.temporary_plot
-    def test_align_invalid(self):
+    def test_draw_align_invalid(self):
         """
         Test that when an invalid alignment is given, a :class:`~ValueError` is raised.
         """
@@ -170,7 +180,7 @@ class TestAnnotation(MultiplexTest):
         self.assertRaises(ValueError, annotation.draw, text, (0, 2), 0, va='top', align='invalid')
 
     @MultiplexTest.temporary_plot
-    def test_align_top_order(self):
+    def test_draw_align_top_order(self):
         """
         Test that when the vertical alignment is top, the order of lines is still correct.
         """
@@ -184,7 +194,7 @@ class TestAnnotation(MultiplexTest):
         self.assertEqual('ground.', lines[-1][-1].get_text())
 
     @MultiplexTest.temporary_plot
-    def test_align_bottom_order(self):
+    def test_draw_align_bottom_order(self):
         """
         Test that when the vertical alignment is bottom, the order of lines is still correct.
         """
@@ -198,7 +208,7 @@ class TestAnnotation(MultiplexTest):
         self.assertEqual('ground.', lines[-1][-1].get_text())
 
     @MultiplexTest.temporary_plot
-    def test_align_top(self):
+    def test_draw_align_top(self):
         """
         Test that when the alignment is top, all lines are below the provided y-coordinate.
         """
@@ -215,7 +225,7 @@ class TestAnnotation(MultiplexTest):
             self.assertLessEqual(0, bb.y1)
 
     @MultiplexTest.temporary_plot
-    def test_align_bottom(self):
+    def test_draw_align_bottom(self):
         """
         Test that when the alignment is top, all lines are above the provided y-coordinate.
         """
@@ -232,7 +242,7 @@ class TestAnnotation(MultiplexTest):
             self.assertGreaterEqual(0, bb.y0)
 
     @MultiplexTest.temporary_plot
-    def test_align_top_line_alignment(self):
+    def test_draw_align_top_line_alignment(self):
         """
         Test that the lines all have the same vertical position when they are aligned to the top.
         """
@@ -251,7 +261,7 @@ class TestAnnotation(MultiplexTest):
                 self.assertEqual(y0, bb.y0)
 
     @MultiplexTest.temporary_plot
-    def test_align_bottom_line_alignment(self):
+    def test_draw_align_bottom_line_alignment(self):
         """
         Test that the lines all have the same vertical position when they are aligned to the top.
         """
@@ -270,7 +280,7 @@ class TestAnnotation(MultiplexTest):
                 self.assertEqual(y1, bb.y1)
 
     @MultiplexTest.temporary_plot
-    def test_align_top_lines_do_not_overlap(self):
+    def test_draw_align_top_lines_do_not_overlap(self):
         """
         Test that when annotations are vertically aligned to the top, the lines do not overlap.
         """
@@ -287,7 +297,7 @@ class TestAnnotation(MultiplexTest):
             self.assertGreaterEqual(bb0.y0, bb1.y1)
 
     @MultiplexTest.temporary_plot
-    def test_align_bottom_lines_do_not_overlap(self):
+    def test_draw_align_bottom_lines_do_not_overlap(self):
         """
         Test that when annotations are vertically aligned to the bottom, the lines do not overlap.
         """

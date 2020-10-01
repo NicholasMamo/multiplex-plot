@@ -64,6 +64,7 @@ class Annotation():
 
         self.drawable = drawable
         self.lines = [ ]
+        self._annotation = None
 
     def draw(self, annotation, x, y, wordspacing=None, lineheight=1.25,
              align='left', va='top', pad=0, *args, **kwargs):
