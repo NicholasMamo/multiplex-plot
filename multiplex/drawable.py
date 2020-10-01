@@ -134,9 +134,13 @@ class Drawable():
         Afterwards, it redraws the legend.
         """
 
+        self.figure.canvas.draw()
         self._redraw_title()
         self._redraw_caption()
         self.legend.redraw()
+
+        # TODO: Redraw all visualizations
+        # TODO: Redraw all annotations
 
     def _redraw_caption(self):
         """
