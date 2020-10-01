@@ -51,7 +51,7 @@ class LabelledVisualization(Visualization):
 
         pass
 
-    def draw_label(self, label, x, y, va='center', max_iterations=10, *args, **kwargs):
+    def draw_label(self, label, x, y, va='center', max_iterations=100, *args, **kwargs):
         """
         Draw a label at the end of the line.
 
@@ -102,7 +102,7 @@ class LabelledVisualization(Visualization):
             label.redraw()
         self._arrange_labels()
 
-    def _arrange_labels(self, labels=None, max_iterations=10):
+    def _arrange_labels(self, labels=None, max_iterations=100):
         """
         Go through the labels and ensure that none overlap.
         If any do overlap, move the labels.
@@ -160,7 +160,8 @@ class LabelledVisualization(Visualization):
         labels = [ labels ] if type(labels) is not list else labels # change a single label to a list
         labels = labels or all
 
-        overlapping_labels = [ [ label ] for label in all ]
+        overlapping_labels = [ [ label ] for label in all
+                                         if label not in labels ]
         for label in labels:
             assigned = False
 
