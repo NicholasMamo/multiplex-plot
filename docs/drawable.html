@@ -519,6 +519,14 @@ The purpose of this function is two-fold:</p>
 If the function draws multiple components, it can return them as a tuple.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt id="visualization.Visualization.redraw">
+<code class="sig-name descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization.redraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-draw the visualization.
+This is mostly used for parts of the visualization that moved around because the axes limits changed, like annotations.
+By default, this function does nothing.</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt id="visualization.Visualization.__weakref__">
 <code class="sig-name descname">__weakref__</code><a class="headerlink" href="#visualization.Visualization.__weakref__" title="Permalink to this definition">¶</a></dt>
@@ -569,7 +577,7 @@ If the function draws multiple components, it can return them as a tuple.</p>
 
 <dl class="py method">
 <dt id="labelled.LabelledVisualization.draw_label">
-<code class="sig-name descname">draw_label</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">va</span><span class="o">=</span><span class="default_value">'center'</span></em>, <em class="sig-param"><span class="n">max_iterations</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw_label" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw_label</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">va</span><span class="o">=</span><span class="default_value">'center'</span></em>, <em class="sig-param"><span class="n">max_iterations</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a label at the end of the line.</p>
 <p>Any additional arguments and keyword arguments are passed on to the <a class="reference internal" href="text.html#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">text.annotation.Annotation.draw()</span></code></a> function.</p>
 <dl class="field-list simple">
@@ -596,6 +604,13 @@ If the vertical alignment is <cite>bottom</cite>, the annotation grows up.</p></
 <dd class="field-odd"><p><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="labelled.LabelledVisualization.redraw">
+<code class="sig-name descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.redraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-draw the visualization.
+This function arranges the labels so that if they overlap (because the axes changed), they no longer overlap.</p>
 </dd></dl>
 
 </dd></dl>
