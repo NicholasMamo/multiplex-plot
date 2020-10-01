@@ -215,8 +215,8 @@ class Legend(object):
         figure = self.drawable.figure
         axes = self.drawable.axes
 
-        annotation = Annotation(self.drawable)
-        annotation.draw(label, (x, 1), y, va=va, transform=axes.transAxes, **kwargs)
+        annotation = Annotation(self.drawable, label, (x, 1), y, va=va, transform=axes.transAxes, **kwargs)
+        annotation.draw()
         return annotation
 
     @draw
