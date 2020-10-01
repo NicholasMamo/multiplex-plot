@@ -83,7 +83,6 @@ class TestLabelledVisualization(MultiplexTest):
         for letter in string.ascii_letters[:4]:
             viz.draw_label(letter, 0, 0)
 
-        viz.drawable.savefig('debug.png')
         for i, l1 in enumerate(viz.labels):
             for l2 in viz.labels[(i + 1):]:
                 bb1, bb2 = l1.get_virtual_bb(), l2.get_virtual_bb()
