@@ -33,6 +33,23 @@ class TestAnnotation(MultiplexTest):
         self.assertEqual(None, annotation._annotation)
 
     @MultiplexTest.temporary_plot
+    def test_draw_save(self):
+        """
+        Test that when drawing an annotation, the function saves the original annotation, position and style.
+        """
+
+        text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz)
+        annotation.draw(text, (0, 2), 0, align='left', va='top', color='red')
+        self.assertEqual(text, annotation._annotation)
+        self.assertEqual((0, 2), annotation._x)
+        self.assertEqual(0, annotation._y)
+        self.assertEqual({ 'wordspacing': None, 'lineheight': 1.25,
+                           'align': 'left', 'va': 'top', 'pad': 0,
+                           'color': 'red' }, annotation._style)
+
+    @MultiplexTest.temporary_plot
     def test_draw_text(self):
         """
         Test that the text is written correctly.

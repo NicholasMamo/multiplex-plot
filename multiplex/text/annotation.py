@@ -45,11 +45,23 @@ class Annotation():
     The name of this variable comes from the fact that the :class:`~Annotation` is mainly concerned with organizing the text.
     The annotation draws every bit of the text as a token and organizes these tokens into lines.
 
+    In addition to the drawn tokens, the annotation stores the original annotation, position and style.
+    This information is used when the annotation is re-drawn.
+
     :ivar drawable: The :class:`~drawable.Drawable` where the time series visualization will be drawn.
     :vartype drawable: :class:`~drawable.Drawable`
     :ivar lines: The lines drawn by the annotation.
                  Each line in turn is made up of a list of tokens as :class:`matplotlib.text.Text`.
     :vartype lines: list of list of :class:`matplotlib.text.Text`
+
+    :ivar _annotation: The original annotation.
+    :vartype _annotation: str or list of str or list of dict
+    :ivar _x: A tuple representing the x-range for the annotation.
+    :vartype _x: tuple
+    :ivar _y: The y-position of the annotation.
+    :vartype_y: float
+    :ivar _style: The general style of the annotation.
+    :vartype _style: dict
     """
 
     def __init__(self, drawable):
@@ -152,14 +164,18 @@ class Annotation():
         :rtype: list of :class:`matplotlib.text.Text`
         """
 
+        # save the original style.
+        self._annotation = annotation
+        self._x, self._y = x, y
+        self._style = { 'wordspacing': wordspacing, 'lineheight': lineheight,
+                        'align': align, 'va': va, 'pad': pad, **kwargs }
+
         if type(x) is not tuple and type(x) is not list:
             x = (x, self.drawable.axes.get_xlim()[1])
 
         x, y = self._pad(x, y, pad, va)
 
-        """
-        Gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
-        """
+        # gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
         tokens = annotation.split() if type(annotation) is str else annotation
         for i, token in enumerate(tokens):
             if type(token) is str:
@@ -168,9 +184,7 @@ class Annotation():
         tokens = self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs)
         self.lines.extend(tokens)
 
-        """
-        If the vertical alignment is meant to be centered, center the annotation now.
-        """
+        # if the vertical alignment is meant to be centered, center the annotation now.
         if va == 'center':
             self._center(self.get_virtual_bb().x0, y, *args, **kwargs)
 
