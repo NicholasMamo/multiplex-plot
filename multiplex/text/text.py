@@ -154,10 +154,10 @@ class TextAnnotation(Visualization):
         """
         Draw the text as an annotation first.
         """
-        annotation = Annotation(self.drawable)
-        lines = annotation.draw(tokens, (lpad, axes.get_xlim()[1] - rpad), 0,
-                                 wordspacing=wordspacing, lineheight=lineheight,
-                                 align=align, va='top', *args, **kwargs)
+        annotation = Annotation(self.drawable, tokens, (lpad, axes.get_xlim()[1] - rpad), 0,
+                                wordspacing=wordspacing, lineheight=lineheight,
+                                align=align, va='top', *args, **kwargs)
+        lines = annotation.draw()
 
         """
         Draw a legend if it is requested.
