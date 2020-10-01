@@ -242,6 +242,11 @@ def align(figure, axes, items, align='left', xpad=0,
         The process therefore first calculates the space between items.
         Then, it calculates the empty space to fill the line.
         """
+
+        # do not justify if there is only one item
+        if len(items) == 1:
+            return
+
         space = 0
         for i in range(len(items) - 1):
             space += (get_bb(figure, axes, items[i + 1], transform=transform).x0 -
