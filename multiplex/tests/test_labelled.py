@@ -30,6 +30,7 @@ class TestLabelledVisualization(MultiplexTest):
 
         viz = DummyLabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
         label = viz.draw_label('A', 4, 10, va='center')
+        viz.redraw()
         self.assertEqual(4, label.get_virtual_bb().x0)
         self.assertEqual(10, (label.get_virtual_bb().y0 + label.get_virtual_bb().y1)/2.)
 
@@ -42,35 +43,10 @@ class TestLabelledVisualization(MultiplexTest):
         viz = DummyLabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
         label1 = viz.draw_label('A', 4, 10)
         label2 = viz.draw_label('B', 4, 10)
+        viz.redraw()
 
         self.assertEqual(label1.get_virtual_bb().x0, label2.get_virtual_bb().x0)
         self.assertFalse(util.overlapping_bb(label1.get_virtual_bb(), label2.get_virtual_bb()))
-
-    @MultiplexTest.temporary_plot
-    def no_test_overlapping_labels_efficiency(self):
-        """
-        Test that when adding many labels such that they do not overlap, the function does not waste time arranging them.
-        To test this, the check for the first label should approximately take as long as the check for the last label.
-        """
-
-        viz = DummyLabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
-
-        # Add the first letter
-        label = viz.draw_label(string.ascii_letters[0], 0, 0)
-        # Add the second letter (for some reason the first one takes longer)
-        t0 = time.time()
-        label = viz.draw_label(string.ascii_letters[1], label.get_virtual_bb().x1, 0)
-        t0 = time.time() - t0
-
-        # Add all the other letters except the last one
-        for letter in string.ascii_letters[2:-1]:
-            label = viz.draw_label(letter, label.get_virtual_bb().x1, 0)
-
-        # Add the last letter
-        t1 = time.time()
-        label = viz.draw_label(string.ascii_letters[-1], 0, 0)
-        t1 = time.time() - t1
-        self.assertLess(t1, t0 * 10)
 
     @MultiplexTest.temporary_plot
     def test_overlapping_labels_all(self):
@@ -82,6 +58,7 @@ class TestLabelledVisualization(MultiplexTest):
 
         for letter in string.ascii_letters[:4]:
             viz.draw_label(letter, 0, 0)
+        viz.redraw()
 
         for i, l1 in enumerate(viz.labels):
             for l2 in viz.labels[(i + 1):]:
@@ -97,6 +74,7 @@ class TestLabelledVisualization(MultiplexTest):
         viz = DummyLabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
         l1 = viz.draw_label('Label 1', (0 , 1), 0)
         l2 = viz.draw_label('Label 2', (0 , 1), 1)
+        viz.redraw()
         pre_bb1, pre_bb2 = l1.get_virtual_bb(), l2.get_virtual_bb()
         self.assertFalse(util.overlapping_bb(pre_bb1, pre_bb2))
 
@@ -124,6 +102,7 @@ class TestLabelledVisualization(MultiplexTest):
         viz = DummyLabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
         l1 = viz.draw_label('Label 1', (0 , 1), 0)
         l2 = viz.draw_label('Label 2', (0 , 1), 1)
+        viz.redraw()
         pre_bb1, pre_bb2 = l1.get_virtual_bb(), l2.get_virtual_bb()
         self.assertFalse(util.overlapping_bb(pre_bb1, pre_bb2))
 
