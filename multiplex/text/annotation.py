@@ -163,7 +163,12 @@ class Annotation(Visualization):
         :return: The drawn annotation's lines.
                  Each line is made up of a list of tokens.
         :rtype: list of :class:`matplotlib.text.Text`
+
+        :raises Exception: If the annotation has already been drawn.
         """
+
+        if self._annotation:
+            raise Exception("Cannot draw over an existing annotation")
 
         # save the original style.
         self._annotation = annotation

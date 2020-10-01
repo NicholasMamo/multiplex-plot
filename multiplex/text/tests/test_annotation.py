@@ -50,6 +50,18 @@ class TestAnnotation(MultiplexTest):
                            'color': 'red' }, annotation._style)
 
     @MultiplexTest.temporary_plot
+    def test_draw_multiple(self):
+        """
+        Test that when drawing an annotation multiple times, the second time it raises an Exception.
+        """
+
+        text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz)
+        annotation.draw(text, (0, 2), 0, align='left', va='top', color='red')
+        self.assertRaises(Exception, annotation.draw, text, (0, 2), 0, align='left', va='top', color='red')
+
+    @MultiplexTest.temporary_plot
     def test_draw_text(self):
         """
         Test that the text is written correctly.
