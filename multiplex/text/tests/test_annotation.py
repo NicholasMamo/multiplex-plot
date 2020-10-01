@@ -747,7 +747,7 @@ class TestAnnotation(MultiplexTest):
         self.assertGreaterEqual(1, bb.x1)
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_left(self):
+    def test_draw_x_pad_left(self):
         """
         Test that when padding is applied with `left` alignment, the block moves to the right.
         """
@@ -760,7 +760,7 @@ class TestAnnotation(MultiplexTest):
         self.assertEqual(0.2, round(bb.x0, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_center(self):
+    def test_draw_x_pad_center(self):
         """
         Test that when padding is applied with `center` alignment, the block is narrower.
         """
@@ -774,7 +774,7 @@ class TestAnnotation(MultiplexTest):
         self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_right(self):
+    def test_draw_x_pad_right(self):
         """
         Test that when padding is applied with `right` alignment, the block moves to the left.
         """
@@ -787,7 +787,7 @@ class TestAnnotation(MultiplexTest):
         self.assertEqual(0.8, round(bb.x1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_justify_start(self):
+    def test_draw_x_pad_justify_start(self):
         """
         Test that when padding is applied with `justify-start` alignment, the block moves to the right.
         """
@@ -800,7 +800,7 @@ class TestAnnotation(MultiplexTest):
         self.assertEqual(0.2, round(bb.x0, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_justify_center(self):
+    def test_draw_x_pad_justify_center(self):
         """
         Test that when padding is applied with `justify-center` alignment, the block is narrower.
         """
@@ -814,7 +814,7 @@ class TestAnnotation(MultiplexTest):
         self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_justify_end(self):
+    def test_draw_x_pad_justify_end(self):
         """
         Test that when padding is applied with `justify-end` alignment, the block moves to the left.
         """
@@ -827,7 +827,7 @@ class TestAnnotation(MultiplexTest):
         self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_equal(self):
+    def test_draw_x_pad_equal(self):
         """
         Test that when applying padding, the block is equally-narrower on both sides.
         """
@@ -841,7 +841,7 @@ class TestAnnotation(MultiplexTest):
         self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_y_pad_top(self):
+    def test_draw_y_pad_top(self):
         """
         Test that when applying padding with `top` vertical alignment, the block moves down.
         """
@@ -854,7 +854,7 @@ class TestAnnotation(MultiplexTest):
         self.assertEqual(-0.2, round(bb.y1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_y_pad_center(self):
+    def test_draw_y_pad_center(self):
         """
         Test that when applying padding with `center` vertical alignment, the block remains in place.
         """
@@ -867,7 +867,7 @@ class TestAnnotation(MultiplexTest):
         self.assertEqual(0, round((bb.y0 + bb.y1)/2., 10))
 
     @MultiplexTest.temporary_plot
-    def test_y_pad_bottom(self):
+    def test_draw_y_pad_bottom(self):
         """
         Test that when applying padding with `bottom` vertical alignment, the block moves up.
         """
@@ -878,6 +878,107 @@ class TestAnnotation(MultiplexTest):
         annotation.draw(text, (0, 1), 0, pad=0.2, va='bottom')
         bb = annotation.get_virtual_bb()
         self.assertEqual(0.2, round(bb.y0, 10))
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_same_text(self):
+        """
+        Test that when re-drawing an annotation, the same text is used.
+        """
+
+        text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz)
+        lines = annotation.draw(text, (0, 1), 0, va='bottom')
+        viz.set_xlim((0, 100))
+        self.assertEqual(self._reconstruct_text(lines), self._reconstruct_text(annotation.redraw()))
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_same_position(self):
+        """
+        Test that when re-drawing an annotation, it is placed in the same position.
+        """
+
+        text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz)
+        annotation.draw(text, (0, 2), 0, align='justify', va='bottom')
+        bb = annotation.get_virtual_bb()
+        self.assertEqual(0, bb.x0)
+        self.assertEqual(2, round(bb.x1, 2))
+
+        # increase the limit of the x-axes
+        viz.set_xlim((0, 10))
+        annotation.redraw()
+        bb = annotation.get_virtual_bb()
+        self.assertEqual(0, bb.x0)
+        self.assertEqual(2, round(bb.x1, 2))
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_same_style(self):
+        """
+        Test that when re-drawing an annotation, it retains the same style.
+        """
+
+        text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz)
+        lines = annotation.draw(text, (0, 2), 0, va='bottom', color='red')
+        self.assertTrue(all( token.get_color() == 'red'
+                             for line in lines
+                             for token in line ))
+
+        # redraw and re-test
+        lines = annotation.redraw()
+        self.assertTrue(all( token.get_color() == 'red'
+                             for line in lines
+                             for token in line ))
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_with_custom_style(self):
+        """
+        Test that when re-drawing an annotation that has a custom style, the new style is used.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz)
+        text = [{ 'text': 'Memphis', 'style': { 'color': 'red' }  },
+                { 'text': 'Depay',   'style': { 'color': 'blue' } }]
+        lines = annotation.draw(text, (0, 2), 0, va='bottom')
+        tokens = [ token for line in lines
+                         for token in line ]
+        self.assertEqual('red', tokens[0].get_color())
+        self.assertEqual('blue', tokens[1].get_color())
+
+        # redraw and re-test
+        lines = annotation.redraw()
+        tokens = [ token for line in lines
+                         for token in line ]
+        self.assertEqual('red', tokens[0].get_color())
+        self.assertEqual('blue', tokens[1].get_color())
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_overlapping(self):
+        """
+        Test that when re-drawing an annotation, the new annotation's tokens does not overlap.
+        """
+
+        text = 'Memphis Depay'
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz)
+        lines = annotation.draw(text, (0, 2), 0, align='justify', va='bottom')
+        tokens = [ token for line in lines
+                         for token in line ]
+        self.assertFalse(util.overlapping(viz.figure, viz.axes, *tokens))
+
+        # increase the limit of the x-axes
+        viz.set_xlim((0, 100))
+        self.assertTrue(util.overlapping(viz.figure, viz.axes, *tokens))
+
+        # redraw and the tokens should no longer overlap
+        lines = annotation.redraw()
+        tokens = [ token for line in lines
+                         for token in line ]
+        self.assertFalse(util.overlapping(viz.figure, viz.axes, *tokens))
 
     def _reconstruct_text(self, lines):
         """
@@ -892,4 +993,4 @@ class TestAnnotation(MultiplexTest):
         :rtype: str
         """
 
-        return ' '.join([ ' '.join([ token.get_text() for token in line ]) for line in lines ])
+        return ' '.join([ ' '.join([ token.get_text() for token in line ]) for line in lines ]).strip()

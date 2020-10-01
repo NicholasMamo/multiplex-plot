@@ -266,11 +266,11 @@ class Annotation(Visualization):
         figure = self.drawable.figure
         axes = self.drawable.axes
 
-        bb = self.get_virtual_bb(transform=transform)
         """
         Calculate the x-offset by which every token needs to be moved.
         The offset depends on the horizontal alignment.
         """
+        bb = self.get_virtual_bb(transform=transform)
         if ha == 'left':
             offset_x = bb.x0 - position[0]
         elif ha == 'center':
@@ -295,9 +295,7 @@ class Annotation(Visualization):
 
         offset = (offset_x, offset_y)
 
-        """
-        Go through each token and move them individually.
-        """
+        # go through each token and move them individually.
         for line in self.lines:
             for token in line:
                 bb = util.get_bb(figure, axes, token, transform=transform)
@@ -307,6 +305,24 @@ class Annotation(Visualization):
                     token.set_position((bb.x0 - offset[0], bb.y1 - offset[1]))
                 elif va == 'bottom':
                     token.set_position((bb.x0 - offset[0], bb.y0 - offset[1]))
+
+    def redraw(self):
+        """
+        Re-draw the annotation.
+        This function re-constructs the entire annotation from scratch.
+
+        This function should be called if the axes change as the text tokens could end up overlapping.
+
+        :return: The drawn annotation's lines.
+                 Each line is made up of a list of tokens.
+        :rtype: list of :class:`matplotlib.text.Text`
+        """
+
+        super().redraw()
+        self.remove()
+        annotation = self._annotation
+        self._annotation = None
+        return self.draw(annotation, self._x, self._y, **self._style)
 
     def remove(self):
         """
@@ -388,7 +404,7 @@ class Annotation(Visualization):
             va = 'top' if va == 'center' else va
             text = text_util.draw_token(figure, axes, token.get('text'), offset,
                                         y - len(drawn_lines) * linespacing if va == 'top' else y,
-                                        token.get('style', {}), wordspacing, va=va,
+                                        token.get('style', { }), wordspacing, va=va,
                                         transform=transform, *args, **kwargs)
             line_tokens.append(text)
 
@@ -402,7 +418,7 @@ class Annotation(Visualization):
             Therefore when the last token is removed from drawn lines when create a new line, the change is reflected here.
             """
             bb = util.get_bb(figure, axes, text, transform=transform)
-            if bb.x1 > x[1] and token.get('text') not in string.punctuation:
+            if len(line_tokens) > 1 and bb.x1 > x[1] and token.get('text') not in string.punctuation:
                 self._newline(line_tokens, drawn_lines, linespacing, x[0], y, va, transform=transform)
                 util.align(figure, axes, line_tokens, xpad=wordspacing,
                            align=util.get_alignment(align), xlim=x, va=va, transform=transform)
