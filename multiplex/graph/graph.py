@@ -160,6 +160,7 @@ class Graph(LabelledVisualization):
         nodes = self._draw_nodes(G.nodes, positions, **node_style)
         node_names = self._draw_node_names(G.nodes, positions,
                                            s=node_style.get('s', 100), **name_style)
+        self.drawable.figure.canvas.draw()
         edges = self._draw_edges(G.edges, G.nodes, positions,
                                  s=node_style.get('s', 100),
                                  directed=nx.is_directed(G), **edge_style)
