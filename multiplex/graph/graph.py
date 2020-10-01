@@ -263,6 +263,7 @@ class Graph(LabelledVisualization):
                 # TODO: Add support for drawing names on the left or right of nodes.
                 annotation = self.draw_label(name, (x - pad * 2, x + pad * 2), y,
                                              pad=pad, **default_style)
+                annotation.draw()
                 annotations[node] = annotation
 
         return annotations
@@ -404,8 +405,8 @@ class Graph(LabelledVisualization):
                 """
                 Draw the annotation to get an idea of its width and remove it immediately.
                 """
-                annotation = Annotation(self.drawable)
-                annotation.draw([ name ], (u[0]), u[1], **default_style)
+                annotation = Annotation(self.drawable, [ name ], (u[0]), u[1], **default_style)
+                annotation.draw()
                 bb = annotation.get_virtual_bb()
                 annotation.remove()
 
@@ -415,11 +416,11 @@ class Graph(LabelledVisualization):
                     """
                     radius = self._get_radius(nodes[source],
                                               s=nodes[source].get('style', { }).get('s', s))
-                    annotation = Annotation(self.drawable)
                     x = ( u[0] - bb.width / 2.,
                            u[0] + bb.width / 2. )
                     y = u[1] + radius[1] * 2 + bb.height
-                    annotation.draw([ name ], x, y, **default_style)
+                    annotation = Annotation(self.drawable, [ name ], x, y, **default_style)
+                    annotation.draw()
                     continue
 
                 """
@@ -435,11 +436,11 @@ class Graph(LabelledVisualization):
                 The annotation's x-position is bound rigidly based on the width of the annotation.
                 The y-position is based on the angle. This is because the horizontal alignment is always set to `left`.
                 """
-                annotation = Annotation(self.drawable)
                 x = ( u[0] + direction[0] * distance / 2. - bb.width / 2.,
                        u[0] + direction[0] * distance / 2. + bb.width / 2. )
                 y = u[1] + direction[1] * distance / 2. + bb.height / 2. * math.sin(angle) * (math.degrees(angle) > 0)
-                annotation.draw([ name ], x, y, rotation=math.degrees(angle), **default_style)
+                annotation = Annotation(self.drawable, [ name ], x, y, rotation=math.degrees(angle), **default_style)
+                annotation.draw()
                 annotations[(source, target)] = annotation
 
         return annotations
