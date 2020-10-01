@@ -98,6 +98,8 @@ class LabelledVisualization(Visualization):
         """
 
         super().redraw()
+        for label in self.labels:
+            label.redraw()
         self._arrange_labels()
 
     def _arrange_labels(self, labels=None, max_iterations=10):
