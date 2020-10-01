@@ -55,35 +55,24 @@ class Annotation(Visualization):
                  Each line in turn is made up of a list of tokens as :class:`matplotlib.text.Text`.
     :vartype lines: list of list of :class:`matplotlib.text.Text`
 
-    :ivar _annotation: The original annotation.
-    :vartype _annotation: str or list of str or list of dict
-    :ivar _x: A tuple representing the x-range for the annotation.
-    :vartype _x: tuple
-    :ivar _y: The y-position of the annotation.
-    :vartype_y: float
-    :ivar _style: The general style of the annotation.
-    :vartype _style: dict
+    :ivar annotation: The original annotation.
+    :vartype annotation: str or list of str or list of dict
+    :ivar x: A tuple representing the x-range for the annotation.
+    :vartype x: tuple
+    :ivar y: The y-position of the annotation.
+    :vartype_: float
+    :ivar style: The general style of the annotation.
+    :vartype style: dict
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, drawable, annotation, x, y, wordspacing=None,
+                 lineheight=1.25, align='left', va='top', pad=0, *args, **kwargs):
         """
         Initialize the :class:`~Annotation` with the :class:`~drawable.Drawable`.
         The :class:`~Annotation` uses the :class:`~drawable.Drawable`'s figure to get the renderer and the axes to draw the text.
         The constructor also creates an instance variable with the lines in the :class:`~Annotation`.
 
-        :param drawable: The :class:`~drawable.Drawable` where the text visualization will be drawn.
-        :type drawable: :class:`~drawable.Drawable`
-        """
-
-        super().__init__(*args, **kwargs)
-        self.lines = [ ]
-        self._annotation = None
-
-    def draw(self, annotation, x, y, wordspacing=None, lineheight=1.25,
-             align='left', va='top', pad=0, *args, **kwargs):
-        """
-        Draw a text annotation on the plot.
-        This function requires three types of inputs:
+        In addition to the :class:`~drawable.Drawable`, the class requires three types of inputs:
 
             1. The text to draw,
             2. The x-bounds for the annotation, and
@@ -119,6 +108,8 @@ class Annotation(Visualization):
             If in the dictionary's ``style`` of a particular word you set the ``color`` to be ``red``, its color will be ``red``.
             However, since the ``fontsize`` is not specified, it will use the general font size: ``12``.
 
+        :param drawable: The :class:`~drawable.Drawable` where the text visualization will be drawn.
+        :type drawable: :class:`~drawable.Drawable`
         :param annotation: The text data.
                            The visualization expects a string, a `list` of tokens, or a `list` of `dict` instances as shown above.
         :type annotation: str or list of str or list of dict
@@ -159,40 +150,47 @@ class Annotation(Visualization):
                         Note that the padding decreases the width of the annotation.
                         In CSS terms, the box-sizing is the border box.
         :type pad: float
+        """
+
+        super().__init__(drawable, *args)
+
+        self.annotation = annotation
+        self.x, self.y = x, y
+        self.style = { 'wordspacing': wordspacing, 'lineheight': lineheight,
+                       'align': align, 'va': va, 'pad': pad, **kwargs }
+
+        self.lines = [ ]
+
+    def draw(self, *args, **kwargs):
+        """
+        Draw a text annotation on the plot.
 
         :return: The drawn annotation's lines.
                  Each line is made up of a list of tokens.
         :rtype: list of :class:`matplotlib.text.Text`
-
-        :raises Exception: If the annotation has already been drawn.
         """
 
-        if self._annotation:
-            raise Exception("Cannot draw over an existing annotation")
+        x, y = self.x, self.y
+        if type(self.x) is not tuple and type(self.x) is not list: # TODO: make iterable instead
+            x = (self.x, self.drawable.axes.get_xlim()[1])
 
-        # save the original style.
-        self._annotation = annotation
-        self._x, self._y = x, y
-        self._style = { 'wordspacing': wordspacing, 'lineheight': lineheight,
-                        'align': align, 'va': va, 'pad': pad, **kwargs }
-
-        if type(x) is not tuple and type(x) is not list:
-            x = (x, self.drawable.axes.get_xlim()[1])
-
-        x, y = self._pad(x, y, pad, va)
+        style = dict(self.style) # make a copy
+        wordspacing, lineheight = style.pop('wordspacing'), style.pop('lineheight')
+        align, va = style.pop('align'), style.pop('va')
+        x, y = self._pad(x, y, style.pop('pad'), va)
 
         # gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
-        tokens = annotation.split() if type(annotation) is str else annotation
+        tokens = self.annotation.split() if type(self.annotation) is str else self.annotation # TODO: use isinstance instead
         for i, token in enumerate(tokens):
             if type(token) is str:
                 tokens[i] = { 'text': token }
 
-        tokens = self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs)
+        tokens = self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, va, **style) # send whatever remains as the tokens' style
         self.lines.extend(tokens)
 
         # if the vertical alignment is meant to be centered, center the annotation now.
         if va == 'center':
-            self._center(self.get_virtual_bb().x0, y, *args, **kwargs)
+            self._center(self.get_virtual_bb().x0, y, **style)
 
         return tokens
 
@@ -320,9 +318,7 @@ class Annotation(Visualization):
 
         super().redraw()
         self.remove()
-        annotation = self._annotation
-        self._annotation = None
-        return self.draw(annotation, self._x, self._y, **self._style)
+        return self.draw()
 
     def remove(self):
         """
