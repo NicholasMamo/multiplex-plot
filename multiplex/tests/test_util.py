@@ -4,6 +4,7 @@ Unit tests for the :mod:`~util` module.
 
 from matplotlib import lines
 import matplotlib.pyplot as plt
+from matplotlib.transforms import Bbox
 import os
 import string
 import sys
@@ -19,6 +20,186 @@ class TestUtil(MultiplexTest):
     """
     Unit tests for the :mod:`~util` module.
     """
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_non_overlapping(self):
+        """
+        Test that when two bounding boxes do not overlap at all, they do not overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((2, 2), (3, 3)))
+        self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_corner_top_left(self):
+        """
+        Test that when a bounding box is at the top-left corner of another bounding box, the two do not overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((-1, 1), (0, 2)))
+        self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_corner_top_right(self):
+        """
+        Test that when a bounding box is at the top-right corner of another bounding box, the two do not overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((1, 1), (2, 2)))
+        self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_corner_bottom_left(self):
+        """
+        Test that when a bounding box is at the bottom-left corner of another bounding box, the two do not overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((-1, -1), (0, 0)))
+        self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_corner_bottom_right(self):
+        """
+        Test that when a bounding box is at the bottom-right corner of another bounding box, the two do not overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((1, -1), (2, 0)))
+        self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_top_border(self):
+        """
+        Test that when a bounding box is at the top of another bounding box, the two do not overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((0, 1), (1, 2)))
+        self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_right_border(self):
+        """
+        Test that when a bounding box is at the right of another bounding box, the two do not overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((1, 0), (2, 1)))
+        self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_bottom_border(self):
+        """
+        Test that when a bounding box is at the bottom of another bounding box, the two do not overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((0, -1), (1, -2)))
+        self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_left_border(self):
+        """
+        Test that when a bounding box is at the left of another bounding box, the two do not overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((-1, 0), (0, 1)))
+        self.assertFalse(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_top(self):
+        """
+        Test that when a bounding box overlaps at the top of another bounding box, the function returns true.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((0, 0.5), (1, 1.5)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_top_left(self):
+        """
+        Test that when a bounding box overlaps at the top-left of another bounding box, the function returns true.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((-0.5, 0.5), (0.5, 1.5)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_top_right(self):
+        """
+        Test that when a bounding box overlaps at the top-right of another bounding box, the function returns true.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((0.5, 0.5), (1.5, 1.5)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_bottom_right(self):
+        """
+        Test that when a bounding box overlaps at the bottom-right of another bounding box, the function returns true.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((0.5, -0.5), (1.5, 0.5)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def no_test_overlapping_bottom_left(self):
+        """
+        Test that when a bounding box overlaps at the bottom-left of another bounding box, the function returns true.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((-0.5, -0.5), (0.5, 0.5)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_right(self):
+        """
+        Test that when a bounding box overlaps at the right of another bounding box, the function returns true.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((0.5, 0), (1.5, 1)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_bottom(self):
+        """
+        Test that when a bounding box overlaps at the bottom of another bounding box, the function returns true.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((0, -0.5), (1, 0.5)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_left(self):
+        """
+        Test that when a bounding box overlaps at the left of another bounding box, the function returns true.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((-0.5, 0), (0.5, 1)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_exact(self):
+        """
+        Test that when two bounding boxes are the same, they overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((0, 0), (1, 1)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_contains(self):
+        """
+        Test that when a bounding box contains the other, they overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((-1, -1), (2, 2)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_within(self):
+        """
+        Test that when a bounding box is within the other, they overlap.
+        """
+
+        bb1, bb2 = Bbox(((0, 0), (1, 1))), Bbox(((0.25, 0.25), (0.75, 0.75)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
 
     @MultiplexTest.temporary_plot
     def test_get_bb_scatter(self):

@@ -143,10 +143,14 @@ def overlapping_bb(bb1, bb2):
     """
 
     return (
-        (bb2.x0 < bb1.x0 < bb2.x1 or bb2.x0 < bb1.x1 < bb2.x1) and
-        (bb2.y0 < bb1.y0 < bb2.y1 or bb2.y0 < bb1.y1 < bb2.y1) or
-        (bb1.x0 < bb2.x0 < bb1.x1 or bb1.x0 < bb2.x1 < bb1.x1) and
-        (bb1.y0 < bb2.y0 < bb1.y1 or bb1.y0 < bb2.y1 < bb1.y1)
+        (bb2.x0 < bb1.x0 < bb2.x1 or bb2.x0 < bb1.x1 < bb2.x1 or
+         bb1.x0 == bb2.x0 and bb1.x1 == bb2.x1) and
+        (bb2.y0 < bb1.y0 < bb2.y1 or bb2.y0 < bb1.y1 < bb2.y1 or
+         bb1.y0 == bb2.y0 and bb1.y1 == bb2.y1) or
+        (bb1.x0 < bb2.x0 < bb1.x1 or bb1.x0 < bb2.x1 < bb1.x1 or
+         bb1.x0 == bb2.x0 and bb1.x1 == bb2.x1) and
+        (bb1.y0 < bb2.y0 < bb1.y1 or bb1.y0 < bb2.y1 < bb1.y1 or
+         bb1.y0 == bb2.y0 and bb1.y1 == bb2.y1)
     )
 
 def get_alignment(align, end=False):
