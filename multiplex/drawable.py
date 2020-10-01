@@ -133,13 +133,18 @@ class Drawable():
         Re-create the title, with the goal of leaving enough space to fit the caption and the legend.
         Afterwards, it redraws the legend.
         """
-
+        
         self.figure.canvas.draw()
+
+        # redraw all visualizations
+        for viz in [ self.bar100, self.timeseries, self.slope ]:
+            if viz:
+                viz.redraw()
+
         self._redraw_title()
         self._redraw_caption()
         self.legend.redraw()
 
-        # TODO: Redraw all visualizations
         # TODO: Redraw all annotations
 
     def _redraw_caption(self):
