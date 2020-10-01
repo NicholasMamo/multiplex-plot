@@ -35,8 +35,9 @@ from matplotlib.transforms import Bbox
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 import text_util
 import util
+from visualization import Visualization
 
-class Annotation():
+class Annotation(Visualization):
     """
     Although the :class:`~Annotation` is not a visualization, it is also based on a :class:`~drawable.Drawable`.
     Moreover, like any :class:`~visualization.Visualization`, it also revolves around the :func:`~Annotation.draw` method.
@@ -64,7 +65,7 @@ class Annotation():
     :vartype _style: dict
     """
 
-    def __init__(self, drawable):
+    def __init__(self, *args, **kwargs):
         """
         Initialize the :class:`~Annotation` with the :class:`~drawable.Drawable`.
         The :class:`~Annotation` uses the :class:`~drawable.Drawable`'s figure to get the renderer and the axes to draw the text.
@@ -74,7 +75,7 @@ class Annotation():
         :type drawable: :class:`~drawable.Drawable`
         """
 
-        self.drawable = drawable
+        super().__init__(*args, **kwargs)
         self.lines = [ ]
         self._annotation = None
 
