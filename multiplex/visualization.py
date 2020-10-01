@@ -48,3 +48,12 @@ class Visualization(ABC):
         """
 
         pass
+
+    def redraw(self):
+        """
+        Re-draw the visualization.
+        This is mostly used for parts of the visualization that moved around because the axes limits changed, like annotations.
+        By default, this function does nothing.
+        """
+
+        return
