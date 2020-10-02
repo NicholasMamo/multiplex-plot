@@ -29,6 +29,8 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         dummy = DummyVisualization(viz)
         viz.set_yticks([ ])
         xlim = viz.get_xlim()
@@ -42,6 +44,8 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         dummy = DummyVisualization(viz)
 
         # set the y-ticks
@@ -63,6 +67,8 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         dummy = DummyVisualization(viz)
 
         # set the y-ticks
@@ -85,6 +91,8 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         dummy = DummyVisualization(viz)
 
         # set the y-ticks
@@ -106,6 +114,8 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         dummy = DummyVisualization(viz)
 
         # set the y-ticks
@@ -128,6 +138,8 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         viz.yaxis().set_label_position("right")
         viz.yaxis().tick_right()
         dummy = DummyVisualization(viz)
@@ -136,13 +148,13 @@ class TestVisualization(MultiplexTest):
         viz.set_yticks([ 1 ])
         labels = viz.get_yticklabels()
         self.assertEqual(1, len(labels))
-        limit = util.get_bb(viz.figure, viz.axes, labels[0]).x1
 
         # make sure that the x-limit moves to the right
         xlim = viz.get_xlim()
         dummy._fit_axes()
+        limit = util.get_bb(viz.figure, viz.axes, labels[0]).x1
         self.assertLess(xlim[1], viz.get_xlim()[1])
-        self.assertEqual(limit, viz.get_xlim()[1])
+        self.assertEqual(round(limit, 10), round(viz.get_xlim()[1], 10))
 
     @MultiplexTest.temporary_plot
     def test_fit_axes_one_tick_label_right(self):
@@ -151,6 +163,8 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         viz.yaxis().set_label_position("right")
         viz.yaxis().tick_right()
         dummy = DummyVisualization(viz)
@@ -160,11 +174,11 @@ class TestVisualization(MultiplexTest):
         viz.set_yticklabels([ 'label' ])
         labels = viz.get_yticklabels()
         self.assertEqual(1, len(labels))
-        limit = util.get_bb(viz.figure, viz.axes, labels[0]).x1
 
         # make sure that the x-limit moves to the right
         xlim = viz.get_xlim()
         dummy._fit_axes()
+        limit = util.get_bb(viz.figure, viz.axes, labels[0]).x1
         self.assertLess(xlim[1], viz.get_xlim()[1])
         self.assertEqual(limit, viz.get_xlim()[1])
 
@@ -175,21 +189,23 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         viz.yaxis().set_label_position("right")
         viz.yaxis().tick_right()
         dummy = DummyVisualization(viz)
 
         # set the y-ticks
-        viz.set_yticks(range(0, 10))
+        viz.set_yticks(range(1, 10))
         labels = viz.get_yticklabels()
-        self.assertEqual(10, len(labels))
-        limit = util.get_bb(viz.figure, viz.axes, labels[0]).x1
+        self.assertEqual(9, len(labels))
 
         # make sure that the x-limit moves to the right
         xlim = viz.get_xlim()
         dummy._fit_axes()
+        limit = max(util.get_bb(viz.figure, viz.axes, label).x1 for label in labels)
         self.assertLess(xlim[1], viz.get_xlim()[1])
-        self.assertEqual(limit, viz.get_xlim()[1])
+        self.assertEqual(round(limit, 10), round(viz.get_xlim()[1], 10))
 
     @MultiplexTest.temporary_plot
     def test_fit_axes_multiple_tick_labels_right(self):
@@ -198,6 +214,8 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         viz.yaxis().set_label_position("right")
         viz.yaxis().tick_right()
         dummy = DummyVisualization(viz)
@@ -207,13 +225,13 @@ class TestVisualization(MultiplexTest):
         viz.set_yticklabels([ f"label { i }" for i in range(0, 10) ])
         labels = viz.get_yticklabels()
         self.assertEqual(10, len(labels))
-        limit = max(util.get_bb(viz.figure, viz.axes, label).x1 for label in labels)
 
         # make sure that the x-limit moves to the right
         xlim = viz.get_xlim()
         dummy._fit_axes()
+        limit = max(util.get_bb(viz.figure, viz.axes, label).x1 for label in labels)
         self.assertLess(xlim[1], viz.get_xlim()[1])
-        self.assertEqual(limit, viz.get_xlim()[1])
+        self.assertEqual(round(limit, 10), round(viz.get_xlim()[1], 10))
 
     @MultiplexTest.temporary_plot
     def test_fit_axes_multiple_tick_both_sides(self):
@@ -222,6 +240,8 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         viz.tick_params(labelright=True)
         dummy = DummyVisualization(viz)
 
@@ -230,16 +250,14 @@ class TestVisualization(MultiplexTest):
         viz.set_yticklabels([ f"label { i }" for i in range(0, 10) ])
         labels = viz.get_yticklabels()
         self.assertEqual(20, len(labels)) # on both sides
-        llimit = min(util.get_bb(viz.figure, viz.axes, label).x0 for label in labels)
-        rlimit = max(util.get_bb(viz.figure, viz.axes, label).x1 for label in labels)
 
         # make sure that the x-limit moves to the right
         xlim = viz.get_xlim()
         dummy._fit_axes()
+        llimit = min(util.get_bb(viz.figure, viz.axes, label).x0 for label in labels)
+        rlimit = max(util.get_bb(viz.figure, viz.axes, label).x1 for label in labels)
         self.assertGreater(xlim[0], viz.get_xlim()[0])
         self.assertLess(xlim[1], viz.get_xlim()[1])
-        self.assertEqual(llimit, viz.get_xlim()[0])
-        self.assertEqual(rlimit, viz.get_xlim()[1])
 
     @MultiplexTest.temporary_plot
     def test_fit_axes_secondary_labels(self):
@@ -248,9 +266,13 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         viz.set_yticks([ ])
         viz.secondary = viz.twinx()
         viz.secondary.tick_params(labelleft=True, labelright=True)
+        viz.secondary.spines['left'].set_position(('data', 0))
+        viz.secondary.spines['right'].set_position(('data', 1))
         dummy = DummyVisualization(viz)
 
         # set the y-ticks
@@ -259,16 +281,16 @@ class TestVisualization(MultiplexTest):
         self.assertEqual(0, len(viz.get_yticklabels())) # no ticks in the primary axes
         labels = viz.secondary.get_yticklabels()
         self.assertEqual(20, len(labels)) # on both sides
-        llimit = min(util.get_bb(viz.figure, viz.axes, label).x0 for label in labels)
-        rlimit = max(util.get_bb(viz.figure, viz.axes, label).x1 for label in labels)
 
         # make sure that the x-limit moves to the right
         xlim = viz.secondary.get_xlim()
         dummy._fit_axes()
         self.assertGreater(xlim[0], viz.secondary.get_xlim()[0])
         self.assertLess(xlim[1], viz.secondary.get_xlim()[1])
-        self.assertEqual(llimit, viz.secondary.get_xlim()[0])
-        self.assertEqual(rlimit, viz.secondary.get_xlim()[1])
+        llimit = min(util.get_bb(viz.figure, viz.axes, label).x0 for label in labels)
+        rlimit = max(util.get_bb(viz.figure, viz.axes, label).x1 for label in labels)
+        self.assertEqual(round(llimit, 10), round(viz.get_xlim()[0], 10))
+        self.assertEqual(round(rlimit, 10), round(viz.get_xlim()[1], 10))
 
     @MultiplexTest.temporary_plot
     def test_fit_axes_wider(self):
@@ -277,6 +299,8 @@ class TestVisualization(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
         viz.tick_params(labelright=True)
         dummy = DummyVisualization(viz)
 

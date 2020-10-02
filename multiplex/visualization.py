@@ -68,18 +68,31 @@ class Visualization(ABC):
 
         figure, axes, secondary = self.drawable.figure, self.drawable.axes, self.drawable.secondary
 
-        xlim = axes.get_xlim()
         ticks = axes.get_yticklabels() + secondary.get_yticklabels()
 
         # if there are no ticks, do not change the x-limits
         if not ticks:
             return
 
-        # find the leftmost and rightmost axes labels
-        tick_bbs = [ util.get_bb(figure, axes, tick) for tick in ticks ]
-        min_offset, max_offset = min(bb.x0 for bb in tick_bbs), max(bb.x1 for bb in tick_bbs)
-        axes.set_xlim((min(min_offset, xlim[0]), max(max_offset, xlim[1])))
-        secondary.set_xlim((min(min_offset, xlim[0]), max(max_offset, xlim[1])))
+        # find the leftmost and rightmost axes labels and move the axes until convergence
+        xlim = None
+        while xlim != axes.get_xlim():
+            for spine in [ 'left', 'right' ]:
+                xlim = axes.get_xlim()
+                type, _ = axes.spines[spine].get_position()
+                tick_bbs = [ util.get_bb(figure, axes, tick) for tick in ticks ]
+
+                offset = min(bb.x0 for bb in tick_bbs) if spine == 'left' else max(bb.x1 for bb in tick_bbs)
+                if spine == 'left':
+                    axes.set_xlim((min(offset, xlim[0]), xlim[1]))
+                    secondary.set_xlim((min(offset, xlim[0]), xlim[1]))
+                else:
+                    axes.set_xlim((xlim[0], max(offset, xlim[1])))
+                    secondary.set_xlim((xlim[0], max(offset, xlim[1])))
+
+            # if the type of the axes is set at a particular data point, only update the axes once
+            if type != 'data':
+                break
 
 class DummyVisualization(Visualization):
     """
