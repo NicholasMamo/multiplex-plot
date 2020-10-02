@@ -57,3 +57,18 @@ class Visualization(ABC):
         """
 
         return
+class DummyVisualization(Visualization):
+    """
+    The dummy visualization is a simple class used only for testing.
+    Its implementation is based on the visualization, but it has an empty :func:`~visualization.Visualization.draw` function.
+    """
+
+    def draw(self, *args, **kwargs):
+        """
+        The dummy visualization draws nothing, and therefore it returns nothing.
+
+        :return: Nothing.
+        :rtype: `None`
+        """
+
+        return
