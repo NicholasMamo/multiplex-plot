@@ -50,15 +50,17 @@ class TestVisualization(MultiplexTest):
 
         # set the y-ticks
         viz.set_yticks([ 1 ])
-        labels = viz.get_yticklabels()
-        self.assertEqual(1, len(labels))
-        limit = util.get_bb(viz.figure, viz.axes, labels[0]).x0
 
         # make sure that the x-limit moves to the left
         xlim = viz.get_xlim()
         dummy._fit_axes()
         self.assertGreater(xlim[0], viz.get_xlim()[0])
-        self.assertEqual(limit, viz.get_xlim()[0])
+
+        # make sure the axes limit just includes the label
+        labels = viz.get_yticklabels()
+        self.assertEqual(1, len(labels))
+        limit = util.get_bb(viz.figure, viz.axes, labels[0]).x0
+        self.assertEqual(round(limit, 10), round(viz.get_xlim()[0], 10))
 
     @MultiplexTest.temporary_plot
     def test_fit_axes_one_tick_label_left(self):
@@ -74,14 +76,16 @@ class TestVisualization(MultiplexTest):
         # set the y-ticks
         viz.set_yticks([ 1 ])
         viz.set_yticklabels([ 'label' ])
-        labels = viz.get_yticklabels()
-        self.assertEqual(1, len(labels))
-        limit = util.get_bb(viz.figure, viz.axes, labels[0]).x0
 
         # make sure that the x-limit moves to the left
         xlim = viz.get_xlim()
         dummy._fit_axes()
         self.assertGreater(xlim[0], viz.get_xlim()[0])
+
+        # make sure the axes limit just includes the label
+        labels = viz.get_yticklabels()
+        self.assertEqual(1, len(labels))
+        limit = util.get_bb(viz.figure, viz.axes, labels[0]).x0
         self.assertEqual(limit, viz.get_xlim()[0])
 
     @MultiplexTest.temporary_plot
@@ -97,15 +101,17 @@ class TestVisualization(MultiplexTest):
 
         # set the y-ticks
         viz.set_yticks(range(0, 10))
-        labels = viz.get_yticklabels()
-        self.assertEqual(10, len(labels))
-        limit = min(util.get_bb(viz.figure, viz.axes, label).x0 for label in labels)
 
         # make sure that the x-limit moves to the left
         xlim = viz.get_xlim()
         dummy._fit_axes()
         self.assertGreater(xlim[0], viz.get_xlim()[0])
-        self.assertEqual(limit, viz.get_xlim()[0])
+
+        # make sure the axes limit just includes the label
+        labels = viz.get_yticklabels()
+        self.assertEqual(10, len(labels))
+        limit = min(util.get_bb(viz.figure, viz.axes, label).x0 for label in labels)
+        self.assertEqual(round(limit, 10), round(viz.get_xlim()[0], 10))
 
     @MultiplexTest.temporary_plot
     def test_fit_axes_multiple_tick_labels_left(self):
@@ -121,15 +127,16 @@ class TestVisualization(MultiplexTest):
         # set the y-ticks
         viz.set_yticks(range(0, 10))
         viz.set_yticklabels([ f"label { i }" for i in range(0, 10) ])
-        labels = viz.get_yticklabels()
-        self.assertEqual(10, len(labels))
-        limit = min(util.get_bb(viz.figure, viz.axes, label).x0 for label in labels)
 
         # make sure that the x-limit moves to the left
         xlim = viz.get_xlim()
         dummy._fit_axes()
-        self.assertGreater(xlim[0], viz.get_xlim()[0])
-        self.assertEqual(limit, viz.get_xlim()[0])
+
+        # make sure the axes limit just includes the label
+        labels = viz.get_yticklabels()
+        self.assertEqual(10, len(labels))
+        limit = min(util.get_bb(viz.figure, viz.axes, label).x0 for label in labels)
+        self.assertEqual(round(limit, 10), round(viz.get_xlim()[0], 10))
 
     @MultiplexTest.temporary_plot
     def test_fit_axes_one_tick_right(self):
@@ -323,3 +330,76 @@ class TestVisualization(MultiplexTest):
         self.assertGreater(xlim[1], rlimit)
         dummy._fit_axes()
         self.assertEqual(xlim, viz.get_xlim())
+
+    @MultiplexTest.temporary_plot
+    def test_fit_axes_outward(self):
+        """
+        Test that when fitting outward axes, nothing changes.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('outward', 0))
+        viz.axes.spines['right'].set_position(('outward', 1))
+        viz.tick_params(labelright=True)
+        dummy = DummyVisualization(viz)
+
+        # set the y-ticks
+        viz.set_yticks(range(0, 10))
+        viz.set_yticklabels([ f"label { i }" for i in range(0, 10) ])
+        labels = viz.get_yticklabels()
+        self.assertEqual(20, len(labels))
+
+        # make sure that the x-limit does not move after fitting it
+        xlim = viz.get_xlim()
+        dummy._fit_axes()
+        self.assertEqual(xlim, viz.get_xlim())
+
+    @MultiplexTest.temporary_plot
+    def test_fit_axes_right_outward_only(self):
+        """
+        Test that when only the right axes are outward, only the left axes change.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('outward', 1))
+        viz.tick_params(labelright=True)
+        dummy = DummyVisualization(viz)
+
+        # set the y-ticks
+        viz.set_yticks(range(0, 10))
+        viz.set_yticklabels([ f"label { i }" for i in range(0, 10) ])
+
+        # make sure that the x-limit of the left axes changes after fitting the plot
+        xlim = viz.get_xlim()
+        dummy._fit_axes()
+        labels = viz.get_yticklabels()
+        self.assertEqual(20, len(labels))
+        limit = min(util.get_bb(viz.figure, viz.axes, label).x0 for label in labels)
+        self.assertEqual(xlim[1], viz.get_xlim()[1])
+        self.assertEqual(limit, viz.get_xlim()[0])
+
+    @MultiplexTest.temporary_plot
+    def test_fit_axes_left_outward_only(self):
+        """
+        Test that when only the left axes are outward, only the right axes change.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('outward', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
+        viz.tick_params(labelright=True)
+        dummy = DummyVisualization(viz)
+
+        # set the y-ticks
+        viz.set_yticks(range(0, 10))
+        viz.set_yticklabels([ f"label { i }" for i in range(0, 10) ])
+
+        # make sure that the x-limit of the left axes changes after fitting the plot
+        xlim = viz.get_xlim()
+        dummy._fit_axes()
+        labels = viz.get_yticklabels()
+        self.assertEqual(20, len(labels))
+        limit = max(util.get_bb(viz.figure, viz.axes, label).x1 for label in labels)
+        self.assertEqual(xlim[0], viz.get_xlim()[0])
+        self.assertEqual(round(limit, 10), round(viz.get_xlim()[1], 10))
