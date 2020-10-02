@@ -11,6 +11,7 @@ In short, visualization implementations are largely concerned with the structure
 """
 
 from abc import ABC, abstractmethod
+import util
 
 class Visualization(ABC):
     """
@@ -57,6 +58,29 @@ class Visualization(ABC):
         """
 
         return
+
+    def _fit_axes(self):
+        """
+        Make space for the x-axs.
+        This function reduces the actual plot size so that the axes tick labels fit neatly.
+        It does so by adding space to the left and right of the y-axis if there is need.
+        """
+
+        figure, axes, secondary = self.drawable.figure, self.drawable.axes, self.drawable.secondary
+
+        xlim = axes.get_xlim()
+        ticks = axes.get_yticklabels() + secondary.get_yticklabels()
+
+        # if there are no ticks, do not change the x-limits
+        if not ticks:
+            return
+
+        # find the leftmost and rightmost axes labels
+        tick_bbs = [ util.get_bb(figure, axes, tick) for tick in ticks ]
+        min_offset, max_offset = min(bb.x0 for bb in tick_bbs), max(bb.x1 for bb in tick_bbs)
+        axes.set_xlim((min(min_offset, xlim[0]), max(max_offset, xlim[1])))
+        secondary.set_xlim((min(min_offset, xlim[0]), max(max_offset, xlim[1])))
+
 class DummyVisualization(Visualization):
     """
     The dummy visualization is a simple class used only for testing.
