@@ -152,7 +152,7 @@ class TestBar100(MultiplexTest):
         self.assertTrue(bar.draw(list(range(10)), 'label', min_percentage=1, pad=1))
 
     @MultiplexTest.temporary_plot
-    def test_pad_less_min_percentage(self):
+    def test_draw_pad_less_min_percentage(self):
         """
         Test that when the padding is below the minimum percentage, no ValueError is raised.
         """

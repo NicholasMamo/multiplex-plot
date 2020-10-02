@@ -269,3 +269,33 @@ class TestVisualization(MultiplexTest):
         self.assertLess(xlim[1], viz.secondary.get_xlim()[1])
         self.assertEqual(llimit, viz.secondary.get_xlim()[0])
         self.assertEqual(rlimit, viz.secondary.get_xlim()[1])
+
+    @MultiplexTest.temporary_plot
+    def test_fit_axes_wider(self):
+        """
+        Test that when the axes are wider than the ticks, fitting the axes changes nothing.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.tick_params(labelright=True)
+        dummy = DummyVisualization(viz)
+
+        # set the y-ticks
+        viz.set_yticks(range(0, 10))
+        viz.set_yticklabels([ f"label { i }" for i in range(0, 10) ])
+        labels = viz.get_yticklabels()
+        self.assertEqual(20, len(labels)) # on both sides
+        llimit = min(util.get_bb(viz.figure, viz.axes, label).x0 for label in labels)
+        rlimit = max(util.get_bb(viz.figure, viz.axes, label).x1 for label in labels)
+
+        # position the axes
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 0))
+        viz.set_xlim((-100, 100))
+
+        # make sure that the x-limit does not move after fitting it
+        xlim = viz.get_xlim()
+        self.assertLess(xlim[0], llimit)
+        self.assertGreater(xlim[1], rlimit)
+        dummy._fit_axes()
+        self.assertEqual(xlim, viz.get_xlim())
