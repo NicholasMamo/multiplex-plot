@@ -176,7 +176,7 @@ class Bar100(Visualization):
         """
         Re-style the plot if need be.
         """
-        if style_plot:
+        if style_plot and not self.bars:
             self._style()
 
         """
@@ -186,6 +186,7 @@ class Bar100(Visualization):
                                *args, **kwargs)
         self.bars.append(bars)
         self._add_name(name)
+        self._fit_axes()
 
         """
         Draw the legend.
@@ -207,7 +208,9 @@ class Bar100(Visualization):
         axes.xaxis.set_label_position('top')
         axes.xaxis.tick_top()
         axes.spines['top'].set_visible(True)
+        axes.spines['top'].set_bounds(0, 100)
         axes.spines['bottom'].set_visible(False)
+        axes.spines['left'].set_position(('data', -1))
         self.drawable.set_xlim((0, 100))
         self.drawable.set_xticks(range(0, 101, 20))
         self.drawable.set_xticklabels([ f"{ percent }%" for percent in range(0, 101, 20)])
