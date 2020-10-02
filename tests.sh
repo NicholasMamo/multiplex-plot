@@ -16,3 +16,4 @@ python3 -m unittest multiplex.text.tests.test_text
 python3 -m unittest multiplex.timeseries.tests.test_time_series
 python3 -m unittest multiplex.tests.test_text_util
 python3 -m unittest multiplex.tests.test_util
+python3 -m unittest multiplex.tests.test_visualization
