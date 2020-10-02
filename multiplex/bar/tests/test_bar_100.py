@@ -588,6 +588,24 @@ class TestBar100(MultiplexTest):
         self.assertEqual(bars[1].get_alpha(), 1)
 
     @MultiplexTest.temporary_plot
+    def test_draw_ticks_fitted(self):
+        """
+        Test that the ticks are fitted to the left so that they do not exceed the plot.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        bar = Bar100(viz)
+        for i in range(1, 11):
+            values = bar.draw(list(range(10)), f"label { i }")
+
+        # check that the labels (always on the left) do not exceed
+        labels = viz.get_yticklabels()
+        self.assertTrue(labels)
+        bbs = [ util.get_bb(viz.figure, viz.axes, label, transform=viz.axes.transAxes) for label in labels ]
+        self.assertEqual(0, round(min( bb.x0 for bb in bbs ), 10))
+        self.assertTrue(all( bb.x0 >= 0 for bb in bbs ))
+
+    @MultiplexTest.temporary_plot
     def test_to_100_empty_values(self):
         """
         Test that when no values are given to be converted to percentages, an empty list is returned again.

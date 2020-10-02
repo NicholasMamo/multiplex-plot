@@ -403,3 +403,51 @@ class TestVisualization(MultiplexTest):
         limit = max(util.get_bb(viz.figure, viz.axes, label).x1 for label in labels)
         self.assertEqual(xlim[0], viz.get_xlim()[0])
         self.assertEqual(round(limit, 10), round(viz.get_xlim()[1], 10))
+
+    @MultiplexTest.temporary_plot
+    def test_fit_axes_border_left_axes(self):
+        """
+        Test that when fitting the axes, the ticks on the left do not exceed the left axes.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
+        viz.tick_params(labelright=True)
+        dummy = DummyVisualization(viz)
+
+        # set the y-ticks
+        viz.set_yticks(range(0, 10))
+        viz.set_yticklabels([ f"label { i }" for i in range(0, 10) ])
+
+        # make sure that the x-limit moves to the right
+        xlim = viz.get_xlim()
+        dummy._fit_axes()
+        labels = viz.get_yticklabels()
+        self.assertEqual(20, len(labels)) # on both sides
+        self.assertEqual(0, min(util.get_bb(viz.figure, viz.axes, label, transform=viz.axes.transAxes).x0 for label in labels))
+        self.assertTrue(all( util.get_bb(viz.figure, viz.axes, label, transform=viz.axes.transAxes).x0 >= 0 for label in labels ))
+
+    @MultiplexTest.temporary_plot
+    def test_fit_axes_border_right_axes(self):
+        """
+        Test that when fitting the axes, the ticks on the right do not exceed the right axes.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.axes.spines['left'].set_position(('data', 0))
+        viz.axes.spines['right'].set_position(('data', 1))
+        viz.tick_params(labelright=True)
+        dummy = DummyVisualization(viz)
+
+        # set the y-ticks
+        viz.set_yticks(range(0, 10))
+        viz.set_yticklabels([ f"label { i }" for i in range(0, 10) ])
+
+        # make sure that the x-limit moves to the right
+        xlim = viz.get_xlim()
+        dummy._fit_axes()
+        labels = viz.get_yticklabels()
+        self.assertEqual(20, len(labels)) # on both sides
+        self.assertEqual(1, round(max(util.get_bb(viz.figure, viz.axes, label, transform=viz.axes.transAxes).x1 for label in labels), 0))
+        self.assertTrue(all( util.get_bb(viz.figure, viz.axes, label, transform=viz.axes.transAxes).x1 <= 1 for label in labels ))
