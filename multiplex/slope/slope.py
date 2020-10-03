@@ -346,4 +346,31 @@ class Slope(LabelledVisualization):
         Here again, the axes are widened to fit the labels.
         """
 
-        super()._fit_axes()
+        figure, axes, secondary = self.drawable.figure, self.drawable.axes, self.drawable.secondary
+
+        if not self.llabels and not self.rlabels:
+            super()._fit_axes()
+            return
+
+        _xlim = None
+        while _xlim is None or abs(_xlim[0] - axes.get_xlim()[0]) > 1e-10: # repeat until convergence
+            _xlim = axes.get_xlim()
+
+            # draw the labels to get an idea of their widths
+            for label in self.llabels + self.rlabels:
+                label.redraw()
+            width = min(1, max( label.get_virtual_bb().width for label in self.llabels + self.rlabels ))
+
+            # find the new x-limit
+            xlim = axes.get_xlim()
+            x0 = min( util.get_bb(figure, axes, tick).x0 for tick in axes.get_yticklabels() )
+            x1 = max( util.get_bb(figure, axes, tick).x1 for tick in secondary.get_yticklabels() )
+            axes.set_xlim(( x0 - width - 0.1, x1 + width + 0.1 ))
+
+            # move the left labels
+            for label in self.llabels:
+                label.x = ( x0 - 1.1, x0 - 0.1 )
+
+            # move the right labels
+            for label in self.rlabels:
+                label.x = ( x1 + 0.1, x1 + 1.1 )
