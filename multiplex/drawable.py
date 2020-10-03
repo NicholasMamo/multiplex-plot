@@ -392,7 +392,7 @@ class Drawable():
         The arguments and keyword arguments are those supported by the :class:`~slope.slope.Slope`'s :func:`~slope.slope.Slope.draw` method.
 
         :return: A tuple made up of the drawn plot and label.
-        :rtype: tuple
+        :rtype: tuple (:class:`matplotlib.lines.Line2D`, list of :class:`~text.annotation.Annotation`)
         """
 
         self.slope = self.slope or Slope(self)

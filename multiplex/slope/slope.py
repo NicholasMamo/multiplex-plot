@@ -114,8 +114,8 @@ class Slope(LabelledVisualization):
                            - Adds two x-ticks.
         :type style_plot: bool
 
-        :return: The drawn plot.
-        :rtype: :class:`matplotlib.lines.Line2D`
+        :return: A tuple containing the drawn plot and any drawn labels.
+        :rtype: tuple (:class:`matplotlib.lines.Line2D`, list of :class:`~text.annotation.Annotation`)
 
         :raises ValueError: If the ``y1`` and ``y2`` parameters are lists of unequal length.
         :raises ValueError: If the number of start points and start tick labels are not equal.
@@ -137,7 +137,7 @@ class Slope(LabelledVisualization):
         self._add_ticks(y2, y2_tick, where='right')
         self._add_labels(y1, y2, label)
 
-        return slopes
+        return (slopes, )
 
     def _style(self):
         """
