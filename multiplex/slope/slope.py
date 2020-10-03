@@ -383,18 +383,21 @@ class Slope(LabelledVisualization):
             # draw the labels to get an idea of their widths
             for label in self.llabels + self.rlabels:
                 label.redraw()
-            width = min(1, max( label.get_virtual_bb().width for label in self.llabels + self.rlabels )) # TODO: different widths for left and right
+            lwidth = min(1, max( label.get_virtual_bb().width for label in self.llabels ) if self.llabels else 0 )
+            rwidth = min(1, max( label.get_virtual_bb().width for label in self.rlabels ) if self.rlabels else 0 )
+            lpad = 0.1 if self.llabels else 0
+            rpad = 0.1 if self.rlabels else 0
 
             # find the new x-limit
             xlim = axes.get_xlim()
             x0 = min( util.get_bb(figure, axes, tick).x0 for tick in axes.get_yticklabels() )
             x1 = max( util.get_bb(figure, axes, tick).x1 for tick in secondary.get_yticklabels() )
-            axes.set_xlim(( x0 - width - 0.1, x1 + width + 0.1 ))
+            axes.set_xlim(( x0 - lwidth - lpad, x1 + rwidth + rpad ))
 
             # move the left labels
             for label in self.llabels:
-                label.x = ( x0 - 1.1, x0 - 0.1 )
+                label.x = ( x0 - 1 - lpad, x0 - lpad )
 
             # move the right labels
             for label in self.rlabels:
-                label.x = ( x1 + 0.1, x1 + 1.1 )
+                label.x = ( x1 + rpad, x1 + 1 + rpad )

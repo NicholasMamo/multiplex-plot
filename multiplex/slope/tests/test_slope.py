@@ -953,9 +953,9 @@ class TestSlope(MultiplexTest):
         self.assertEqual({ 'A', 'C' }, set( label.annotation for label in rlabels ))
 
     @MultiplexTest.temporary_plot
-    def test_draw_fit_axes_border_left_axes(self):
+    def test_draw_fit_axes_border_left_axes_no_labels(self):
         """
-        Test that when drawing slope graphs, the ticks on the left do not exceed the left axes.
+        Test that when drawing slope graphs without labels, the ticks on the left do not exceed the left axes.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
@@ -969,9 +969,25 @@ class TestSlope(MultiplexTest):
         self.assertTrue(all( util.get_bb(viz.figure, viz.axes, tick, transform=viz.axes.transAxes).x0 >= 0 for tick in ticks ))
 
     @MultiplexTest.temporary_plot
-    def test_draw_fit_axes_border_right_axes(self):
+    def test_draw_fit_axes_border_left_axes_no_left_labels(self):
         """
-        Test that when drawing slope graphs, the ticks on the right do not exceed the right axes.
+        Test that when drawing slope graphs with labels only on the right, the ticks on the left do not exceed the left axes.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        slope.draw(range(1, 11), range(1, 11), label=[ f"{ i }" for i in range(1, 11) ], where='right')
+
+        # make sure that the left axes do not exceed the plot
+        ticks = viz.axes.get_yticklabels()
+        self.assertEqual(10, len(ticks))
+        self.assertEqual(0, round(min( util.get_bb(viz.figure, viz.axes, tick, transform=viz.axes.transAxes).x0 for tick in ticks ), 10))
+        self.assertTrue(all( round(util.get_bb(viz.figure, viz.axes, tick, transform=viz.axes.transAxes).x0, 10) >= 0 for tick in ticks ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_fit_axes_border_right_axes_no_labels(self):
+        """
+        Test that when drawing slope graphs without labels, the ticks on the right do not exceed the right axes.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
@@ -983,6 +999,22 @@ class TestSlope(MultiplexTest):
         self.assertEqual(10, len(ticks))
         self.assertEqual(1, max( util.get_bb(viz.figure, viz.secondary, tick, transform=viz.secondary.transAxes).x1 for tick in ticks ))
         self.assertTrue(all( util.get_bb(viz.figure, viz.secondary, tick, transform=viz.axes.transAxes).x1 <= 1 for tick in ticks ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_fit_axes_border_right_axes_no_right_labels(self):
+        """
+        Test that when drawing slope graphs with labels only on the left, the ticks on the right do not exceed the right axes.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        slope.draw(range(1, 11), range(1, 11), label=[ f"{ i }" for i in range(1, 11) ], where='left')
+
+        # make sure that the left axes do not exceed the plot
+        ticks = viz.secondary.get_yticklabels()
+        self.assertEqual(10, len(ticks))
+        self.assertEqual(1, round(max( util.get_bb(viz.figure, viz.secondary, tick, transform=viz.secondary.transAxes).x1 for tick in ticks ), 10))
+        self.assertTrue(all( round(util.get_bb(viz.figure, viz.secondary, tick, transform=viz.secondary.transAxes).x1, 10) <= 1 for tick in ticks ))
 
     @MultiplexTest.temporary_plot
     def test_draw_fit_axes_labels_border_left_axes(self):
