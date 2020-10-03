@@ -135,10 +135,10 @@ class Slope(LabelledVisualization):
         slopes = self._draw(y1, y2, *args, **kwargs)
         self._add_ticks(y1, y1_tick, where='left')
         self._add_ticks(y2, y2_tick, where='right')
-        self._add_labels(y1, y2, label)
+        left, right = self._add_labels(y1, y2, label)
         self._fit_axes()
 
-        return (slopes, )
+        return (slopes, left + right)
 
     def _style(self):
         """
@@ -279,14 +279,35 @@ class Slope(LabelledVisualization):
                        If you provide a list of slopes, you can also provide a list of labels: one for each slope.
         :type labels: None or str or list
 
+        :return: A tuple of labels drawn on the left and on the right.
+        :rtype: tuple of list of :class:`~text.annotation.Annotation`
+
         :raises ValueError: If the number of slopes and labels are not equal.
         """
 
+        left, right = [ ], [ ]
+
         # if the labels are ``None`` or an empty string is given, no labels are added
         if labels is None or (isinstance(labels, str) and labels == ''):
-            return
+            return (left, right)
 
         # convert the labels to a list if they are not a list
         labels = [ labels ] if (not isinstance(labels, Iterable) or isinstance(labels, str)) else labels
         if len(y1) != len(labels):
             raise ValueError(f"The list of slopes and labels should be equal; received { len(y1) } ticks and { len(labels) } labels")
+
+        # draw the labels on the left
+        for y, label in zip(y1, labels):
+            if not label:
+                continue
+
+            left.append(self.draw_label(label, (-2, -1), y, align='right', va='center'))
+
+        # draw the labels on the right
+        for y, label in zip(y2, labels):
+            if not label:
+                continue
+
+            right.append(self.draw_label(label, (2, 3), y, align='left', va='center'))
+
+        return (left, right)

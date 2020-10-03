@@ -15,6 +15,7 @@ if path not in sys.path:
 
 from tests.test import MultiplexTest
 from slope.slope import Slope
+from text.annotation import Annotation
 import drawable
 import util
 
@@ -716,6 +717,107 @@ class TestSlope(MultiplexTest):
         self.assertRaises(ValueError, viz.draw_slope, [ 6, 5 ], [ 10, 15 ], label=[ ])
         self.assertRaises(ValueError, viz.draw_slope, [ 6, 5 ], [ 10, 15 ], label=[ 'A' ])
         self.assertTrue(viz.draw_slope([ 6, 5 ], [ 10, 15 ], label=[ 'A', 'B' ]))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_return_all_labels(self):
+        """
+        Test that when drawing a plot, all labels are returned.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        _, labels = viz.draw_slope([ 6, 5 ], [ 10, 15 ], label=[ 'A', 'B' ])
+        self.assertEqual(list, type(labels))
+        self.assertEqual(4, len(labels))
+        self.assertTrue(all( type(label) is Annotation for label in labels ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_no_labels(self):
+        """
+        Test that when drawing a plot without labels, an empty list is returned.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        _, labels = viz.draw_slope([ 6, 5 ], [ 10, 15 ])
+        self.assertEqual(list, type(labels))
+        self.assertEqual(0, len(labels))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_left_labels_correct_position(self):
+        """
+        Test that when drawing a plot the labels on the left are at the correct position.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        _, labels = viz.draw_slope([ 6, 1 ], [ 10, 15 ], label=[ 'A', 'B' ])
+        self.assertEqual(4, len(labels)) # defaults to drawing labels on both sides
+
+        self.assertEqual(6, labels[0].y)
+        self.assertEqual('A', labels[0].annotation)
+        self.assertEqual(1, labels[1].y)
+        self.assertEqual('B', labels[1].annotation)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_right_labels_correct_position(self):
+        """
+        Test that when drawing a plot the labels on the left are at the correct position.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        _, labels = viz.draw_slope([ 6, 1 ], [ 10, 15 ], label=[ 'A', 'B' ])
+        self.assertEqual(4, len(labels)) # defaults to drawing labels on both sides
+
+        self.assertEqual(10, labels[2].y)
+        self.assertEqual('A', labels[2].annotation)
+        self.assertEqual(15, labels[3].y)
+        self.assertEqual('B', labels[3].annotation)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_labels_both_sides(self):
+        """
+        Test that when drawing labels on both sides, the labels actually tally up (there is one on the left and one on the right).
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        _, labels = viz.draw_slope([ 6, 1 ], [ 10, 15 ], label=[ 'A', 'B' ])
+        self.assertEqual(4, len(labels)) # defaults to drawing labels on both sides
+
+        # left side
+        self.assertEqual(6, labels[0].y)
+        self.assertEqual('A', labels[0].annotation)
+        self.assertEqual(1, labels[1].y)
+        self.assertEqual('B', labels[1].annotation)
+
+        # right side
+        self.assertEqual(10, labels[2].y)
+        self.assertEqual('A', labels[2].annotation)
+        self.assertEqual(15, labels[3].y)
+        self.assertEqual('B', labels[3].annotation)
+
+        # x-position
+        self.assertEqual(2, len(list( label for label in labels if max(label.x) < 0 ))) # left
+        self.assertEqual(2, len(list( label for label in labels if min(label.x) > 1 ))) # right
+
+    @MultiplexTest.temporary_plot
+    def test_draw_labels_with_none(self):
+        """
+        Test that when drawing labels and some of them have a value of None, they are not drawn.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        _, labels = viz.draw_slope([ 6, 1, 4, 7 ], [ 10, 15, 5, 8 ], label=[ 'A', None, 'C', None ])
+        self.assertEqual(4, len(labels)) # 2 on each side
+        self.assertEqual({ 'A', 'C' }, set( label.annotation for label in labels ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_labels_with_empty_string(self):
+        """
+        Test that when drawing labels and some of them have an empty string, they are not drawn.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        _, labels = viz.draw_slope([ 6, 1, 4, 7 ], [ 10, 15, 5, 8 ], label=[ 'A', '', 'C', '' ])
+        self.assertEqual(4, len(labels)) # 2 on each side
+        self.assertEqual({ 'A', 'C' }, set( label.annotation for label in labels ))
 
     @MultiplexTest.temporary_plot
     def test_add_ticks_unknown_where(self):
