@@ -953,6 +953,40 @@ class TestSlope(MultiplexTest):
         self.assertEqual({ 'A', 'C' }, set( label.annotation for label in rlabels ))
 
     @MultiplexTest.temporary_plot
+    def test_draw_labels_with_style(self):
+        """
+        Test that when providing a style for the labels, it is used.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        _, llabels, rlabels = viz.draw_slope([ 6, 1, 4, 7 ], [ 10, 15, 5, 8 ],
+                                             label=[ 'A', 'B', 'C', 'D' ], label_style={ 'color': 'red' })
+        self.assertTrue(all( label.style.get('color') == 'red' for label in llabels + rlabels ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_labels_override_align(self):
+        """
+        Test that when providing a style for the labels with a custom alignment, it is used.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        _, llabels, rlabels = viz.draw_slope([ 6, 1, 4, 7 ], [ 10, 15, 5, 8 ],
+                                             label=[ 'A', 'B', 'C', 'D' ], label_style={ 'align': 'center' })
+        self.assertTrue(all( label.style.get('align') == 'center' for label in llabels + rlabels ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_labels_default_alignment(self):
+        """
+        Test that when no alignment is provided, the default alignment is right for the left axes and left for the right axes.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        _, llabels, rlabels = viz.draw_slope([ 6, 1, 4, 7 ], [ 10, 15, 5, 8 ],
+                                             label=[ 'A', 'B', 'C', 'D' ])
+        self.assertTrue(all( label.style.get('align') == 'right' for label in llabels ))
+        self.assertTrue(all( label.style.get('align') == 'left' for label in rlabels ))
+
+    @MultiplexTest.temporary_plot
     def test_draw_fit_axes_border_left_axes_no_labels(self):
         """
         Test that when drawing slope graphs without labels, the ticks on the left do not exceed the left axes.

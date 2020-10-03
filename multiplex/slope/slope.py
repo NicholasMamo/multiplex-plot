@@ -84,9 +84,8 @@ class Slope(LabelledVisualization):
         self.slopes = [ ]
         self.llabels, self.rlabels = [ ], [ ]
 
-    def draw(self, y1, y2,
-             y1_tick=None, y2_tick=None,
-             label=None, where='both',
+    def draw(self, y1, y2, y1_tick=None, y2_tick=None,
+             label=None, where='both', label_style=None,
              style_plot=True, *args, **kwargs):
         """
         Draw a slope graph.
@@ -122,6 +121,9 @@ class Slope(LabelledVisualization):
                       If ``None`` or an empty string is given, no labels added.
                       If you provide a list of slopes, you can also provide a list of labels: one for each slope.
         :type label: None or str or list
+        :param label_style: The style of the labels.
+                            The ``label_style`` accepts any styling option supported by the :class:`~text.annotation.Annotation`'s :func:`~text.annotation.Annotation.draw` function.
+        :type label_style: dict or None
         :param where: The position of the labels: ``left``, ``right`` or ``both``.
                       If ``left`` is given, the labels are added to the primary (left) axes.
                       If ``right`` is given, the labels are added to the secondary (right) axes.
@@ -150,6 +152,7 @@ class Slope(LabelledVisualization):
 
         y1 = [ y1 ] if isinstance(y1, Number) else y1
         y2 = [ y2 ] if isinstance(y2, Number) else y2
+        label_style = label_style or { }
 
         """
         Re-style the plot if need be.
@@ -166,7 +169,7 @@ class Slope(LabelledVisualization):
         self._add_ticks(y2, y2_tick, where='right')
 
         # draw the labels and re-fit the axes
-        left, right = self._add_labels(y1, y2, label, where=where)
+        left, right = self._add_labels(y1, y2, label, where=where, **label_style)
         self.llabels.extend(left)
         self.rlabels.extend(right)
         self._fit_axes()
@@ -295,13 +298,15 @@ class Slope(LabelledVisualization):
         axes.set_yticks(ticks)
         axes.set_yticklabels(labels)
 
-    def _add_labels(self, y1, y2, labels, where='both'):
+    def _add_labels(self, y1, y2, labels, where='both', va='center', *args, **kwargs):
         """
         Add labels to the slopes.
         Labels are added on the outer part of the plot, so left of the left axis and right of the right axis.
 
         Unlike ticks, there is no option for the labels on the left to be different from the labels on the right.
         This is simply because it doesn't make sense for one slope to have different labels, or names.
+
+        Any additional arguments or keyword arguments are used to style the labels.
 
         :param y1: The start position of the slopes on the left.
         :type y1: list of float
@@ -318,6 +323,8 @@ class Slope(LabelledVisualization):
 
                       If multiple labels are given, one ``where`` can be provided for each label as a list.
         :type where: str or list of str
+        :param va: The slope label's vertical alignment, defaults to the center.
+        :type va: str
 
         :return: A tuple of labels drawn on the left and on the right.
         :rtype: tuple of list of :class:`~text.annotation.Annotation`
@@ -345,19 +352,24 @@ class Slope(LabelledVisualization):
             if pos.lower() not in [ 'left', 'right', 'both' ]:
                 raise ValueError(f"Unknown label position { pos }; expected 'left', 'right' or 'both'")
 
+        align = kwargs.pop('align', None)
         # draw the labels on the left
         for y, label, pos in zip(y1, labels, where):
             if not label or pos not in [ 'left', 'both' ]:
                 continue
 
-            left.append(self.draw_label(label, (-2, -1), y, align='right', va='center'))
+            left.append(self.draw_label(label, (-2, -1), y,
+                                         align=(align or 'right'), va=va,
+                                         *args, **kwargs))
 
         # draw the labels on the right
         for y, label, pos in zip(y2, labels, where):
             if not label or pos not in [ 'right', 'both' ]:
                 continue
 
-            right.append(self.draw_label(label, (2, 3), y, align='left', va='center'))
+            right.append(self.draw_label(label, (2, 3), y,
+                                         align=(align or 'left'), va=va,
+                                         *args, **kwargs))
 
         return (left, right)
 
