@@ -1043,7 +1043,7 @@ class TestSlope(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         slope = Slope(viz)
-        slope.draw(range(1, 11), range(1, 11), label=[ f"labe { i }" for i in range(1, 11) ])
+        slope.draw(range(1, 11), range(1, 11), label=[ f"label { i }" for i in range(1, 11) ])
 
         # get the bounding boxes of the y-tick labels
         ticks = viz.secondary.get_yticklabels()
@@ -1061,9 +1061,63 @@ class TestSlope(MultiplexTest):
                 self.assertFalse(util.overlapping_bb(bbt, bbl))
 
     @MultiplexTest.temporary_plot
+    def test_draw_labels_left(self):
+        """
+        Test that when drawing labels on the left, they really are drawn only on the left.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        slope.draw(range(1, 11), range(1, 11), label=[ f"label { i }" for i in range(1, 11) ], where='left')
+
+        self.assertEqual(10, len(slope.llabels))
+        self.assertEqual(0, len(slope.rlabels))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_labels_right(self):
+        """
+        Test that when drawing labels on the right, they really are drawn only on the right.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        slope.draw(range(1, 11), range(1, 11), label=[ f"label { i }" for i in range(1, 11) ], where='right')
+
+        self.assertEqual(10, len(slope.rlabels))
+        self.assertEqual(0, len(slope.llabels))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_labels_both(self):
+        """
+        Test that when drawing labels on both sides, they really are drawn only on both sides.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        slope.draw(range(1, 11), range(1, 11), label=[ f"label { i }" for i in range(1, 11) ], where='both')
+
+        self.assertEqual(10, len(slope.rlabels))
+        self.assertEqual(10, len(slope.llabels))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_labels_mix_list(self):
+        """
+        Test that when drawing labels with a mix of sides, the correct sides are used.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        slope.draw(range(1, 11), range(1, 11), label=[ f"{ i }" for i in range(1, 11) ], where=[ 'left', 'right' ] * 5)
+
+        self.assertEqual(5, len(slope.rlabels))
+        self.assertEqual(5, len(slope.llabels))
+        self.assertTrue(all( int(label.annotation) % 2 for label in slope.llabels )) # odd numbers are on the left
+        self.assertTrue(all( not int(label.annotation) % 2 for label in slope.rlabels )) # even numbers are on the right
+
+    @MultiplexTest.temporary_plot
     def test_add_ticks_unknown_where(self):
         """
-        Test that when the ``where`` parameter is not 'left' or 'right', the function raises a ValueError.
+        Test that when the ticks' ``where`` parameter is not 'left' or 'right', the function raises a ValueError.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
@@ -1073,10 +1127,70 @@ class TestSlope(MultiplexTest):
     @MultiplexTest.temporary_plot
     def test_add_ticks_where_case_insensitive(self):
         """
-        Test that the ``where`` parameter is case insensitive.
+        Test that the ticks' ``where`` parameter is case insensitive.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         slope = Slope(viz)
+        self.assertEqual(None, slope._add_ticks(range(0, 5), None, where='left'))
+        self.assertEqual(None, slope._add_ticks(range(0, 5), None, where='Left'))
         self.assertEqual(None, slope._add_ticks(range(0, 5), None, where='LEFT'))
+        self.assertEqual(None, slope._add_ticks(range(0, 5), None, where='right'))
+        self.assertEqual(None, slope._add_ticks(range(0, 5), None, where='Right'))
         self.assertEqual(None, slope._add_ticks(range(0, 5), None, where='RIGHT'))
+
+    @MultiplexTest.temporary_plot
+    def test_add_labels_unknown_where(self):
+        """
+        Test that when the labels' ``where`` parameter is not 'left', 'right' or 'both', the function raises a ValueError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertRaises(ValueError, slope._add_labels, range(0, 5), range(0, 5), range(0, 5), where='lef')
+
+    @MultiplexTest.temporary_plot
+    def test_add_labels_where_case_insensitive(self):
+        """
+        Test that the labels' ``where`` parameter is case insensitive.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where='left'))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where='Left'))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where='LEFT'))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where='right'))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where='Right'))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where='RIGHT'))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where='both'))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where='Both'))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where='BOTH'))
+
+    @MultiplexTest.temporary_plot
+    def test_add_labels_unknown_where_list(self):
+        """
+        Test that when the labels' ``where`` parameter is a list with items that are not 'left', 'right' or 'both', the function raises a ValueError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertRaises(ValueError, slope._add_labels, range(0, 5), range(0, 5), range(0, 5), where=[ 'lef' ] * 5)
+
+    @MultiplexTest.temporary_plot
+    def test_add_labels_where_list_case_insensitive(self):
+        """
+        Test that the labels' ``where`` parameter is case insensitive when providing a list.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where=[ 'left' ] * 5))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where=[ 'Left' ] * 5))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where=[ 'LEFT' ] * 5))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where=[ 'right' ] * 5))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where=[ 'Right' ] * 5))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where=[ 'RIGHT' ] * 5))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where=[ 'both' ] * 5))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where=[ 'Both' ] * 5))
+        self.assertTrue(slope._add_labels(range(0, 5), range(0, 5), range(0, 5), where=[ 'BOTH' ] * 5))

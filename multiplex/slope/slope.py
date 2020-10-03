@@ -86,7 +86,7 @@ class Slope(LabelledVisualization):
 
     def draw(self, y1, y2,
              y1_tick=None, y2_tick=None,
-             label=None,
+             label=None, where='both',
              style_plot=True, *args, **kwargs):
         """
         Draw a slope graph.
@@ -122,6 +122,13 @@ class Slope(LabelledVisualization):
                       If ``None`` or an empty string is given, no labels added.
                       If you provide a list of slopes, you can also provide a list of labels: one for each slope.
         :type label: None or str or list
+        :param where: The position of the labels: ``left``, ``right`` or ``both``.
+                      If ``left`` is given, the labels are added to the primary (left) axes.
+                      If ``right`` is given, the labels are added to the secondary (right) axes.
+                      If ``both`` is given, the labels are added to both axes.
+
+                      If multiple labels are given, one ``where`` can be provided for each label as a list.
+        :type where: str or list of str
         :param style_plot: A boolean indicating whether the plot should be re-styled.
                            If it is set to ``True``, the visualization:
 
@@ -138,6 +145,7 @@ class Slope(LabelledVisualization):
         :raises ValueError: If the number of start points and start tick labels are not equal.
         :raises ValueError: If the number of end points and end tick labels are not equal.
         :raises ValueError: If the number of slopes and labels are not equal.
+        :raises ValueError: If the label position is unknown (not ``left`` or ``right``, ``both``).
         """
 
         y1 = [ y1 ] if isinstance(y1, Number) else y1
@@ -158,7 +166,7 @@ class Slope(LabelledVisualization):
         self._add_ticks(y2, y2_tick, where='right')
 
         # draw the labels and re-fit the axes
-        left, right = self._add_labels(y1, y2, label)
+        left, right = self._add_labels(y1, y2, label, where=where)
         self.llabels.extend(left)
         self.rlabels.extend(right)
         self._fit_axes()
@@ -257,7 +265,7 @@ class Slope(LabelledVisualization):
 
         where = where.lower()
         if where not in [ 'left', 'right' ]:
-            raise ValueError(f"Unknown tick position { where }; expected 'left' or 'right '")
+            raise ValueError(f"Unknown tick position { where }; expected 'left' or 'right'")
         axes = self.drawable.axes if where == 'left' else self.drawable.secondary
 
         """
@@ -287,7 +295,7 @@ class Slope(LabelledVisualization):
         axes.set_yticks(ticks)
         axes.set_yticklabels(labels)
 
-    def _add_labels(self, y1, y2, labels):
+    def _add_labels(self, y1, y2, labels, where='both'):
         """
         Add labels to the slopes.
         Labels are added on the outer part of the plot, so left of the left axis and right of the right axis.
@@ -303,11 +311,19 @@ class Slope(LabelledVisualization):
                        If ``None`` or an empty string is given, no labels added.
                        If you provide a list of slopes, you can also provide a list of labels: one for each slope.
         :type labels: None or str or list
+        :param where: The position of the labels: ``left``, ``right`` or ``both``.
+                      If ``left`` is given, the labels are added to the primary (left) axes.
+                      If ``right`` is given, the labels are added to the secondary (right) axes.
+                      If ``both`` is given, the labels are added to both axes.
+
+                      If multiple labels are given, one ``where`` can be provided for each label as a list.
+        :type where: str or list of str
 
         :return: A tuple of labels drawn on the left and on the right.
         :rtype: tuple of list of :class:`~text.annotation.Annotation`
 
         :raises ValueError: If the number of slopes and labels are not equal.
+        :raises ValueError: If the label position is unknown (not ``left`` or ``right``, ``both``).
         """
 
         left, right = [ ], [ ]
@@ -321,16 +337,24 @@ class Slope(LabelledVisualization):
         if len(y1) != len(labels):
             raise ValueError(f"The list of slopes and labels should be equal; received { len(y1) } ticks and { len(labels) } labels")
 
+        if isinstance(where, str):
+            where = [ where.lower() ] * len(labels)
+
+        # validate the label locations
+        for pos in where:
+            if pos.lower() not in [ 'left', 'right', 'both' ]:
+                raise ValueError(f"Unknown label position { pos }; expected 'left', 'right' or 'both'")
+
         # draw the labels on the left
-        for y, label in zip(y1, labels):
-            if not label:
+        for y, label, pos in zip(y1, labels, where):
+            if not label or pos not in [ 'left', 'both' ]:
                 continue
 
             left.append(self.draw_label(label, (-2, -1), y, align='right', va='center'))
 
         # draw the labels on the right
-        for y, label in zip(y2, labels):
-            if not label:
+        for y, label, pos in zip(y2, labels, where):
+            if not label or pos not in [ 'right', 'both' ]:
                 continue
 
             right.append(self.draw_label(label, (2, 3), y, align='left', va='center'))
@@ -359,7 +383,7 @@ class Slope(LabelledVisualization):
             # draw the labels to get an idea of their widths
             for label in self.llabels + self.rlabels:
                 label.redraw()
-            width = min(1, max( label.get_virtual_bb().width for label in self.llabels + self.rlabels ))
+            width = min(1, max( label.get_virtual_bb().width for label in self.llabels + self.rlabels )) # TODO: different widths for left and right
 
             # find the new x-limit
             xlim = axes.get_xlim()
