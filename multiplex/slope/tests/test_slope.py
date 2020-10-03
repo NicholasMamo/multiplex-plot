@@ -25,6 +25,16 @@ class TestSlope(MultiplexTest):
     """
 
     @MultiplexTest.temporary_plot
+    def test_init_empty_slopes(self):
+        """
+        That that when creating a new slope graph, the visualization creates an empty list of slopes.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertEqual([ ], slope.slopes)
+
+    @MultiplexTest.temporary_plot
     def test_draw_returns_tuple(self):
         """
         Test that when drawing a slope graph, it always returns a tuple.
@@ -32,6 +42,52 @@ class TestSlope(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         self.assertEqual(tuple, type(viz.draw_slope(5, 5)))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_saves_slopes(self):
+        """
+        Test that when drawing, the slopes are saved in the ``slopes`` variable.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertEqual([ ], slope.slopes)
+
+        slopes, _ = slope.draw(5, 5)
+        self.assertEqual(slopes, slope.slopes)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_saves_multiple_slopes(self):
+        """
+        Test that when drawing multiple slopes at a time, the slopes are saved in the ``slopes`` variable.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertEqual([ ], slope.slopes)
+
+        slopes, _ = slope.draw([ 0, 5 ], [ 5, 0 ])
+        self.assertEqual(2, len(slopes))
+        self.assertEqual(slopes, slope.slopes)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_repeated_saves_slopes(self):
+        """
+        Test that when drawing slopes several times, they are all saved in the ``slopes`` variable.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertEqual([ ], slope.slopes)
+
+        slopes, _ = slope.draw([ 0, 5 ], [ 5, 0 ])
+        self.assertEqual(2, len(slopes))
+        self.assertEqual(slopes, slope.slopes)
+
+        # draw more slopes
+        new_slopes, _ = slope.draw([ 2, 3 ], [ 3, 2 ])
+        self.assertEqual(2, len(new_slopes))
+        self.assertEqual(slopes + new_slopes, slope.slopes)
 
     @MultiplexTest.temporary_plot
     def test_draw_int(self):

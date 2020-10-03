@@ -65,7 +65,19 @@ class Slope(LabelledVisualization):
     In these cases, the :class:`~labelled.LabelledVisualization` automatically ensures that the labels do not overlap.
 
     Like all visualizations, it revolves around the :func:`~Slope.draw` function.
+
+    :ivar slopes: The drawn slopes.
+    :vartype: :class:`matplotlib.lines.Line2D`
     """
+
+    def __init__(self, *args, **kwargs):
+        """
+        Initialize the slope graph with a drawable.
+        This function also creates a container for all the drawn slopes.
+        """
+
+        super().__init__(*args, **kwargs)
+        self.slopes = [ ]
 
     def draw(self, y1, y2,
              y1_tick=None, y2_tick=None,
@@ -132,9 +144,15 @@ class Slope(LabelledVisualization):
         if style_plot:
             self._style()
 
+        # draw the slopes
         slopes = self._draw(y1, y2, *args, **kwargs)
+        self.slopes.extend(slopes)
+
+        # draw the ticks
         self._add_ticks(y1, y1_tick, where='left')
         self._add_ticks(y2, y2_tick, where='right')
+
+        # draw the labels and re-fit the axes
         left, right = self._add_labels(y1, y2, label)
         self._fit_axes()
 
