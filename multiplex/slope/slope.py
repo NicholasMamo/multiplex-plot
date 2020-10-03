@@ -136,6 +136,7 @@ class Slope(LabelledVisualization):
         self._add_ticks(y1, y1_tick, where='left')
         self._add_ticks(y2, y2_tick, where='right')
         self._add_labels(y1, y2, label)
+        self._fit_axes()
 
         return (slopes, )
 
@@ -247,18 +248,14 @@ class Slope(LabelledVisualization):
         if len(ticks) != len(labels):
             raise ValueError(f"The list of ticks and labels should be equal; received { len(ticks) } ticks and { len(labels) } labels")
 
-        """
-        Get the new list of ticks.
-        """
+        # get the new list of ticks
         ticks = { tick: label for tick, label in zip(ticks, labels)
                               if label != '' }
         _ticks = dict(zip(axes.get_yticks(), axes.get_yticklabels())) # the current ticks
         _ticks.update(ticks) # add the new ticks, overwriting old ones in case of overlaps
         _ticks = { tick: (label if label is not None else tick) for tick, label in _ticks.items() } # replace ``None`` with the tick
 
-        """
-        Draw the new ticks.
-        """
+        # draw the new ticks
         _ticks = sorted(_ticks.items(), key=lambda _tick: _tick[0])
         ticks = [ tick for tick, label in _ticks ]
         labels = [ label for tick, label in _ticks ]
@@ -285,12 +282,11 @@ class Slope(LabelledVisualization):
         :raises ValueError: If the number of slopes and labels are not equal.
         """
 
-        """
-        If the labels are ``None`` or an empty string is given, no labels are added.
-        """
+        # if the labels are ``None`` or an empty string is given, no labels are added
         if labels is None or (isinstance(labels, str) and labels == ''):
             return
 
-        labels = [ labels ] if (not isinstance(labels, Iterable) or isinstance(labels, str)) else labels # convert the labels to a list if they are not a list
+        # convert the labels to a list if they are not a list
+        labels = [ labels ] if (not isinstance(labels, Iterable) or isinstance(labels, str)) else labels
         if len(y1) != len(labels):
             raise ValueError(f"The list of slopes and labels should be equal; received { len(y1) } ticks and { len(labels) } labels")
