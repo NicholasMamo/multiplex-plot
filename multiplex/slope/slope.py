@@ -336,3 +336,14 @@ class Slope(LabelledVisualization):
             right.append(self.draw_label(label, (2, 3), y, align='left', va='center'))
 
         return (left, right)
+
+    def _fit_axes(self):
+        """
+        Make space for the x-axes.
+        This function reduces the actual plot size so that the axes tick labels fit neatly.
+
+        After it does that, it re-positions all of the labels on the left and right so they do not overlap with the axes.
+        Here again, the axes are widened to fit the labels.
+        """
+
+        super()._fit_axes()

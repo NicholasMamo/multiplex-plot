@@ -61,7 +61,7 @@ class Visualization(ABC):
 
     def _fit_axes(self):
         """
-        Make space for the x-axs.
+        Make space for the x-axes.
         This function reduces the actual plot size so that the axes tick labels fit neatly.
         It does so by adding space to the left and right of the y-axis if there is need.
         """
