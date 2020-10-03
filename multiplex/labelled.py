@@ -13,7 +13,7 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 import util
 
 from visualization import Visualization
-from text.text import Annotation
+from text.annotation import Annotation
 
 class LabelledVisualization(Visualization):
     """

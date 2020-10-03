@@ -14,6 +14,7 @@ if path not in sys.path:
 
 from .test import MultiplexTest
 from labelled import DummyLabelledVisualization
+from text.annotation import Annotation
 import drawable
 import util
 
@@ -33,6 +34,16 @@ class TestLabelledVisualization(MultiplexTest):
         viz.redraw()
         self.assertEqual(4, label.get_virtual_bb().x0)
         self.assertEqual(10, (label.get_virtual_bb().y0 + label.get_virtual_bb().y1)/2.)
+
+    @MultiplexTest.temporary_plot
+    def test_label_is_annotation(self):
+        """
+        Test that drawn labels are annotations, not text visualizations.
+        """
+
+        viz = DummyLabelledVisualization(drawable.Drawable(plt.figure(figsize=(10, 10))))
+        label = viz.draw_label('A', 4, 10, va='center')
+        self.assertEqual(Annotation, type(label))
 
     @MultiplexTest.temporary_plot
     def test_overlapping_labels(self):
