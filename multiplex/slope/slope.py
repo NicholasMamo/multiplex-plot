@@ -67,7 +67,11 @@ class Slope(LabelledVisualization):
     Like all visualizations, it revolves around the :func:`~Slope.draw` function.
 
     :ivar slopes: The drawn slopes.
-    :vartype: :class:`matplotlib.lines.Line2D`
+    :vartype slopes: list of :class:`matplotlib.lines.Line2D`
+    :ivar llabels: The slope labels on the left.
+    :vartype llabels: list of :class:`~text.annotation.Annotation`
+    :ivar rlabels: The slope labels on the right.
+    :vartype rlabels: list of :class:`~text.annotation.Annotation`
     """
 
     def __init__(self, *args, **kwargs):
@@ -78,6 +82,7 @@ class Slope(LabelledVisualization):
 
         super().__init__(*args, **kwargs)
         self.slopes = [ ]
+        self.llabels, self.rlabels = [ ], [ ]
 
     def draw(self, y1, y2,
              y1_tick=None, y2_tick=None,
@@ -126,8 +131,8 @@ class Slope(LabelledVisualization):
                            - Adds two x-ticks.
         :type style_plot: bool
 
-        :return: A tuple containing the drawn plot and any drawn labels.
-        :rtype: tuple (:class:`matplotlib.lines.Line2D`, list of :class:`~text.annotation.Annotation`)
+        :return: A tuple containing the drawn plot, any drawn labels on the left, and any drawn labels on the right.
+        :rtype: tuple (:class:`matplotlib.lines.Line2D`, list of :class:`~text.annotation.Annotation`, list of :class:`~text.annotation.Annotation`)
 
         :raises ValueError: If the ``y1`` and ``y2`` parameters are lists of unequal length.
         :raises ValueError: If the number of start points and start tick labels are not equal.
@@ -154,9 +159,11 @@ class Slope(LabelledVisualization):
 
         # draw the labels and re-fit the axes
         left, right = self._add_labels(y1, y2, label)
+        self.llabels.extend(left)
+        self.rlabels.extend(right)
         self._fit_axes()
 
-        return (slopes, left + right)
+        return (slopes, left, right)
 
     def _style(self):
         """

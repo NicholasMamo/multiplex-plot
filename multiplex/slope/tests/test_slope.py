@@ -35,6 +35,17 @@ class TestSlope(MultiplexTest):
         self.assertEqual([ ], slope.slopes)
 
     @MultiplexTest.temporary_plot
+    def test_init_empty_labels(self):
+        """
+        That that when creating a new slope graph, the visualization creates an empty list of labels on both sides.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertEqual([ ], slope.llabels)
+        self.assertEqual([ ], slope.rlabels)
+
+    @MultiplexTest.temporary_plot
     def test_draw_returns_tuple(self):
         """
         Test that when drawing a slope graph, it always returns a tuple.
@@ -53,7 +64,7 @@ class TestSlope(MultiplexTest):
         slope = Slope(viz)
         self.assertEqual([ ], slope.slopes)
 
-        slopes, _ = slope.draw(5, 5)
+        slopes, _, _ = slope.draw(5, 5)
         self.assertEqual(slopes, slope.slopes)
 
     @MultiplexTest.temporary_plot
@@ -66,7 +77,7 @@ class TestSlope(MultiplexTest):
         slope = Slope(viz)
         self.assertEqual([ ], slope.slopes)
 
-        slopes, _ = slope.draw([ 0, 5 ], [ 5, 0 ])
+        slopes, _, _ = slope.draw([ 0, 5 ], [ 5, 0 ])
         self.assertEqual(2, len(slopes))
         self.assertEqual(slopes, slope.slopes)
 
@@ -80,14 +91,69 @@ class TestSlope(MultiplexTest):
         slope = Slope(viz)
         self.assertEqual([ ], slope.slopes)
 
-        slopes, _ = slope.draw([ 0, 5 ], [ 5, 0 ])
+        slopes, _, _ = slope.draw([ 0, 5 ], [ 5, 0 ])
         self.assertEqual(2, len(slopes))
         self.assertEqual(slopes, slope.slopes)
 
         # draw more slopes
-        new_slopes, _ = slope.draw([ 2, 3 ], [ 3, 2 ])
+        new_slopes, _, _ = slope.draw([ 2, 3 ], [ 3, 2 ])
         self.assertEqual(2, len(new_slopes))
         self.assertEqual(slopes + new_slopes, slope.slopes)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_saves_labels(self):
+        """
+        Test that when drawing, the slopes are saved in the ``llabels`` and ``rlabels`` variables.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertEqual([ ], slope.slopes)
+
+        _, llabels, rlabels = slope.draw(5, 5, label='A')
+        self.assertEqual(1, len(slope.llabels))
+        self.assertEqual(1, len(slope.rlabels))
+        self.assertEqual(llabels, slope.llabels)
+        self.assertEqual(rlabels, slope.rlabels)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_saves_multiple_labels(self):
+        """
+        Test that when drawing multiple slopes at a time, the slopes are saved in the ``llabels`` and ``rlabels`` variables.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertEqual([ ], slope.slopes)
+
+        _, llabels, rlabels = slope.draw([ 0, 5 ], [ 5, 0 ], label=[ 'A', 'B' ])
+        self.assertEqual(2, len(slope.llabels))
+        self.assertEqual(2, len(slope.llabels))
+        self.assertEqual(llabels, slope.llabels)
+        self.assertEqual(rlabels, slope.rlabels)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_repeated_saves_labels(self):
+        """
+        Test that when drawing slopes several times, they are all saved in the ``llabels`` and ``rlabels`` variables.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        self.assertEqual([ ], slope.slopes)
+
+        _, llabels, rlabels = slope.draw([ 0, 5 ], [ 5, 0 ], label=[ 'A', 'B' ])
+        self.assertEqual(2, len(llabels))
+        self.assertEqual(2, len(rlabels))
+        self.assertEqual(llabels, slope.llabels)
+        self.assertEqual(rlabels, slope.rlabels)
+
+        # draw more slopes
+        _, new_llabels, new_rlabels = slope.draw([ 2, 3 ], [ 3, 2 ], label=[ 'C', 'D' ])
+        self.assertEqual(2, len(new_llabels))
+        self.assertEqual(2, len(new_rlabels))
+        self.assertEqual(llabels + new_llabels, slope.llabels)
+        self.assertEqual(rlabels + new_rlabels, slope.rlabels)
 
     @MultiplexTest.temporary_plot
     def test_draw_int(self):
@@ -781,10 +847,13 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        _, labels = viz.draw_slope([ 6, 5 ], [ 10, 15 ], label=[ 'A', 'B' ])
-        self.assertEqual(list, type(labels))
-        self.assertEqual(4, len(labels))
-        self.assertTrue(all( type(label) is Annotation for label in labels ))
+        _, llabels, rlabels = viz.draw_slope([ 6, 5 ], [ 10, 15 ], label=[ 'A', 'B' ])
+        self.assertEqual(list, type(llabels))
+        self.assertEqual(2, len(llabels))
+        self.assertEqual(list, type(rlabels))
+        self.assertEqual(2, len(rlabels))
+        self.assertTrue(all( type(label) is Annotation for label in llabels ))
+        self.assertTrue(all( type(label) is Annotation for label in rlabels ))
 
     @MultiplexTest.temporary_plot
     def test_draw_no_labels(self):
@@ -793,9 +862,11 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        _, labels = viz.draw_slope([ 6, 5 ], [ 10, 15 ])
-        self.assertEqual(list, type(labels))
-        self.assertEqual(0, len(labels))
+        _, llabels, rlabels = viz.draw_slope([ 6, 5 ], [ 10, 15 ])
+        self.assertEqual(list, type(llabels))
+        self.assertEqual(list, type(rlabels))
+        self.assertEqual(0, len(llabels))
+        self.assertEqual(0, len(rlabels))
 
     @MultiplexTest.temporary_plot
     def test_draw_left_labels_correct_position(self):
@@ -804,13 +875,13 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        _, labels = viz.draw_slope([ 6, 1 ], [ 10, 15 ], label=[ 'A', 'B' ])
-        self.assertEqual(4, len(labels)) # defaults to drawing labels on both sides
+        _, llabels, rlabels = viz.draw_slope([ 6, 1 ], [ 10, 15 ], label=[ 'A', 'B' ])
+        self.assertEqual(2, len(llabels))
 
-        self.assertEqual(6, labels[0].y)
-        self.assertEqual('A', labels[0].annotation)
-        self.assertEqual(1, labels[1].y)
-        self.assertEqual('B', labels[1].annotation)
+        self.assertEqual(6, llabels[0].y)
+        self.assertEqual('A', llabels[0].annotation)
+        self.assertEqual(1, llabels[1].y)
+        self.assertEqual('B', llabels[1].annotation)
 
     @MultiplexTest.temporary_plot
     def test_draw_right_labels_correct_position(self):
@@ -819,13 +890,14 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        _, labels = viz.draw_slope([ 6, 1 ], [ 10, 15 ], label=[ 'A', 'B' ])
-        self.assertEqual(4, len(labels)) # defaults to drawing labels on both sides
+        _, llabels, rlabels = viz.draw_slope([ 6, 1 ], [ 10, 15 ], label=[ 'A', 'B' ])
+        self.assertEqual(2, len(llabels))
+        self.assertEqual(2, len(rlabels))
 
-        self.assertEqual(10, labels[2].y)
-        self.assertEqual('A', labels[2].annotation)
-        self.assertEqual(15, labels[3].y)
-        self.assertEqual('B', labels[3].annotation)
+        self.assertEqual(10, rlabels[0].y)
+        self.assertEqual('A', rlabels[0].annotation)
+        self.assertEqual(15, rlabels[1].y)
+        self.assertEqual('B', rlabels[1].annotation)
 
     @MultiplexTest.temporary_plot
     def test_draw_labels_both_sides(self):
@@ -834,24 +906,25 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        _, labels = viz.draw_slope([ 6, 1 ], [ 10, 15 ], label=[ 'A', 'B' ])
-        self.assertEqual(4, len(labels)) # defaults to drawing labels on both sides
+        _, llabels, rlabels = viz.draw_slope([ 6, 1 ], [ 10, 15 ], label=[ 'A', 'B' ])
+        self.assertEqual(2, len(llabels))
+        self.assertEqual(2, len(rlabels))
 
         # left side
-        self.assertEqual(6, labels[0].y)
-        self.assertEqual('A', labels[0].annotation)
-        self.assertEqual(1, labels[1].y)
-        self.assertEqual('B', labels[1].annotation)
+        self.assertEqual(6, llabels[0].y)
+        self.assertEqual('A', llabels[0].annotation)
+        self.assertEqual(1, llabels[1].y)
+        self.assertEqual('B', llabels[1].annotation)
 
         # right side
-        self.assertEqual(10, labels[2].y)
-        self.assertEqual('A', labels[2].annotation)
-        self.assertEqual(15, labels[3].y)
-        self.assertEqual('B', labels[3].annotation)
+        self.assertEqual(10, rlabels[0].y)
+        self.assertEqual('A', rlabels[0].annotation)
+        self.assertEqual(15, rlabels[1].y)
+        self.assertEqual('B', rlabels[1].annotation)
 
         # x-position
-        self.assertEqual(2, len(list( label for label in labels if max(label.x) < 0 ))) # left
-        self.assertEqual(2, len(list( label for label in labels if min(label.x) > 1 ))) # right
+        self.assertTrue(all( max(label.x) < 0 for label in llabels ))
+        self.assertTrue(all( min(label.x) > 1 for label in rlabels ))
 
     @MultiplexTest.temporary_plot
     def test_draw_labels_with_none(self):
@@ -860,9 +933,11 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        _, labels = viz.draw_slope([ 6, 1, 4, 7 ], [ 10, 15, 5, 8 ], label=[ 'A', None, 'C', None ])
-        self.assertEqual(4, len(labels)) # 2 on each side
-        self.assertEqual({ 'A', 'C' }, set( label.annotation for label in labels ))
+        _, llabels, rlabels = viz.draw_slope([ 6, 1, 4, 7 ], [ 10, 15, 5, 8 ], label=[ 'A', None, 'C', None ])
+        self.assertEqual(2, len(llabels))
+        self.assertEqual(2, len(rlabels))
+        self.assertEqual({ 'A', 'C' }, set( label.annotation for label in llabels ))
+        self.assertEqual({ 'A', 'C' }, set( label.annotation for label in rlabels ))
 
     @MultiplexTest.temporary_plot
     def test_draw_labels_with_empty_string(self):
@@ -871,9 +946,11 @@ class TestSlope(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        _, labels = viz.draw_slope([ 6, 1, 4, 7 ], [ 10, 15, 5, 8 ], label=[ 'A', '', 'C', '' ])
-        self.assertEqual(4, len(labels)) # 2 on each side
-        self.assertEqual({ 'A', 'C' }, set( label.annotation for label in labels ))
+        _, llabels, rlabels = viz.draw_slope([ 6, 1, 4, 7 ], [ 10, 15, 5, 8 ], label=[ 'A', '', 'C', '' ])
+        self.assertEqual(2, len(llabels))
+        self.assertEqual(2, len(rlabels))
+        self.assertEqual({ 'A', 'C' }, set( label.annotation for label in llabels ))
+        self.assertEqual({ 'A', 'C' }, set( label.annotation for label in rlabels ))
 
     @MultiplexTest.temporary_plot
     def test_add_ticks_unknown_where(self):
