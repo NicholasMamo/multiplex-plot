@@ -402,8 +402,8 @@ class Slope(LabelledVisualization):
 
             # find the new x-limit
             xlim = axes.get_xlim()
-            x0 = min( util.get_bb(figure, axes, tick).x0 for tick in axes.get_yticklabels() )
-            x1 = max( util.get_bb(figure, axes, tick).x1 for tick in secondary.get_yticklabels() )
+            x0 = min( util.get_bb(figure, axes, tick).x0 for tick in axes.get_yticklabels() ) if axes.get_yticklabels() else -0.1
+            x1 = max( util.get_bb(figure, axes, tick).x1 for tick in secondary.get_yticklabels() ) if secondary.get_yticklabels() else 1.1
             axes.set_xlim(( x0 - lwidth - lpad, x1 + rwidth + rpad ))
 
             # move the left labels

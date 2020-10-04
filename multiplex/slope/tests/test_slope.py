@@ -1127,6 +1127,36 @@ class TestSlope(MultiplexTest):
                 self.assertFalse(util.overlapping_bb(bbt, bbl))
 
     @MultiplexTest.temporary_plot
+    def test_draw_fit_axes_no_left_ticks(self):
+        """
+        Test that when drawing slope graphs without any left-ticks, the left axes default to -0.1.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        slope.draw(range(1, 11), range(1, 11), y1_tick='')
+
+        # ensure that there are no ticks on the left and that the x-limit starts at -0.1
+        ticks = viz.axes.get_yticklabels()
+        self.assertEqual(0, len(ticks))
+        self.assertEqual(-0.1, viz.axes.get_xlim()[0])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_fit_axes_no_right_ticks(self):
+        """
+        Test that when drawing slope graphs without any right-ticks, the right axes default to 1.1.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        slope = Slope(viz)
+        slope.draw(range(1, 11), range(1, 11), y2_tick='')
+
+        # ensure that there are no ticks on the left and that the x-limit starts at 1.1
+        ticks = viz.secondary.get_yticklabels()
+        self.assertEqual(0, len(ticks))
+        self.assertEqual(1.1, viz.secondary.get_xlim()[1])
+
+    @MultiplexTest.temporary_plot
     def test_draw_labels_left(self):
         """
         Test that when drawing labels on the left, they really are drawn only on the left.
