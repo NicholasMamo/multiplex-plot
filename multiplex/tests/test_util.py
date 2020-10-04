@@ -202,6 +202,100 @@ class TestUtil(MultiplexTest):
         self.assertTrue(util.overlapping_bb(bb1, bb2))
 
     @MultiplexTest.temporary_plot
+    def test_overlapping_inverted_x(self):
+        """
+        Test that when the x-axis is inverted, the overlapping test adapts the bounding boxes.
+        """
+
+        # first test the normal behavior of the bounding box
+        viz = drawable.Drawable(plt.figure(figsize=(5, 5)))
+        text = viz.text(0, 0, 'piece of text')
+        bb = util.get_bb(viz.figure, viz.axes, text)
+        self.assertLess(bb.x0, bb.x1)
+
+        # test that when inverting the x-axis, the x-coordinates of the bounding box change
+        viz.invert_xaxis()
+        bb = util.get_bb(viz.figure, viz.axes, text)
+        self.assertGreater(bb.x0, bb.x1)
+
+        # create overlapping bounding boxes that emulate an inverted x-axis and test
+        bb1, bb2 = Bbox(((1, 0), (0, 1))), Bbox(((1.5, 0.5), (0.5, 1.5)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_inverted_y(self):
+        """
+        Test that when the y-axis is inverted, the overlapping test adapts the bounding boxes.
+        """
+
+        # first test the normal behavior of the bounding box
+        viz = drawable.Drawable(plt.figure(figsize=(5, 5)))
+        text = viz.text(0, 0, 'piece of text')
+        bb = util.get_bb(viz.figure, viz.axes, text)
+        self.assertLess(bb.y0, bb.y1)
+
+        # test that when inverting the y-axis, the y-coordinates of the bounding box change
+        viz.invert_yaxis()
+        bb = util.get_bb(viz.figure, viz.axes, text)
+        self.assertGreater(bb.y0, bb.y1)
+
+        # create overlapping bounding boxes that emulate an inverted y-axis and test
+        bb1, bb2 = Bbox(((0, 1), (1, 0))), Bbox(((0.5, 1.5), (1.5, 0.5)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_inverted_x_y(self):
+        """
+        Test that when the x- and y-axes are inverted, the overlapping test adapts the bounding boxes.
+        """
+
+        # first test the normal behavior of the bounding box
+        viz = drawable.Drawable(plt.figure(figsize=(5, 5)))
+        text = viz.text(0, 0, 'piece of text')
+        bb = util.get_bb(viz.figure, viz.axes, text)
+        self.assertLess(bb.x0, bb.x1)
+        self.assertLess(bb.y0, bb.y1)
+
+        # test that when inverting the x- and y-axes, the x- and y-coordinates of the bounding box change
+        viz.invert_xaxis()
+        viz.invert_yaxis()
+        bb = util.get_bb(viz.figure, viz.axes, text)
+        self.assertGreater(bb.x0, bb.x1)
+        self.assertGreater(bb.y0, bb.y1)
+
+        # create overlapping bounding boxes that emulate inverted x- and y-axes and test
+        bb1, bb2 = Bbox(((1, 1), (0, 0))), Bbox(((1.5, 1.5), (0.5, 0.5)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_inverted_bounding_boxes_unchanged(self):
+        """
+        Test that when the x- or y-axis are inverted, the overlapping test does not change the bounding boxes, but creates new ones.
+        """
+
+        # create overlapping bounding boxes that emulate inverted x- and y-axes and test
+        bb1, bb2 = Bbox(((1, 1), (0, 0))), Bbox(((1.5, 1.5), (0.5, 0.5)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+        self.assertEqual(1, bb1.x0)
+        self.assertEqual(1, bb1.y0)
+        self.assertEqual(0, bb1.x1)
+        self.assertEqual(0, bb1.y1)
+        self.assertEqual(1.5, bb2.x0)
+        self.assertEqual(1.5, bb2.y0)
+        self.assertEqual(0.5, bb2.x1)
+        self.assertEqual(0.5, bb2.y1)
+
+    @MultiplexTest.temporary_plot
+    def test_overlapping_example(self):
+        """
+        Test that when a bounding box overlaps at the left of another bounding box, the function returns true.
+        """
+
+        bb1 = Bbox(((-1.093238251561293, 957636.3708609273), (-0.8867432792684633, 930347.6291390731)))
+        bb2 = Bbox(((-1.2513544017740887, 946495.3708609274), (-0.8867432792684635, 919206.6291390731)))
+        self.assertTrue(util.overlapping_bb(bb1, bb2))
+
+    @MultiplexTest.temporary_plot
     def test_get_bb_scatter(self):
         """
         Test that when getting the bounding box with a scatter point, the get_scatter_bb function is called.

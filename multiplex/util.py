@@ -142,6 +142,12 @@ def overlapping_bb(bb1, bb2):
     :rtype: bool
     """
 
+    bb1 = bb1 if bb1.x0 <= bb1.x1 else Bbox(((bb1.x1, bb1.y0), (bb1.x0, bb1.y1)))
+    bb2 = bb2 if bb2.x0 <= bb2.x1 else Bbox(((bb2.x1, bb2.y0), (bb2.x0, bb2.y1)))
+
+    bb1 = bb1 if bb1.y0 <= bb1.y1 else Bbox(((bb1.x0, bb1.y1), (bb1.x1, bb1.y0)))
+    bb2 = bb2 if bb2.y0 <= bb2.y1 else Bbox(((bb2.x0, bb2.y1), (bb2.x1, bb2.y0)))
+
     return (
         (bb2.x0 < bb1.x0 < bb2.x1 or bb2.x0 < bb1.x1 < bb2.x1 or
          bb1.x0 == bb2.x0 and bb1.x1 == bb2.x1) and
