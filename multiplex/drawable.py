@@ -38,6 +38,7 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 from bar.bar100 import Bar100
 from graph.graph import Graph
 from legend import Legend
+from population.population import Population
 from text.annotation import Annotation
 from text.text import TextAnnotation
 from timeseries.timeseries import TimeSeries
@@ -58,14 +59,18 @@ class Drawable():
     :var caption: The caption, displayed under the title.
     :vartype caption: :class:`~text.annotation.Annotation`
 
-    :ivar timeseries: The time series object that is being used.
-                      When no visualization has been created, it is set to `None`.
-                      It is instantiated the first time a time series is drawn.
-    :vartype timeseries: None or :class:`~timeseries.timeseries.TimeSeries`
     :ivar bar100: The 100% bar chart visualization that is being used.
                   When no visualization has been created, it is set to `None`.
                   It is instantiated the first time a 100% bar chart is drawn.
     :vartype bar100: None or :class:`~bar.100.Bar100`
+    :ivar population: The population visualization that is being used.
+                      When no visualization has been created, it is set to `None`.
+                      It is instantiated the first time a population is drawn.
+    :vartype population: None or :class:`~population.population.Population`
+    :ivar timeseries: The time series object that is being used.
+                      When no visualization has been created, it is set to `None`.
+                      It is instantiated the first time a time series is drawn.
+    :vartype timeseries: None or :class:`~timeseries.timeseries.TimeSeries`
 
     :ivar legend: The figure's legend.
     :vartype legend: :class:`~legend.Legend`
@@ -91,8 +96,9 @@ class Drawable():
 
         self.annotations = [ ]
         self.legend = Legend(self)
-        self.timeseries = None
         self.bar100 = None
+        self.population = None
+        self.timeseries = None
 
     def set_caption(self, caption, alpha=0.8, lineheight=1.25, *args, **kwargs):
         """
