@@ -15,4 +15,15 @@ class Population(Visualization):
     """
     The :class:`~Population` class plots scatter points that represent populations.
     Like all visualizations, it stores a :class:`~drawable.Drawable` instance and revolves around the :func:`~Population.draw` function.
+
+    To draw a population chart, create a :class:`~drawable.Drawable` class and call the :func:`~drawable.Drawable.draw_population` function.
+    This method expects, at the very least, the values and the name of the 100% bar:
+
+    .. code-block:: python
+
+        import matplotlib.pyplot as plt
+        from multiplex import drawable
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.draw_population()
+        viz.show()
     """
