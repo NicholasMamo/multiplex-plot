@@ -47,6 +47,27 @@ class Population(Visualization):
         :raise TypeError: If the number of rows is not a positive integer.
         """
 
+        return self._draw_population(population, rows)
+
+    def _draw_population(self, population, rows):
+        """
+        Draw a new population on this plot.
+
+        :param population: The population to draw.
+                           This can be simply the size of the population.
+        :type population: int
+        :param rows: The number of rows in which to split the population.
+        :type rows: int
+
+        :return: A list of drawn scatter points.
+        :rtype: list of :class:`matplotlib.collections.PathCollection`
+
+        :raise TypeError: If the population is not an integer.
+        :raise TypeError: If the population is not a positive integer.
+        :raise TypeError: If the number of rows is not an integer.
+        :raise TypeError: If the number of rows is not a positive integer.
+        """
+
         if population % 1:
             raise TypeError(f"The number of population must be an integer, received { population } ({ type(population).__name__ })")
 
