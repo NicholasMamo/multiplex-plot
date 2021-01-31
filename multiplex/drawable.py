@@ -377,8 +377,8 @@ class Drawable():
         Draw a population chart on this :class:`~Drawable`.
         The arguments and keyword arguments are those supported by the :class:`~population.population.Population`'s :func:`~population.population.Population.draw` method.
 
-        :return: A list of drawn scatter points.
-        :rtype: list of :class:`matplotlib.collections.PathCollection`
+        :return: A list of drawn scatter points, separated by column.
+        :rtype: list of list of :class:`matplotlib.collections.PathCollection`
         """
 
         self.population = self.population if self.population else Population(self)

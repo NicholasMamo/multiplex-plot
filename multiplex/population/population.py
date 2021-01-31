@@ -3,6 +3,7 @@ Multiplex's population chart is a brand new type of visualization that builds on
 This visualization makes it easy to show how different populations, in a broad sense, vary from each other.
 """
 
+import math
 import os
 import sys
 
@@ -38,8 +39,8 @@ class Population(Visualization):
         :param rows: The number of rows in which to split the population.
         :type rows: int
 
-        :return: A list of drawn scatter points.
-        :rtype: list of :class:`matplotlib.collections.PathCollection`
+        :return: A list of drawn scatter points, separated by column.
+        :rtype: list of list of :class:`matplotlib.collections.PathCollection`
 
         :raise TypeError: If the population is not an integer.
         :raise TypeError: If the population is not a positive integer.
@@ -59,14 +60,16 @@ class Population(Visualization):
         :param rows: The number of rows in which to split the population.
         :type rows: int
 
-        :return: A list of drawn scatter points.
-        :rtype: list of :class:`matplotlib.collections.PathCollection`
+        :return: A list of drawn scatter points, separated by column.
+        :rtype: list of list of :class:`matplotlib.collections.PathCollection`
 
         :raise TypeError: If the population is not an integer.
         :raise TypeError: If the population is not a positive integer.
         :raise TypeError: If the number of rows is not an integer.
         :raise TypeError: If the number of rows is not a positive integer.
         """
+
+        drawn = [ ]
 
         if population % 1:
             raise TypeError(f"The number of population must be an integer, received { population } ({ type(population).__name__ })")
@@ -80,7 +83,25 @@ class Population(Visualization):
         if rows < 1:
             raise ValueError(f"The number of rows must be a positive integer, received { rows }")
 
-        return [ ]
+        # calculate the gap size
+        lim = (0.2, 0.8) # TODO: set the limit as an optional parameter
+        gap = self._gap_size(lim, rows)
+        items = population
+
+        # draw the population
+        for x in range(0, math.ceil(items/rows)):
+            _drawn = [ ]
+            for y in range(0, rows):
+                # stop drawing if all points have been drawn
+                if x * rows + y >= items:
+                    break
+
+                point = self.drawable.scatter(1 + x, lim[0] + y * gap)
+                _drawn.append(point)
+
+            drawn.append(_drawn)
+
+        return drawn
 
     def _gap_size(self, lim, rows):
         """

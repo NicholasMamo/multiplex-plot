@@ -69,6 +69,141 @@ class TestPopulation(MultiplexTest):
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         self.assertEqual([ ], viz.draw_population(0, 10))
 
+    def test_draw_correct_rows_square(self):
+        """
+        Test that when drawing a population, the number of rows in each column (except incomplete columns) is equal to the given number of rows.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        rows = 10
+        drawn = viz.draw_population(30, rows)
+        self.assertTrue(all( rows == len(column) for column in drawn ))
+
+    def test_draw_correct_rows_uneven(self):
+        """
+        Test that when drawing a population, the number of rows in each column is equal to the given number of rows, except for the last column when the population is not a factor of the rows.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        rows = 8
+        drawn = viz.draw_population(30, rows)
+        self.assertTrue(all( rows == len(column) for column in drawn[:-1] ))
+        self.assertTrue(all( len(drawn[-1]) < len(column) for column in drawn[:-1] ))
+
+    def test_draw_equal_population(self):
+        """
+        Test that when drawing a population, all points are drawn.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 30, 10
+        drawn = viz.draw_population(population, rows)
+        self.assertEqual(population, sum( len(column) for column in drawn ))
+
+    def test_draw_equal_population_uneven_columns(self):
+        """
+        Test that when drawing a population, the correct number of points are drawn even when the last column is incomplete.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 25, 10
+        drawn = viz.draw_population(population, rows)
+        self.assertEqual(population, sum( len(column) for column in drawn ))
+
+    def test_draw_do_not_overlap(self):
+        """
+        Test that none of the drawn points in a population overlap.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        drawn = viz.draw_population(13, 3)
+        points = [ point for column in drawn for point in column ]
+        for i in range(0, len(points)):
+            for j in range(i + 1, len(points)):
+                self.assertFalse(util.overlapping(viz.figure, viz.axes, points[i], points[j]))
+
+    def test_draw_rows_align(self):
+        """
+        Test that the drawn points align along the same row.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 13, 3
+        drawn = viz.draw_population(population, rows)
+
+        # transpose the columns
+        rows = [ [ column[row] for column in drawn if len(column) > row ] for row in range(rows) ]
+        self.assertEqual(population, sum([ len(row) for row in rows ]))
+
+        # check that each row's points have the same y0 and y1
+        for row in rows:
+            bb = util.get_bb(viz.figure, viz.axes, row[0])
+            for point in row[1:]:
+                _bb = util.get_bb(viz.figure, viz.axes, point)
+                self.assertEqual(bb.y0, _bb.y0)
+                self.assertEqual(bb.y1, _bb.y1)
+                self.assertEqual(bb.height, _bb.height)
+
+    def test_draw_rows_equidistant(self):
+        """
+        Test that the rows are separated with the same gap.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 10, 5
+        drawn = viz.draw_population(population, rows)
+
+        # transpose the columns
+        rows = [ [ column[row] for column in drawn if len(column) > row ] for row in range(rows) ]
+        self.assertEqual(population, sum([ len(row) for row in rows ]))
+
+        # check that each row is equidistant from the next
+        bb = util.get_bb(viz.figure, viz.axes, rows[0][0])
+        bb_next = util.get_bb(viz.figure, viz.axes, rows[1][0])
+        self.assertLess(bb.y1, bb_next.y0)
+        gap = bb.y1 - bb_next.y0
+        for i in range(len(rows)):
+            bb = util.get_bb(viz.figure, viz.axes, rows[0][0])
+            bb_next = util.get_bb(viz.figure, viz.axes, rows[1][0])
+            self.assertEqual(gap, bb.y1 - bb_next.y0)
+
+    def test_draw_columns_align(self):
+        """
+        Test that the drawn points align along the same column.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 13, 3
+        drawn = viz.draw_population(population, rows)
+
+        # check that each column's points have the same x0 and x1
+        for column in drawn:
+            bb = util.get_bb(viz.figure, viz.axes, column[0])
+            for point in column[1:]:
+                _bb = util.get_bb(viz.figure, viz.axes, point)
+                self.assertEqual(bb.x0, _bb.x0)
+                self.assertEqual(bb.x1, _bb.x1)
+                self.assertEqual(bb.width, _bb.width)
+
+    def test_draw_columns_equidistant(self):
+        """
+        Test that the columns are separated with the same gap.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 10, 5
+        drawn = viz.draw_population(population, rows)
+
+        # check that each columns is equidistant from the next
+        bb = util.get_bb(viz.figure, viz.axes, drawn[0][0])
+        bb_next = util.get_bb(viz.figure, viz.axes, drawn[1][0])
+        self.assertLess(bb.x1, bb_next.x0)
+        gap = bb.x1 - bb_next.x0
+        for i in range(len(drawn)):
+            bb = util.get_bb(viz.figure, viz.axes, drawn[0][0])
+            bb_next = util.get_bb(viz.figure, viz.axes, drawn[1][0])
+            self.assertEqual(gap, bb.x1 - bb_next.x0)
+
     def test_gap_size_float_rows(self):
         """
         Test that when getting the gap size and the number of rows is a float, the function raises a TypeError.
