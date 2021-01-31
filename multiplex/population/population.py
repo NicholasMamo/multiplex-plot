@@ -103,6 +103,18 @@ class Population(Visualization):
 
         return drawn
 
+    def _limit(self, height):
+        """
+        Calculate the limit of the population based on the give height.
+
+        :raise ValueError: If the height is not between 0 and 1.
+        """
+
+        if not 0 < height <= 1:
+            raise ValueError(f"The height of the population must be greater than 0, and less than or equal to 1, received { height }")
+
+        return (0.5 - height / 2, 0.5 + height / 2)
+
     def _gap_size(self, lim, rows):
         """
         Calculate the gap size such that the given number of rows fit between the given limit.

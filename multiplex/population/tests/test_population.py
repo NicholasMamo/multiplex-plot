@@ -204,6 +204,56 @@ class TestPopulation(MultiplexTest):
             bb_next = util.get_bb(viz.figure, viz.axes, drawn[1][0])
             self.assertEqual(gap, bb.x1 - bb_next.x0)
 
+    def test_limit_negative_height(self):
+        """
+        Test that when drawing with a negative population height, the function raises a ValueError.
+        """
+
+        viz = Population(drawable.Drawable)
+        self.assertRaises(ValueError, viz._limit, -1)
+
+    def test_limit_zero_height(self):
+        """
+        Test that when drawing with a zero population height, the function raises a ValueError.
+        """
+
+        viz = Population(drawable.Drawable)
+        self.assertRaises(ValueError, viz._limit, 0)
+
+    def test_limit_height_one(self):
+        """
+        Test that when drawing with a population height of 1, the function accepts it.
+        """
+
+        viz = Population(drawable.Drawable)
+        self.assertTrue(viz._limit(1))
+
+    def test_limit_large_height(self):
+        """
+        Test that when drawing with a large population height, the function raises a ValueError.
+        """
+
+        viz = Population(drawable.Drawable)
+        self.assertRaises(ValueError, viz._limit, 2)
+
+    def test_limit(self):
+        """
+        Test calculating the limit.
+        """
+
+        viz = Population(drawable.Drawable)
+        self.assertEqual((0.25, 0.75), viz._limit(0.5))
+
+    def test_limit_order(self):
+        """
+        Test that the limit is a tuple in ascending order.
+        """
+
+        viz = Population(drawable.Drawable)
+        limit = viz._limit(0.5)
+        self.assertEqual(tuple, type(limit))
+        self.assertLess(limit[0], limit[1])
+
     def test_gap_size_float_rows(self):
         """
         Test that when getting the gap size and the number of rows is a float, the function raises a TypeError.
