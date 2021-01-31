@@ -3,6 +3,9 @@ Multiplex's population chart is a brand new type of visualization that builds on
 This visualization makes it easy to show how different populations, in a broad sense, vary from each other.
 """
 
+import os
+import sys
+
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 import util
 
