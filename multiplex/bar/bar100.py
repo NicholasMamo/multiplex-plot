@@ -74,7 +74,6 @@ class Bar100(Visualization):
         Draws a bar on the :class:`~drawable.Drawable` that spans 100% of the x-axis.
         The function automatically converts the given values into percentages.
 
-
         The values can be provided either as a list of floats or as a list of dictionaries.
         If floats are provided, the function automatically converts them into dictionaries.
         Dictionaries should have the following format:

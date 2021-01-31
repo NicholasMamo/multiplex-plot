@@ -27,3 +27,13 @@ class Population(Visualization):
         viz.draw_population()
         viz.show()
     """
+
+    def draw(self):
+        """
+        Draw a new population on this plot.
+
+        :return: A list of drawn scatter points.
+        :rtype: list of :class:`matplotlib.collections.PathCollection`
+        """
+
+        return [ ]
