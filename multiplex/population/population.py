@@ -29,9 +29,12 @@ class Population(Visualization):
         viz.show()
     """
 
-    def draw(self, population, rows, height=0.6):
+    def draw(self, population, rows, height=0.6, *args, **kwargs):
         """
         Draw a new population on this plot.
+
+        You can pass additional styling options as ``args`` or ``kwargs``.
+        The accepted styling options are those supported by the `matplotlib.pyplot.barh <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.scatter.html>`_ method.
 
         :param population: The population to draw.
                            This can be simply the size of the population.
@@ -51,9 +54,9 @@ class Population(Visualization):
         :raise ValueError: If the height is not between 0 and 1.
         """
 
-        return self._draw_population(population, rows, height)
+        return self._draw_population(population, rows, height, *args, **kwargs)
 
-    def _draw_population(self, population, rows, height):
+    def _draw_population(self, population, rows, height, *args, **kwargs):
         """
         Draw a new population on this plot.
 
@@ -101,7 +104,7 @@ class Population(Visualization):
                 if x * rows + y >= items:
                     break
 
-                point = self.drawable.scatter(1 + x, lim[0] + y * gap)
+                point = self.drawable.scatter(1 + x, lim[0] + y * gap, *args, **kwargs)
                 _drawn.append(point)
 
             drawn.append(_drawn)

@@ -262,6 +262,17 @@ class TestPopulation(MultiplexTest):
             bb_next = util.get_bb(viz.figure, viz.axes, drawn[1][0])
             self.assertEqual(gap, bb.x1 - bb_next.x0)
 
+    def test_draw_apply_general_style(self):
+        """
+        Test that when passing on keyword arguments, they are treated as the general style and applied to all points.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        color = '#F1428A'
+        drawn = viz.draw_population(10, 3, color=color)
+        points = [ point for column in drawn for point in column ]
+        self.assertTrue(all( [241/255, 66/255, 138/255, 1] == point.get_facecolor().tolist()[0] for point in points ))
+
     def test_limit_negative_height(self):
         """
         Test that when drawing with a negative population height, the function raises a ValueError.
