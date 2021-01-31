@@ -372,6 +372,18 @@ class Drawable():
         graph = Graph(self)
         return graph.draw(*args, **kwargs)
 
+    def draw_population(self, *args, **kwargs):
+        """
+        Draw a population chart on this :class:`~Drawable`.
+        The arguments and keyword arguments are those supported by the :class:`~population.population.Population`'s :func:`~population.population.Population.draw` method.
+
+        :return: A list of drawn scatter points.
+        :rtype: list of :class:`matplotlib.collections.PathCollection`
+        """
+
+        self.population = self.population if self.population else Population(self)
+        return self.population.draw(*args, **kwargs)
+
     def draw_text_annotation(self, *args, **kwargs):
         """
         Draw a text annotation visualization on this :class:`~Drawable`.
