@@ -29,7 +29,31 @@ class Population(Visualization):
         viz.show()
     """
 
-    def draw(self, population, rows):
+    def draw(self, population, rows, height=0.6):
+        """
+        Draw a new population on this plot.
+
+        :param population: The population to draw.
+                           This can be simply the size of the population.
+        :type population: int
+        :param rows: The number of rows in which to split the population.
+        :type rows: int
+        :param height: The height of the population, between 0 (exclusive) and 1.
+        :type height: float
+
+        :return: A list of drawn scatter points, separated by column.
+        :rtype: list of list of :class:`matplotlib.collections.PathCollection`
+
+        :raise TypeError: If the population is not an integer.
+        :raise TypeError: If the population is not a positive integer.
+        :raise TypeError: If the number of rows is not an integer.
+        :raise TypeError: If the number of rows is not a positive integer.
+        :raise ValueError: If the height is not between 0 and 1.
+        """
+
+        return self._draw_population(population, rows, height)
+
+    def _draw_population(self, population, rows, height):
         """
         Draw a new population on this plot.
 
@@ -46,27 +70,7 @@ class Population(Visualization):
         :raise TypeError: If the population is not a positive integer.
         :raise TypeError: If the number of rows is not an integer.
         :raise TypeError: If the number of rows is not a positive integer.
-        """
-
-        return self._draw_population(population, rows)
-
-    def _draw_population(self, population, rows):
-        """
-        Draw a new population on this plot.
-
-        :param population: The population to draw.
-                           This can be simply the size of the population.
-        :type population: int
-        :param rows: The number of rows in which to split the population.
-        :type rows: int
-
-        :return: A list of drawn scatter points, separated by column.
-        :rtype: list of list of :class:`matplotlib.collections.PathCollection`
-
-        :raise TypeError: If the population is not an integer.
-        :raise TypeError: If the population is not a positive integer.
-        :raise TypeError: If the number of rows is not an integer.
-        :raise TypeError: If the number of rows is not a positive integer.
+        :raise ValueError: If the height is not between 0 and 1.
         """
 
         drawn = [ ]
@@ -84,7 +88,7 @@ class Population(Visualization):
             raise ValueError(f"The number of rows must be a positive integer, received { rows }")
 
         # calculate the gap size
-        lim = (0.2, 0.8) # TODO: set the limit as an optional parameter
+        lim = self._limit(height)
         gap = self._gap_size(lim, rows)
         items = population
 

@@ -61,6 +61,38 @@ class TestPopulation(MultiplexTest):
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         self.assertRaises(ValueError, viz.draw_population, -5, 10)
 
+    def test_draw_negative_height(self):
+        """
+        Test that when drawing with a negative population height, the function raises a ValueError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertRaises(ValueError, viz.draw_population, 5, 10, height=-1)
+
+    def test_draw_zero_height(self):
+        """
+        Test that when drawing with a zero population height, the function raises a ValueError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertRaises(ValueError, viz.draw_population, 5, 10, height=0)
+
+    def test_draw_height_one(self):
+        """
+        Test that when drawing with a population height of 1, the function accepts it.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertTrue(viz.draw_population(5, 10, height=1))
+
+    def test_draw_large_height(self):
+        """
+        Test that when drawing with a large population height, the function raises a ValueError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertRaises(ValueError, viz.draw_population, 5, 10, height=2)
+
     def test_draw_zero_population(self):
         """
         Test that when drawing an empty population, the function returns an empty list of points.
@@ -121,6 +153,32 @@ class TestPopulation(MultiplexTest):
         for i in range(0, len(points)):
             for j in range(i + 1, len(points)):
                 self.assertFalse(util.overlapping(viz.figure, viz.axes, points[i], points[j]))
+
+    def test_draw_fits_within_height(self):
+        """
+        Test that the points fit within the given height.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        height = 0.5
+        lim = (0.25, 0.75)
+        drawn = viz.draw_population(15, 3, height=height)
+
+        # check that all points are within the height
+        points = [ point for column in drawn for point in column ]
+        for point in points:
+            bb = util.get_bb(viz.figure, viz.axes, point)
+            self.assertTrue(lim[0] <= (bb.y0 + bb.y1)/2. <= lim[1])
+
+        # check that the first point in each column is at the lowest point
+        for column in drawn:
+            bb = util.get_bb(viz.figure, viz.axes, column[0])
+            self.assertEqual(lim[0], (bb.y0 + bb.y1) / 2)
+
+        # check that the last point in each column is at the highest point
+        for column in drawn:
+            bb = util.get_bb(viz.figure, viz.axes, column[-1])
+            self.assertEqual(lim[1], (bb.y0 + bb.y1) / 2)
 
     def test_draw_rows_align(self):
         """
