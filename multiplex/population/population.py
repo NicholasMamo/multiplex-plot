@@ -37,3 +37,29 @@ class Population(Visualization):
         """
 
         return [ ]
+
+    def _gap_size(self, lim, rows):
+        """
+        Calculate the gap size such that the given number of rows fit between the given limit.
+
+        :param lim: The y-limit of the entire population.
+        :type lim: tuple of float
+        :param rows: The number of rows to fit in the limit.
+        :type rows: int
+
+        :return: The gap between each row such that the population fits perfectly between the limit.
+
+        :raise TypeError: If the number of rows is not an integer.
+        :raise TypeError: If the number of rows is not a positive integer.
+        """
+
+        if rows % 1:
+            raise TypeError(f"The number of rows must be an integer, received { rows } ({ type(rows).__name__ })")
+
+        if rows < 1:
+            raise ValueError(f"The number of rows must be a positive integer, received { rows }")
+
+        if rows == 1:
+            return 0
+
+        return (lim[1] - lim[0])/(rows - 1)
