@@ -21,9 +21,57 @@ class TestPopulation(MultiplexTest):
     Unit tests for the :class:`~population.population.Population` class.
     """
 
+    def test_draw_float_rows(self):
+        """
+        Test that when drawing with a floating point number of rows, the function raises a TypeError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertRaises(TypeError, viz.draw_population, 5, 1.2)
+
+    def test_draw_negative_rows(self):
+        """
+        Test that when drawing with a negative number of rows, the function raises a ValueError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertRaises(ValueError, viz.draw_population, 5, -1)
+
+    def test_draw_zero_rows(self):
+        """
+        Test that when drawing with no rows, the function raises a ValueError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertRaises(ValueError, viz.draw_population, 5, 0)
+
+    def test_draw_float_population(self):
+        """
+        Test that when drawing with a floating point population, the function raises a TypeError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertRaises(TypeError, viz.draw_population, 2.4, 10)
+
+    def test_draw_negative_population(self):
+        """
+        Test that when drawing with a negative population, the function raises a ValueError.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertRaises(ValueError, viz.draw_population, -5, 10)
+
+    def test_draw_zero_population(self):
+        """
+        Test that when drawing an empty population, the function returns an empty list of points.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertEqual([ ], viz.draw_population(0, 10))
+
     def test_gap_size_float_rows(self):
         """
-        Test that when getting the gap size and the number of rows is a float, function raises a TypeError.
+        Test that when getting the gap size and the number of rows is a float, the function raises a TypeError.
         """
 
         viz = Population(drawable.Drawable)
@@ -31,7 +79,7 @@ class TestPopulation(MultiplexTest):
 
     def test_gap_size_negative_rows(self):
         """
-        Test that when getting the gap size and the number of rows is a negative integer, function raises a ValueError.
+        Test that when getting the gap size and the number of rows is a negative integer, the function raises a ValueError.
         """
 
         viz = Population(drawable.Drawable)
@@ -39,7 +87,7 @@ class TestPopulation(MultiplexTest):
 
     def test_gap_size_zero_rows(self):
         """
-        Test that when getting the gap size and the number of rows is zero, function raises a ValueError.
+        Test that when getting the gap size and the number of rows is zero, the function raises a ValueError.
         """
 
         viz = Population(drawable.Drawable)
