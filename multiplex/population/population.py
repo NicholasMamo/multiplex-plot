@@ -90,6 +90,7 @@ class Population(Visualization):
         # calculate the gap size
         lim = self._limit(height)
         gap = self._gap_size(lim, rows)
+        self.drawable.set_ylim(-0.1, 1.1)
         items = population
 
         # draw the population
