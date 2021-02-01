@@ -29,7 +29,19 @@ class Population(LabelledVisualization):
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         viz.draw_population(25, 10)
         viz.show()
+
+    :ivar start_labels: The drawn start labels.
+    :vartype start_labels: list of :class:`~text.annotation.Annotation`
     """
+
+    def __init__(self, *args, **kwargs):
+        """
+        Initialize the slope graph with a drawable.
+        This function also creates a container for the drawn labels and populations.
+        """
+
+        super().__init__(*args, **kwargs)
+        self.start_labels = [ ]
 
     def draw(self, population, rows, name, style_plot=True, height=0.6,
              show_start=True, *args, **kwargs):

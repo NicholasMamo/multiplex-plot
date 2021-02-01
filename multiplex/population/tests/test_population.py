@@ -23,6 +23,26 @@ class TestPopulation(MultiplexTest):
     """
 
     @MultiplexTest.temporary_plot
+    def test_init_save_drawable(self):
+        """
+        Test that when creating the population, the drawable is saved.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        popviz = Population(viz)
+        self.assertEqual(viz, popviz.drawable)
+
+    @MultiplexTest.temporary_plot
+    def test_init_empty_start_labels(self):
+        """
+        Test that when creating the population, the drawable creates an empty list for start labels.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        popviz = Population(viz)
+        self.assertEqual([ ], popviz.start_labels)
+
+    @MultiplexTest.temporary_plot
     def test_draw_float_rows(self):
         """
         Test that when drawing with a floating point number of rows, the function raises a TypeError.
