@@ -109,7 +109,7 @@ class TestPopulation(MultiplexTest):
         Test that when drawing a population and styling the plot, the correct styling options are applied.
         """
 
-        # check the initial style
+        # test the initial style
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         viz.grid(True)
         self.assertTrue(viz.axes.spines['left'].get_visible())
@@ -130,7 +130,7 @@ class TestPopulation(MultiplexTest):
         Test that when drawing a population without styling the plot, the style is not overwritten.
         """
 
-        # check the initial style
+        # test the initial style
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         viz.grid(True)
         self.assertTrue(viz.axes.spines['left'].get_visible())
@@ -151,7 +151,7 @@ class TestPopulation(MultiplexTest):
         Test that when drawing multiple populations and styling the plot, the y-axes are not inverted more than once.
         """
 
-        # check the initial style
+        # test the initial style
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         self.assertFalse(viz.yaxis_inverted())
 
@@ -297,18 +297,18 @@ class TestPopulation(MultiplexTest):
         lim = (0.25, 0.75)
         drawn = viz.draw_population(15, 3, height=height)
 
-        # check that all points are within the height
+        # test that all points are within the height
         points = [ point for column in drawn for point in column ]
         for point in points:
             bb = util.get_bb(viz.figure, viz.axes, point)
             self.assertTrue(lim[0] <= (bb.y0 + bb.y1)/2. <= lim[1])
 
-        # check that the first point in each column is at the lowest point
+        # test that the first point in each column is at the lowest point
         for column in drawn:
             bb = util.get_bb(viz.figure, viz.axes, column[0])
             self.assertEqual(lim[0], (bb.y0 + bb.y1) / 2)
 
-        # check that the last point in each column is at the highest point
+        # test that the last point in each column is at the highest point
         for column in drawn:
             bb = util.get_bb(viz.figure, viz.axes, column[-1])
             self.assertEqual(lim[1], (bb.y0 + bb.y1) / 2)
@@ -327,7 +327,7 @@ class TestPopulation(MultiplexTest):
         rows = [ [ column[row] for column in drawn if len(column) > row ] for row in range(rows) ]
         self.assertEqual(population, sum([ len(row) for row in rows ]))
 
-        # check that each row's points have the same y0 and y1
+        # test that each row's points have the same y0 and y1
         for row in rows:
             bb = util.get_bb(viz.figure, viz.axes, row[0])
             for point in row[1:]:
@@ -350,7 +350,7 @@ class TestPopulation(MultiplexTest):
         rows = [ [ column[row] for column in drawn if len(column) > row ] for row in range(rows) ]
         self.assertEqual(population, sum([ len(row) for row in rows ]))
 
-        # check that each row is equidistant from the next
+        # test that each row is equidistant from the next
         bb = util.get_bb(viz.figure, viz.axes, rows[0][0])
         bb_next = util.get_bb(viz.figure, viz.axes, rows[1][0])
         self.assertLess(bb.y1, bb_next.y0)
@@ -370,7 +370,7 @@ class TestPopulation(MultiplexTest):
         population, rows = 13, 3
         drawn = viz.draw_population(population, rows)
 
-        # check that each column's points have the same x0 and x1
+        # test that each column's points have the same x0 and x1
         for column in drawn:
             bb = util.get_bb(viz.figure, viz.axes, column[0])
             for point in column[1:]:
@@ -389,7 +389,7 @@ class TestPopulation(MultiplexTest):
         population, rows = 10, 5
         drawn = viz.draw_population(population, rows)
 
-        # check that each columns is equidistant from the next
+        # test that each columns is equidistant from the next
         bb = util.get_bb(viz.figure, viz.axes, drawn[0][0])
         bb_next = util.get_bb(viz.figure, viz.axes, drawn[1][0])
         self.assertLess(bb.x1, bb_next.x0)
@@ -400,7 +400,7 @@ class TestPopulation(MultiplexTest):
             self.assertEqual(gap, bb.x1 - bb_next.x0)
 
     @MultiplexTest.temporary_plot
-    def test_draw_apply_general_style(self):
+    def test_draw_style_general(self):
         """
         Test that when passing on keyword arguments, they are treated as the general style and applied to all points.
         """
@@ -410,6 +410,95 @@ class TestPopulation(MultiplexTest):
         drawn = viz.draw_population(10, 3, color=color)
         points = [ point for column in drawn for point in column ]
         self.assertTrue(all( [241/255, 66/255, 138/255, 1] == point.get_facecolor().tolist()[0] for point in points ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_style_no_specific_style(self):
+        """
+        Test that when the population is made up of empty dictionaries, the items inherit the general style.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        color = '#F1428A'
+        population, rows = 10, 3
+        drawn = viz.draw_population([ { } ] * population, rows, color=color)
+        points = [ point for column in drawn for point in column ]
+        self.assertEqual(population, len(points))
+        self.assertTrue(all( [241/255, 66/255, 138/255, 1] == point.get_facecolor().tolist()[0] for point in points ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_style_no_general_style(self):
+        """
+        Test that when the population has no general style, but the specific style is given for each item, all items have the same specific style.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 10, 3
+        drawn = viz.draw_population([ { 'color': '#F1428A' } ] * population, rows)
+        points = [ point for column in drawn for point in column ]
+        self.assertEqual(population, len(points))
+        self.assertTrue(all( [241/255, 66/255, 138/255, 1] == point.get_facecolor().tolist()[0] for point in points ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_style_spcific_per_item(self):
+        """
+        Test that when some population items have a specific style, it is only applied to them, not to the others.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = [ { } ] * 10, 3
+        population[2] = { 'color': '#F1428A' }
+        drawn = viz.draw_population(population, rows)
+        points = [ point for column in drawn for point in column ]
+
+        # test the styled point's color
+        self.assertEqual([241/255, 66/255, 138/255, 1], points[2].get_facecolor().tolist()[0])
+
+        # test that the rest of the points do not have the same color as the styled point
+        self.assertTrue(all( [241/255, 66/255, 138/255, 1] != point.get_facecolor().tolist()[0]
+                             for i, point in enumerate(points) if i != 2 ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_style_spcific_overrides_general(self):
+        """
+        Test that the specific style overrides the general style.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        color = '#F18A42'
+        population, rows = [ { } ] * 10, 3
+        population[2] = { 'color': '#F1428A' }
+        drawn = viz.draw_population(population, rows, color=color)
+        points = [ point for column in drawn for point in column ]
+
+        # test the styled point's color
+        self.assertEqual([241/255, 66/255, 138/255, 1], points[2].get_facecolor().tolist()[0])
+
+        # test that the rest of the points do not have the same color as the styled point
+        self.assertTrue(all( [241/255, 138/255, 66/255, 1] == point.get_facecolor().tolist()[0]
+                             for i, point in enumerate(points) if i != 2 ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_style_spcific_retains_general(self):
+        """
+        Test that the specific style does not override the general style in parameters it does not have.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        color, edgecolor = '#F18A42', '#8A42F1'
+        population, rows = [ { } ] * 10, 3
+        population[2] = { 'color': '#F1428A' }
+        drawn = viz.draw_population(population, rows, color=color, edgecolor=edgecolor)
+        points = [ point for column in drawn for point in column ]
+
+        # test the styled point's color
+        self.assertEqual([241/255, 66/255, 138/255, 1], points[2].get_facecolor().tolist()[0])
+
+        # test that the rest of the points do not have the same color as the styled point
+        self.assertTrue(all( [241/255, 138/255, 66/255, 1] == point.get_facecolor().tolist()[0]
+                             for i, point in enumerate(points) if i != 2 ))
+
+        # test that the edge color is the same in all cases
+        self.assertTrue(all( [138/255, 66/255, 241/255, 1] == point.get_edgecolor().tolist()[0] for point in points ))
 
     @MultiplexTest.temporary_plot
     def test_draw_xticks_empty_population(self):

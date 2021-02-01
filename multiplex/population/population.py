@@ -130,7 +130,11 @@ class Population(Visualization):
                 if x * rows + y >= len(items):
                     break
 
-                point = self.drawable.scatter(1 + x, lim[0] + y * gap, *args, **kwargs)
+                # draw the point with the correct style
+                item = items[ x * rows + y ]
+                style = dict(kwargs)
+                style.update(item if type(item) is dict else { })
+                point = self.drawable.scatter(1 + x, lim[0] + y * gap, **style)
                 _drawn.append(point)
 
             drawn.append(_drawn)
