@@ -667,6 +667,57 @@ class TestPopulation(MultiplexTest):
         self.assertEqual([ 0.5 ], [ tick for tick in viz.get_yticks() ])
 
     @MultiplexTest.temporary_plot
+    def test_draw_start_label_none(self):
+        """
+        Test that when the start label is not set, it is not drawn.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        drawn = viz.draw_population(10, 5, '')
+        self.assertEqual([ ], viz.population.start_labels)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_start_label_saved(self):
+        """
+        Test that the start label is saved in the population class.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        drawn = viz.draw_population(10, 5, '', show_start=True)
+        self.assertEqual(1, len(viz.population.start_labels))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_start_label_saved(self):
+        """
+        Test that the start label has the same style as the ticks.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        drawn = viz.draw_population(10, 5, '', show_start=True)
+        self.assertEqual(1, len(viz.population.start_labels))
+
+        # test that the style mirrors the tick style
+        label = viz.population.start_labels[0]
+        self.assertEqual(plt.rcParams['xtick.color'], label.style['color'])
+        self.assertEqual(plt.rcParams['xtick.labelsize'], label.style['size'])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_start_label_position(self):
+        """
+        Test that the start label is drawn next to the very first point.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        drawn = viz.draw_population(10, 5, '', show_start=True)
+        self.assertEqual(1, len(viz.population.start_labels))
+
+        # compare the position of the label with the position of the first point
+        label = viz.population.start_labels[0]
+        point = drawn[0][0] # first column, first point
+        bb = util.get_bb(viz.figure, viz.axes, point)
+        self.assertEqual((bb.y0 + bb.y1) / 2, label.y)
+
+    @MultiplexTest.temporary_plot
     def test_limit_negative_height(self):
         """
         Test that when drawing with a negative population height, the function raises a ValueError.

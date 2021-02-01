@@ -5,6 +5,7 @@ This visualization makes it easy to show how different populations, in a broad s
 
 from collections.abc import Iterable
 import math
+import matplotlib.pyplot as plt
 from numbers import Number
 import os
 import sys
@@ -48,7 +49,7 @@ class Population(LabelledVisualization):
         self.populations = [ ]
 
     def draw(self, population, rows, name, style_plot=True, height=0.6,
-             show_start=True, *args, **kwargs):
+             show_start=False, *args, **kwargs):
         """
         Draw a new population on this plot.
 
@@ -94,8 +95,9 @@ class Population(LabelledVisualization):
         if style_plot:
             self._style()
 
+        # add a number next to the first item to indicate where the population starts
         if show_start:
-            self._add_start_label(height)
+            self.start_labels.append(self._draw_start_label(height))
 
         return population
 
@@ -175,16 +177,20 @@ class Population(LabelledVisualization):
         self._add_ytick(name)
         return drawn
 
-    def _add_start_label(self, height):
+    def _draw_start_label(self, height):
         """
         Add an annotation next to the first item in the population.
 
         :param height: The height of the population, between 0 (exclusive) and 1.
         :type height: float
+
+        :return: The drawn annotation.
+        :rtype: :class:`~text.annotation.Annotation`
         """
 
         lim = self._limit(height)
-        self.draw_label('1', (0, 0.7), lim[0], va='center', align='right')
+        style = { 'color': plt.rcParams['xtick.color'], 'size': plt.rcParams['xtick.labelsize'] }
+        return self.draw_label('1', (0, 0.7), lim[0], va='center', align='right', **style)
 
     def _limit(self, height):
         """
