@@ -27,11 +27,14 @@ class Population(LabelledVisualization):
         import matplotlib.pyplot as plt
         from multiplex import drawable
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_population(25, 10)
+        viz.draw_population(25, 10, 'Population')
         viz.show()
 
     :ivar start_labels: The drawn start labels.
     :vartype start_labels: list of :class:`~text.annotation.Annotation`
+    :ivar populations: A list of populations, represented as scatter points.
+                       Each population contains these points, separated by column.
+    :vartype populations: list of list of list of :class:`matplotlib.collections.PathCollection`
     """
 
     def __init__(self, *args, **kwargs):
@@ -42,6 +45,7 @@ class Population(LabelledVisualization):
 
         super().__init__(*args, **kwargs)
         self.start_labels = [ ]
+        self.populations = [ ]
 
     def draw(self, population, rows, name, style_plot=True, height=0.6,
              show_start=True, *args, **kwargs):
