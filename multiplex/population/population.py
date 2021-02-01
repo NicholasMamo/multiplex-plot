@@ -88,6 +88,7 @@ class Population(LabelledVisualization):
 
         # draw the population
         population = self._draw_population(population, rows, name, height, *args, **kwargs)
+        self.populations.append(population)
 
         # re-style the plot if need be, leaving it until last since the population changes the y-axis
         if style_plot:

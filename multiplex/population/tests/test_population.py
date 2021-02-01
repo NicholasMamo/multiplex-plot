@@ -134,6 +134,16 @@ class TestPopulation(MultiplexTest):
         self.assertRaises(ValueError, viz.draw_population, 5, 10, '', height=2)
 
     @MultiplexTest.temporary_plot
+    def test_draw_save_population(self):
+        """
+        Test that when drawing a population, it is saved in the class too.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        pop = viz.draw_population(5, 10, '', height=1)
+        self.assertEqual([ pop ], viz.population.populations)
+
+    @MultiplexTest.temporary_plot
     def test_draw_with_style(self):
         """
         Test that when drawing a population and styling the plot, the correct styling options are applied.
