@@ -31,7 +31,8 @@ class Population(LabelledVisualization):
         viz.show()
     """
 
-    def draw(self, population, rows, name, style_plot=True, height=0.6, *args, **kwargs):
+    def draw(self, population, rows, name, style_plot=True, height=0.6,
+             show_start=True, *args, **kwargs):
         """
         Draw a new population on this plot.
 
@@ -55,6 +56,9 @@ class Population(LabelledVisualization):
         :type style_plot: bool
         :param height: The height of the population, between 0 (exclusive) and 1.
         :type height: float
+        :param show_start: Draw a label next to the first item in the population.
+                           This label looks exactly like the ticks and is a simple '1'.
+        :type show_start: bool
 
         :return: A list of drawn scatter points, separated by column.
         :rtype: list of list of :class:`matplotlib.collections.PathCollection`
@@ -72,6 +76,9 @@ class Population(LabelledVisualization):
         # re-style the plot if need be, leaving it until last since the population changes the y-axis
         if style_plot:
             self._style()
+
+        if show_start:
+            self._add_start_label(height)
 
         return population
 
@@ -150,6 +157,17 @@ class Population(LabelledVisualization):
         self._update_xticks(rows, columns)
         self._add_ytick(name)
         return drawn
+
+    def _add_start_label(self, height):
+        """
+        Add an annotation next to the first item in the population.
+
+        :param height: The height of the population, between 0 (exclusive) and 1.
+        :type height: float
+        """
+
+        lim = self._limit(height)
+        self.draw_label('1', (0, 0.7), lim[0], va='center', align='right')
 
     def _limit(self, height):
         """
