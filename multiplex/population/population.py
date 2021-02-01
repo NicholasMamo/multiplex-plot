@@ -157,9 +157,9 @@ class Population(LabelledVisualization):
         columns = math.ceil(len(items)/rows)
 
         # draw the population
-        for x in range(0, columns):
+        for x in range(columns):
             _drawn = [ ]
-            for y in range(0, rows):
+            for y in range(rows):
                 # stop drawing if all points have been drawn
                 if x * rows + y >= len(items):
                     break
