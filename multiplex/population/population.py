@@ -31,7 +31,7 @@ class Population(Visualization):
         viz.show()
     """
 
-    def draw(self, population, rows, style_plot=True, height=0.6, *args, **kwargs):
+    def draw(self, population, rows, name, style_plot=True, height=0.6, *args, **kwargs):
         """
         Draw a new population on this plot.
 
@@ -43,6 +43,9 @@ class Population(Visualization):
         :type population: int or list
         :param rows: The number of rows in which to split the population.
         :type rows: int
+        :param name: The name of the population.
+                     The function automatically adds this name to the y-axis tick labels next to the drawn population.
+        :type name: str
         :param style_plot: A boolean indicating whether the plot should be re-styled.
                            If it is set to ``True``, the visualization:
 
@@ -64,7 +67,7 @@ class Population(Visualization):
         """
 
         # draw the population
-        population = self._draw_population(population, rows, height, *args, **kwargs)
+        population = self._draw_population(population, rows, name, height, *args, **kwargs)
 
         # re-style the plot if need be, leaving it until last since the population changes the y-axis
         if style_plot:
@@ -85,7 +88,7 @@ class Population(Visualization):
         self.drawable.invert_yaxis()
         self.drawable.grid(False)
 
-    def _draw_population(self, population, rows, height, *args, **kwargs):
+    def _draw_population(self, population, rows, name, height, *args, **kwargs):
         """
         Draw a new population on this plot.
 
@@ -94,6 +97,11 @@ class Population(Visualization):
         :type population: int or list
         :param rows: The number of rows in which to split the population.
         :type rows: int
+        :param name: The name of the population.
+                     The function automatically adds this name to the y-axis tick labels next to the drawn population.
+        :type name: str
+        :param height: The height of the population, between 0 (exclusive) and 1.
+        :type height: float
 
         :return: A list of drawn scatter points, separated by column.
         :rtype: list of list of :class:`matplotlib.collections.PathCollection`
@@ -140,6 +148,7 @@ class Population(Visualization):
             drawn.append(_drawn)
 
         self._update_xticks(rows, columns)
+        self._add_ytick(name)
         return drawn
 
     def _limit(self, height):
@@ -195,3 +204,16 @@ class Population(Visualization):
         xticks = list(range(1, columns + 1))
         self.drawable.set_xticks(xticks)
         self.drawable.set_xticklabels([ tick * rows for tick in xticks ])
+
+    def _add_ytick(self, name):
+        """
+        Add a y-tick label next to the latest population.
+
+        :param name: The name of the population.
+                     The function automatically adds this name to the y-axis tick labels next to the drawn population.
+        :type name: str
+        """
+
+        yticks = [ 0.5 ]
+        self.drawable.set_yticks(yticks)
+        self.drawable.set_yticklabels([ name ])

@@ -29,7 +29,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertRaises(TypeError, viz.draw_population, 5, 1.2)
+        self.assertRaises(TypeError, viz.draw_population, 5, 1.2, '')
 
     @MultiplexTest.temporary_plot
     def test_draw_negative_rows(self):
@@ -38,7 +38,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertRaises(ValueError, viz.draw_population, 5, -1)
+        self.assertRaises(ValueError, viz.draw_population, 5, -1, '')
 
     @MultiplexTest.temporary_plot
     def test_draw_zero_rows(self):
@@ -47,7 +47,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertRaises(ValueError, viz.draw_population, 5, 0)
+        self.assertRaises(ValueError, viz.draw_population, 5, 0, '')
 
     @MultiplexTest.temporary_plot
     def test_draw_float_population(self):
@@ -56,7 +56,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertRaises(TypeError, viz.draw_population, 2.4, 10)
+        self.assertRaises(TypeError, viz.draw_population, 2.4, 10, '')
 
     @MultiplexTest.temporary_plot
     def test_draw_negative_population(self):
@@ -65,7 +65,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertRaises(ValueError, viz.draw_population, -5, 10)
+        self.assertRaises(ValueError, viz.draw_population, -5, 10, '')
 
     @MultiplexTest.temporary_plot
     def test_draw_negative_height(self):
@@ -74,7 +74,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertRaises(ValueError, viz.draw_population, 5, 10, height=-1)
+        self.assertRaises(ValueError, viz.draw_population, 5, 10, '', height=-1)
 
     @MultiplexTest.temporary_plot
     def test_draw_zero_height(self):
@@ -83,7 +83,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertRaises(ValueError, viz.draw_population, 5, 10, height=0)
+        self.assertRaises(ValueError, viz.draw_population, 5, 10, '', height=0)
 
     @MultiplexTest.temporary_plot
     def test_draw_height_one(self):
@@ -92,7 +92,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertTrue(viz.draw_population(5, 10, height=1))
+        self.assertTrue(viz.draw_population(5, 10, '', height=1))
 
     @MultiplexTest.temporary_plot
     def test_draw_large_height(self):
@@ -101,7 +101,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertRaises(ValueError, viz.draw_population, 5, 10, height=2)
+        self.assertRaises(ValueError, viz.draw_population, 5, 10, '', height=2)
 
     @MultiplexTest.temporary_plot
     def test_draw_with_style(self):
@@ -118,7 +118,7 @@ class TestPopulation(MultiplexTest):
         self.assertFalse(viz.yaxis_inverted())
 
         # draw the population and let it set the new style
-        self.assertTrue(viz.draw_population(5, 10, height=1, style_plot=True))
+        self.assertTrue(viz.draw_population(5, 10, '', height=1, style_plot=True))
         self.assertFalse(viz.axes.spines['left'].get_visible())
         self.assertFalse(viz.axes.xaxis._gridOnMajor)
         self.assertFalse(viz.axes.yaxis._gridOnMajor)
@@ -139,7 +139,7 @@ class TestPopulation(MultiplexTest):
         self.assertFalse(viz.yaxis_inverted())
 
         # draw the population and do not let it set the new style
-        self.assertTrue(viz.draw_population(5, 10, height=1, style_plot=False))
+        self.assertTrue(viz.draw_population(5, 10, '', height=1, style_plot=False))
         self.assertTrue(viz.axes.spines['left'].get_visible())
         self.assertTrue(viz.axes.xaxis._gridOnMajor)
         self.assertTrue(viz.axes.yaxis._gridOnMajor)
@@ -156,11 +156,11 @@ class TestPopulation(MultiplexTest):
         self.assertFalse(viz.yaxis_inverted())
 
         # draw a population a first time, the y-axes should be inverted
-        self.assertTrue(viz.draw_population(5, 10, height=1, style_plot=True))
+        self.assertTrue(viz.draw_population(5, 10, '', height=1, style_plot=True))
         self.assertTrue(viz.yaxis_inverted())
 
         # draw a population a second time, the y-axes should still be inverted
-        self.assertTrue(viz.draw_population(5, 10, height=1, style_plot=True))
+        self.assertTrue(viz.draw_population(5, 10, '', height=1, style_plot=True))
         self.assertTrue(viz.yaxis_inverted())
 
     @MultiplexTest.temporary_plot
@@ -170,7 +170,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        self.assertEqual([ ], viz.draw_population(0, 10))
+        self.assertEqual([ ], viz.draw_population(0, 10, ''))
 
     @MultiplexTest.temporary_plot
     def test_draw_correct_rows_square(self):
@@ -180,7 +180,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         rows = 10
-        drawn = viz.draw_population(30, rows)
+        drawn = viz.draw_population(30, rows, '')
         self.assertTrue(all( rows == len(column) for column in drawn ))
 
     @MultiplexTest.temporary_plot
@@ -191,7 +191,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         rows = 8
-        drawn = viz.draw_population(30, rows)
+        drawn = viz.draw_population(30, rows, '')
         self.assertTrue(all( rows == len(column) for column in drawn[:-1] ))
         self.assertTrue(all( len(drawn[-1]) < len(column) for column in drawn[:-1] ))
 
@@ -203,7 +203,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = 30, 10
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
         self.assertEqual(population, sum( len(column) for column in drawn ))
 
     @MultiplexTest.temporary_plot
@@ -214,7 +214,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = 25, 10
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
         self.assertEqual(population, sum( len(column) for column in drawn ))
 
     @MultiplexTest.temporary_plot
@@ -225,7 +225,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = [ True, False ] * 12, 10
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
         self.assertEqual(len(population), sum( len(column) for column in drawn ))
 
     @MultiplexTest.temporary_plot
@@ -236,7 +236,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = [ 5, 0.5 ] * 12, 10
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
         self.assertEqual(len(population), sum( len(column) for column in drawn ))
 
     @MultiplexTest.temporary_plot
@@ -247,7 +247,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = [ { } ] * 12, 10
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
         self.assertEqual(len(population), sum( len(column) for column in drawn ))
 
     @MultiplexTest.temporary_plot
@@ -259,19 +259,50 @@ class TestPopulation(MultiplexTest):
         # draw a normal population
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = 25, 10
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
         points = [ point for column in drawn for point in column ]
         bbs_1 = [ util.get_bb(viz.figure, viz.axes, point) for point in points ]
 
         # draw a population using a list
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = list(range(25)), 10
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
         points = [ point for column in drawn for point in column ]
         bbs_2 = [ util.get_bb(viz.figure, viz.axes, point) for point in points ]
 
         # compare the bounding boxes
         self.assertTrue(all( str(bb1) == str(bb2) for bb1, bb2 in zip(bbs_1, bbs_2) ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_centered(self):
+        """
+        Test that the drawn population is centered along the y-axis position.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 25, 5
+        drawn = viz.draw_population(population, rows, '')
+        for column in drawn:
+            bb_top = util.get_bb(viz.figure, viz.axes, column[0])
+            bb_bottom = util.get_bb(viz.figure, viz.axes, column[-1])
+            self.assertEqual(0.5, (bb_top.y1 + bb_bottom.y0) / 2)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_centered_uneven(self):
+        """
+        Test that the drawn population is centered along the y-axis position unless the column is uneven.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 22, 5
+        drawn = viz.draw_population(population, rows, '')
+        for column in drawn:
+            if len(column) < rows:
+                continue
+
+            bb_top = util.get_bb(viz.figure, viz.axes, column[0])
+            bb_bottom = util.get_bb(viz.figure, viz.axes, column[-1])
+            self.assertEqual(0.5, (bb_top.y1 + bb_bottom.y0) / 2)
 
     @MultiplexTest.temporary_plot
     def test_draw_do_not_overlap(self):
@@ -280,7 +311,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        drawn = viz.draw_population(13, 3)
+        drawn = viz.draw_population(13, 3, '')
         points = [ point for column in drawn for point in column ]
         for i in range(0, len(points)):
             for j in range(i + 1, len(points)):
@@ -295,7 +326,7 @@ class TestPopulation(MultiplexTest):
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         height = 0.5
         lim = (0.25, 0.75)
-        drawn = viz.draw_population(15, 3, height=height)
+        drawn = viz.draw_population(15, 3, '', height=height)
 
         # test that all points are within the height
         points = [ point for column in drawn for point in column ]
@@ -321,7 +352,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = 13, 3
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
 
         # transpose the columns
         rows = [ [ column[row] for column in drawn if len(column) > row ] for row in range(rows) ]
@@ -344,7 +375,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = 10, 5
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
 
         # transpose the columns
         rows = [ [ column[row] for column in drawn if len(column) > row ] for row in range(rows) ]
@@ -368,7 +399,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = 13, 3
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
 
         # test that each column's points have the same x0 and x1
         for column in drawn:
@@ -387,7 +418,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = 10, 5
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
 
         # test that each columns is equidistant from the next
         bb = util.get_bb(viz.figure, viz.axes, drawn[0][0])
@@ -407,7 +438,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         color = '#F1428A'
-        drawn = viz.draw_population(10, 3, color=color)
+        drawn = viz.draw_population(10, 3, '', color=color)
         points = [ point for column in drawn for point in column ]
         self.assertTrue(all( [241/255, 66/255, 138/255, 1] == point.get_facecolor().tolist()[0] for point in points ))
 
@@ -420,7 +451,7 @@ class TestPopulation(MultiplexTest):
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         color = '#F1428A'
         population, rows = 10, 3
-        drawn = viz.draw_population([ { } ] * population, rows, color=color)
+        drawn = viz.draw_population([ { } ] * population, rows, '', color=color)
         points = [ point for column in drawn for point in column ]
         self.assertEqual(population, len(points))
         self.assertTrue(all( [241/255, 66/255, 138/255, 1] == point.get_facecolor().tolist()[0] for point in points ))
@@ -433,7 +464,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = 10, 3
-        drawn = viz.draw_population([ { 'color': '#F1428A' } ] * population, rows)
+        drawn = viz.draw_population([ { 'color': '#F1428A' } ] * population, rows, '')
         points = [ point for column in drawn for point in column ]
         self.assertEqual(population, len(points))
         self.assertTrue(all( [241/255, 66/255, 138/255, 1] == point.get_facecolor().tolist()[0] for point in points ))
@@ -447,7 +478,7 @@ class TestPopulation(MultiplexTest):
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = [ { } ] * 10, 3
         population[2] = { 'color': '#F1428A' }
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
         points = [ point for column in drawn for point in column ]
 
         # test the styled point's color
@@ -467,7 +498,7 @@ class TestPopulation(MultiplexTest):
         color = '#F18A42'
         population, rows = [ { } ] * 10, 3
         population[2] = { 'color': '#F1428A' }
-        drawn = viz.draw_population(population, rows, color=color)
+        drawn = viz.draw_population(population, rows, '', color=color)
         points = [ point for column in drawn for point in column ]
 
         # test the styled point's color
@@ -487,7 +518,7 @@ class TestPopulation(MultiplexTest):
         color, edgecolor = '#F18A42', '#8A42F1'
         population, rows = [ { } ] * 10, 3
         population[2] = { 'color': '#F1428A' }
-        drawn = viz.draw_population(population, rows, color=color, edgecolor=edgecolor)
+        drawn = viz.draw_population(population, rows, '', color=color, edgecolor=edgecolor)
         points = [ point for column in drawn for point in column ]
 
         # test the styled point's color
@@ -507,7 +538,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        drawn = viz.draw_population(0, 3)
+        drawn = viz.draw_population(0, 3, '')
         self.assertEqual([ ], viz.get_xticks().tolist())
 
     @MultiplexTest.temporary_plot
@@ -518,7 +549,7 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = 9, 3
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
         self.assertEqual(list(range(1, 1 + math.ceil(population/rows))),
                          viz.get_xticks().tolist())
         self.assertEqual([ str(rows * tick) for tick in range(1, 1+ math.ceil(population/rows)) ],
@@ -533,12 +564,34 @@ class TestPopulation(MultiplexTest):
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         population, rows = 10, 3
-        drawn = viz.draw_population(population, rows)
+        drawn = viz.draw_population(population, rows, '')
         self.assertEqual(list(range(1, 1 + math.ceil(population/rows))),
                          viz.get_xticks().tolist())
         self.assertEqual([ str(rows * tick) for tick in range(1, 1+ math.ceil(population/rows)) ],
                          [ label.get_text() for label in viz.get_xticklabels() ])
         self.assertGreater(int(viz.get_xticklabels()[-1].get_text()), population)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_ytick(self):
+        """
+        Test that when drawing a population, the correct y-tick is added.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        name = 'New population'
+        drawn = viz.draw_population(10, 5, name)
+        self.assertEqual([ name ], [ label.get_text() for label in viz.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_ytick_center(self):
+        """
+        Test that when drawing a population, the y-tick is centered along the population.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        name = 'New population'
+        drawn = viz.draw_population(10, 5, name)
+        self.assertEqual([ 0.5 ], [ tick for tick in viz.get_yticks() ])
 
     @MultiplexTest.temporary_plot
     def test_limit_negative_height(self):
