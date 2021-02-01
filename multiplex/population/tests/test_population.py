@@ -572,6 +572,39 @@ class TestPopulation(MultiplexTest):
         self.assertGreater(int(viz.get_xticklabels()[-1].get_text()), population)
 
     @MultiplexTest.temporary_plot
+    def test_draw_spine_bounds_start_at_1(self):
+        """
+        Test that the spine bounds always start from 1.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 12, 3
+        drawn = viz.draw_population(population, rows, '')
+        self.assertEqual(1, viz.axes.spines['bottom'].get_bounds()[0])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_spine_bounds_square(self):
+        """
+        Test that the correct spine bounds are added when the population is a square.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 12, 3
+        drawn = viz.draw_population(population, rows, '')
+        self.assertEqual((1, population / rows), viz.axes.spines['bottom'].get_bounds())
+
+    @MultiplexTest.temporary_plot
+    def test_draw_spine_bounds_uneven(self):
+        """
+        Test that the correct spine bounds are added when the population has uneven columns.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 10, 3
+        drawn = viz.draw_population(population, rows, '')
+        self.assertEqual((1, math.ceil(population / rows)), viz.axes.spines['bottom'].get_bounds())
+
+    @MultiplexTest.temporary_plot
     def test_draw_ytick(self):
         """
         Test that when drawing a population, the correct y-tick is added.

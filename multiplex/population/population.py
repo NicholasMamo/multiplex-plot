@@ -204,6 +204,7 @@ class Population(Visualization):
         xticks = list(range(1, columns + 1))
         self.drawable.set_xticks(xticks)
         self.drawable.set_xticklabels([ tick * rows for tick in xticks ])
+        self.drawable.axes.spines['bottom'].set_bounds(1, columns)
 
     def _add_ytick(self, name):
         """
