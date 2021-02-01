@@ -143,7 +143,7 @@ class Drawable():
         self.figure.canvas.draw()
 
         # redraw all visualizations
-        for viz in [ self.bar100, self.timeseries, self.slope ]:
+        for viz in [ self.bar100, self.population, self.slope, self.timeseries ]:
             if viz:
                 viz.redraw()
 
