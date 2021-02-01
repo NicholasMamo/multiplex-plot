@@ -112,9 +112,9 @@ class Bar100(Visualization):
                            If it is set to ``True``, the visualization:
 
                                - Moves the x-axis label to the top of the plot,
-                                  - Moves the x-ticks to the top of the plot,
-                                  - Converts the x-ticks to percentages, and
-                                  - Removes the grid.
+                               - Moves the x-ticks to the top of the plot,
+                               - Converts the x-ticks to percentages, and
+                               - Removes the grid.
         :type style_plot: bool
         :param min_percentage: The minimum percentage to show in the 100% bar chart.
                                This is used so that bars with 0% percentage are still shown with a very thin bar.
@@ -198,7 +198,8 @@ class Bar100(Visualization):
         Style the plot by:
 
         - Moving the x-ticks to the top of the plot,
-        - Moving the x-axis label to the top of the plot, and
+        - Moving the x-axis label to the top of the plot,
+        - Converts the x-ticks to percentages, and
         - Removing the grid.
         """
 
