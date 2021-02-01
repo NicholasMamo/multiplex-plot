@@ -155,6 +155,9 @@ class Population(LabelledVisualization):
         """
         Calculate the limit of the population based on the give height.
 
+        :param height: The height of the population, between 0 (exclusive) and 1.
+        :type height: float
+
         :raise ValueError: If the height is not between 0 and 1.
         """
 
