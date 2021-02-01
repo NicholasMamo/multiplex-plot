@@ -150,7 +150,6 @@ class Population(LabelledVisualization):
         # calculate the gap size
         lim = self._limit(height)
         gap = self._gap_size(lim, rows)
-        self.drawable.set_ylim(-0.1, 1.1)
 
         # convert the items into a list, whatever their type
         items = list(population) if isinstance(population, Iterable) else [ True for _ in range(population) ]
@@ -260,5 +259,6 @@ class Population(LabelledVisualization):
         """
 
         yticks = [ 0.5 ]
+        self.drawable.set_ylim(-0.1, 1.1)
         self.drawable.set_yticks(yticks)
         self.drawable.set_yticklabels([ name ])
