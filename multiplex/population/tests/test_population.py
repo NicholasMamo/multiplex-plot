@@ -2,6 +2,7 @@
 Unit tests for the :class:`~population.population.Population` class.
 """
 
+import math
 import matplotlib
 import matplotlib.pyplot as plt
 import os
@@ -409,6 +410,46 @@ class TestPopulation(MultiplexTest):
         drawn = viz.draw_population(10, 3, color=color)
         points = [ point for column in drawn for point in column ]
         self.assertTrue(all( [241/255, 66/255, 138/255, 1] == point.get_facecolor().tolist()[0] for point in points ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_xticks_empty_population(self):
+        """
+        Test that no x-ticks are added when the population is empty.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        drawn = viz.draw_population(0, 3)
+        self.assertEqual([ ], viz.get_xticks().tolist())
+
+    @MultiplexTest.temporary_plot
+    def test_draw_xticks_square_population(self):
+        """
+        Test that the correct x-ticks are added when the population is a square.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 9, 3
+        drawn = viz.draw_population(population, rows)
+        self.assertEqual(list(range(1, 1 + math.ceil(population/rows))),
+                         viz.get_xticks().tolist())
+        self.assertEqual([ str(rows * tick) for tick in range(1, 1+ math.ceil(population/rows)) ],
+                         [ label.get_text() for label in viz.get_xticklabels() ])
+        self.assertEqual(int(viz.get_xticklabels()[-1].get_text()), population)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_xticks_uneven_population(self):
+        """
+        Test that the correct x-ticks are added when the population is not an even square.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 10, 3
+        drawn = viz.draw_population(population, rows)
+        self.assertEqual(list(range(1, 1 + math.ceil(population/rows))),
+                         viz.get_xticks().tolist())
+        self.assertEqual([ str(rows * tick) for tick in range(1, 1+ math.ceil(population/rows)) ],
+                         [ label.get_text() for label in viz.get_xticklabels() ])
+        self.assertGreater(int(viz.get_xticklabels()[-1].get_text()), population)
 
     @MultiplexTest.temporary_plot
     def test_limit_negative_height(self):

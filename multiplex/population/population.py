@@ -135,6 +135,7 @@ class Population(Visualization):
 
             drawn.append(_drawn)
 
+        self._update_xticks(rows, columns)
         return drawn
 
     def _limit(self, height):
@@ -174,3 +175,19 @@ class Population(Visualization):
             return 0
 
         return (lim[1] - lim[0])/(rows - 1)
+
+    def _update_xticks(self, rows, columns):
+        """
+        Update the x-ticks.
+        One x-tick is added for each column and labeled based on the the number of rows.
+
+        :param rows: The number of rows in the population.
+        :type rows: int
+        :param columns: The number of columns in the population.
+        :type columns: int
+        """
+
+        self.drawable.set_xlim(0, columns + 1)
+        xticks = list(range(1, columns + 1))
+        self.drawable.set_xticks(xticks)
+        self.drawable.set_xticklabels([ tick * rows for tick in xticks ])
