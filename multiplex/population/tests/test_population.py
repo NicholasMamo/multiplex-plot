@@ -157,6 +157,62 @@ class TestPopulation(MultiplexTest):
         self.assertEqual(population, sum( len(column) for column in drawn ))
 
     @MultiplexTest.temporary_plot
+    def test_draw_list_boolean(self):
+        """
+        Test that when providing a population as a list of booleans, the scatter points are all drawn.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = [ True, False ] * 12, 10
+        drawn = viz.draw_population(population, rows)
+        self.assertEqual(len(population), sum( len(column) for column in drawn ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_list_number(self):
+        """
+        Test that when providing a population as a list of numbers, the scatter points are all drawn.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = [ 5, 0.5 ] * 12, 10
+        drawn = viz.draw_population(population, rows)
+        self.assertEqual(len(population), sum( len(column) for column in drawn ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_list_dict(self):
+        """
+        Test that when providing a population as a list of empty dictionaries, the scatter points are all drawn.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = [ { } ] * 12, 10
+        drawn = viz.draw_population(population, rows)
+        self.assertEqual(len(population), sum( len(column) for column in drawn ))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_list_like_number(self):
+        """
+        Test that when providing a population as a list, the scatter points are all drawn as if it's a normal population.
+        """
+
+        # draw a normal population
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 25, 10
+        drawn = viz.draw_population(population, rows)
+        points = [ point for column in drawn for point in column ]
+        bbs_1 = [ util.get_bb(viz.figure, viz.axes, point) for point in points ]
+
+        # draw a population using a list
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = list(range(25)), 10
+        drawn = viz.draw_population(population, rows)
+        points = [ point for column in drawn for point in column ]
+        bbs_2 = [ util.get_bb(viz.figure, viz.axes, point) for point in points ]
+
+        # compare the bounding boxes
+        self.assertTrue(all( str(bb1) == str(bb2) for bb1, bb2 in zip(bbs_1, bbs_2) ))
+
+    @MultiplexTest.temporary_plot
     def test_draw_do_not_overlap(self):
         """
         Test that none of the drawn points in a population overlap.

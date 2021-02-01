@@ -3,7 +3,9 @@ Multiplex's population chart is a brand new type of visualization that builds on
 This visualization makes it easy to show how different populations, in a broad sense, vary from each other.
 """
 
+from collections.abc import Iterable
 import math
+from numbers import Number
 import os
 import sys
 
@@ -37,8 +39,8 @@ class Population(Visualization):
         The accepted styling options are those supported by the `matplotlib.pyplot.barh <https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.scatter.html>`_ method.
 
         :param population: The population to draw.
-                           This can be simply the size of the population.
-        :type population: int
+                           This can be simply the size of the population or a list of values.
+        :type population: int or list
         :param rows: The number of rows in which to split the population.
         :type rows: int
         :param height: The height of the population, between 0 (exclusive) and 1.
@@ -61,8 +63,8 @@ class Population(Visualization):
         Draw a new population on this plot.
 
         :param population: The population to draw.
-                           This can be simply the size of the population.
-        :type population: int
+                           This can be simply the size of the population or a list of values.
+        :type population: int or list
         :param rows: The number of rows in which to split the population.
         :type rows: int
 
@@ -78,11 +80,11 @@ class Population(Visualization):
 
         drawn = [ ]
 
-        if population % 1:
-            raise TypeError(f"The number of population must be an integer, received { population } ({ type(population).__name__ })")
+        if isinstance(population, Number) and population % 1:
+            raise TypeError(f"The number of population items must be an integer, received { population } ({ type(population).__name__ })")
 
-        if population < 0:
-            raise ValueError(f"The number of population must be zero or a positive integer, received { population }")
+        if isinstance(population, Number) and population < 0:
+            raise ValueError(f"The number of population items must be zero or a positive integer, received { population }")
 
         if rows % 1:
             raise TypeError(f"The number of rows must be an integer, received { rows } ({ type(rows).__name__ })")
@@ -94,14 +96,17 @@ class Population(Visualization):
         lim = self._limit(height)
         gap = self._gap_size(lim, rows)
         self.drawable.set_ylim(-0.1, 1.1)
-        items = population
+
+        # convert the items into a list, whatever their type
+        items = list(population) if isinstance(population, Iterable) else [ True for _ in range(population) ]
+        columns = math.ceil(len(items)/rows)
 
         # draw the population
-        for x in range(0, math.ceil(items/rows)):
+        for x in range(0, columns):
             _drawn = [ ]
             for y in range(0, rows):
                 # stop drawing if all points have been drawn
-                if x * rows + y >= items:
+                if x * rows + y >= len(items):
                     break
 
                 point = self.drawable.scatter(1 + x, lim[0] + y * gap, *args, **kwargs)
