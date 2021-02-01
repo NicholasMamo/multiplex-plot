@@ -42,6 +42,7 @@ from population.population import Population
 from text.annotation import Annotation
 from text.text import TextAnnotation
 from timeseries.timeseries import TimeSeries
+from slope.slope import Slope
 import util
 
 class Drawable():
@@ -56,6 +57,9 @@ class Drawable():
     :vartype figure: :class:`matplotlib.figure.Figure`
     :ivar axes: The axes where the drawable will draw.
     :vartype axes: :class:`matplotlib.axes.Axes`
+    :ivar secondary: The secondary axes.
+                     Some visualizations, such as the :class:`~slope.slope.Slope` graph uses them to draw different ticks on each y-axis.
+    :vartype secondary: :class:`matplotlib.axes.Axes`
     :var caption: The caption, displayed under the title.
     :vartype caption: :class:`~text.annotation.Annotation`
 
@@ -92,12 +96,14 @@ class Drawable():
 
         self.figure = figure
         self.axes = plt.gca() if axes is None else axes
-        self.caption = Annotation(self)
+        self.secondary = self.axes
+        self.caption = None
 
         self.annotations = [ ]
         self.legend = Legend(self)
         self.bar100 = None
         self.population = None
+        self.slope = None
         self.timeseries = None
 
     def set_caption(self, caption, alpha=0.8, lineheight=1.25, *args, **kwargs):
@@ -120,11 +126,11 @@ class Drawable():
         :rtype: :class:`~text.annotation.Annotation`
         """
 
-        self.caption = Annotation(self)
-        self.caption.draw(caption, (0, 1), 1,
-                          va='bottom', alpha=alpha, lineheight=lineheight,
-                          transform=self.axes.transAxes,
-                          *args, **kwargs)
+        self.caption = Annotation(self, caption, (0, 1), 1,
+                                  va='bottom', alpha=alpha, lineheight=lineheight,
+                                  transform=self.axes.transAxes,
+                                  *args, **kwargs)
+        self.caption.draw()
         self.redraw()
         return self.caption
 
@@ -134,14 +140,28 @@ class Drawable():
         Afterwards, it redraws the legend.
         """
 
-        self._redraw_title()
-        self._redraw_caption()
+        self.figure.canvas.draw()
+
+        # redraw all visualizations
+        for viz in [ self.bar100, self.timeseries, self.slope ]:
+            if viz:
+                viz.redraw()
+
+        # redraw all annotations
+        for annotation in self.annotations:
+            annotation.redraw()
+
         self.legend.redraw()
+        self._redraw_caption()
+        self._redraw_title()
 
     def _redraw_caption(self):
         """
         Re-draw the caption, re-positioning so that it does not overlap with the legend or axes.
         """
+
+        if not self.caption:
+            return
 
         figure, axes = self.figure, self.axes
 
@@ -164,6 +184,7 @@ class Drawable():
                 y += max(xtick_labels_bb, key=lambda bb: bb.height).height * 2
 
         pad = 0.1
+        self.caption.redraw()
         self.caption.set_position((0, y + pad), ha='left', va='bottom', transform=self.axes.transAxes)
 
     def _redraw_title(self):
@@ -180,7 +201,7 @@ class Drawable():
         The title should allow enough padding to make space for both.
         """
         caption_height = 0
-        if str(self.caption):
+        if self.caption:
             caption_height = util.to_px(axes, self.caption.get_virtual_bb(transform=axes.transAxes),
                                         transform=axes.transAxes).height
 
@@ -325,7 +346,7 @@ class Drawable():
         :rtype: :class:`~text.annotation.Annotation`
         """
 
-        annotation = Annotation(self)
+        annotation = Annotation(self, text, x, y, pad=pad, *args, **kwargs)
         self.figure.canvas.draw()
 
         """
@@ -343,7 +364,6 @@ class Drawable():
             elif kwargs.get('align') == 'center':
                 self.axes.plot((x[0] + x[1])/2., y, *args, **marker)
 
-        tokens = annotation.draw(text, x, y, pad=pad, *args, **kwargs)
         self.annotations.append(annotation)
 
         return annotation
@@ -357,7 +377,7 @@ class Drawable():
         :rtype: list of :class:`matplotlib.patches.Rectangle`
         """
 
-        self.bar100 = self.bar100 if self.bar100 else Bar100(self)
+        self.bar100 = self.bar100 or Bar100(self)
         return self.bar100.draw(*args, **kwargs)
 
     def draw_graph(self, *args, **kwargs):
@@ -384,6 +404,18 @@ class Drawable():
         self.population = self.population if self.population else Population(self)
         return self.population.draw(*args, **kwargs)
 
+    def draw_slope(self, *args, **kwargs):
+        """
+        Draw a slope graph with two points on this :class:`~Drawable`.
+        The arguments and keyword arguments are those supported by the :class:`~slope.slope.Slope`'s :func:`~slope.slope.Slope.draw` method.
+
+        :return: A tuple made up of the drawn plot and label.
+        :rtype: tuple (:class:`matplotlib.lines.Line2D`, list of :class:`~text.annotation.Annotation`)
+        """
+
+        self.slope = self.slope or Slope(self)
+        return self.slope.draw(*args, **kwargs)
+
     def draw_text_annotation(self, *args, **kwargs):
         """
         Draw a text annotation visualization on this :class:`~Drawable`.
@@ -408,5 +440,5 @@ class Drawable():
         :rtype: tuple
         """
 
-        self.timeseries = self.timeseries if self.timeseries else TimeSeries(self)
+        self.timeseries = self.timeseries or TimeSeries(self)
         return self.timeseries.draw(*args, **kwargs)

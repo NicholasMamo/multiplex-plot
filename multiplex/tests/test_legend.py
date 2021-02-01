@@ -411,7 +411,7 @@ class TestLegend(MultiplexTest):
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         point, annotation = viz.legend.draw_point('A')
         bb = util.get_bb(viz.figure, viz.axes, point)
-        self.assertEqual(0, round(bb.x0, 2))
+        self.assertEqual(0, round(bb.x0, 1))
 
     @MultiplexTest.temporary_plot
     def test_new_line_point_overlap(self):

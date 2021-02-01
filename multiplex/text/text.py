@@ -33,8 +33,7 @@ import re
 
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '.'))
-import text_util
-import util
+import text_util, util
 
 from annotation import Annotation
 from visualization import Visualization
@@ -155,15 +154,15 @@ class TextAnnotation(Visualization):
         """
         Draw the text as an annotation first.
         """
-        annotation = Annotation(self.drawable)
-        lines = annotation.draw(tokens, (lpad, axes.get_xlim()[1] - rpad), 0,
-                                 wordspacing=wordspacing, lineheight=lineheight,
-                                 align=align, va='top', *args, **kwargs)
+        annotation = Annotation(self.drawable, tokens, (lpad, axes.get_xlim()[1] - rpad), 0,
+                                wordspacing=wordspacing, lineheight=lineheight,
+                                align=align, va='top', *args, **kwargs)
+        lines = annotation.draw()
 
         """
         Draw a legend if it is requested.
         """
-        linespacing = util.get_linespacing(figure, axes, wordspacing, *args, **kwargs)
+        linespacing = text_util.get_linespacing(figure, axes, wordspacing, *args, **kwargs)
         labels = self._draw_legend(tokens, lines, wordspacing, linespacing,
                                    *args, **kwargs) if with_legend else [ [] ] * len(lines)
 

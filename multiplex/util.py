@@ -142,65 +142,22 @@ def overlapping_bb(bb1, bb2):
     :rtype: bool
     """
 
+    bb1 = bb1 if bb1.x0 <= bb1.x1 else Bbox(((bb1.x1, bb1.y0), (bb1.x0, bb1.y1)))
+    bb2 = bb2 if bb2.x0 <= bb2.x1 else Bbox(((bb2.x1, bb2.y0), (bb2.x0, bb2.y1)))
+
+    bb1 = bb1 if bb1.y0 <= bb1.y1 else Bbox(((bb1.x0, bb1.y1), (bb1.x1, bb1.y0)))
+    bb2 = bb2 if bb2.y0 <= bb2.y1 else Bbox(((bb2.x0, bb2.y1), (bb2.x1, bb2.y0)))
+
     return (
-        (bb2.x0 < bb1.x0 < bb2.x1 or bb2.x0 < bb1.x1 < bb2.x1) and
-        (bb2.y0 < bb1.y0 < bb2.y1 or bb2.y0 < bb1.y1 < bb2.y1) or
-        (bb1.x0 < bb2.x0 < bb1.x1 or bb1.x0 < bb2.x1 < bb1.x1) and
-        (bb1.y0 < bb2.y0 < bb1.y1 or bb1.y0 < bb2.y1 < bb1.y1)
+        (bb2.x0 < bb1.x0 < bb2.x1 or bb2.x0 < bb1.x1 < bb2.x1 or
+         bb1.x0 == bb2.x0 and bb1.x1 == bb2.x1) and
+        (bb2.y0 < bb1.y0 < bb2.y1 or bb2.y0 < bb1.y1 < bb2.y1 or
+         bb1.y0 == bb2.y0 and bb1.y1 == bb2.y1) or
+        (bb1.x0 < bb2.x0 < bb1.x1 or bb1.x0 < bb2.x1 < bb1.x1 or
+         bb1.x0 == bb2.x0 and bb1.x1 == bb2.x1) and
+        (bb1.y0 < bb2.y0 < bb1.y1 or bb1.y0 < bb2.y1 < bb1.y1 or
+         bb1.y0 == bb2.y0 and bb1.y1 == bb2.y1)
     )
-
-def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs):
-    """
-    Calculate the line spacing (or line height) of text tokens.
-    The line spacing is calculated by creating a token and getting its height.
-    The token is immediately removed so it is not visible on the plot.
-
-    When calculating the line spacing, it is important to provide the style as ``args`` and ``kwargs``.
-    In this way, the line spacing considers the font, font size and other attributes that may affect the line spacing.
-
-    :param figure: The figure that the component occupies.
-                   This is used to get the figure renderer.
-    :type figure: :class:`matplotlib.figure.Figure`
-    :param axes: The axes (or subplot) where the component is plotted.
-    :type axes: :class:`matplotlib.axes.Axes`
-    :param wordspacing: The spacing between tokens.
-                        This is used to be able to create the padding around words.
-    :type wordspacing: float
-    :param transform: The bounding box transformation.
-                      If `None` is given, the data transformation is used.
-    :type transform: None or :class:`matplotlib.transforms.TransformNode`
-
-    :return: The line spacing (or line height).
-    :rtype: float
-    """
-
-    """
-    Draw a dummy token first.
-    Some styling options are set specifically for the bbox.
-    """
-    bbox_kwargs = { 'facecolor': 'None', 'edgecolor': 'None' }
-    for arg in bbox_kwargs:
-        if arg in kwargs:
-            bbox_kwargs[arg] = kwargs.get(arg)
-            del kwargs[arg]
-
-    """
-    The bbox's padding is calculated in pixels.
-    Therefore it is transformed from the provided axes coordinates to pixels.
-    """
-    wordspacing = wordspacing or 0
-    wordspacing_px = (axes.transData.transform((wordspacing, 0))[0] -
-                      axes.transData.transform((0, 0))[0])
-    token = axes.text(0, 0, 'None', bbox=dict(pad=wordspacing_px / 2., **bbox_kwargs),
-                      *args, **kwargs)
-
-    """
-    Get the height from the bbox.
-    """
-    bb = get_bb(figure, axes, token, transform)
-    height = bb.height
-    token.remove()
-    return height
 
 def get_alignment(align, end=False):
     """
@@ -295,6 +252,11 @@ def align(figure, axes, items, align='left', xpad=0,
         The process therefore first calculates the space between items.
         Then, it calculates the empty space to fill the line.
         """
+
+        # do not justify if there is only one item
+        if len(items) == 1:
+            return
+
         space = 0
         for i in range(len(items) - 1):
             space += (get_bb(figure, axes, items[i + 1], transform=transform).x0 -

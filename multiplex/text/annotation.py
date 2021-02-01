@@ -35,8 +35,9 @@ from matplotlib.transforms import Bbox
 sys.path.insert(0, os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 import text_util
 import util
+from visualization import Visualization
 
-class Annotation():
+class Annotation(Visualization):
     """
     Although the :class:`~Annotation` is not a visualization, it is also based on a :class:`~drawable.Drawable`.
     Moreover, like any :class:`~visualization.Visualization`, it also revolves around the :func:`~Annotation.draw` method.
@@ -45,31 +46,33 @@ class Annotation():
     The name of this variable comes from the fact that the :class:`~Annotation` is mainly concerned with organizing the text.
     The annotation draws every bit of the text as a token and organizes these tokens into lines.
 
+    In addition to the drawn tokens, the annotation stores the original annotation, position and style.
+    This information is used when the annotation is re-drawn.
+
     :ivar drawable: The :class:`~drawable.Drawable` where the time series visualization will be drawn.
     :vartype drawable: :class:`~drawable.Drawable`
     :ivar lines: The lines drawn by the annotation.
                  Each line in turn is made up of a list of tokens as :class:`matplotlib.text.Text`.
     :vartype lines: list of list of :class:`matplotlib.text.Text`
+
+    :ivar annotation: The original annotation.
+    :vartype annotation: str or list of str or list of dict
+    :ivar x: A tuple representing the x-range for the annotation.
+    :vartype x: tuple
+    :ivar y: The y-position of the annotation.
+    :vartype_: float
+    :ivar style: The general style of the annotation.
+    :vartype style: dict
     """
 
-    def __init__(self, drawable):
+    def __init__(self, drawable, annotation, x, y, wordspacing=None,
+                 lineheight=1.25, align='left', va='top', pad=0, *args, **kwargs):
         """
         Initialize the :class:`~Annotation` with the :class:`~drawable.Drawable`.
         The :class:`~Annotation` uses the :class:`~drawable.Drawable`'s figure to get the renderer and the axes to draw the text.
         The constructor also creates an instance variable with the lines in the :class:`~Annotation`.
 
-        :param drawable: The :class:`~drawable.Drawable` where the text visualization will be drawn.
-        :type drawable: :class:`~drawable.Drawable`
-        """
-
-        self.drawable = drawable
-        self.lines = [ ]
-
-    def draw(self, annotation, x, y, wordspacing=None, lineheight=1.25,
-             align='left', va='top', pad=0, *args, **kwargs):
-        """
-        Draw a text annotation on the plot.
-        This function requires three types of inputs:
+        In addition to the :class:`~drawable.Drawable`, the class requires three types of inputs:
 
             1. The text to draw,
             2. The x-bounds for the annotation, and
@@ -105,6 +108,8 @@ class Annotation():
             If in the dictionary's ``style`` of a particular word you set the ``color`` to be ``red``, its color will be ``red``.
             However, since the ``fontsize`` is not specified, it will use the general font size: ``12``.
 
+        :param drawable: The :class:`~drawable.Drawable` where the text visualization will be drawn.
+        :type drawable: :class:`~drawable.Drawable`
         :param annotation: The text data.
                            The visualization expects a string, a `list` of tokens, or a `list` of `dict` instances as shown above.
         :type annotation: str or list of str or list of dict
@@ -145,33 +150,47 @@ class Annotation():
                         Note that the padding decreases the width of the annotation.
                         In CSS terms, the box-sizing is the border box.
         :type pad: float
+        """
+
+        super().__init__(drawable, *args)
+
+        self.annotation = annotation
+        self.x, self.y = x, y
+        self.style = { 'wordspacing': wordspacing, 'lineheight': lineheight,
+                       'align': align, 'va': va, 'pad': pad, **kwargs }
+
+        self.lines = [ ]
+
+    def draw(self, *args, **kwargs):
+        """
+        Draw a text annotation on the plot.
 
         :return: The drawn annotation's lines.
                  Each line is made up of a list of tokens.
         :rtype: list of :class:`matplotlib.text.Text`
         """
 
-        if type(x) is not tuple and type(x) is not list:
-            x = (x, self.drawable.axes.get_xlim()[1])
+        x, y = self.x, self.y
+        if type(self.x) is not tuple and type(self.x) is not list: # TODO: make iterable instead
+            x = (self.x, self.drawable.axes.get_xlim()[1])
 
-        x, y = self._pad(x, y, pad, va)
+        style = dict(self.style) # make a copy
+        wordspacing, lineheight = style.pop('wordspacing'), style.pop('lineheight')
+        align, va = style.pop('align'), style.pop('va')
+        x, y = self._pad(x, y, style.pop('pad'), va)
 
-        """
-        Gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
-        """
-        tokens = annotation.split() if type(annotation) is str else annotation
+        # gradually convert text inputs to dictionary inputs: from `str` to `list`, and from `list` to `dict`.
+        tokens = self.annotation.split() if type(self.annotation) is str else self.annotation # TODO: use isinstance instead
         for i, token in enumerate(tokens):
             if type(token) is str:
                 tokens[i] = { 'text': token }
 
-        tokens = self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, va, *args, **kwargs)
+        tokens = self._draw_tokens(tokens, x, y, wordspacing, lineheight, align, va, **style) # send whatever remains as the tokens' style
         self.lines.extend(tokens)
 
-        """
-        If the vertical alignment is meant to be centered, center the annotation now.
-        """
+        # if the vertical alignment is meant to be centered, center the annotation now.
         if va == 'center':
-            self._center(self.get_virtual_bb().x0, y, *args, **kwargs)
+            self._center(self.get_virtual_bb().x0, y, **style)
 
         return tokens
 
@@ -245,11 +264,11 @@ class Annotation():
         figure = self.drawable.figure
         axes = self.drawable.axes
 
-        bb = self.get_virtual_bb(transform=transform)
         """
         Calculate the x-offset by which every token needs to be moved.
         The offset depends on the horizontal alignment.
         """
+        bb = self.get_virtual_bb(transform=transform)
         if ha == 'left':
             offset_x = bb.x0 - position[0]
         elif ha == 'center':
@@ -274,9 +293,7 @@ class Annotation():
 
         offset = (offset_x, offset_y)
 
-        """
-        Go through each token and move them individually.
-        """
+        # go through each token and move them individually.
         for line in self.lines:
             for token in line:
                 bb = util.get_bb(figure, axes, token, transform=transform)
@@ -286,6 +303,22 @@ class Annotation():
                     token.set_position((bb.x0 - offset[0], bb.y1 - offset[1]))
                 elif va == 'bottom':
                     token.set_position((bb.x0 - offset[0], bb.y0 - offset[1]))
+
+    def redraw(self):
+        """
+        Re-draw the annotation.
+        This function re-constructs the entire annotation from scratch.
+
+        This function should be called if the axes change as the text tokens could end up overlapping.
+
+        :return: The drawn annotation's lines.
+                 Each line is made up of a list of tokens.
+        :rtype: list of :class:`matplotlib.text.Text`
+        """
+
+        super().redraw()
+        self.remove()
+        return self.draw()
 
     def remove(self):
         """
@@ -344,9 +377,8 @@ class Annotation():
         axes = self.drawable.axes
         transform = transform if transform is not None else axes.transData
 
-        linespacing = util.get_linespacing(figure, axes, wordspacing, transform=transform, *args, **kwargs) * lineheight
-        if wordspacing is None:
-            wordspacing = linespacing / 10.
+        wordspacing = wordspacing if wordspacing is not None else text_util.get_wordspacing(figure, axes, transform=transform, *args, **kwargs)
+        linespacing = text_util.get_linespacing(figure, axes, wordspacing, transform=transform, *args, **kwargs) * lineheight
 
         """
         Go through each token and draw it on the axes.
@@ -368,7 +400,7 @@ class Annotation():
             va = 'top' if va == 'center' else va
             text = text_util.draw_token(figure, axes, token.get('text'), offset,
                                         y - len(drawn_lines) * linespacing if va == 'top' else y,
-                                        token.get('style', {}), wordspacing, va=va,
+                                        token.get('style', { }), wordspacing, va=va,
                                         transform=transform, *args, **kwargs)
             line_tokens.append(text)
 
@@ -382,7 +414,7 @@ class Annotation():
             Therefore when the last token is removed from drawn lines when create a new line, the change is reflected here.
             """
             bb = util.get_bb(figure, axes, text, transform=transform)
-            if bb.x1 > x[1] and token.get('text') not in string.punctuation:
+            if len(line_tokens) > 1 and bb.x1 > x[1] and token.get('text') not in string.punctuation:
                 self._newline(line_tokens, drawn_lines, linespacing, x[0], y, va, transform=transform)
                 util.align(figure, axes, line_tokens, xpad=wordspacing,
                            align=util.get_alignment(align), xlim=x, va=va, transform=transform)

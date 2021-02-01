@@ -50,7 +50,7 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="5. Bar Charts" href="bar.html" /> 
+    <link rel="prev" title="6. Slope Graph" href="slope.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -102,6 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="timeseries.html">3. Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="graph.html">4. Graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bar.html">5. Bar Charts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slope.html">6. Slope Graph</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Utilities</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#module-util">General Utilities</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-text_util">Text Utilities</a></li>
@@ -307,35 +308,6 @@ Its bounding box will be compared to the first component.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt id="util.get_linespacing">
-<code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_linespacing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">figure</span></em>, <em class="sig-param"><span class="n">axes</span></em>, <em class="sig-param"><span class="n">wordspacing</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">transform</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_linespacing" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the line spacing (or line height) of text tokens.
-The line spacing is calculated by creating a token and getting its height.
-The token is immediately removed so it is not visible on the plot.</p>
-<p>When calculating the line spacing, it is important to provide the style as <code class="docutils literal notranslate"><span class="pre">args</span></code> and <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.
-In this way, the line spacing considers the font, font size and other attributes that may affect the line spacing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
-This is used to get the figure renderer.</p></li>
-<li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where the component is plotted.</p></li>
-<li><p><strong>wordspacing</strong> (<em>float</em>) – The spacing between tokens.
-This is used to be able to create the padding around words.</p></li>
-<li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
-If <cite>None</cite> is given, the data transformation is used.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The line spacing (or line height).</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>float</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt id="util.get_alignment">
 <code class="sig-prename descclassname">util.</code><code class="sig-name descname">get_alignment</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">align</span></em>, <em class="sig-param"><span class="n">end</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#util.get_alignment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the proper alignment value for the current line.
@@ -469,6 +441,62 @@ This value is used to add padding around words (the whitespace).</p></li>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt id="text_util.get_linespacing">
+<code class="sig-prename descclassname">text_util.</code><code class="sig-name descname">get_linespacing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">figure</span></em>, <em class="sig-param"><span class="n">axes</span></em>, <em class="sig-param"><span class="n">wordspacing</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">transform</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_util.get_linespacing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the line spacing (or line height) of text tokens.
+The line spacing is calculated by creating a token and getting its height.
+The token is immediately removed so it is not visible on the plot.</p>
+<p>When calculating the line spacing, it is important to provide the style as <code class="docutils literal notranslate"><span class="pre">args</span></code> and <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.
+In this way, the line spacing considers the font, font size and other attributes that may affect the line spacing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
+This is used to get the figure renderer.</p></li>
+<li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where the component is plotted.</p></li>
+<li><p><strong>wordspacing</strong> (<em>float</em>) – The spacing between tokens.
+This is used to be able to create the padding around words.</p></li>
+<li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
+If <cite>None</cite> is given, the data transformation is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The line spacing (or line height).</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="text_util.get_wordspacing">
+<code class="sig-prename descclassname">text_util.</code><code class="sig-name descname">get_wordspacing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">figure</span></em>, <em class="sig-param"><span class="n">axes</span></em>, <em class="sig-param"><span class="n">transform</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#text_util.get_wordspacing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the word spacing of text tokens.
+The word spacing is given as half a sample character.
+The token is immediately removed so it is not visible on the plot.</p>
+<p>When calculating the word spacing, it is important to provide the style as <code class="docutils literal notranslate"><span class="pre">args</span></code> and <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.
+In this way, the word spacing considers the font, font size and other attributes that may affect the word spacing.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the component occupies.
+This is used to get the figure renderer.</p></li>
+<li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where the component is plotted.</p></li>
+<li><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
+If <cite>None</cite> is given, the data transformation is used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The word spacing.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 
@@ -481,7 +509,7 @@ This value is used to add padding around words (the whitespace).</p></li>
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="bar.html" class="btn btn-neutral float-left" title="5. Bar Charts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="slope.html" class="btn btn-neutral float-left" title="6. Slope Graph" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

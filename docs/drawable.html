@@ -114,6 +114,7 @@
 <li class="toctree-l1"><a class="reference internal" href="timeseries.html">3. Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="graph.html">4. Graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bar.html">5. Bar Charts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slope.html">6. Slope Graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 
@@ -254,6 +255,8 @@ The <a class="reference internal" href="#drawable.Drawable" title="drawable.Draw
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps.</p></li>
 <li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes where the drawable will draw.</p></li>
+<li><p><strong>secondary</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The secondary axes.
+Some visualizations, such as the <a class="reference internal" href="slope.html#slope.slope.Slope" title="slope.slope.Slope"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slope</span></code></a> graph uses them to draw different ticks on each y-axis.</p></li>
 <li><p><strong>caption</strong> (<a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>) – The caption, displayed under the title.</p></li>
 <li><p><a class="reference internal" href="timeseries.html#module-timeseries" title="timeseries"><strong>timeseries</strong></a> (None or <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a>) – The time series object that is being used.
 When no visualization has been created, it is set to <cite>None</cite>.
@@ -409,6 +412,21 @@ The arguments and keyword arguments are those supported by the <a class="referen
 </dd></dl>
 
 <dl class="py method">
+<dt id="drawable.Drawable.draw_slope">
+<code class="sig-name descname">draw_slope</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_slope" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a slope graph with two points on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+The arguments and keyword arguments are those supported by the <a class="reference internal" href="slope.html#slope.slope.Slope" title="slope.slope.Slope"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slope</span></code></a>’s <a class="reference internal" href="slope.html#slope.slope.Slope.draw" title="slope.slope.Slope.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A tuple made up of the drawn plot and label.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="drawable.Drawable.draw_text_annotation">
 <code class="sig-name descname">draw_text_annotation</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_text_annotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a text annotation visualization on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
@@ -501,6 +519,14 @@ The purpose of this function is two-fold:</p>
 If the function draws multiple components, it can return them as a tuple.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt id="visualization.Visualization.redraw">
+<code class="sig-name descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization.redraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-draw the visualization.
+This is mostly used for parts of the visualization that moved around because the axes limits changed, like annotations.
+By default, this function does nothing.</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt id="visualization.Visualization.__weakref__">
 <code class="sig-name descname">__weakref__</code><a class="headerlink" href="#visualization.Visualization.__weakref__" title="Permalink to this definition">¶</a></dt>
@@ -551,7 +577,7 @@ If the function draws multiple components, it can return them as a tuple.</p>
 
 <dl class="py method">
 <dt id="labelled.LabelledVisualization.draw_label">
-<code class="sig-name descname">draw_label</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">va</span><span class="o">=</span><span class="default_value">'center'</span></em>, <em class="sig-param"><span class="n">max_iterations</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw_label" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">draw_label</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">va</span><span class="o">=</span><span class="default_value">'center'</span></em>, <em class="sig-param"><span class="n">max_iterations</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a label at the end of the line.</p>
 <p>Any additional arguments and keyword arguments are passed on to the <a class="reference internal" href="text.html#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">text.annotation.Annotation.draw()</span></code></a> function.</p>
 <dl class="field-list simple">
@@ -578,6 +604,13 @@ If the vertical alignment is <cite>bottom</cite>, the annotation grows up.</p></
 <dd class="field-odd"><p><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="labelled.LabelledVisualization.redraw">
+<code class="sig-name descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.redraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Re-draw the visualization.
+This function arranges the labels so that if they overlap (because the axes changed), they no longer overlap.</p>
 </dd></dl>
 
 </dd></dl>

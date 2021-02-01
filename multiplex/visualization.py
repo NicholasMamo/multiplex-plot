@@ -11,6 +11,7 @@ In short, visualization implementations are largely concerned with the structure
 """
 
 from abc import ABC, abstractmethod
+import util
 
 class Visualization(ABC):
     """
@@ -48,3 +49,69 @@ class Visualization(ABC):
         """
 
         pass
+
+    def redraw(self):
+        """
+        Re-draw the visualization.
+        This is mostly used for parts of the visualization that moved around because the axes limits changed, like annotations.
+        By default, this function does nothing.
+        """
+
+        return
+
+    def _fit_axes(self):
+        """
+        Make space for the x-axes.
+        This function reduces the actual plot size so that the axes tick labels fit neatly.
+        It does so by adding space to the left and right of the y-axis if there is need.
+        """
+
+        figure, axes, secondary = self.drawable.figure, self.drawable.axes, self.drawable.secondary
+
+        ticks = axes.get_yticklabels() + secondary.get_yticklabels()
+        if all( not tick.get_text() for tick in ticks ):
+            axes.set_yticklabels(axes.get_yticks())
+            secondary.set_yticklabels(secondary.get_yticks())
+            ticks = axes.get_yticklabels() + secondary.get_yticklabels()
+
+        # if there are no ticks, do not change the x-limits
+        if not ticks:
+            return
+
+        # find the leftmost and rightmost axes labels and move the axes until convergence
+        _xlim = None
+        while _xlim != axes.get_xlim():
+            _xlim = axes.get_xlim()
+            for spine in [ 'left', 'right' ]:
+                # only fit the axes if the type of the spine is data, otherwise it never converges
+                type, _ = axes.spines[spine].get_position()
+                if type != 'data':
+                    continue
+
+                # find the new offset of the axes
+                xlim = axes.get_xlim()
+                tick_bbs = [ util.get_bb(figure, axes, tick) for tick in ticks ]
+                if spine == 'left':
+                    offset = min(bb.x0 for bb in tick_bbs)
+                    axes.set_xlim((min(offset, xlim[0]), xlim[1]))
+                    secondary.set_xlim((min(offset, xlim[0]), xlim[1]))
+                else:
+                    offset = max(bb.x1 for bb in tick_bbs)
+                    axes.set_xlim((xlim[0], max(offset, xlim[1])))
+                    secondary.set_xlim((xlim[0], max(offset, xlim[1])))
+
+class DummyVisualization(Visualization):
+    """
+    The dummy visualization is a simple class used only for testing.
+    Its implementation is based on the visualization, but it has an empty :func:`~visualization.Visualization.draw` function.
+    """
+
+    def draw(self, *args, **kwargs):
+        """
+        The dummy visualization draws nothing, and therefore it returns nothing.
+
+        :return: Nothing.
+        :rtype: `None`
+        """
+
+        return

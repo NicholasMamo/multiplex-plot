@@ -87,6 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="timeseries.html">3. Time Series</a></li>
 <li class="toctree-l1"><a class="reference internal" href="graph.html">4. Graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bar.html">5. Bar Charts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slope.html">6. Slope Graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 
@@ -202,8 +203,6 @@
       <ul>
         <li><a href="drawable.html#legend.Legend.__weakref__">(legend.Legend attribute)</a>
 </li>
-        <li><a href="text.html#text.annotation.Annotation.__weakref__">(text.annotation.Annotation attribute)</a>
-</li>
         <li><a href="drawable.html#visualization.Visualization.__weakref__">(visualization.Visualization attribute)</a>
 </li>
       </ul></li>
@@ -262,6 +261,8 @@
 </li>
         <li><a href="drawable.html#legend.Legend.draw">(legend.Legend method)</a>
 </li>
+        <li><a href="slope.html#slope.slope.Slope.draw">(slope.slope.Slope method)</a>
+</li>
         <li><a href="text.html#text.annotation.Annotation.draw">(text.annotation.Annotation method)</a>
 </li>
         <li><a href="text.html#text.text.TextAnnotation.draw">(text.text.TextAnnotation method)</a>
@@ -286,6 +287,8 @@
       <li><a href="drawable.html#legend.Legend.draw_line">draw_line() (legend.Legend method)</a>
 </li>
       <li><a href="drawable.html#legend.Legend.draw_point">draw_point() (legend.Legend method)</a>
+</li>
+      <li><a href="drawable.html#drawable.Drawable.draw_slope">draw_slope() (drawable.Drawable method)</a>
 </li>
       <li><a href="drawable.html#drawable.Drawable.draw_text_annotation">draw_text_annotation() (drawable.Drawable method)</a>
 </li>
@@ -318,7 +321,7 @@
 </li>
       <li><a href="utilities.html#util.get_bb">get_bb() (in module util)</a>
 </li>
-      <li><a href="utilities.html#util.get_linespacing">get_linespacing() (in module util)</a>
+      <li><a href="utilities.html#text_util.get_linespacing">get_linespacing() (in module text_util)</a>
 </li>
       <li><a href="utilities.html#util.get_scatter_bb">get_scatter_bb() (in module util)</a>
 </li>
@@ -330,6 +333,8 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="utilities.html#text_util.get_wordspacing">get_wordspacing() (in module text_util)</a>
+</li>
       <li>
     graph
 
@@ -396,6 +401,10 @@
 </li>
         <li><a href="drawable.html#module-legend">legend</a>
 </li>
+        <li><a href="slope.html#module-slope">slope</a>
+</li>
+        <li><a href="slope.html#module-slope.slope">slope.slope</a>
+</li>
         <li><a href="text.html#module-text">text</a>
 </li>
         <li><a href="text.html#module-text.annotation">text.annotation</a>
@@ -434,7 +443,13 @@
       <li><a href="drawable.html#drawable.Drawable.redraw">redraw() (drawable.Drawable method)</a>
 
       <ul>
+        <li><a href="drawable.html#labelled.LabelledVisualization.redraw">(labelled.LabelledVisualization method)</a>
+</li>
         <li><a href="drawable.html#legend.Legend.redraw">(legend.Legend method)</a>
+</li>
+        <li><a href="text.html#text.annotation.Annotation.redraw">(text.annotation.Annotation method)</a>
+</li>
+        <li><a href="drawable.html#visualization.Visualization.redraw">(visualization.Visualization method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -451,12 +466,28 @@
 </li>
       <li><a href="drawable.html#drawable.Drawable.set_caption">set_caption() (drawable.Drawable method)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="text.html#text.annotation.Annotation.set_position">set_position() (text.annotation.Annotation method)</a>
 </li>
       <li><a href="drawable.html#drawable.Drawable.show">show() (drawable.Drawable method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    slope
+
+      <ul>
+        <li><a href="slope.html#module-slope">module</a>
+</li>
+      </ul></li>
+      <li><a href="slope.html#slope.slope.Slope">Slope (class in slope.slope)</a>
+</li>
+      <li>
+    slope.slope
+
+      <ul>
+        <li><a href="slope.html#module-slope.slope">module</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 

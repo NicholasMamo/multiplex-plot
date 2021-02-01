@@ -23,40 +23,57 @@ class TestAnnotation(MultiplexTest):
     """
 
     @MultiplexTest.temporary_plot
-    def test_text(self):
+    def test_draw_save(self):
+        """
+        Test that when drawing an annotation, the function saves the original annotation, position and style.
+        """
+
+        text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz, text, (0, 2), 0, align='left', va='top', color='red')
+        self.assertEqual(text, annotation.annotation)
+        self.assertEqual((0, 2), annotation.x)
+        self.assertEqual(0, annotation.y)
+        self.assertEqual({ 'wordspacing': None, 'lineheight': 1.25,
+                           'align': 'left', 'va': 'top', 'pad': 0,
+                           'color': 'red' }, annotation.style)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_text(self):
         """
         Test that the text is written correctly.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 2), 0, align='left', va='top')
+        annotation = Annotation(viz, text, (0, 2), 0, align='left', va='top')
+        lines = annotation.draw()
 
         drawn_text = self._reconstruct_text(lines)
         self.assertEqual(text, drawn_text)
 
     @MultiplexTest.temporary_plot
-    def test_align_left(self):
+    def test_draw_align_left(self):
         """
         Test that when aligning text left, all lines start at the same x-coordinate.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 2), 0, align='left', va='top')
+        annotation = Annotation(viz, text, (0, 2), 0, align='left', va='top')
+        lines = annotation.draw()
+        self.assertTrue(all( util.get_bb(viz.figure, viz.axes, line[0]).x0 == 0 for line in lines ))
 
     @MultiplexTest.temporary_plot
-    def test_align_right(self):
+    def test_draw_align_right(self):
         """
         Test that when aligning text right, all lines end at the same x-coordinate.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 2), 0, align='right', va='top')
+        annotation = Annotation(viz, text, (0, 2), 0, align='right', va='top')
+        lines = annotation.draw()
 
         x = 0
         for i, lines in enumerate(lines):
@@ -67,15 +84,15 @@ class TestAnnotation(MultiplexTest):
             self.assertEqual(round(x, 5), round(bb.x1, 5))
 
     @MultiplexTest.temporary_plot
-    def test_align_center(self):
+    def test_draw_align_center(self):
         """
         Test that when centering text, all of the lines' centers are the same.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 2), 0, align='center', va='top')
+        annotation = Annotation(viz, text, (0, 2), 0, align='center', va='top')
+        lines = annotation.draw()
 
         x = 0
         for i, lines in enumerate(lines[:-1]):
@@ -88,7 +105,7 @@ class TestAnnotation(MultiplexTest):
             self.assertEqual(round(x, 5), round(center, 5))
 
     @MultiplexTest.temporary_plot
-    def test_align_justify(self):
+    def test_draw_align_justify(self):
         """
         Test that when justifying text, all lines start and end at the same x-coordinate.
         The calculation is made on the center since the bboxes of text do not start or end at the exact same coordinate.
@@ -96,8 +113,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 2), 0, align='justify', va='top')
+        annotation = Annotation(viz, text, (0, 2), 0, align='justify', va='top')
+        lines = annotation.draw()
 
         x = 0
         for i, lines in enumerate(lines[:-1]): # skip the last line as it is not justified
@@ -110,43 +127,43 @@ class TestAnnotation(MultiplexTest):
             self.assertEqual(round(x, 5), round(center, 5))
 
     @MultiplexTest.temporary_plot
-    def test_align_justify_left(self):
+    def test_draw_align_justify_left(self):
         """
         Test that when justifying text with the last line being left-aligned, the last line starts at x-coordinate 0.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 2), 0, align='justify-start', va='top')
+        annotation = Annotation(viz, text, (0, 2), 0, align='justify-start', va='top')
+        lines = annotation.draw()
 
         bb = util.get_bb(viz.figure, viz.axes, lines[0][0])
         self.assertEqual(0, bb.x0)
 
     @MultiplexTest.temporary_plot
-    def test_align_justify_right(self):
+    def test_draw_align_justify_right(self):
         """
         Test that when justifying text with the last line being right-aligned, the last line ends at the farthest right.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 2), 0, align='justify-end', va='top')
+        annotation = Annotation(viz, text, (0, 2), 0, align='justify-end', va='top')
+        lines = annotation.draw()
 
         bb = util.get_bb(viz.figure, viz.axes, lines[0][-1])
         self.assertEqual(2, round(bb.x1, 5))
 
     @MultiplexTest.temporary_plot
-    def test_align_justify_center(self):
+    def test_draw_align_justify_center(self):
         """
         Test that when justifying text with the last line centered, all lines have the exact same center.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, align='justify-center', va='top')
+        annotation = Annotation(viz, text, (0, 1), 0, align='justify-center', va='top')
+        lines = annotation.draw()
 
         x = 0
         for i, lines in enumerate(lines):
@@ -159,54 +176,54 @@ class TestAnnotation(MultiplexTest):
             self.assertEqual(round(x, 5), round(center, 5))
 
     @MultiplexTest.temporary_plot
-    def test_align_invalid(self):
+    def test_draw_align_invalid(self):
         """
         Test that when an invalid alignment is given, a :class:`~ValueError` is raised.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        self.assertRaises(ValueError, annotation.draw, text, (0, 2), 0, va='top', align='invalid')
+        annotation = Annotation(viz, text, (0, 2), 0, va='top', align='invalid')
+        self.assertRaises(ValueError, annotation.draw)
 
     @MultiplexTest.temporary_plot
-    def test_align_top_order(self):
+    def test_draw_align_top_order(self):
         """
         Test that when the vertical alignment is top, the order of lines is still correct.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='top')
+        annotation = Annotation(viz, text, (0, 1), 0, va='top')
+        lines = annotation.draw()
 
         self.assertEqual('Memphis', lines[0][0].get_text())
         self.assertEqual('ground.', lines[-1][-1].get_text())
 
     @MultiplexTest.temporary_plot
-    def test_align_bottom_order(self):
+    def test_draw_align_bottom_order(self):
         """
         Test that when the vertical alignment is bottom, the order of lines is still correct.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='bottom')
+        annotation = Annotation(viz, text, (0, 1), 0, va='bottom')
+        lines = annotation.draw()
 
         self.assertEqual('Memphis', lines[0][0].get_text())
         self.assertEqual('ground.', lines[-1][-1].get_text())
 
     @MultiplexTest.temporary_plot
-    def test_align_top(self):
+    def test_draw_align_top(self):
         """
         Test that when the alignment is top, all lines are below the provided y-coordinate.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='top')
+        annotation = Annotation(viz, text, (0, 1), 0, va='top')
+        lines = annotation.draw()
 
         bb = util.get_bb(viz.figure, viz.axes, lines[0][0])
         self.assertEqual(0, bb.y1)
@@ -215,15 +232,15 @@ class TestAnnotation(MultiplexTest):
             self.assertLessEqual(0, bb.y1)
 
     @MultiplexTest.temporary_plot
-    def test_align_bottom(self):
+    def test_draw_align_bottom(self):
         """
         Test that when the alignment is top, all lines are above the provided y-coordinate.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='bottom')
+        annotation = Annotation(viz, text, (0, 1), 0, va='bottom')
+        lines = annotation.draw()
 
         bb = util.get_bb(viz.figure, viz.axes, lines[-1][-1])
         self.assertEqual(0, bb.y0)
@@ -232,15 +249,15 @@ class TestAnnotation(MultiplexTest):
             self.assertGreaterEqual(0, bb.y0)
 
     @MultiplexTest.temporary_plot
-    def test_align_top_line_alignment(self):
+    def test_draw_align_top_line_alignment(self):
         """
         Test that the lines all have the same vertical position when they are aligned to the top.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='top')
+        annotation = Annotation(viz, text, (0, 1), 0, va='top')
+        lines = annotation.draw()
 
         for line in lines:
             bb = util.get_bb(viz.figure, viz.axes, line[0])
@@ -251,15 +268,15 @@ class TestAnnotation(MultiplexTest):
                 self.assertEqual(y0, bb.y0)
 
     @MultiplexTest.temporary_plot
-    def test_align_bottom_line_alignment(self):
+    def test_draw_align_bottom_line_alignment(self):
         """
         Test that the lines all have the same vertical position when they are aligned to the top.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='bottom')
+        annotation = Annotation(viz, text, (0, 1), 0, va='bottom')
+        lines = annotation.draw()
 
         for line in lines:
             bb = util.get_bb(viz.figure, viz.axes, line[0])
@@ -270,15 +287,15 @@ class TestAnnotation(MultiplexTest):
                 self.assertEqual(y1, bb.y1)
 
     @MultiplexTest.temporary_plot
-    def test_align_top_lines_do_not_overlap(self):
+    def test_draw_align_top_lines_do_not_overlap(self):
         """
         Test that when annotations are vertically aligned to the top, the lines do not overlap.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='top')
+        annotation = Annotation(viz, text, (0, 1), 0, va='top')
+        lines = annotation.draw()
 
         for i in range(0, len(lines) - 1):
             bb0 = util.get_bb(viz.figure, viz.axes, lines[i][0])
@@ -287,15 +304,15 @@ class TestAnnotation(MultiplexTest):
             self.assertGreaterEqual(bb0.y0, bb1.y1)
 
     @MultiplexTest.temporary_plot
-    def test_align_bottom_lines_do_not_overlap(self):
+    def test_draw_align_bottom_lines_do_not_overlap(self):
         """
         Test that when annotations are vertically aligned to the bottom, the lines do not overlap.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='bottom')
+        annotation = Annotation(viz, text, (0, 1), 0, va='bottom')
+        lines = annotation.draw()
 
         for i in range(0, len(lines) - 1):
             bb0 = util.get_bb(viz.figure, viz.axes, lines[i][0])
@@ -311,8 +328,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0)
+        annotation = Annotation(viz, text, (0, 1), 0)
+        lines = annotation.draw()
         bb = util.get_bb(viz.figure, viz.axes, lines[0][0])
         virtual_bb = annotation.get_virtual_bb()
         self.assertEqual(bb.x0, virtual_bb.x0)
@@ -328,8 +345,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay plays for Olympique Lyonnais'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0)
+        annotation = Annotation(viz, text, (0, 1), 0)
+        lines = annotation.draw()
         self.assertEqual(1, len(lines))
         virtual_bb = annotation.get_virtual_bb()
         self.assertEqual(util.get_bb(viz.figure, viz.axes, lines[0][0]).x0, virtual_bb.x0)
@@ -345,8 +362,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0)
+        annotation = Annotation(viz, text, (0, 1), 0)
+        lines = annotation.draw()
         self.assertGreater(len(lines), 1)
         virtual_bb = annotation.get_virtual_bb()
         self.assertEqual(util.get_bb(viz.figure, viz.axes, lines[0][0]).x0, virtual_bb.x0)
@@ -362,8 +379,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='center')
+        annotation = Annotation(viz, text, (0, 1), 0, va='center')
+        lines = annotation.draw()
         bb = util.get_bb(viz.figure, viz.axes, lines[0][0])
         self.assertEqual(0, (bb.y1 + bb.y0) / 2.)
         virtual_bb = annotation.get_virtual_bb()
@@ -377,8 +394,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay  plays for Olympique Lyonnais'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='center')
+        annotation = Annotation(viz, text, (0, 1), 0, va='center')
+        lines = annotation.draw()
         for token in lines[0]:
             bb = util.get_bb(viz.figure, viz.axes, lines[0][0])
             self.assertEqual(0, (bb.y1 + bb.y0) / 2.)
@@ -391,8 +408,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground. Depay began his professional career with PSV Eindhoven.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='center')
+        annotation = Annotation(viz, text, (0, 1), 0, va='center')
+        lines = annotation.draw()
         self.assertGreater(len(lines), 1)
         self.assertFalse(len(lines) % 2)
         tokens = [ tokens[0] for tokens in lines ]
@@ -408,8 +425,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='center')
+        annotation = Annotation(viz, text, (0, 1), 0, va='center')
+        lines = annotation.draw()
         self.assertGreater(len(lines), 1)
         self.assertTrue(len(lines) % 2)
         tokens = [ tokens[0] for tokens in lines ]
@@ -431,8 +448,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, va='top')
+        annotation = Annotation(viz, text, (0, 1), 0, va='top')
+        annotation.draw()
         annotation.set_position((0, 2), va='top')
         for token in annotation.lines[0]:
             self.assertEqual(2, util.get_bb(viz.figure, viz.axes, token).y1)
@@ -445,8 +462,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, va='top')
+        annotation = Annotation(viz, text, (0, 1), 0, va='top')
+        annotation.draw()
         annotation.set_position((0, 2), va='top')
         for line in annotation.lines:
             for token in line:
@@ -460,8 +477,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, va='center')
+        annotation = Annotation(viz, text, (0, 1), 0, va='center')
+        annotation.draw()
         annotation.set_position((0, 2), va='center')
         bb = annotation.get_virtual_bb()
         self.assertEqual(2, (bb.y1 + bb.y0)/2.)
@@ -474,8 +491,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground. Depay began his professional career with PSV Eindhoven.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, va='center')
+        annotation = Annotation(viz, text, (0, 1), 0, va='center')
+        annotation.draw()
         annotation.set_position((0, 2), va='center')
         lines = annotation.lines
         self.assertGreater(len(lines), 1)
@@ -493,8 +510,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        lines = annotation.draw(text, (0, 1), 0, va='center')
+        annotation = Annotation(viz, text, (0, 1), 0, va='center')
+        lines = annotation.draw()
         annotation.set_position((0, 2), va='center')
         lines = annotation.lines
         self.assertGreater(len(lines), 1)
@@ -518,8 +535,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, va='bottom')
+        annotation = Annotation(viz, text, (0, 1), 0, va='bottom')
+        annotation.draw()
         annotation.set_position((0, 2), va='bottom')
         for token in annotation.lines[-1]:
             self.assertEqual(2, util.get_bb(viz.figure, viz.axes, token).y0)
@@ -532,8 +549,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, va='bottom')
+        annotation = Annotation(viz, text, (0, 1), 0, va='bottom')
+        annotation.draw()
         annotation.set_position((0, 2), va='bottom')
         for line in annotation.lines:
             for token in line:
@@ -547,8 +564,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, va='top')
+        annotation = Annotation(viz, text, (0, 1), 0, va='top')
+        annotation.draw()
         self.assertRaises(ValueError, annotation.set_position, (0, 2), va='invalid')
 
     @MultiplexTest.temporary_plot
@@ -559,8 +576,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, align='left')
+        annotation = Annotation(viz, text, (0, 1), 0, align='left')
+        annotation.draw()
         annotation.set_position((2, 0), ha='left')
         for tokens in annotation.lines:
             self.assertEqual(2, round(util.get_bb(viz.figure, viz.axes, tokens[0]).x0, 10))
@@ -573,8 +590,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, align='left')
+        annotation = Annotation(viz, text, (0, 1), 0, align='left')
+        annotation.draw()
         annotation.set_position((2, 0), ha='left')
         for line in annotation.lines:
             for token in line:
@@ -588,8 +605,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, align='center')
+        annotation = Annotation(viz, text, (0, 1), 0, align='center')
+        annotation.draw()
         annotation.set_position((2, 0), ha='center')
         bb = annotation.get_virtual_bb()
         self.assertEqual(2, (bb.x0 + bb.x1)/2.)
@@ -603,8 +620,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, align='right')
+        annotation = Annotation(viz, text, (0, 1), 0, align='right')
+        annotation.draw()
         annotation.set_position((2, 0), ha='right')
         for tokens in annotation.lines:
             self.assertEqual(2, round(util.get_bb(viz.figure, viz.axes, tokens[-1]).x1, 10))
@@ -618,8 +635,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, align='right')
+        annotation = Annotation(viz, text, (0, 1), 0, align='right')
+        annotation.draw()
         annotation.set_position((2, 0), ha='right')
         for line in annotation.lines:
             for token in line:
@@ -633,19 +650,9 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0)
+        annotation = Annotation(viz, text, (0, 1), 0)
+        annotation.draw()
         self.assertRaises(ValueError, annotation.set_position, (0, 2), ha='invalid')
-
-    @MultiplexTest.temporary_plot
-    def test_set_position_no_tokens(self):
-        """
-        Test that when setting the position of an annotation with no tokens, nothing changes.
-        """
-
-        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        self.assertEqual(None, annotation.set_position((0, 0)))
 
     @MultiplexTest.temporary_plot
     def test_draw_x_tuple(self):
@@ -655,8 +662,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 0.5), 0)
+        annotation = Annotation(viz, text, (0, 0.5), 0)
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(0, bb.x0)
         self.assertLessEqual(0.49, bb.x1)
@@ -670,8 +677,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, [0, 0.5], 0)
+        annotation = Annotation(viz, text, [0, 0.5], 0)
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(0, bb.x0)
         self.assertLessEqual(0.49, bb.x1)
@@ -685,8 +692,8 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, 0, 0)
+        annotation = Annotation(viz, text, 0, 0)
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(0, bb.x0)
         self.assertLessEqual(0.95, bb.x1)
@@ -700,145 +707,246 @@ class TestAnnotation(MultiplexTest):
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, np.float64(0.2), 0)
+        annotation = Annotation(viz, text, np.float64(0.2), 0)
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(round(0.2, 10), round(bb.x0, 10))
         self.assertLessEqual(0.95, bb.x1)
         self.assertGreaterEqual(1, bb.x1)
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_left(self):
+    def test_draw_x_pad_left(self):
         """
         Test that when padding is applied with `left` alignment, the block moves to the right.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, pad=0.2, align='left')
+        annotation = Annotation(viz, text, (0, 1), 0, pad=0.2, align='left')
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(0.2, round(bb.x0, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_center(self):
+    def test_draw_x_pad_center(self):
         """
         Test that when padding is applied with `center` alignment, the block is narrower.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, pad=0.2, align='center')
+        annotation = Annotation(viz, text, (0, 1), 0, pad=0.2, align='center')
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertLessEqual(0.2, round(bb.x0, 10))
         self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_right(self):
+    def test_draw_x_pad_right(self):
         """
         Test that when padding is applied with `right` alignment, the block moves to the left.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, pad=0.2, align='right')
+        annotation = Annotation(viz, text, (0, 1), 0, pad=0.2, align='right')
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(0.8, round(bb.x1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_justify_start(self):
+    def test_draw_x_pad_justify_start(self):
         """
         Test that when padding is applied with `justify-start` alignment, the block moves to the right.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, pad=0.2, align='justify-start')
+        annotation = Annotation(viz, text, (0, 1), 0, pad=0.2, align='justify-start')
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(0.2, round(bb.x0, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_justify_center(self):
+    def test_draw_x_pad_justify_center(self):
         """
         Test that when padding is applied with `justify-center` alignment, the block is narrower.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, pad=0.2, align='justify-center')
+        annotation = Annotation(viz, text, (0, 1), 0, pad=0.2, align='justify-center')
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(0.2, round(bb.x0, 10))
         self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_justify_end(self):
+    def test_draw_x_pad_justify_end(self):
         """
         Test that when padding is applied with `justify-end` alignment, the block moves to the left.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, pad=0.2, align='justify-end')
+        annotation = Annotation(viz, text, (0, 1), 0, pad=0.2, align='justify-end')
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_x_pad_equal(self):
+    def test_draw_x_pad_equal(self):
         """
         Test that when applying padding, the block is equally-narrower on both sides.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, pad=0.2, align='left')
+        annotation = Annotation(viz, text, (0, 1), 0, pad=0.2, align='left')
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(0.2, round(bb.x0, 10))
         self.assertGreaterEqual(0.8, round(bb.x1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_y_pad_top(self):
+    def test_draw_y_pad_top(self):
         """
         Test that when applying padding with `top` vertical alignment, the block moves down.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, pad=0.2, va='top')
+        annotation = Annotation(viz, text, (0, 1), 0, pad=0.2, va='top')
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(-0.2, round(bb.y1, 10))
 
     @MultiplexTest.temporary_plot
-    def test_y_pad_center(self):
+    def test_draw_y_pad_center(self):
         """
         Test that when applying padding with `center` vertical alignment, the block remains in place.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, pad=0.2, va='center')
+        annotation = Annotation(viz, text, (0, 1), 0, pad=0.2, va='center')
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(0, round((bb.y0 + bb.y1)/2., 10))
 
     @MultiplexTest.temporary_plot
-    def test_y_pad_bottom(self):
+    def test_draw_y_pad_bottom(self):
         """
         Test that when applying padding with `bottom` vertical alignment, the block moves up.
         """
 
         text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        annotation = Annotation(viz)
-        annotation.draw(text, (0, 1), 0, pad=0.2, va='bottom')
+        annotation = Annotation(viz, text, (0, 1), 0, pad=0.2, va='bottom')
+        annotation.draw()
         bb = annotation.get_virtual_bb()
         self.assertEqual(0.2, round(bb.y0, 10))
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_same_text(self):
+        """
+        Test that when re-drawing an annotation, the same text is used.
+        """
+
+        text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz, text, (0, 1), 0, va='bottom')
+        lines = annotation.draw()
+        viz.set_xlim((0, 100))
+        self.assertEqual(self._reconstruct_text(lines), self._reconstruct_text(annotation.redraw()))
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_same_position(self):
+        """
+        Test that when re-drawing an annotation, it is placed in the same position.
+        """
+
+        text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz, text, (0, 2), 0, align='justify', va='bottom')
+        annotation.draw()
+        bb = annotation.get_virtual_bb()
+        self.assertEqual(0, bb.x0)
+        self.assertEqual(2, round(bb.x1, 2))
+
+        # increase the limit of the x-axes
+        viz.set_xlim((0, 10))
+        annotation.redraw()
+        bb = annotation.get_virtual_bb()
+        self.assertEqual(0, bb.x0)
+        self.assertEqual(2, round(bb.x1, 2))
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_same_style(self):
+        """
+        Test that when re-drawing an annotation, it retains the same style.
+        """
+
+        text = 'Memphis Depay, commonly known simply as Memphis, is a Dutch professional footballer and music artist who plays as a forward and captains French club Lyon and plays for the Netherlands national team. He is known for his pace, ability to cut inside, dribbling, distance shooting and ability to play the ball off the ground.'
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz, text, (0, 2), 0, va='bottom', color='red')
+        lines = annotation.draw()
+        self.assertTrue(all( token.get_color() == 'red'
+                             for line in lines
+                             for token in line ))
+
+        # redraw and re-test
+        lines = annotation.redraw()
+        self.assertTrue(all( token.get_color() == 'red'
+                             for line in lines
+                             for token in line ))
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_with_custom_style(self):
+        """
+        Test that when re-drawing an annotation that has a custom style, the new style is used.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        text = [{ 'text': 'Memphis', 'style': { 'color': 'red' }  },
+                { 'text': 'Depay',   'style': { 'color': 'blue' } }]
+        annotation = Annotation(viz, text, (0, 2), 0, va='bottom')
+        lines = annotation.draw()
+        tokens = [ token for line in lines
+                         for token in line ]
+        self.assertEqual('red', tokens[0].get_color())
+        self.assertEqual('blue', tokens[1].get_color())
+
+        # redraw and re-test
+        lines = annotation.redraw()
+        tokens = [ token for line in lines
+                         for token in line ]
+        self.assertEqual('red', tokens[0].get_color())
+        self.assertEqual('blue', tokens[1].get_color())
+
+    @MultiplexTest.temporary_plot
+    def test_redraw_overlapping(self):
+        """
+        Test that when re-drawing an annotation, the new annotation's tokens does not overlap.
+        """
+
+        text = 'Memphis Depay'
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        annotation = Annotation(viz, text, (0, 2), 0, align='justify', va='bottom')
+        lines = annotation.draw()
+        tokens = [ token for line in lines
+                         for token in line ]
+        self.assertFalse(util.overlapping(viz.figure, viz.axes, *tokens))
+
+        # increase the limit of the x-axes
+        viz.set_xlim((0, 100))
+        self.assertTrue(util.overlapping(viz.figure, viz.axes, *tokens))
+
+        # redraw and the tokens should no longer overlap
+        lines = annotation.redraw()
+        tokens = [ token for line in lines
+                         for token in line ]
+        self.assertFalse(util.overlapping(viz.figure, viz.axes, *tokens))
 
     def _reconstruct_text(self, lines):
         """
@@ -853,4 +961,4 @@ class TestAnnotation(MultiplexTest):
         :rtype: str
         """
 
-        return ' '.join([ ' '.join([ token.get_text() for token in line ]) for line in lines ])
+        return ' '.join([ ' '.join([ token.get_text() for token in line ]) for line in lines ]).strip()

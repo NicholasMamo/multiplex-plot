@@ -52,6 +52,7 @@ class TestTimeSeries(MultiplexTest):
         line, label = viz.draw_time_series([ 1 ] * 5, [ 1 ] * 5, label='A',
                                            label_style=label_style, with_legend=True)
 
+        viz.redraw()
         self.assertEqual(1, len(viz.legend.lines[0]))
         self.assertEqual('A', str(viz.legend.lines[0][0][1]))
         self.assertEqual(label_style['color'], viz.legend.lines[0][0][1].lines[0][0].get_color())
@@ -67,6 +68,7 @@ class TestTimeSeries(MultiplexTest):
         line, label = viz.draw_time_series([ 1 ] * 5, [ 1 ] * 5, label='A',
                                            **line_style, with_legend=False)
 
+        viz.redraw()
         self.assertEqual(0, len(viz.legend.lines[0]))
         self.assertEqual('A', str(label))
         self.assertEqual(line_style['color'], label.lines[0][0].get_color())
@@ -82,6 +84,7 @@ class TestTimeSeries(MultiplexTest):
         line, label = viz.draw_time_series([ 1 ] * 5, [ 1 ] * 5, label='A',
                                            label_style=label_style, with_legend=False)
 
+        viz.redraw()
         self.assertEqual(0, len(viz.legend.lines[0]))
         self.assertEqual('A', str(label))
         self.assertEqual(label_style['color'], label.lines[0][0].get_color())
@@ -97,6 +100,7 @@ class TestTimeSeries(MultiplexTest):
         line, label = viz.draw_time_series([ 1 ] * 5, [ 1 ] * 5, label='A',
                                            **line_style, with_legend=True)
 
+        viz.redraw()
         self.assertEqual(1, len(viz.legend.lines[0]))
         line, label = viz.legend.lines[0][0]
         self.assertEqual('A', str(label))
@@ -113,6 +117,7 @@ class TestTimeSeries(MultiplexTest):
         line, label = viz.draw_time_series([ 1 ] * 5, [ 1 ] * 5, label='A',
                                            **line_style, with_legend=True)
 
+        viz.redraw()
         self.assertEqual(1, len(viz.legend.lines[0]))
         line, label = viz.legend.lines[0][0]
         self.assertEqual('A', str(label))
@@ -129,6 +134,7 @@ class TestTimeSeries(MultiplexTest):
         x, y = range(0, 5), range(5, 10)
         line, _ = viz.draw_time_series(x, y)
         pd_line, _ = viz.draw_time_series(pd.Series(x), pd.Series(y))
+        viz.redraw()
         self.assertEqual(list(line.get_xdata()), list(pd_line.get_xdata()))
         self.assertEqual(list(line.get_ydata()), list(pd_line.get_ydata()))
 
@@ -145,5 +151,6 @@ class TestTimeSeries(MultiplexTest):
         df['y'] = pd.Series(range(5, 10))
         df.index = range(0, 5)
         pd_line, _ = viz.draw_time_series(df.index, df.y, label='line')
+        viz.redraw()
         self.assertEqual(df.x.tolist(), list(pd_line.get_xdata()))
         self.assertEqual(df.y.tolist(), list(pd_line.get_ydata()))

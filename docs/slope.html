@@ -1,0 +1,354 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta content="Python time series visualizations that make it easier to create and annotate slope graphs to tell a story through data" name="description" />
+<meta content="Multiplex, Python, visualizations, slope graph, big data, data mining" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+	
+  <title>6. Slope Graph &mdash; Multiplex 0.4.0 documentation</title>
+  
+	<meta content="6-b47nDPjK44wloiTTz5ZH1d0PbmODUCmFdUAtM3dR0" name="google-site-verification" />
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-155003028-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-155003028-1');
+	</script>
+
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
+    <link rel="prev" title="5. Bar Charts" href="bar.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Multiplex
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="drawable.html">1. Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text.html">2. Text Visualizations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries.html">3. Time Series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph.html">4. Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bar.html">5. Bar Charts</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Slope Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Multiplex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>6. Slope Graph</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/slope.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    <div class="section" id="slope-graph">
+<h1>6. Slope Graph<a class="headerlink" href="#slope-graph" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-slope"></span><p>Data can change as a result of time, action or a plethora of other reasons.
+Although not as common as other visualizations, slope graphs are great to show how data changes.
+Multiplex’s slope graph makes it easier to show how data changes and tell a story.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Can’t wait to start creating slope graphs?
+<a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/tree/master/examples">Multiplex’s Jupyter Notebook examples</a> are a quick guide to get you up and running.
+Check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/6.%20Slope%20graphs.ipynb">slope graphs Jupyter Notebook tutorial</a> to learn how to create the time series shown above, or to start creating your own slope graph visualizations.</p>
+</div>
+<span class="target" id="module-slope.slope"></span><p>The <a class="reference internal" href="#slope.slope.Slope" title="slope.slope.Slope"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slope</span></code></a> class allows you to create slope graphs that show how values changed, such as:</p>
+<ul class="simple">
+<li><p>Before and after an operation, or</p></li>
+<li><p>Over a time period.</p></li>
+</ul>
+<p>Slope graphs are not commonly included in visualization packages, but they can be great tools to tell a story.</p>
+<p>To draw a slope graph, create a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class and call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_slope" title="drawable.Drawable.draw_slope"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_slope()</span></code></a> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can also draw multiple slopes at the same time by providing a list instead:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span> <span class="p">])</span>
+</pre></div>
+</div>
+<p>In addition to the slopes, you can also provide the ticks on both sides.
+Ticks can be:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): Adds the values as ticks,</p></li>
+<li><p>Empty string: Add no ticks, or</p></li>
+<li><p>Other (such as a string): Add the given value as a label.</p></li>
+</ul>
+<p>For example, the following snippet adds a tick with label ‘0’ on the left y-axis, and a tick with label ‘3’ on the right y-axis.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">y1_tick</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y2_tick</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Multiplex overwrites ticks if you provide <code class="docutils literal notranslate"><span class="pre">None</span></code> or a value for the tick labels, but not if you provide an empty string.
+If you are creating multiple slopes at the same time, <code class="docutils literal notranslate"><span class="pre">None</span></code> and the empty string apply for all slopes.
+You can, however, provide a list of ticks labels corresponding to each slope.
+For example, the next snippet adds ‘A’ and ‘B’ on the left y-axis, and ‘3’ and ‘5’ as ticks on the right y-axis.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_slope</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="p">],</span> <span class="p">[</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span> <span class="p">],</span> <span class="n">y1_tick</span><span class="o">=</span><span class="p">[</span> <span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;B&#39;</span> <span class="p">],</span> <span class="n">y2_tick</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py class">
+<dt id="slope.slope.Slope">
+<em class="property">class </em><code class="sig-prename descclassname">slope.slope.</code><code class="sig-name descname">Slope</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#slope.slope.Slope" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#slope.slope.Slope" title="slope.slope.Slope"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slope</span></code></a> class builds on the <a class="reference internal" href="drawable.html#labelled.LabelledVisualization" title="labelled.LabelledVisualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabelledVisualization</span></code></a>.
+The reason behind this is that each slope in the visualization has a label associated with it.
+In these cases, the <a class="reference internal" href="drawable.html#labelled.LabelledVisualization" title="labelled.LabelledVisualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">LabelledVisualization</span></code></a> automatically ensures that the labels do not overlap.</p>
+<p>Like all visualizations, it revolves around the <a class="reference internal" href="#slope.slope.Slope.draw" title="slope.slope.Slope.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
+<dl class="py method">
+<dt id="slope.slope.Slope.draw">
+<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y1</span></em>, <em class="sig-param"><span class="n">y2</span></em>, <em class="sig-param"><span class="n">y1_tick</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">y2_tick</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">label</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">style_plot</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#slope.slope.Slope.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a slope graph.
+The function returns a two-tuple with the drawn plot (a line with optional markers) and any drawn labels.</p>
+<p>Any additional arguments and keyword arguments are used as styling options.
+The accepted styling options are those supported by the <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html">matplotlib.pyplot.plot</a> method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y1</strong> (<em>float</em><em> or </em><em>list of float</em>) – The start value of the slope, or a list of start values.</p></li>
+<li><p><strong>y2</strong> (<em>float</em><em> or </em><em>list of float</em>) – The end value of the slope, or a list of end values.</p></li>
+<li><p><strong>y1_tick</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list</em>) – <p>The tick label to show on the left side, which can be:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): Adds the values as ticks,</p></li>
+<li><p>Empty string: Add no ticks, or</p></li>
+<li><p>Other (such as a string): Add the given value as a label.</p></li>
+</ul>
+<p>If you are drawing a list of slopes, you can provide a list.
+This list too can be made up of <code class="docutils literal notranslate"><span class="pre">None</span></code>, empty strings or any other value with the same behavior as above.</p>
+</p></li>
+<li><p><strong>y2_tick</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list</em>) – <p>The tick label to show on the right side, which can be:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> (default): Adds the values as ticks,</p></li>
+<li><p>Empty string: Add no ticks, or</p></li>
+<li><p>Other (such as a string): Add the given value as a label.</p></li>
+</ul>
+<p>If you are drawing a list of slopes, you can provide a list.
+This list too can be made up of <code class="docutils literal notranslate"><span class="pre">None</span></code>, empty strings or any other value with the same behavior as above.</p>
+</p></li>
+<li><p><strong>label</strong> (<em>None</em><em> or </em><em>str</em><em> or </em><em>list</em>) – The slope’s label.
+The label is different from the ticks: ticks show values, labels show the name of the slope.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code> or an empty string is given, no labels added.
+If you provide a list of slopes, you can also provide a list of labels: one for each slope.</p></li>
+<li><p><strong>style_plot</strong> (<em>bool</em>) – <p>A boolean indicating whether the plot should be re-styled.
+If it is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the visualization:</p>
+<ul>
+<li><p>Removes the grid,</p></li>
+<li><p>Hides the x-axis</p></li>
+<li><p>Hides the y-axis, and</p></li>
+<li><p>Adds two x-ticks.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The drawn plot.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.lines.Line2D</span></code></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If the <code class="docutils literal notranslate"><span class="pre">y1</span></code> and <code class="docutils literal notranslate"><span class="pre">y2</span></code> parameters are lists of unequal length.</p></li>
+<li><p><strong>ValueError</strong> – If the number of start points and start tick labels are not equal.</p></li>
+<li><p><strong>ValueError</strong> – If the number of end points and end tick labels are not equal.</p></li>
+<li><p><strong>ValueError</strong> – If the number of slopes and labels are not equal.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="bar.html" class="btn btn-neutral float-left" title="5. Bar Charts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019, Nicholas Mamo
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
