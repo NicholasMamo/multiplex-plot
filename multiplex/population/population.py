@@ -113,12 +113,6 @@ class Population(Visualization):
         if isinstance(population, Number) and population < 0:
             raise ValueError(f"The number of population items must be zero or a positive integer, received { population }")
 
-        if rows % 1:
-            raise TypeError(f"The number of rows must be an integer, received { rows } ({ type(rows).__name__ })")
-
-        if rows < 1:
-            raise ValueError(f"The number of rows must be a positive integer, received { rows }")
-
         # calculate the gap size
         lim = self._limit(height)
         gap = self._gap_size(lim, rows)
