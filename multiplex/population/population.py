@@ -12,9 +12,9 @@ import sys
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 import util
 
-from visualization import Visualization
+from labelled import LabelledVisualization
 
-class Population(Visualization):
+class Population(LabelledVisualization):
     """
     The :class:`~Population` class plots scatter points that represent populations.
     Like all visualizations, it stores a :class:`~drawable.Drawable` instance and revolves around the :func:`~Population.draw` function.
