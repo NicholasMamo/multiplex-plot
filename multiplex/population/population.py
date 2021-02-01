@@ -31,7 +31,7 @@ class Population(Visualization):
         viz.show()
     """
 
-    def draw(self, population, rows, height=0.6, *args, **kwargs):
+    def draw(self, population, rows, style_plot=True, height=0.6, *args, **kwargs):
         """
         Draw a new population on this plot.
 
@@ -43,6 +43,13 @@ class Population(Visualization):
         :type population: int or list
         :param rows: The number of rows in which to split the population.
         :type rows: int
+        :param style_plot: A boolean indicating whether the plot should be re-styled.
+                           If it is set to ``True``, the visualization:
+
+                               - Removing the y-axis,
+                               - Inverting the y-axis, and
+                               - Removing the grid.
+        :type style_plot: bool
         :param height: The height of the population, between 0 (exclusive) and 1.
         :type height: float
 
@@ -56,7 +63,27 @@ class Population(Visualization):
         :raise ValueError: If the height is not between 0 and 1.
         """
 
-        return self._draw_population(population, rows, height, *args, **kwargs)
+        # draw the population
+        population = self._draw_population(population, rows, height, *args, **kwargs)
+
+        # re-style the plot if need be, leaving it until last since the population changes the y-axis
+        if style_plot:
+            self._style()
+
+        return population
+
+    def _style(self):
+        """
+        Style the plot by:
+
+        - Removing the y-axis,
+        - Inverting the y-axis, and
+        - Removing the grid.
+        """
+
+        self.drawable.axes.spines['left'].set_visible(False)
+        self.drawable.invert_yaxis()
+        self.drawable.grid(False)
 
     def _draw_population(self, population, rows, height, *args, **kwargs):
         """

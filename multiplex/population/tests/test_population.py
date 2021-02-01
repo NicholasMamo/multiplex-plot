@@ -103,6 +103,66 @@ class TestPopulation(MultiplexTest):
         self.assertRaises(ValueError, viz.draw_population, 5, 10, height=2)
 
     @MultiplexTest.temporary_plot
+    def test_draw_with_style(self):
+        """
+        Test that when drawing a population and styling the plot, the correct styling options are applied.
+        """
+
+        # check the initial style
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.grid(True)
+        self.assertTrue(viz.axes.spines['left'].get_visible())
+        self.assertTrue(viz.axes.xaxis._gridOnMajor)
+        self.assertTrue(viz.axes.yaxis._gridOnMajor)
+        self.assertFalse(viz.yaxis_inverted())
+
+        # draw the population and let it set the new style
+        self.assertTrue(viz.draw_population(5, 10, height=1, style_plot=True))
+        self.assertFalse(viz.axes.spines['left'].get_visible())
+        self.assertFalse(viz.axes.xaxis._gridOnMajor)
+        self.assertFalse(viz.axes.yaxis._gridOnMajor)
+        self.assertTrue(viz.yaxis_inverted())
+
+    @MultiplexTest.temporary_plot
+    def test_draw_without_style(self):
+        """
+        Test that when drawing a population without styling the plot, the style is not overwritten.
+        """
+
+        # check the initial style
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        viz.grid(True)
+        self.assertTrue(viz.axes.spines['left'].get_visible())
+        self.assertTrue(viz.axes.xaxis._gridOnMajor)
+        self.assertTrue(viz.axes.yaxis._gridOnMajor)
+        self.assertFalse(viz.yaxis_inverted())
+
+        # draw the population and do not let it set the new style
+        self.assertTrue(viz.draw_population(5, 10, height=1, style_plot=False))
+        self.assertTrue(viz.axes.spines['left'].get_visible())
+        self.assertTrue(viz.axes.xaxis._gridOnMajor)
+        self.assertTrue(viz.axes.yaxis._gridOnMajor)
+        self.assertFalse(viz.yaxis_inverted())
+
+    @MultiplexTest.temporary_plot
+    def test_draw_with_style_multiple_times(self):
+        """
+        Test that when drawing multiple populations and styling the plot, the y-axes are not inverted more than once.
+        """
+
+        # check the initial style
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        self.assertFalse(viz.yaxis_inverted())
+
+        # draw a population a first time, the y-axes should be inverted
+        self.assertTrue(viz.draw_population(5, 10, height=1, style_plot=True))
+        self.assertTrue(viz.yaxis_inverted())
+
+        # draw a population a second time, the y-axes should still be inverted
+        self.assertTrue(viz.draw_population(5, 10, height=1, style_plot=True))
+        self.assertTrue(viz.yaxis_inverted())
+
+    @MultiplexTest.temporary_plot
     def test_draw_zero_population(self):
         """
         Test that when drawing an empty population, the function returns an empty list of points.
