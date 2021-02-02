@@ -6,6 +6,9 @@ The :class:`~Slope` class allows you to create slope graphs that show how values
 
 Slope graphs are not commonly included in visualization packages, but they can be great tools to tell a story.
 
+.. image:: ../examples/exports/6-slope.png
+   :class: example inline
+
 To draw a slope graph, create a :class:`~drawable.Drawable` class and call the :func:`~drawable.Drawable.draw_slope` function:
 
 .. code-block:: python
