@@ -28,9 +28,11 @@ This is achieved by providing:
 * Functionality to caption visualizations;
 * Functionality to annotate any visualization with text; and
 * New types of visualizations not available in matplotlib:
-	*  100% bar chart,
-	*  Network graph, and
-	*  Text-only visualizations.
+	* 100% bar chart,
+	* Network graph,
+    * Slope graph,
+    * Population chart, and
+	* Text-only visualizations.
 
 Multiplex automatically lays out your data so that you can focus on telling your story.
 
@@ -85,6 +87,8 @@ Using Multiplex is very easy, but you can get started by checking out the [Jupyt
 ## Example visualizations
 
 ![Example bar chart](https://raw.githubusercontent.com/NicholasMamo/multiplex-plot/master/examples/exports/5-natural-gas.png)
+
+![Example slope graph](https://raw.githubusercontent.com/NicholasMamo/multiplex-plot/master/examples/exports/6-slope.png)
 
 ![Example time series](https://raw.githubusercontent.com/NicholasMamo/multiplex-plot/master/examples/exports/3-time-series.png)
 
