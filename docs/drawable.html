@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html4" lang="en" >
 <head>
   <meta charset="utf-8">
   <meta content="Multiplex: visualizations that tell stories" name="description" />
@@ -42,10 +42,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -115,6 +115,7 @@
 <li class="toctree-l1"><a class="reference internal" href="graph.html">4. Graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bar.html">5. Bar Charts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="slope.html">6. Slope Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="population.html">7. Population Chart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 
@@ -190,13 +191,13 @@ Indeed, if you are using Multiplex, you can—and should—work only with <a cla
 <p>The basic process to draw Multiplex’s new visualizations under the hood is as follows:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li><p>Users create a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.
+<li>Users create a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.
 This is made up of the figure and, optionally, the axes.
-Users need only interact with the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.</p></li>
-<li><p>To draw a visualization, users call the appropriate function on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.
-These functions start with <code class="docutils literal notranslate"><span class="pre">draw_</span></code>, for example, <a class="reference internal" href="#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_time_series()</span></code></a>.</p></li>
-<li><p>The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>, in turn, instantiates the visualization.
-Then, it calls the <a class="reference internal" href="#visualization.Visualization.draw" title="visualization.Visualization.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function and returns the drawn components.</p></li>
+Users need only interact with the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.</li>
+<li>To draw a visualization, users call the appropriate function on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.
+These functions start with <code class="docutils literal notranslate"><span class="pre">draw_</span></code>, for example, <a class="reference internal" href="#drawable.Drawable.draw_time_series" title="drawable.Drawable.draw_time_series"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_time_series()</span></code></a>.</li>
+<li>The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>, in turn, instantiates the visualization.
+Then, it calls the <a class="reference internal" href="#visualization.Visualization.draw" title="visualization.Visualization.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function and returns the drawn components.</li>
 </ol>
 </div></blockquote>
 <p>To start working with a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>, create it from a normal plot:</p>
@@ -233,235 +234,282 @@ However, if you call a function that is new to Multiplex, such as a new visualiz
 </div>
 <p>Some important functionality that the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class provides:</p>
 <ul class="simple">
-<li><p>The <a class="reference internal" href="#drawable.Drawable.set_caption" title="drawable.Drawable.set_caption"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_caption()</span></code></a> function.
-This function sets a caption under the title so that readers immediately know what the visualization is about.</p></li>
-<li><p>The <a class="reference internal" href="#drawable.Drawable.savefig" title="drawable.Drawable.savefig"><code class="xref py py-func docutils literal notranslate"><span class="pre">savefig()</span></code></a> and <a class="reference internal" href="#drawable.Drawable.show" title="drawable.Drawable.show"><code class="xref py py-func docutils literal notranslate"><span class="pre">show()</span></code></a> functions.
+<li>The <a class="reference internal" href="#drawable.Drawable.set_caption" title="drawable.Drawable.set_caption"><code class="xref py py-func docutils literal notranslate"><span class="pre">set_caption()</span></code></a> function.
+This function sets a caption under the title so that readers immediately know what the visualization is about.</li>
+<li>The <a class="reference internal" href="#drawable.Drawable.savefig" title="drawable.Drawable.savefig"><code class="xref py py-func docutils literal notranslate"><span class="pre">savefig()</span></code></a> and <a class="reference internal" href="#drawable.Drawable.show" title="drawable.Drawable.show"><code class="xref py py-func docutils literal notranslate"><span class="pre">show()</span></code></a> functions.
 These functions mirror matplotlib’s <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.savefig.html">savefig</a> and <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.show.html">show</a> functions respectively.
-When you call these functions, the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> re-draws the visualization, making sure that the title, caption and legend do not overlap.</p></li>
-<li><p>The <a class="reference internal" href="#drawable.Drawable.annotate" title="drawable.Drawable.annotate"><code class="xref py py-func docutils literal notranslate"><span class="pre">annotate()</span></code></a> function.
+When you call these functions, the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> re-draws the visualization, making sure that the title, caption and legend do not overlap.</li>
+<li>The <a class="reference internal" href="#drawable.Drawable.annotate" title="drawable.Drawable.annotate"><code class="xref py py-func docutils literal notranslate"><span class="pre">annotate()</span></code></a> function.
 You can call this function to add text to any plot.
-This function is useful to point to information that is not immediately obvious, or to draw your readers’ attention.</p></li>
+This function is useful to point to information that is not immediately obvious, or to draw your readers’ attention.</li>
 </ul>
-<dl class="py class">
+<dl class="class">
 <dt id="drawable.Drawable">
-<em class="property">class </em><code class="sig-prename descclassname">drawable.</code><code class="sig-name descname">Drawable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">figure</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">drawable.</code><code class="descname">Drawable</code><span class="sig-paren">(</span><em>figure</em>, <em>axes=None</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable" title="Permalink to this definition">¶</a></dt>
 <dd><p>The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps a matplotlib figure and axes to provide additional functionality.
 If no axes is given, the default plot axes (<code class="code docutils literal notranslate"><span class="pre">plt.gca()</span></code>) is used.
 The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class can be used as a normal <a class="reference external" href="https://matplotlib.org/api/axes_api.html">matplotlib.axes.Axes</a> object with additional functionality.
 The axes functionality can be called on the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class.
 The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance re-routes method and attribute calls to the <a class="reference external" href="https://matplotlib.org/api/axes_api.html">matplotlib.axes.Axes</a> instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps.</p></li>
-<li><p><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes where the drawable will draw.</p></li>
-<li><p><strong>secondary</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The secondary axes.
-Some visualizations, such as the <a class="reference internal" href="slope.html#slope.slope.Slope" title="slope.slope.Slope"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slope</span></code></a> graph uses them to draw different ticks on each y-axis.</p></li>
-<li><p><strong>caption</strong> (<a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>) – The caption, displayed under the title.</p></li>
-<li><p><a class="reference internal" href="timeseries.html#module-timeseries" title="timeseries"><strong>timeseries</strong></a> (None or <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a>) – The time series object that is being used.
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps.</li>
+<li><strong>axes</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes where the drawable will draw.</li>
+<li><strong>secondary</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The secondary axes.
+Some visualizations, such as the <a class="reference internal" href="slope.html#slope.slope.Slope" title="slope.slope.Slope"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slope</span></code></a> graph uses them to draw different ticks on each y-axis.</li>
+<li><strong>caption</strong> (<a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>) – The caption, displayed under the title.</li>
+<li><a class="reference internal" href="bar.html#module-bar.bar100" title="bar.bar100"><strong>bar100</strong></a> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">Bar100</span></code>) – The 100% bar chart visualization that is being used.
 When no visualization has been created, it is set to <cite>None</cite>.
-It is instantiated the first time a time series is drawn.</p></li>
-<li><p><a class="reference internal" href="bar.html#module-bar.bar100" title="bar.bar100"><strong>bar100</strong></a> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">Bar100</span></code>) – The 100% bar chart visualization that is being used.
+It is instantiated the first time a 100% bar chart is drawn.</li>
+<li><a class="reference internal" href="population.html#module-population" title="population"><strong>population</strong></a> (None or <a class="reference internal" href="population.html#population.population.Population" title="population.population.Population"><code class="xref py py-class docutils literal notranslate"><span class="pre">Population</span></code></a>) – The population visualization that is being used.
 When no visualization has been created, it is set to <cite>None</cite>.
-It is instantiated the first time a 100% bar chart is drawn.</p></li>
-<li><p><a class="reference internal" href="#module-legend" title="legend"><strong>legend</strong></a> (<a class="reference internal" href="#legend.Legend" title="legend.Legend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Legend</span></code></a>) – The figure’s legend.</p></li>
-<li><p><strong>annotations</strong> (list of <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>) – The annotations in the visualization.</p></li>
+It is instantiated the first time a population is drawn.</li>
+<li><a class="reference internal" href="timeseries.html#module-timeseries" title="timeseries"><strong>timeseries</strong></a> (None or <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a>) – The time series object that is being used.
+When no visualization has been created, it is set to <cite>None</cite>.
+It is instantiated the first time a time series is drawn.</li>
+<li><a class="reference internal" href="#module-legend" title="legend"><strong>legend</strong></a> (<a class="reference internal" href="#legend.Legend" title="legend.Legend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Legend</span></code></a>) – The figure’s legend.</li>
+<li><strong>annotations</strong> (list of <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>) – The annotations in the visualization.</li>
 </ul>
-</dd>
-</dl>
-<dl class="py method">
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
 <dt id="drawable.Drawable.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">figure</span></em>, <em class="sig-param"><span class="n">axes</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>figure</em>, <em>axes=None</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the drawable with the figure.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps.
-This is mainly used to get the figure renderer.</p></li>
-<li><p><strong>axes</strong> (<cite>None</cite> or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where to plot visualizations.
-If <cite>None</cite> is given, the plot’s main subplot is used instead.</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>figure</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.figure.Figure</span></code>) – The figure that the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class wraps.
+This is mainly used to get the figure renderer.</li>
+<li><strong>axes</strong> (<cite>None</cite> or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.axes.Axes</span></code>) – The axes (or subplot) where to plot visualizations.
+If <cite>None</cite> is given, the plot’s main subplot is used instead.</li>
 </ul>
-</dd>
-</dl>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="drawable.Drawable.set_caption">
-<code class="sig-name descname">set_caption</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">caption</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">0.8</span></em>, <em class="sig-param"><span class="n">lineheight</span><span class="o">=</span><span class="default_value">1.25</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.set_caption" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_caption</code><span class="sig-paren">(</span><em>caption</em>, <em>alpha=0.8</em>, <em>lineheight=1.25</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.set_caption" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a caption to the subplot.
 The caption is added just beneath the title.
 The method re-draws the title to make space for the caption.</p>
 <p>The caption is a <code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code> object.
 Any arguments that the constructor accepts can be provided to this method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>caption</strong> (<em>str</em>) – The caption to add to the axes.</p></li>
-<li><p><strong>alpha</strong> (<em>float</em>) – The opacity of the caption between 0 and 1.</p></li>
-<li><p><strong>lineheight</strong> (<em>float</em>) – The space between lines.</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>caption</strong> (<em>str</em>) – The caption to add to the axes.</li>
+<li><strong>alpha</strong> (<em>float</em>) – The opacity of the caption between 0 and 1.</li>
+<li><strong>lineheight</strong> (<em>float</em>) – The space between lines.</li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The drawn caption.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn caption.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="drawable.Drawable.redraw">
-<code class="sig-name descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.redraw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.redraw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Re-create the title, with the goal of leaving enough space to fit the caption and the legend.
 Afterwards, it redraws the legend.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="drawable.Drawable.savefig">
-<code class="sig-name descname">savefig</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.savefig" title="Permalink to this definition">¶</a></dt>
+<code class="descname">savefig</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.savefig" title="Permalink to this definition">¶</a></dt>
 <dd><p>A special function that calls the <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.savefig.html">matplotlib.pyplot.savefig</a> function.
 Before doing that, the function first redraws the drawable.</p>
 <p>This function is very important when the title and caption are set before drawing the visualization.
 In these cases, it is possible that the legend or the plot labels cause the caption or title to overlap with the plot.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="drawable.Drawable.show">
-<code class="sig-name descname">show</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.show" title="Permalink to this definition">¶</a></dt>
+<code class="descname">show</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>A special function that calls the <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.show.html">matplotlib.pyplot.show</a> function.
 Before doing that, the function first redraws the drawable.</p>
 <p>This function is very important when the title and caption are set before drawing the visualization.
 In these cases, it is possible that the legend or the plot labels cause the caption or title to overlap with the plot.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="drawable.Drawable.__getattr__">
-<code class="sig-name descname">__getattr__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.__getattr__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__getattr__</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.__getattr__" title="Permalink to this definition">¶</a></dt>
 <dd><p>The magic function through which most of <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>’s functionality passes.
 This function receives any unknown call and passes it on to the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>’s <a class="reference external" href="https://matplotlib.org/api/axes_api.html">matplotlib.axes.Axes</a>.
 This function automatically checks whether the call is referencing a function or a variable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – The name of the attribute.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The function applied on the axes.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>function</p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str</em>) – The name of the attribute.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The function applied on the axes.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">function</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="drawable.Drawable.annotate">
-<code class="sig-name descname">annotate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">marker</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pad</span><span class="o">=</span><span class="default_value">0.01</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.annotate" title="Permalink to this definition">¶</a></dt>
+<code class="descname">annotate</code><span class="sig-paren">(</span><em>text</em>, <em>x</em>, <em>y</em>, <em>marker=None</em>, <em>pad=0.01</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.annotate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a text annotation to the plot.
 This function can be used to draw attention to certain or describe the visualization on the plot itself.</p>
 <p>Any additional arguments and keyword arguments are passed on to the <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>’s <a class="reference internal" href="text.html#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.
 For example, the <cite>va</cite> can be provided to specify the text’s vertical alignment, andthe <cite>align</cite> parameter can be used to specify the text’s alignment.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<em>str</em>) – The text of the annotation to draw.</p></li>
-<li><p><strong>x</strong> (<em>tuple</em>) – A tuple containing the start and end x-coordinates of the annotation.</p></li>
-<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the annotation.</p></li>
-<li><p><strong>marker</strong> (<em>None</em><em> or </em><em>dict</em>) – The marker style.
-If it is not given, no marker is drawn.</p></li>
-<li><p><strong>pad</strong> (<em>float</em>) – The amount of padding applied to the annotation.</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<em>str</em>) – The text of the annotation to draw.</li>
+<li><strong>x</strong> (<em>tuple</em>) – A tuple containing the start and end x-coordinates of the annotation.</li>
+<li><strong>y</strong> (<em>float</em>) – The y-coordinate of the annotation.</li>
+<li><strong>marker</strong> (<em>None</em><em> or </em><em>dict</em>) – The marker style.
+If it is not given, no marker is drawn.</li>
+<li><strong>pad</strong> (<em>float</em>) – The amount of padding applied to the annotation.</li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The drawn annotation.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn annotation.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="drawable.Drawable.draw_bar_100">
-<code class="sig-name descname">draw_bar_100</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_bar_100" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_bar_100</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_bar_100" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a bar chart that stacks up to 100% on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
 The arguments and keyword arguments are those supported by the <a class="reference internal" href="bar.html#bar.bar100.Bar100" title="bar.bar100.Bar100"><code class="xref py py-class docutils literal notranslate"><span class="pre">Bar100</span></code></a>’s <a class="reference internal" href="bar.html#bar.bar100.Bar100.draw" title="bar.bar100.Bar100.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A list of drawn bars.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.patches.Rectangle</span></code></p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of drawn bars.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.patches.Rectangle</span></code></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="drawable.Drawable.draw_graph">
-<code class="sig-name descname">draw_graph</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_graph" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_graph</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a graph visualization on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
 The arguments and keyword arguments are those supported by the <a class="reference internal" href="graph.html#graph.graph.Graph" title="graph.graph.Graph"><code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></a>’s <a class="reference internal" href="graph.html#graph.graph.Graph.draw" title="graph.graph.Graph.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A tuple containing the list of drawn nodes, the rendered node names, edges, and the rendered edge names.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>tuple</p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple containing the list of drawn nodes, the rendered node names, edges, and the rendered edge names.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
+<dt id="drawable.Drawable.draw_population">
+<code class="descname">draw_population</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_population" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a population chart on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
+The arguments and keyword arguments are those supported by the <a class="reference internal" href="population.html#population.population.Population" title="population.population.Population"><code class="xref py py-class docutils literal notranslate"><span class="pre">Population</span></code></a>’s <a class="reference internal" href="population.html#population.population.Population.draw" title="population.population.Population.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of drawn scatter points, separated by column.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list of list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.collections.PathCollection</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="drawable.Drawable.draw_slope">
-<code class="sig-name descname">draw_slope</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_slope" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_slope</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_slope" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a slope graph with two points on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
 The arguments and keyword arguments are those supported by the <a class="reference internal" href="slope.html#slope.slope.Slope" title="slope.slope.Slope"><code class="xref py py-class docutils literal notranslate"><span class="pre">Slope</span></code></a>’s <a class="reference internal" href="slope.html#slope.slope.Slope.draw" title="slope.slope.Slope.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A tuple made up of the drawn plot and label.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>tuple</p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple made up of the drawn plot and label.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple (<code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.lines.Line2D</span></code>, list of <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>)</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="drawable.Drawable.draw_text_annotation">
-<code class="sig-name descname">draw_text_annotation</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_text_annotation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_text_annotation</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_text_annotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a text annotation visualization on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
 The arguments and keyword arguments are those supported by the <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a>’s <a class="reference internal" href="text.html#text.text.TextAnnotation.draw" title="text.text.TextAnnotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>The drawn text annotation’s lines.
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The drawn text annotation’s lines.
 Each line is made up of tuples of lists.
 The first list in each tuple is the list of legend labels.
-The second list in each tuple is the list of actual tokens.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>list of tuple</p>
-</dd>
-</dl>
+The second list in each tuple is the list of actual tokens.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list of tuple</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="drawable.Drawable.draw_time_series">
-<code class="sig-name descname">draw_time_series</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_time_series" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_time_series</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#drawable.Drawable.draw_time_series" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a time series visualization on this <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
 The arguments and keyword arguments are those supported by the <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries" title="timeseries.timeseries.TimeSeries"><code class="xref py py-class docutils literal notranslate"><span class="pre">TimeSeries</span></code></a>’ <a class="reference internal" href="timeseries.html#timeseries.timeseries.TimeSeries.draw" title="timeseries.timeseries.TimeSeries.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A tuple made up of the drawn plot and label.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>tuple</p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A tuple made up of the drawn plot and label.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">tuple</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="drawable.Drawable.__weakref__">
-<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#drawable.Drawable.__weakref__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__weakref__</code><a class="headerlink" href="#drawable.Drawable.__weakref__" title="Permalink to this definition">¶</a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 
@@ -481,37 +529,43 @@ Any other functionality is up to the visualization type.</p>
 Their purpose is to structure the data and apply only the styling that is absolutely required.
 They should allow the user to style all aspects of the visualization.</p>
 <p>In short, visualization implementations are largely concerned with the structure, not the style.</p>
-<dl class="py class">
+<dl class="class">
 <dt id="visualization.Visualization">
-<em class="property">class </em><code class="sig-prename descclassname">visualization.</code><code class="sig-name descname">Visualization</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">drawable</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">visualization.</code><code class="descname">Visualization</code><span class="sig-paren">(</span><em>drawable</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization" title="Permalink to this definition">¶</a></dt>
 <dd><p>All visualizations contain at least a <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>.
 Furthermore, all classes that inherit the <a class="reference internal" href="#visualization.Visualization" title="visualization.Visualization"><code class="xref py py-class docutils literal notranslate"><span class="pre">Visualization</span></code></a> class also need to implement functionality to draw a visualization.
 This is implemented in the <a class="reference internal" href="#visualization.Visualization.draw" title="visualization.Visualization.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the visualization will be drawn.</p>
-</dd>
-</dl>
-<dl class="py method">
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><a class="reference internal" href="#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the visualization will be drawn.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
 <dt id="visualization.Visualization.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">drawable</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>drawable</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the visualization with a drawable.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>drawable</strong> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the visualization will be drawn.</p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>drawable</strong> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the visualization will be drawn.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="visualization.Visualization.draw">
-<em class="property">abstract </em><code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>The draw method is the central method, used to create the visualization on this class’ <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance.
 The purpose of this function is two-fold:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Structure the data and apply the bare minimum styling to the visualization, and</p></li>
-<li><p>Allow the user to style the created visualization’s components.</p></li>
+<li>Structure the data and apply the bare minimum styling to the visualization, and</li>
+<li>Allow the user to style the created visualization’s components.</li>
 </ul>
 </div></blockquote>
 <p>Therefore the drawing function should mainly be concerned with the layout.</p>
@@ -519,18 +573,41 @@ The purpose of this function is two-fold:</p>
 If the function draws multiple components, it can return them as a tuple.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="visualization.Visualization.redraw">
-<code class="sig-name descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization.redraw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#visualization.Visualization.redraw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Re-draw the visualization.
 This is mostly used for parts of the visualization that moved around because the axes limits changed, like annotations.
 By default, this function does nothing.</p>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="visualization.Visualization.__weakref__">
-<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#visualization.Visualization.__weakref__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__weakref__</code><a class="headerlink" href="#visualization.Visualization.__weakref__" title="Permalink to this definition">¶</a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="visualization.DummyVisualization">
+<em class="property">class </em><code class="descclassname">visualization.</code><code class="descname">DummyVisualization</code><span class="sig-paren">(</span><em>drawable</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.DummyVisualization" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dummy visualization is a simple class used only for testing.
+Its implementation is based on the visualization, but it has an empty <a class="reference internal" href="#visualization.Visualization.draw" title="visualization.Visualization.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
+<dl class="method">
+<dt id="visualization.DummyVisualization.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#visualization.DummyVisualization.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dummy visualization draws nothing, and therefore it returns nothing.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Nothing.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><cite>None</cite></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -541,33 +618,36 @@ By default, this function does nothing.</p>
 <p>A labelled visualization is a visualization that support labelling.
 Whereas labels are normal <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a> instances, this visualization type automatically moves annotations so that they do not overlap.
 All functionality goes through the <a class="reference internal" href="#labelled.LabelledVisualization.draw_label" title="labelled.LabelledVisualization.draw_label"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_label()</span></code></a> function.</p>
-<dl class="py class">
+<dl class="class">
 <dt id="labelled.LabelledVisualization">
-<em class="property">class </em><code class="sig-prename descclassname">labelled.</code><code class="sig-name descname">LabelledVisualization</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">labelled.</code><code class="descname">LabelledVisualization</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization" title="Permalink to this definition">¶</a></dt>
 <dd><p>The labelled visualization adds functionality to visualizations that use labels.
 Labels are normal <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a>, which the class stores as instance variables.
 This class adds functionality to distribute overlapping labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables</dt>
-<dd class="field-odd"><p><strong>labels</strong> (list of <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a>) – The labels in the visualizations.
-This list is used to ensure that labels do not overlap.</p>
-</dd>
-</dl>
-<dl class="py method">
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><strong>labels</strong> (list of <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a>) – The labels in the visualizations.
+This list is used to ensure that labels do not overlap.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
 <dt id="labelled.LabelledVisualization.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the labelled visualization by initializing the list of labels.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="labelled.LabelledVisualization.draw">
-<em class="property">abstract </em><code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>The draw method is the central method, used to create the visualization.
 The purpose of this function is two-fold:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>Structure the data and apply the bare minimum styling to the visualization, and</p></li>
-<li><p>Allow the user to style the created visualization’s components.</p></li>
+<li>Structure the data and apply the bare minimum styling to the visualization, and</li>
+<li>Allow the user to style the created visualization’s components.</li>
 </ul>
 </div></blockquote>
 <p>Therefore the drawing function should mainly be concerned with the layout.</p>
@@ -575,69 +655,78 @@ The purpose of this function is two-fold:</p>
 If the function draws multiple components, it can return them as a tuple.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="labelled.LabelledVisualization.draw_label">
-<code class="sig-name descname">draw_label</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">va</span><span class="o">=</span><span class="default_value">'center'</span></em>, <em class="sig-param"><span class="n">max_iterations</span><span class="o">=</span><span class="default_value">100</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw_label" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_label</code><span class="sig-paren">(</span><em>label</em>, <em>x</em>, <em>y</em>, <em>va='center'</em>, <em>max_iterations=100</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.draw_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a label at the end of the line.</p>
 <p>Any additional arguments and keyword arguments are passed on to the <a class="reference internal" href="text.html#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">text.annotation.Annotation.draw()</span></code></a> function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> (<em>str</em>) – The label to draw.</p></li>
-<li><p><strong>x</strong> (<em>float</em>) – The x-position of the annotation.
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>label</strong> (<em>str</em>) – The label to draw.</li>
+<li><strong>x</strong> (<em>float</em>) – The x-position of the annotation.
 The function expects either a float or a tuple.
 If a float is given, it is taken to be the start x-position of the annotation.
 The end x-position is taken from the axes limit.
-If a tuple is given, the first two values are the start and end x-position of the annotation.</p></li>
-<li><p><strong>y</strong> (<em>float</em>) – The y-position of the last point on the line.</p></li>
-<li><p><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite>, <cite>center</cite> or <cite>bottom</cite>.
+If a tuple is given, the first two values are the start and end x-position of the annotation.</li>
+<li><strong>y</strong> (<em>float</em>) – The y-position of the last point on the line.</li>
+<li><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite>, <cite>center</cite> or <cite>bottom</cite>.
 If the vertical alignment is <cite>top</cite>, the annotation grows down.
 If the vertical alignment is <cite>center</cite>, the annotation is centered around the given y-coordinate.
-If the vertical alignment is <cite>bottom</cite>, the annotation grows up.</p></li>
-<li><p><strong>max_iterations</strong> (<em>int</em>) – The maximum number of iterations to spend arranging the labels.</p></li>
+If the vertical alignment is <cite>bottom</cite>, the annotation grows up.</li>
+<li><strong>max_iterations</strong> (<em>int</em>) – The maximum number of iterations to spend arranging the labels.</li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The drawn label.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn label.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="labelled.LabelledVisualization.redraw">
-<code class="sig-name descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.redraw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#labelled.LabelledVisualization.redraw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Re-draw the visualization.
 This function arranges the labels so that if they overlap (because the axes changed), they no longer overlap.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
+<dl class="class">
 <dt id="labelled.DummyLabelledVisualization">
-<em class="property">class </em><code class="sig-prename descclassname">labelled.</code><code class="sig-name descname">DummyLabelledVisualization</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.DummyLabelledVisualization" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">labelled.</code><code class="descname">DummyLabelledVisualization</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.DummyLabelledVisualization" title="Permalink to this definition">¶</a></dt>
 <dd><p>The dummy labelled visualization is a simple class used only for testing.
 Its implementation is based on the labelled visualization, but it has an empty <a class="reference internal" href="#labelled.LabelledVisualization.draw" title="labelled.LabelledVisualization.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables</dt>
-<dd class="field-odd"><p><strong>labels</strong> (list of <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a>) – The labels in the visualizations.
-This list is used to ensure that labels do not overlap.</p>
-</dd>
-</dl>
-<dl class="py method">
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><strong>labels</strong> (list of <a class="reference internal" href="text.html#text.text.TextAnnotation" title="text.text.TextAnnotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAnnotation</span></code></a>) – The labels in the visualizations.
+This list is used to ensure that labels do not overlap.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
 <dt id="labelled.DummyLabelledVisualization.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.DummyLabelledVisualization.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#labelled.DummyLabelledVisualization.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>The dummy visualization draws nothing, and therefore it returns nothing.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Nothing.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><cite>None</cite></p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Nothing.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><cite>None</cite></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -651,200 +740,227 @@ Multiplex places legends just beneath the caption and above the plot.
 That way, readers can understand how to interpret the visualization before seeing it.</p>
 <img alt="_images/3-time-series.png" class="example" src="_images/3-time-series.png" />
 <p>Apart from drawing the annotations, the legend aligns and organizes them on different lines.</p>
-<dl class="py class">
+<dl class="class">
 <dt id="legend.Legend">
-<em class="property">class </em><code class="sig-prename descclassname">legend.</code><code class="sig-name descname">Legend</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">drawable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">legend.</code><code class="descname">Legend</code><span class="sig-paren">(</span><em>drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend" title="Permalink to this definition">¶</a></dt>
 <dd><p>The legend is made up of tuples: a visual element and a short label describing what they represent.
 The legend class stores these and the <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> as instance variables.</p>
 <p>All of the drawn legend annotations go through the <a class="reference internal" href="#legend.Legend.draw" title="legend.Legend.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> decorator.
 This function first draws the visual part of the annotation.
 Then, it draws the label next to it.
 This function is also responsible to lay out the legend annotations, creating new lines when necessary.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the legend will be drawn.</p></li>
-<li><p><strong>lines</strong> (<em>list of list of tuple</em>) – The legend components, separated into lines.
-Each component is a tuple of the visual representation and the associated label.</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference internal" href="#module-drawable" title="drawable"><strong>drawable</strong></a> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the legend will be drawn.</li>
+<li><strong>lines</strong> (<em>list of list of tuple</em>) – The legend components, separated into lines.
+Each component is a tuple of the visual representation and the associated label.</li>
 </ul>
-</dd>
-</dl>
-<dl class="py method">
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
 <dt id="legend.Legend.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">drawable</span></em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>drawable</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create the legend.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>drawable</strong> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the legend will be drawn.</p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>drawable</strong> (<a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a>) – The <a class="reference internal" href="#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> where the legend will be drawn.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="legend.Legend.draw">
-<code class="sig-name descname">draw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is the most important one in the <a class="reference internal" href="#legend.Legend" title="legend.Legend"><code class="xref py py-class docutils literal notranslate"><span class="pre">Legend</span></code></a> class.
 This decorator wraps all of the legend annotations and draws them in three steps:</p>
 <ol class="arabic simple">
-<li><p>First, it draws the visual part of the legend annotation.</p></li>
-<li><p>Second, it draws the textual label next to the visual part.</p></li>
-<li><p>Third, it adds a new line to the legend if need be.</p></li>
+<li>First, it draws the visual part of the legend annotation.</li>
+<li>Second, it draws the textual label next to the visual part.</li>
+<li>Third, it adds a new line to the legend if need be.</li>
 </ol>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>f</strong> (<em>function</em>) – The function to wrap.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The wrapped function.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>function</p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>f</strong> (<em>function</em>) – The function to wrap.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The wrapped function.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">function</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="legend.Legend.redraw">
-<code class="sig-name descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.redraw" title="Permalink to this definition">¶</a></dt>
+<code class="descname">redraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.redraw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Redraw the legend.
 This function only has an effect when the x-axis label and ticks are at the top, instead of at the bottom.
 In this case, this function moves the legend up to make room for the label and ticks.</p>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="legend.Legend.draw_annotation">
-<code class="sig-name descname">draw_annotation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">label</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">va</span><span class="o">=</span><span class="default_value">'bottom'</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_annotation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_annotation</code><span class="sig-paren">(</span><em>label</em>, <em>x</em>, <em>y</em>, <em>va='bottom'</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_annotation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a text annotation.
 This function is called by the <a class="reference internal" href="#legend.Legend.draw" title="legend.Legend.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function after drawing the visual part of the legend annotation.</p>
 <p>The text annotation is based on the <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a> class.
 The arguments and keyword arguments are passed on to the <a class="reference internal" href="text.html#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>label</strong> (<em>str</em>) – The text of the legend label.</p></li>
-<li><p><strong>x</strong> (<em>float</em>) – The starting x-coordinate of the annotation.</p></li>
-<li><p><strong>y</strong> (<em>float</em>) – The y-coordinate of the annotation.</p></li>
-<li><p><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite>, <cite>center</cite> or <cite>bottom</cite>.
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>label</strong> (<em>str</em>) – The text of the legend label.</li>
+<li><strong>x</strong> (<em>float</em>) – The starting x-coordinate of the annotation.</li>
+<li><strong>y</strong> (<em>float</em>) – The y-coordinate of the annotation.</li>
+<li><strong>va</strong> (<em>str</em>) – The vertical alignment, can be one of <cite>top</cite>, <cite>center</cite> or <cite>bottom</cite>.
 If the vertical alignment is <cite>top</cite>, the given y-coordinate becomes the highest point of the annotation.
 If the vertical alignment is <cite>center</cite>, the given y-coordinate becomes the center point of the annotation.
-If the vertical alignment is <cite>bottom</cite>, the given y-coordinate becomes the lowest point of the annotation.</p></li>
+If the vertical alignment is <cite>bottom</cite>, the given y-coordinate becomes the lowest point of the annotation.</li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The drawn annotation.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn annotation.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="legend.Legend.draw_text_only">
-<code class="sig-name descname">draw_text_only</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_text_only" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_text_only</code><span class="sig-paren">(</span><em>self</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_text_only" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw nothing as the visual part of the annotation.
 This is used for text-based annotations that require no visual annotation.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><cite>None</cite></p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><cite>None</cite></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="legend.Legend.draw_arrow">
-<code class="sig-name descname">draw_arrow</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">offset</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">linespacing</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_arrow" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_arrow</code><span class="sig-paren">(</span><em>self</em>, <em>offset</em>, <em>y=1</em>, <em>linespacing=1</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_arrow" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw an arrow visual annotation.
 Any additional arguments and keyword arguments are provided to the <a class="reference external" href="https://matplotlib.org/3.2.2/tutorials/text/annotations.html">matplotlib.text.Annotation</a> class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>offset</strong> (<em>float</em>) – The x-offset where to draw the annotation.</p></li>
-<li><p><strong>y</strong> (<em>float</em>) – The y-position of the annotation.</p></li>
-<li><p><strong>linespacing</strong> (<em>float</em>) – The linespacing of the accompanying text annotation.</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>offset</strong> (<em>float</em>) – The x-offset where to draw the annotation.</li>
+<li><strong>y</strong> (<em>float</em>) – The y-position of the annotation.</li>
+<li><strong>linespacing</strong> (<em>float</em>) – The linespacing of the accompanying text annotation.</li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The drawn arrow.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.annotation</span></code></p>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn arrow.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.text.annotation</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="legend.Legend.draw_line">
-<code class="sig-name descname">draw_line</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">offset</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">linespacing</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">horizontal</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_line" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_line</code><span class="sig-paren">(</span><em>self</em>, <em>offset</em>, <em>y=1</em>, <em>linespacing=1</em>, <em>horizontal=True</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_line" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a line visual annotation.
 Any additional arguments and keyword arguments are provided to the <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.lines.Line2D.html">matplotlib.lines.Line2D</a> class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>offset</strong> (<em>float</em>) – The x-offset where to draw the annotation.</p></li>
-<li><p><strong>y</strong> (<em>float</em>) – The y-position of the annotation.</p></li>
-<li><p><strong>linespacing</strong> (<em>float</em>) – The linespacing of the accompanying text annotation.</p></li>
-<li><p><strong>horizontal</strong> (<em>bool</em>) – A boolean indicating whether the line should be horizontal.</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>offset</strong> (<em>float</em>) – The x-offset where to draw the annotation.</li>
+<li><strong>y</strong> (<em>float</em>) – The y-position of the annotation.</li>
+<li><strong>linespacing</strong> (<em>float</em>) – The linespacing of the accompanying text annotation.</li>
+<li><strong>horizontal</strong> (<em>bool</em>) – A boolean indicating whether the line should be horizontal.</li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The drawn line.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.lines.Line2D</span></code></p>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn line.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.lines.Line2D</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="legend.Legend.draw_point">
-<code class="sig-name descname">draw_point</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">offset</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">linespacing</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_point" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_point</code><span class="sig-paren">(</span><em>self</em>, <em>offset</em>, <em>y=1</em>, <em>linespacing=1</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.draw_point" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a scatter point visual annotation.
 Any additional arguments and keyword arguments are provided to the <a class="reference external" href="https://matplotlib.org/3.2.2/api/_as_gen/matplotlib.pyplot.scatter.html">matplotlib.pyplot.scatter</a> class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>offset</strong> (<em>float</em>) – The x-offset where to draw the annotation.</p></li>
-<li><p><strong>y</strong> (<em>float</em>) – The y-position of the annotation.</p></li>
-<li><p><strong>linespacing</strong> (<em>float</em>) – The linespacing of the accompanying text annotation.</p></li>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>offset</strong> (<em>float</em>) – The x-offset where to draw the annotation.</li>
+<li><strong>y</strong> (<em>float</em>) – The y-position of the annotation.</li>
+<li><strong>linespacing</strong> (<em>float</em>) – The linespacing of the accompanying text annotation.</li>
 </ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The drawn point.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.collections.PathCollection</span></code></p>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The drawn point.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.collections.PathCollection</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py method">
+<dl class="method">
 <dt id="legend.Legend.get_virtual_bb">
-<code class="sig-name descname">get_virtual_bb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">transform</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.get_virtual_bb" title="Permalink to this definition">¶</a></dt>
+<code class="descname">get_virtual_bb</code><span class="sig-paren">(</span><em>transform=None</em><span class="sig-paren">)</span><a class="headerlink" href="#legend.Legend.get_virtual_bb" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the bounding box of the entire annotation.
 This is called a virtual bounding box because it is not a real bounding box.
 Rather, it is the smallest rectangular bounding box that covers all of the bounding boxes of the legend.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
-If <cite>None</cite> is given, the data transformation is used.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The bounding box of the legend.
-This bounding box covers all of the annotations in the legend.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.Bbox</span></code></p>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>transform</strong> (None or <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.TransformNode</span></code>) – The bounding box transformation.
+If <cite>None</cite> is given, the data transformation is used.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The bounding box of the legend.
+This bounding box covers all of the annotations in the legend.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.transforms.Bbox</span></code></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
-<dl class="py attribute">
+<dl class="attribute">
 <dt id="legend.Legend.__weakref__">
-<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#legend.Legend.__weakref__" title="Permalink to this definition">¶</a></dt>
+<code class="descname">__weakref__</code><a class="headerlink" href="#legend.Legend.__weakref__" title="Permalink to this definition">¶</a></dt>
 <dd><p>list of weak references to the object (if defined)</p>
 </dd></dl>
 

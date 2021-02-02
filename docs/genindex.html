@@ -1,7 +1,8 @@
 
 
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html4" lang="en" >
 <head>
   <meta charset="utf-8">
   
@@ -26,10 +27,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -88,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="graph.html">4. Graph</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bar.html">5. Bar Charts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="slope.html">6. Slope Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="population.html">7. Population Chart</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
 </ul>
 
@@ -162,8 +164,8 @@
  | <a href="#D"><strong>D</strong></a>
  | <a href="#G"><strong>G</strong></a>
  | <a href="#L"><strong>L</strong></a>
- | <a href="#M"><strong>M</strong></a>
  | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
@@ -186,6 +188,10 @@
         <li><a href="drawable.html#labelled.LabelledVisualization.__init__">(labelled.LabelledVisualization method)</a>
 </li>
         <li><a href="drawable.html#legend.Legend.__init__">(legend.Legend method)</a>
+</li>
+        <li><a href="population.html#population.population.Population.__init__">(population.population.Population method)</a>
+</li>
+        <li><a href="slope.html#slope.slope.Slope.__init__">(slope.slope.Slope method)</a>
 </li>
         <li><a href="text.html#text.annotation.Annotation.__init__">(text.annotation.Annotation method)</a>
 </li>
@@ -226,22 +232,12 @@
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    bar
-
-      <ul>
-        <li><a href="bar.html#module-bar">module</a>
+      <li><a href="bar.html#module-bar">bar (module)</a>
 </li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    bar.bar100
-
-      <ul>
-        <li><a href="bar.html#module-bar.bar100">module</a>
+      <li><a href="bar.html#module-bar.bar100">bar.bar100 (module)</a>
 </li>
-      </ul></li>
       <li><a href="bar.html#bar.bar100.Bar100">Bar100 (class in bar.bar100)</a>
 </li>
   </ul></td>
@@ -261,6 +257,8 @@
 </li>
         <li><a href="drawable.html#legend.Legend.draw">(legend.Legend method)</a>
 </li>
+        <li><a href="population.html#population.population.Population.draw">(population.population.Population method)</a>
+</li>
         <li><a href="slope.html#slope.slope.Slope.draw">(slope.slope.Slope method)</a>
 </li>
         <li><a href="text.html#text.annotation.Annotation.draw">(text.annotation.Annotation method)</a>
@@ -269,6 +267,8 @@
 </li>
         <li><a href="timeseries.html#timeseries.timeseries.TimeSeries.draw">(timeseries.timeseries.TimeSeries method)</a>
 </li>
+        <li><a href="drawable.html#visualization.DummyVisualization.draw">(visualization.DummyVisualization method)</a>
+</li>
         <li><a href="drawable.html#visualization.Visualization.draw">(visualization.Visualization method)</a>
 </li>
       </ul></li>
@@ -276,10 +276,10 @@
 </li>
       <li><a href="drawable.html#legend.Legend.draw_arrow">draw_arrow() (legend.Legend method)</a>
 </li>
-      <li><a href="drawable.html#drawable.Drawable.draw_bar_100">draw_bar_100() (drawable.Drawable method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="drawable.html#drawable.Drawable.draw_bar_100">draw_bar_100() (drawable.Drawable method)</a>
+</li>
       <li><a href="drawable.html#drawable.Drawable.draw_graph">draw_graph() (drawable.Drawable method)</a>
 </li>
       <li><a href="drawable.html#labelled.LabelledVisualization.draw_label">draw_label() (labelled.LabelledVisualization method)</a>
@@ -287,6 +287,8 @@
       <li><a href="drawable.html#legend.Legend.draw_line">draw_line() (legend.Legend method)</a>
 </li>
       <li><a href="drawable.html#legend.Legend.draw_point">draw_point() (legend.Legend method)</a>
+</li>
+      <li><a href="drawable.html#drawable.Drawable.draw_population">draw_population() (drawable.Drawable method)</a>
 </li>
       <li><a href="drawable.html#drawable.Drawable.draw_slope">draw_slope() (drawable.Drawable method)</a>
 </li>
@@ -298,16 +300,13 @@
 </li>
       <li><a href="utilities.html#text_util.draw_token">draw_token() (in module text_util)</a>
 </li>
-      <li>
-    drawable
-
-      <ul>
-        <li><a href="drawable.html#module-drawable">module</a>
-</li>
-      </ul></li>
       <li><a href="drawable.html#drawable.Drawable">Drawable (class in drawable)</a>
 </li>
+      <li><a href="drawable.html#module-drawable">drawable (module)</a>
+</li>
       <li><a href="drawable.html#labelled.DummyLabelledVisualization">DummyLabelledVisualization (class in labelled)</a>
+</li>
+      <li><a href="drawable.html#visualization.DummyVisualization">DummyVisualization (class in visualization)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -325,103 +324,38 @@
 </li>
       <li><a href="utilities.html#util.get_scatter_bb">get_scatter_bb() (in module util)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="drawable.html#legend.Legend.get_virtual_bb">get_virtual_bb() (legend.Legend method)</a>
 
       <ul>
         <li><a href="text.html#text.annotation.Annotation.get_virtual_bb">(text.annotation.Annotation method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="utilities.html#text_util.get_wordspacing">get_wordspacing() (in module text_util)</a>
 </li>
-      <li>
-    graph
-
-      <ul>
-        <li><a href="graph.html#module-graph">module</a>
-</li>
-      </ul></li>
       <li><a href="graph.html#graph.graph.Graph">Graph (class in graph.graph)</a>
 </li>
-      <li>
-    graph.graph
-
-      <ul>
-        <li><a href="graph.html#module-graph.graph">module</a>
+      <li><a href="graph.html#module-graph">graph (module)</a>
 </li>
-      </ul></li>
+      <li><a href="graph.html#module-graph.graph">graph.graph (module)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    labelled
-
-      <ul>
-        <li><a href="drawable.html#module-labelled">module</a>
+      <li><a href="drawable.html#module-labelled">labelled (module)</a>
 </li>
-      </ul></li>
       <li><a href="drawable.html#labelled.LabelledVisualization">LabelledVisualization (class in labelled)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    legend
-
-      <ul>
-        <li><a href="drawable.html#module-legend">module</a>
-</li>
-      </ul></li>
       <li><a href="drawable.html#legend.Legend">Legend (class in legend)</a>
 </li>
-  </ul></td>
-</tr></table>
-
-<h2 id="M">M</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    module
-
-      <ul>
-        <li><a href="bar.html#module-bar">bar</a>
+      <li><a href="drawable.html#module-legend">legend (module)</a>
 </li>
-        <li><a href="bar.html#module-bar.bar100">bar.bar100</a>
-</li>
-        <li><a href="drawable.html#module-drawable">drawable</a>
-</li>
-        <li><a href="graph.html#module-graph">graph</a>
-</li>
-        <li><a href="graph.html#module-graph.graph">graph.graph</a>
-</li>
-        <li><a href="drawable.html#module-labelled">labelled</a>
-</li>
-        <li><a href="drawable.html#module-legend">legend</a>
-</li>
-        <li><a href="slope.html#module-slope">slope</a>
-</li>
-        <li><a href="slope.html#module-slope.slope">slope.slope</a>
-</li>
-        <li><a href="text.html#module-text">text</a>
-</li>
-        <li><a href="text.html#module-text.annotation">text.annotation</a>
-</li>
-        <li><a href="text.html#module-text.text">text.text</a>
-</li>
-        <li><a href="utilities.html#module-text_util">text_util</a>
-</li>
-        <li><a href="timeseries.html#module-timeseries">timeseries</a>
-</li>
-        <li><a href="timeseries.html#module-timeseries.timeseries">timeseries.timeseries</a>
-</li>
-        <li><a href="utilities.html#module-util">util</a>
-</li>
-        <li><a href="drawable.html#module-visualization">visualization</a>
-</li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -433,6 +367,20 @@
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="utilities.html#util.overlapping_bb">overlapping_bb() (in module util)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="population.html#population.population.Population">Population (class in population.population)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="population.html#module-population">population (module)</a>
+</li>
+      <li><a href="population.html#module-population.population">population.population (module)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -468,80 +416,40 @@
 </li>
       <li><a href="text.html#text.annotation.Annotation.set_position">set_position() (text.annotation.Annotation method)</a>
 </li>
-      <li><a href="drawable.html#drawable.Drawable.show">show() (drawable.Drawable method)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    slope
-
-      <ul>
-        <li><a href="slope.html#module-slope">module</a>
+      <li><a href="drawable.html#drawable.Drawable.show">show() (drawable.Drawable method)</a>
 </li>
-      </ul></li>
       <li><a href="slope.html#slope.slope.Slope">Slope (class in slope.slope)</a>
 </li>
-      <li>
-    slope.slope
-
-      <ul>
-        <li><a href="slope.html#module-slope.slope">module</a>
+      <li><a href="slope.html#module-slope">slope (module)</a>
 </li>
-      </ul></li>
+      <li><a href="slope.html#module-slope.slope">slope.slope (module)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    text
-
-      <ul>
-        <li><a href="text.html#module-text">module</a>
+      <li><a href="text.html#module-text">text (module)</a>
 </li>
-      </ul></li>
-      <li>
-    text.annotation
-
-      <ul>
-        <li><a href="text.html#module-text.annotation">module</a>
+      <li><a href="text.html#module-text.annotation">text.annotation (module)</a>
 </li>
-      </ul></li>
-      <li>
-    text.text
-
-      <ul>
-        <li><a href="text.html#module-text.text">module</a>
+      <li><a href="text.html#module-text.text">text.text (module)</a>
 </li>
-      </ul></li>
-      <li>
-    text_util
-
-      <ul>
-        <li><a href="utilities.html#module-text_util">module</a>
+      <li><a href="utilities.html#module-text_util">text_util (module)</a>
 </li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="text.html#text.text.TextAnnotation">TextAnnotation (class in text.text)</a>
 </li>
-      <li>
-    timeseries
-
-      <ul>
-        <li><a href="timeseries.html#module-timeseries">module</a>
-</li>
-      </ul></li>
       <li><a href="timeseries.html#timeseries.timeseries.TimeSeries">TimeSeries (class in timeseries.timeseries)</a>
 </li>
-      <li>
-    timeseries.timeseries
-
-      <ul>
-        <li><a href="timeseries.html#module-timeseries.timeseries">module</a>
+      <li><a href="timeseries.html#module-timeseries">timeseries (module)</a>
 </li>
-      </ul></li>
+      <li><a href="timeseries.html#module-timeseries.timeseries">timeseries.timeseries (module)</a>
+</li>
       <li><a href="utilities.html#util.to_px">to_px() (in module util)</a>
 </li>
   </ul></td>
@@ -550,29 +458,19 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    util
-
-      <ul>
-        <li><a href="utilities.html#module-util">module</a>
+      <li><a href="utilities.html#module-util">util (module)</a>
 </li>
-      </ul></li>
   </ul></td>
 </tr></table>
 
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li>
-    visualization
-
-      <ul>
-        <li><a href="drawable.html#module-visualization">module</a>
+      <li><a href="drawable.html#visualization.Visualization">Visualization (class in visualization)</a>
 </li>
-      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="drawable.html#visualization.Visualization">Visualization (class in visualization)</a>
+      <li><a href="drawable.html#module-visualization">visualization (module)</a>
 </li>
   </ul></td>
 </tr></table>

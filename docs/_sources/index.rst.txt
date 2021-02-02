@@ -133,6 +133,7 @@ At the same time, you can take as much control as you want.
    graph
    bar
    slope
+   population
    utilities
 
 Indices and tables

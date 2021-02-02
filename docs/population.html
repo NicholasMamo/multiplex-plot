@@ -1,0 +1,364 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html4" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta content="Python visualizations that make it easier to create and annotate populations to tell a story through data" name="description" />
+<meta content="Multiplex, Python, visualizations, slope graph, big data, data mining" name="keywords" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+	
+  <title>7. Population Chart &mdash; Multiplex 0.4.0 documentation</title>
+  
+	<meta content="6-b47nDPjK44wloiTTz5ZH1d0PbmODUCmFdUAtM3dR0" name="google-site-verification" />
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-155003028-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('js', new Date());
+
+		gtag('config', 'UA-155003028-1');
+	</script>
+
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/multiplex.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Utilities" href="utilities.html" />
+    <link rel="prev" title="6. Slope Graph" href="slope.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> Multiplex
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="drawable.html">1. Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="text.html">2. Text Visualizations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timeseries.html">3. Time Series</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graph.html">4. Graph</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bar.html">5. Bar Charts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slope.html">6. Slope Graph</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. Population Chart</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilities.html">Utilities</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Multiplex</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>7. Population Chart</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/population.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    <div class="section" id="population-chart">
+<h1>7. Population Chart<a class="headerlink" href="#population-chart" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-population"></span><p>Understanding data means understanding what it’s made up of.
+The population visualization lets you do just that.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Can’t wait to start creating slope graphs?
+<a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/tree/master/examples">Multiplex’s Jupyter Notebook examples</a> are a quick guide to get you up and running.
+Check out the <a class="reference external" href="https://github.com/NicholasMamo/multiplex-plot/blob/master/examples/7.%20Population%20charts.ipynb">population charts Jupyter Notebook tutorial</a> to learn how to create the time series shown above, or to start creating your own slope graph visualizations.</p>
+</div>
+<span class="target" id="module-population.population"></span><p>Multiplex’s population chart is a brand new type of visualization that builds on matplotlib.
+This visualization makes it easy to show how different populations or sets vary from each other.</p>
+<p>Population charts are not commonly used, partially because they can be replaced with bar charts or stacked bar charts.
+However, they can help you emphasize more how populations are different from each other.</p>
+<img alt="_images/7-population.png" class="example inline" src="_images/7-population.png" />
+<p>To draw a population chart, create a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class and call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_population" title="drawable.Drawable.draw_population"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_population()</span></code></a> function.
+You will need to provide, at least, the number of items in the population, the number of rows, as well as the name.
+Any other keyword arguments are interpreted as style options.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_population</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#AAAAAA&#39;</span><span class="p">)</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>If you would rather style population items individually, you can provide a list of population items.
+The population items can be any value, but dictionaries are special:
+Multiplex interprets dictionaries as styling options that override the general styling options.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_population</span><span class="p">([</span> <span class="p">{</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C1&#39;</span> <span class="p">}</span> <span class="p">]</span> <span class="o">+</span> <span class="p">[</span> <span class="kc">True</span> <span class="p">]</span> <span class="o">*</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;#AAAAAA&#39;</span><span class="p">)</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>You can use the special parameter <code class="docutils literal notranslate"><span class="pre">label</span></code> to add legend items.
+The <code class="docutils literal notranslate"><span class="pre">label</span></code> can be provided to the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_population" title="drawable.Drawable.draw_population"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_population()</span></code></a> function to add a general legend, or as part of the item dictionaries.
+The <code class="docutils literal notranslate"><span class="pre">label_style</span></code> parameter changes what the legend label looks like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">multiplex</span> <span class="kn">import</span> <span class="n">drawable</span>
+<span class="n">viz</span> <span class="o">=</span> <span class="n">drawable</span><span class="o">.</span><span class="n">Drawable</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">)))</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">draw_population</span><span class="p">([</span> <span class="p">{</span> <span class="s1">&#39;color&#39;</span><span class="p">:</span> <span class="s1">&#39;C1&#39;</span><span class="p">,</span> <span class="s1">&#39;label&#39;</span><span class="p">:</span> <span class="s1">&#39;Highlighted item&#39;</span> <span class="p">}</span> <span class="p">]</span> <span class="o">+</span> <span class="p">[</span> <span class="kc">True</span> <span class="p">]</span> <span class="o">*</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;United States&#39;</span><span class="p">,</span> <span class="n">label_style</span><span class="o">=</span><span class="p">{</span> <span class="s1">&#39;fontweight&#39;</span><span class="p">:</span> <span class="s1">&#39;bold&#39;</span> <span class="p">})</span>
+<span class="n">viz</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="class">
+<dt id="population.population.Population">
+<em class="property">class </em><code class="descclassname">population.population.</code><code class="descname">Population</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#population.population.Population" title="Permalink to this definition">¶</a></dt>
+<dd><p>The <a class="reference internal" href="#population.population.Population" title="population.population.Population"><code class="xref py py-class docutils literal notranslate"><span class="pre">Population</span></code></a> class plots scatter points that represent populations.
+Like all visualizations, it stores a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> instance and revolves around the <a class="reference internal" href="#population.population.Population.draw" title="population.population.Population.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.
+To draw a population chart, create a <a class="reference internal" href="drawable.html#drawable.Drawable" title="drawable.Drawable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Drawable</span></code></a> class and call the <a class="reference internal" href="drawable.html#drawable.Drawable.draw_population" title="drawable.Drawable.draw_population"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw_population()</span></code></a> function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>start_labels</strong> (list of <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>) – The drawn start labels.</li>
+<li><strong>populations</strong> (list of list of list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.collections.PathCollection</span></code>) – A list of populations, represented as scatter points.
+Each population contains these points, separated by column.</li>
+<li><strong>rows</strong> (<em>int</em>) – The number of rows in the populations.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="population.population.Population.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#population.population.Population.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the slope graph with a drawable.
+This function also creates a container for the drawn labels and populations.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="population.population.Population.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>population</em>, <em>rows</em>, <em>name</em>, <em>style_plot=True</em>, <em>height=0.6</em>, <em>show_start=False</em>, <em>label=None</em>, <em>label_style=None</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#population.population.Population.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a new population on this plot.</p>
+<p>You can pass additional styling options as <code class="docutils literal notranslate"><span class="pre">args</span></code> or <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.
+The accepted styling options are those supported by the <a class="reference external" href="https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.scatter.html">matplotlib.pyplot.barh</a> method.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>population</strong> (<em>int</em><em> or </em><em>list</em>) – The population to draw.
+This can be simply the size of the population or a list of values.</li>
+<li><strong>rows</strong> (<em>int</em>) – The number of rows in which to split the population.</li>
+<li><strong>name</strong> (<em>str</em>) – The name of the population.
+The function automatically adds this name to the y-axis tick labels next to the drawn population.</li>
+<li><strong>style_plot</strong> (<em>bool</em>) – <p>A boolean indicating whether the plot should be re-styled.
+If it is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, the visualization:</p>
+<blockquote>
+<div><ul>
+<li>Removing the y-axis,</li>
+<li>Inverting the y-axis, and</li>
+<li>Removing the grid.</li>
+</ul>
+</div></blockquote>
+</li>
+<li><strong>height</strong> (<em>float</em>) – The height of the population, between 0 (exclusive) and 1.</li>
+<li><strong>show_start</strong> (<em>bool</em>) – Draw a label next to the first item in the population.
+This label looks exactly like the ticks and is a simple ‘1’.</li>
+<li><strong>label</strong> (<em>str</em><em> or </em><em>None</em>) – The label to draw.
+If <code class="docutils literal notranslate"><span class="pre">None</span></code> is given, the function adds no label.</li>
+<li><strong>label_style</strong> (<em>dict</em><em> or </em><em>None</em>) – The style of the label.
+By default, the label inherits the style from the <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> so that the label is visually similar to the bar.
+The <code class="docutils literal notranslate"><span class="pre">label_style</span></code> accepts any styling option supported by the <a class="reference internal" href="text.html#text.annotation.Annotation" title="text.annotation.Annotation"><code class="xref py py-class docutils literal notranslate"><span class="pre">Annotation</span></code></a>’s <a class="reference internal" href="text.html#text.annotation.Annotation.draw" title="text.annotation.Annotation.draw"><code class="xref py py-func docutils literal notranslate"><span class="pre">draw()</span></code></a> function.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of drawn scatter points, separated by column.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list of list of <code class="xref py py-class docutils literal notranslate"><span class="pre">matplotlib.collections.PathCollection</span></code></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><strong>TypeError</strong> – If the population is not an integer.</li>
+<li><strong>TypeError</strong> – If the population is not a positive integer.</li>
+<li><strong>TypeError</strong> – If the number of rows is not an integer.</li>
+<li><strong>TypeError</strong> – If the number of rows is not a positive integer.</li>
+<li><strong>ValueError</strong> – If the height is not between 0 and 1.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="utilities.html" class="btn btn-neutral float-right" title="Utilities" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="slope.html" class="btn btn-neutral float-left" title="6. Slope Graph" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2019, Nicholas Mamo
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

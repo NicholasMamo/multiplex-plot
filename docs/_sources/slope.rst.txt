@@ -3,7 +3,7 @@
 **************
 
 .. meta::
-   :description: Python time series visualizations that make it easier to create and annotate slope graphs to tell a story through data
+   :description: Python visualizations that make it easier to create and annotate slope graphs to tell a story through data
    :keywords: Multiplex, Python, visualizations, slope graph, big data, data mining
 
 .. automodule:: slope

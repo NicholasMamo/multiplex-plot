@@ -1,6 +1,48 @@
 """
 Multiplex's population chart is a brand new type of visualization that builds on matplotlib.
-This visualization makes it easy to show how different populations, in a broad sense, vary from each other.
+This visualization makes it easy to show how different populations or sets vary from each other.
+
+Population charts are not commonly used, partially because they can be replaced with bar charts or stacked bar charts.
+However, they can help you emphasize more how populations are different from each other.
+
+.. image:: ../examples/exports/7-population.png
+   :class: example inline
+
+To draw a population chart, create a :class:`~drawable.Drawable` class and call the :func:`~drawable.Drawable.draw_population` function.
+You will need to provide, at least, the number of items in the population, the number of rows, as well as the name.
+Any other keyword arguments are interpreted as style options.
+
+.. code-block:: python
+
+    import matplotlib.pyplot as plt
+    from multiplex import drawable
+    viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+    viz.draw_population(10, 5, 'United States', color='#AAAAAA')
+    viz.show()
+
+If you would rather style population items individually, you can provide a list of population items.
+The population items can be any value, but dictionaries are special:
+Multiplex interprets dictionaries as styling options that override the general styling options.
+
+.. code-block:: python
+
+    import matplotlib.pyplot as plt
+    from multiplex import drawable
+    viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+    viz.draw_population([ { 'color': 'C1' } ] + [ True ] * 9, 5, 'United States', color='#AAAAAA')
+    viz.show()
+
+You can use the special parameter ``label`` to add legend items.
+The ``label`` can be provided to the :func:`~drawable.Drawable.draw_population` function to add a general legend, or as part of the item dictionaries.
+The ``label_style`` parameter changes what the legend label looks like:
+
+.. code-block:: python
+
+    import matplotlib.pyplot as plt
+    from multiplex import drawable
+    viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+    viz.draw_population([ { 'color': 'C1', 'label': 'Highlighted item' } ] + [ True ] * 9, 5, 'United States', label_style={ 'fontweight': 'bold' })
+    viz.show()
 """
 
 from collections.abc import Iterable
@@ -20,17 +62,7 @@ class Population(LabelledVisualization):
     """
     The :class:`~Population` class plots scatter points that represent populations.
     Like all visualizations, it stores a :class:`~drawable.Drawable` instance and revolves around the :func:`~Population.draw` function.
-
     To draw a population chart, create a :class:`~drawable.Drawable` class and call the :func:`~drawable.Drawable.draw_population` function.
-    This method expects, at the very least, the values and the name of the 100% bar:
-
-    .. code-block:: python
-
-        import matplotlib.pyplot as plt
-        from multiplex import drawable
-        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
-        viz.draw_population(25, 10, 'Population')
-        viz.show()
 
     :ivar start_labels: The drawn start labels.
     :vartype start_labels: list of :class:`~text.annotation.Annotation`
