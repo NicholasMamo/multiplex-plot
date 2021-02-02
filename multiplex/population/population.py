@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 from numbers import Number
 import os
 import sys
+import warnings
 
 sys.path.append(os.path.join(os.path.abspath(os.path.dirname(__file__)), '..'))
 import util
@@ -36,6 +37,8 @@ class Population(LabelledVisualization):
     :ivar populations: A list of populations, represented as scatter points.
                        Each population contains these points, separated by column.
     :vartype populations: list of list of list of :class:`matplotlib.collections.PathCollection`
+    :ivar rows: The number of rows in the populations.
+    :vartype rows: int
     """
 
     def __init__(self, *args, **kwargs):
@@ -94,6 +97,12 @@ class Population(LabelledVisualization):
         :raise TypeError: If the number of rows is not a positive integer.
         :raise ValueError: If the height is not between 0 and 1.
         """
+
+        # check that the number of rows is the same as in previous populations.
+        if self.rows and rows != self.rows:
+            warnings.warn(f"The number of rows is different between populations, changed from { self.rows } to { rows }")
+            self.rows = rows
+        self.rows = self.rows or rows
 
         # draw a general label
         if label:

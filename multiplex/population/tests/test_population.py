@@ -144,6 +144,69 @@ class TestPopulation(MultiplexTest):
         self.assertRaises(ValueError, viz.draw_population, 5, 10, '', height=2)
 
     @MultiplexTest.temporary_plot
+    def test_draw_save_rows_first_time(self):
+        """
+        Test that when drawing a population the first time, the number of rows are saved in the class.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        rows = 10
+        pop = viz.draw_population(5, rows, '', height=1)
+        self.assertEqual(rows, viz.population.rows)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_save_rows_second_time(self):
+        """
+        Test that when drawing a population the second time, the number of rows are unchanged in the class.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        rows = 10
+
+        # draw the first population
+        pop = viz.draw_population(5, rows, '', height=1)
+        self.assertEqual(rows, viz.population.rows)
+
+        # draw the second population
+        pop = viz.draw_population(5, rows, '', height=1)
+        self.assertEqual(rows, viz.population.rows)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_save_rows_different(self):
+        """
+        Test that when drawing a population with a different number of rows than before, the class raises a warning.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        rows = 10
+
+        # draw the first population
+        pop = viz.draw_population(5, rows, '', height=1)
+        self.assertEqual(rows, viz.population.rows)
+
+        # draw the second population
+        with self.assertWarns(Warning):
+            pop = viz.draw_population(5, rows - 1, '', height=1)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_save_rows_different_update(self):
+        """
+        Test that when drawing a population with a different number of rows than before, the class saves the new number of rows after raising a warning.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        rows = 10
+
+        # draw the first population
+        pop = viz.draw_population(5, rows, '', height=1)
+        self.assertEqual(rows, viz.population.rows)
+
+        # draw the second population
+        with self.assertWarns(Warning):
+            pop = viz.draw_population(5, rows - 1, '', height=1)
+            self.assertEqual(rows - 1, viz.population.rows)
+
+    @MultiplexTest.temporary_plot
     def test_draw_save_population(self):
         """
         Test that when drawing a population, it is saved in the class too.
