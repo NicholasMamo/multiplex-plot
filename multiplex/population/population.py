@@ -88,8 +88,9 @@ class Population(LabelledVisualization):
         """
 
         # draw the population
-        population = self._draw_population(population, rows, name, height, *args, **kwargs)
+        population = self._draw_population(population, rows, height, *args, **kwargs)
         self.populations.append(population)
+        self._add_ytick(name)
 
         # re-style the plot if need be, leaving it until last since the population changes the y-axis
         if style_plot:
@@ -114,7 +115,7 @@ class Population(LabelledVisualization):
         self.drawable.invert_yaxis()
         self.drawable.grid(False)
 
-    def _draw_population(self, population, rows, name, height, *args, **kwargs):
+    def _draw_population(self, population, rows, height, *args, **kwargs):
         """
         Draw a new population on this plot.
 
@@ -123,9 +124,6 @@ class Population(LabelledVisualization):
         :type population: int or list
         :param rows: The number of rows in which to split the population.
         :type rows: int
-        :param name: The name of the population.
-                     The function automatically adds this name to the y-axis tick labels next to the drawn population.
-        :type name: str
         :param height: The height of the population, between 0 (exclusive) and 1.
         :type height: float
 
@@ -149,6 +147,7 @@ class Population(LabelledVisualization):
 
         # calculate the gap size
         lim = self._limit(height)
+        lim = ( lim[0] + 1, lim[1] + 1 )
         gap = self._gap_size(lim, rows)
 
         # convert the items into a list, whatever their type
@@ -173,8 +172,27 @@ class Population(LabelledVisualization):
             drawn.append(_drawn)
 
         self._update_xticks(rows, columns)
-        self._add_ytick(name)
         return drawn
+
+    def _add_ytick(self, name):
+        """
+        Add a y-tick label next to the latest population.
+
+        :param name: The name of the population.
+                     The function automatically adds this name to the y-axis tick labels next to the drawn population.
+        :type name: str
+        """
+
+        population = len(self.populations) # the current population number
+
+        # when adding the first population, there will be several default y-tick labels: remove them
+        yticks = [ p + 0.5 for p in range(population) ]
+        ytick_labels = [ label.get_text() for label in self.drawable.get_yticklabels() ] + [ name ] if population > 1 else [ name ]
+
+        # set the ticks
+        self.drawable.set_ylim(-0.1, population + 0.1)
+        self.drawable.set_yticks(yticks)
+        self.drawable.set_yticklabels(ytick_labels)
 
     def _draw_start_label(self, height):
         """
@@ -189,7 +207,7 @@ class Population(LabelledVisualization):
 
         lim = self._limit(height)
         style = { 'color': plt.rcParams['xtick.color'], 'size': plt.rcParams['xtick.labelsize'] }
-        return self.draw_label('1', (0, 0.7), lim[0], va='center', align='right', **style)
+        return self.draw_label('1', (0.5, 1), lim[0], va='center', align='left', **style)
 
     def _limit(self, height):
         """
@@ -204,7 +222,8 @@ class Population(LabelledVisualization):
         if not 0 < height <= 1:
             raise ValueError(f"The height of the population must be greater than 0, and less than or equal to 1, received { height }")
 
-        return (0.5 - height / 2, 0.5 + height / 2)
+        population = len(self.populations) # the current population number
+        return (population - 0.5 - height / 2, population - 0.5 + height / 2)
 
     def _gap_size(self, lim, rows):
         """
@@ -243,22 +262,9 @@ class Population(LabelledVisualization):
         :type columns: int
         """
 
-        self.drawable.set_xlim(0, columns + 1)
-        xticks = list(range(1, columns + 1))
+        bounds = columns if not self.populations else int(max(max(self.drawable.get_xticks()), columns))
+        self.drawable.set_xlim(0, bounds + 1)
+        xticks = list(range(1, bounds + 1))
         self.drawable.set_xticks(xticks)
         self.drawable.set_xticklabels([ tick * rows for tick in xticks ])
-        self.drawable.axes.spines['bottom'].set_bounds(1, columns)
-
-    def _add_ytick(self, name):
-        """
-        Add a y-tick label next to the latest population.
-
-        :param name: The name of the population.
-                     The function automatically adds this name to the y-axis tick labels next to the drawn population.
-        :type name: str
-        """
-
-        yticks = [ 0.5 ]
-        self.drawable.set_ylim(-0.1, 1.1)
-        self.drawable.set_yticks(yticks)
-        self.drawable.set_yticklabels([ name ])
+        self.drawable.axes.spines['bottom'].set_bounds(1, bounds)

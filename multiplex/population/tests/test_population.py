@@ -144,6 +144,19 @@ class TestPopulation(MultiplexTest):
         self.assertEqual([ pop ], viz.population.populations)
 
     @MultiplexTest.temporary_plot
+    def test_draw_save_multiple_population(self):
+        """
+        Test that when drawing multiple populations, all of them are saved in the class.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        pop1 = viz.draw_population(5, 10, '', height=1)
+        self.assertEqual([ pop1 ], viz.population.populations)
+
+        pop2 = viz.draw_population(5, 10, '', height=1)
+        self.assertEqual([ pop1, pop2 ], viz.population.populations)
+
+    @MultiplexTest.temporary_plot
     def test_draw_with_style(self):
         """
         Test that when drawing a population and styling the plot, the correct styling options are applied.
@@ -356,6 +369,26 @@ class TestPopulation(MultiplexTest):
         for i in range(0, len(points)):
             for j in range(i + 1, len(points)):
                 self.assertFalse(util.overlapping(viz.figure, viz.axes, points[i], points[j]))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_populations_do_not_overlap(self):
+        """
+        Test that none of the drawn points across two populations overlap.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+        # draw the first population
+        drawn = viz.draw_population(13, 3, '')
+        p1 = [ point for column in drawn for point in column ]
+
+        # draw the second population
+        drawn = viz.draw_population(13, 3, '')
+        p2 = [ point for column in drawn for point in column ]
+
+        for _p1 in p1:
+            for _p2 in p2:
+                self.assertFalse(util.overlapping(viz.figure, viz.axes, _p1, _p2))
 
     @MultiplexTest.temporary_plot
     def test_draw_fits_within_height(self):
@@ -592,7 +625,7 @@ class TestPopulation(MultiplexTest):
         drawn = viz.draw_population(population, rows, '')
         self.assertEqual(list(range(1, 1 + math.ceil(population/rows))),
                          viz.get_xticks().tolist())
-        self.assertEqual([ str(rows * tick) for tick in range(1, 1+ math.ceil(population/rows)) ],
+        self.assertEqual([ str(rows * tick) for tick in range(1, 1 + math.ceil(population/rows)) ],
                          [ label.get_text() for label in viz.get_xticklabels() ])
         self.assertEqual(int(viz.get_xticklabels()[-1].get_text()), population)
 
@@ -607,9 +640,60 @@ class TestPopulation(MultiplexTest):
         drawn = viz.draw_population(population, rows, '')
         self.assertEqual(list(range(1, 1 + math.ceil(population/rows))),
                          viz.get_xticks().tolist())
-        self.assertEqual([ str(rows * tick) for tick in range(1, 1+ math.ceil(population/rows)) ],
+        self.assertEqual([ str(rows * tick) for tick in range(1, 1 + math.ceil(population/rows)) ],
                          [ label.get_text() for label in viz.get_xticklabels() ])
         self.assertGreater(int(viz.get_xticklabels()[-1].get_text()), population)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_xticks_larger_population(self):
+        """
+        Test that the correct x-ticks are added when a larger population is added.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+        # draw the first population
+        population, rows = 10, 3
+        drawn = viz.draw_population(population, rows, '')
+        self.assertEqual(list(range(1, 1 + math.ceil(population/rows))),
+                         viz.get_xticks().tolist())
+        self.assertEqual([ str(rows * tick) for tick in range(1, 1 + math.ceil(population/rows)) ],
+                         [ label.get_text() for label in viz.get_xticklabels() ])
+        self.assertEqual(int(viz.get_xticklabels()[-1].get_text()), population + rows - population % rows)
+
+        # draw a larger population
+        population, rows = 20, 3
+        drawn = viz.draw_population(population, rows, '')
+        self.assertEqual(list(range(1, 1 + math.ceil(population/rows))),
+                         viz.get_xticks().tolist())
+        self.assertEqual([ str(rows * tick) for tick in range(1, 1 + math.ceil(population/rows)) ],
+                         [ label.get_text() for label in viz.get_xticklabels() ])
+        self.assertEqual(int(viz.get_xticklabels()[-1].get_text()), population + rows - population % rows)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_xticks_smaller_population(self):
+        """
+        Test that the x-ticks are not updated when adding a smaller population.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+        # draw the first population
+        population, rows = 10, 3
+        drawn = viz.draw_population(population, rows, '')
+        self.assertEqual(list(range(1, 1 + math.ceil(population/rows))),
+                         viz.get_xticks().tolist())
+        self.assertEqual([ str(rows * tick) for tick in range(1, 1 + math.ceil(population/rows)) ],
+                         [ label.get_text() for label in viz.get_xticklabels() ])
+        self.assertEqual(int(viz.get_xticklabels()[-1].get_text()), population + rows - population % rows)
+        og_ticks = list(viz.get_xticks().tolist())
+        og_ticklabels = list(viz.get_xticklabels())
+
+        # draw a smaller population
+        population, rows = 7, 3
+        drawn = viz.draw_population(population, rows, '')
+        self.assertEqual(viz.get_xticks().tolist(), og_ticks)
+        self.assertEqual(viz.get_xticklabels(), og_ticklabels)
 
     @MultiplexTest.temporary_plot
     def test_draw_spine_bounds_start_at_1(self):
@@ -621,6 +705,63 @@ class TestPopulation(MultiplexTest):
         population, rows = 12, 3
         drawn = viz.draw_population(population, rows, '')
         self.assertEqual(1, viz.axes.spines['bottom'].get_bounds()[0])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_spine_bounds_start_at_1_multiple_populations(self):
+        """
+        Test that the spine bounds always start from 1 even when adding multiple populations.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        population, rows = 12, 3
+
+        # draw the first population
+        drawn = viz.draw_population(population, rows, '')
+        self.assertEqual(1, viz.axes.spines['bottom'].get_bounds()[0])
+
+        # draw the second population
+        drawn = viz.draw_population(population, rows, '')
+        self.assertEqual(1, viz.axes.spines['bottom'].get_bounds()[0])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_spine_bounds_start_at_1_larger_population(self):
+        """
+        Test that the spine bounds start from 1 and end at the largest population when adding a larger population.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+        # draw the first population
+        population, rows = 14, 3
+        drawn = viz.draw_population(population, rows, '', color='#000000')
+        self.assertEqual(1, viz.axes.spines['bottom'].get_bounds()[0])
+        self.assertEqual(math.ceil(population / rows), viz.axes.spines['bottom'].get_bounds()[1])
+
+        # draw a larger population
+        population, rows = 20, 3
+        drawn = viz.draw_population(population, rows, '')
+        self.assertEqual(1, viz.axes.spines['bottom'].get_bounds()[0])
+        self.assertEqual(math.ceil(population / rows), viz.axes.spines['bottom'].get_bounds()[1])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_spine_bounds_start_at_1_smaller_population(self):
+        """
+        Test that the spine bounds start from 1 and end at the largest population even when adding a smaller population.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+        # draw the first population
+        population, rows = 14, 3
+        drawn = viz.draw_population(population, rows, '', color='#000000')
+        self.assertEqual(1, viz.axes.spines['bottom'].get_bounds()[0])
+        self.assertEqual(math.ceil(population / rows), viz.axes.spines['bottom'].get_bounds()[1])
+        og = tuple(viz.axes.spines['bottom'].get_bounds())
+
+        # draw a smaller population
+        population, rows = 7, 3
+        drawn = viz.draw_population(population, rows, '')
+        self.assertEqual(og, viz.axes.spines['bottom'].get_bounds())
 
     @MultiplexTest.temporary_plot
     def test_draw_spine_bounds_square(self):
@@ -656,6 +797,23 @@ class TestPopulation(MultiplexTest):
         self.assertEqual([ name ], [ label.get_text() for label in viz.get_yticklabels() ])
 
     @MultiplexTest.temporary_plot
+    def test_draw_ytick_multiple_populations(self):
+        """
+        Test that when drawing multiple populations, the correct y-ticks are added.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        names = [ 'Population 1', 'Population 2' ]
+
+        # draw the first population
+        drawn = viz.draw_population(10, 5, names[0])
+        self.assertEqual(names[:1], [ label.get_text() for label in viz.get_yticklabels() ])
+
+        # draw the second population
+        drawn = viz.draw_population(10, 5, names[1])
+        self.assertEqual(names, [ label.get_text() for label in viz.get_yticklabels() ])
+
+    @MultiplexTest.temporary_plot
     def test_draw_ytick_center(self):
         """
         Test that when drawing a population, the y-tick is centered along the population.
@@ -687,7 +845,23 @@ class TestPopulation(MultiplexTest):
         self.assertEqual(1, len(viz.population.start_labels))
 
     @MultiplexTest.temporary_plot
-    def test_draw_start_label_saved(self):
+    def test_draw_start_multiple_labels_saved(self):
+        """
+        Test that the start labels are all saved in the population class when drawing multiple populations.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+        # draw the first population
+        drawn = viz.draw_population(10, 5, '', show_start=True)
+        self.assertEqual(1, len(viz.population.start_labels))
+
+        # draw the second population
+        drawn = viz.draw_population(10, 5, '', show_start=True)
+        self.assertEqual(2, len(viz.population.start_labels))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_start_label_style(self):
         """
         Test that the start label has the same style as the ticks.
         """
@@ -715,7 +889,29 @@ class TestPopulation(MultiplexTest):
         label = viz.population.start_labels[0]
         point = drawn[0][0] # first column, first point
         bb = util.get_bb(viz.figure, viz.axes, point)
-        self.assertEqual((bb.y0 + bb.y1) / 2, label.y)
+        self.assertEqual(round((bb.y0 + bb.y1) / 2, 10), label.y)
+
+    @MultiplexTest.temporary_plot
+    def test_draw_start_label_positions(self):
+        """
+        Test that the start labels are drawn next to the very first point of their corresponding population.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+        # draw the first population
+        drawn = viz.draw_population(10, 5, '', show_start=True)
+        self.assertEqual(1, len(viz.population.start_labels))
+
+        # draw the second population
+        drawn = viz.draw_population(10, 5, '', show_start=True)
+        self.assertEqual(2, len(viz.population.start_labels))
+
+        # go through each population and compare the position of the label with the position of the first point
+        for label, population in zip(viz.population.start_labels, viz.population.populations):
+            point = population[0][0] # first column, first point
+            bb = util.get_bb(viz.figure, viz.axes, point)
+            self.assertEqual(round((bb.y0 + bb.y1) / 2, 10), label.y)
 
     @MultiplexTest.temporary_plot
     def test_limit_negative_height(self):
@@ -760,7 +956,7 @@ class TestPopulation(MultiplexTest):
         """
 
         viz = Population(drawable.Drawable)
-        self.assertEqual((0.25, 0.75), viz._limit(0.5))
+        self.assertEqual((-0.75, -0.25), viz._limit(0.5))
 
     @MultiplexTest.temporary_plot
     def test_limit_order(self):
