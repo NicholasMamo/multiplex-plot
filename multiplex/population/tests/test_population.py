@@ -914,6 +914,61 @@ class TestPopulation(MultiplexTest):
             self.assertEqual(round((bb.y0 + bb.y1) / 2, 10), label.y)
 
     @MultiplexTest.temporary_plot
+    def test_draw_legend_no_general_label(self):
+        """
+        Test that when no general label is given, no legend is added.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        drawn = viz.draw_population(10, 5, '', label='')
+        self.assertEqual([ ], viz.legend.lines[0])
+
+        drawn = viz.draw_population(10, 5, '', label=None)
+        self.assertEqual([ ], viz.legend.lines[0])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_legend_general_label(self):
+        """
+        Test that the general label is written correctly in the legend.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+        label = 'Label'
+        drawn = viz.draw_population(10, 5, '', label=label)
+        self.assertEqual(1, len(viz.legend.lines[0]))
+        point, legend = viz.legend.lines[0][0]
+        self.assertEqual(label, str(legend))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_legend_general_style_general_labele(self):
+        """
+        Test that when a general style is given, it is used for the general label.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        label, color = 'Label', '#F1428A'
+        drawn = viz.draw_population(10, 5, '', label=label, color=color)
+        self.assertEqual(1, len(viz.legend.lines[0]))
+        point, legend = viz.legend.lines[0][0]
+        self.assertEqual(label, str(legend))
+        self.assertEqual([241/255, 66/255, 138/255, 1], point.get_facecolor().tolist()[0])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_legend_label_style_general_label(self):
+        """
+        Test that the label style is applied to the general label.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        label, color = 'Label', '#F1428A'
+        drawn = viz.draw_population(10, 5, '', label=label, label_style={ 'color': color })
+        self.assertEqual(1, len(viz.legend.lines[0]))
+        _, legend = viz.legend.lines[0][0]
+        self.assertEqual(label, str(legend))
+        self.assertEqual(color, legend.style['color'])
+
+    @MultiplexTest.temporary_plot
     def test_limit_negative_height(self):
         """
         Test that when drawing with a negative population height, the function raises a ValueError.

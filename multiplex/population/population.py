@@ -49,7 +49,7 @@ class Population(LabelledVisualization):
         self.populations = [ ]
 
     def draw(self, population, rows, name, style_plot=True, height=0.6,
-             show_start=False, *args, **kwargs):
+             show_start=False, label=None, label_style=None, *args, **kwargs):
         """
         Draw a new population on this plot.
 
@@ -76,6 +76,13 @@ class Population(LabelledVisualization):
         :param show_start: Draw a label next to the first item in the population.
                            This label looks exactly like the ticks and is a simple '1'.
         :type show_start: bool
+        :param label: The label to draw.
+                      If ``None`` is given, the function adds no label.
+        :type label: str or None
+        :param label_style: The style of the label.
+                            By default, the label inherits the style from the ``kwargs`` so that the label is visually similar to the bar.
+                            The ``label_style`` accepts any styling option supported by the :class:`~text.annotation.Annotation`'s :func:`~text.annotation.Annotation.draw` function.
+        :type label_style: dict or None
 
         :return: A list of drawn scatter points, separated by column.
         :rtype: list of list of :class:`matplotlib.collections.PathCollection`
@@ -99,6 +106,10 @@ class Population(LabelledVisualization):
         # add a number next to the first item to indicate where the population starts
         if show_start:
             self.start_labels.append(self._draw_start_label(height))
+
+        # draw a general label
+        if label:
+            self._draw_legend(label, label_style, *args, **kwargs)
 
         return population
 
@@ -208,6 +219,22 @@ class Population(LabelledVisualization):
         lim = self._limit(height)
         style = { 'color': plt.rcParams['xtick.color'], 'size': plt.rcParams['xtick.labelsize'] }
         return self.draw_label('1', (0.5, 1), lim[0], va='center', align='left', **style)
+
+    def _draw_legend(self, label, label_style=None, *args, **kwargs):
+        """
+        Draw a label for a population in the legend.
+
+        Any additional arguments and keyword arguments are passed on to the legend drawing functions.
+
+        :param label: The label of the legend item to draw.
+        :type label: str
+        :param label_style: The style of the labels.
+        :type label_style: dict or None
+        """
+
+        label_style = label_style or { }
+        style = dict(**kwargs)
+        self.drawable.legend.draw_point(label, label_style=label_style, **style)
 
     def _limit(self, height):
         """
