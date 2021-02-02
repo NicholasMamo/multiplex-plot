@@ -56,9 +56,11 @@ This is achieved by providing:
 - Functionality to annotate any visualization with text; and
 - New types of visualizations not available in matplotlib:
 
-	-  100% bar chart,
-	-  Network graph, and
-	-  Text-only visualizations.
+  - 100% bar chart,
+  - Network graph,
+  - Slope graph,
+  - Population chart, and
+  - Text-only visualizations.
 
 Multiplex automatically lays out your data so that you can focus on telling your story.
 
@@ -91,7 +93,8 @@ Multiplex also uses the following libraries in certain visualizations:
 - `networkx <https://github.com/networkx/networkx>`_
 - `pandas <https://github.com/pandas-dev/pandas>`_
 
-### Quickstart
+Quickstart
+----------
 
 Creating visualizations with Multiplex is very easy.
 For example, you can create a text-only visualization in just 10 lines of code, including all styling options:
