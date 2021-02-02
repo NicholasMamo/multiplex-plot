@@ -168,7 +168,7 @@ class Drawable():
         """
         Move the caption up to make space for the legend and the label.
         """
-        y = 1
+        y = 1.015
         y += self.legend.get_virtual_bb(transform=self.axes.transAxes).height
 
         """
@@ -183,9 +183,8 @@ class Drawable():
             if xtick_labels_bb:
                 y += max(xtick_labels_bb, key=lambda bb: bb.height).height * 2
 
-        pad = 0.1
         self.caption.redraw()
-        self.caption.set_position((0, y + pad), ha='left', va='bottom', transform=self.axes.transAxes)
+        self.caption.set_position((0, y), ha='left', va='bottom', transform=self.axes.transAxes)
 
     def _redraw_title(self):
         """
@@ -227,9 +226,9 @@ class Drawable():
         Add some extra padding to the height.
         """
         height = abs(caption_height) + abs(legend_height) + abs(label_height)
-        pad_px = abs(self.axes.transAxes.transform((0, 0.05))[1] - self.axes.transAxes.transform((0, 0))[1])
+        pad_px = abs(self.axes.transAxes.transform((0, 0.015))[1] - self.axes.transAxes.transform((0, 0))[1])
         pad = pad_px * 2
-        self.axes.set_title(title, loc='left', pad=(5 + height + pad))
+        self.axes.set_title(title, loc='left', pad=(height + pad))
 
     def _get_xlabel(self, transform=None):
         """
