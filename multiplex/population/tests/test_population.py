@@ -43,14 +43,24 @@ class TestPopulation(MultiplexTest):
         self.assertEqual([ ], popviz.start_labels)
 
     @MultiplexTest.temporary_plot
-    def test_init_empty_start_labels(self):
+    def test_init_empty_populations(self):
         """
-        Test that when creating the population, the drawable creates an empty list for start labels.
+        Test that when creating the population, the drawable creates an empty list for populations.
         """
 
         viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
         popviz = Population(viz)
         self.assertEqual([ ], popviz.populations)
+
+    @MultiplexTest.temporary_plot
+    def test_init_none_rows(self):
+        """
+        Test that when creating the population, the drawable initializes the number of rows to ``None``.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        popviz = Population(viz)
+        self.assertEqual(None, popviz.rows)
 
     @MultiplexTest.temporary_plot
     def test_draw_float_rows(self):

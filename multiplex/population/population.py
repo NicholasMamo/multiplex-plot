@@ -47,6 +47,7 @@ class Population(LabelledVisualization):
         super().__init__(*args, **kwargs)
         self.start_labels = [ ]
         self.populations = [ ]
+        self.rows = None
 
     def draw(self, population, rows, name, style_plot=True, height=0.6,
              show_start=False, label=None, label_style=None, *args, **kwargs):
