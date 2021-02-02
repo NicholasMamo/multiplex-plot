@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="multiplex-plot", # Replace with your own username
-    version="0.4.0",
+    name="multiplex-plot",
+    version="0.5.0",
     author="Nicholas Mamo",
     author_email="nicholasmamo@gmail.com",
     description="Multiplex: visualizations that tell stories—A Python library to create and annotate beautiful network graph visualizations, text visualizations and more.",
