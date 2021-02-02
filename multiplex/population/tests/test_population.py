@@ -941,7 +941,7 @@ class TestPopulation(MultiplexTest):
         self.assertEqual(label, str(legend))
 
     @MultiplexTest.temporary_plot
-    def test_draw_legend_general_style_general_labele(self):
+    def test_draw_legend_general_style_general_label(self):
         """
         Test that when a general style is given, it is used for the general label.
         """
@@ -967,6 +967,82 @@ class TestPopulation(MultiplexTest):
         _, legend = viz.legend.lines[0][0]
         self.assertEqual(label, str(legend))
         self.assertEqual(color, legend.style['color'])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_legend_specific_label(self):
+        """
+        Test that the specific label is written correctly in the legend.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+        labels = [ 'Label 1', 'Label 2' ]
+        drawn = viz.draw_population([ { 'label': labels[0] }, { 'label': labels[1] } ], 5, '')
+        self.assertEqual(2, len(viz.legend.lines[0]))
+
+        # test the first label
+        point, legend = viz.legend.lines[0][0]
+        self.assertEqual(labels[0], str(legend))
+
+        # test the second label
+        point, legend = viz.legend.lines[0][1]
+        self.assertEqual(labels[1], str(legend))
+
+    @MultiplexTest.temporary_plot
+    def test_draw_legend_specific_label_style(self):
+        """
+        Test that the specific label has the same style as its point.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+
+        labels, color = [ 'Label 1', 'Label 2' ], '#F1428A'
+        drawn = viz.draw_population([ { 'label': labels[0], 'color': '#FF0000' },
+                                      { 'label': labels[1] } ], 5, '', color=color)
+        self.assertEqual(2, len(viz.legend.lines[0]))
+
+        # test the first label
+        point, legend = viz.legend.lines[0][0]
+        self.assertEqual(labels[0], str(legend))
+        self.assertEqual([1, 0, 0, 1], point.get_facecolor().tolist()[0])
+
+        # test the second label
+        point, legend = viz.legend.lines[0][1]
+        self.assertEqual(labels[1], str(legend))
+        self.assertEqual([241/255, 66/255, 138/255, 1], point.get_facecolor().tolist()[0])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_legend_specific_label_label_style(self):
+        """
+        Test that the label style is applied to the specific labels too.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        label, color = 'Label', '#F1428A'
+        drawn = viz.draw_population([ { 'label': label }], 5, '', label_style={ 'color': color })
+        self.assertEqual(1, len(viz.legend.lines[0]))
+        _, legend = viz.legend.lines[0][0]
+        self.assertEqual(label, str(legend))
+        self.assertEqual(color, legend.style['color'])
+
+    @MultiplexTest.temporary_plot
+    def test_draw_legend_specific_label_after_general_label(self):
+        """
+        Test that the specific labels are drawn after the general labels.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 10)))
+        general, specific = 'General', 'Specific'
+        drawn = viz.draw_population([ { 'label': specific }], 5, '', label=general)
+        self.assertEqual(2, len(viz.legend.lines[0]))
+
+        # test that the first label is the general label
+        _, legend = viz.legend.lines[0][0]
+        self.assertEqual(general, str(legend))
+
+        # test that the second label is the specific label
+        _, legend = viz.legend.lines[0][1]
+        self.assertEqual(specific, str(legend))
 
     @MultiplexTest.temporary_plot
     def test_limit_negative_height(self):

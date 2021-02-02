@@ -94,8 +94,12 @@ class Population(LabelledVisualization):
         :raise ValueError: If the height is not between 0 and 1.
         """
 
+        # draw a general label
+        if label:
+            self._draw_legend(label, label_style, *args, **kwargs)
+
         # draw the population
-        population = self._draw_population(population, rows, height, *args, **kwargs)
+        population = self._draw_population(population, rows, height, label_style=label_style, *args, **kwargs)
         self.populations.append(population)
         self._add_ytick(name)
 
@@ -106,10 +110,6 @@ class Population(LabelledVisualization):
         # add a number next to the first item to indicate where the population starts
         if show_start:
             self.start_labels.append(self._draw_start_label(height))
-
-        # draw a general label
-        if label:
-            self._draw_legend(label, label_style, *args, **kwargs)
 
         return population
 
@@ -126,7 +126,7 @@ class Population(LabelledVisualization):
         self.drawable.invert_yaxis()
         self.drawable.grid(False)
 
-    def _draw_population(self, population, rows, height, *args, **kwargs):
+    def _draw_population(self, population, rows, height, label_style, *args, **kwargs):
         """
         Draw a new population on this plot.
 
@@ -137,6 +137,8 @@ class Population(LabelledVisualization):
         :type rows: int
         :param height: The height of the population, between 0 (exclusive) and 1.
         :type height: float
+        :param label_style: The style of the labels.
+        :type label_style: dict or None
 
         :return: A list of drawn scatter points, separated by column.
         :rtype: list of list of :class:`matplotlib.collections.PathCollection`
@@ -177,8 +179,13 @@ class Population(LabelledVisualization):
                 item = items[ x * rows + y ]
                 style = dict(kwargs)
                 style.update(item if type(item) is dict else { })
+                label = style.pop('label', None)
                 point = self.drawable.scatter(1 + x, lim[0] + y * gap, **style)
                 _drawn.append(point)
+
+                # draw a legend label if the point has a label
+                if label:
+                    self._draw_legend(label, label_style, **style)
 
             drawn.append(_drawn)
 
