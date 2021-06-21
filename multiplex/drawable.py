@@ -62,6 +62,8 @@ class Drawable():
     :vartype secondary: :class:`matplotlib.axes.Axes`
     :var caption: The caption, displayed under the title.
     :vartype caption: :class:`~text.annotation.Annotation`
+    :var footnote: The footnote, displayed at the bottom of the visualization.
+    :vartype footnote: :class:`~text.annotation.Annotation`
 
     :ivar bar100: The 100% bar chart visualization that is being used.
                   When no visualization has been created, it is set to `None`.
@@ -98,6 +100,7 @@ class Drawable():
         self.axes = plt.gca() if axes is None else axes
         self.secondary = self.axes
         self.caption = None
+        self.footnote = None
 
         self.annotations = [ ]
         self.legend = Legend(self)
