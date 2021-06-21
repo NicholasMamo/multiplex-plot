@@ -277,7 +277,7 @@ class Drawable():
         """
         Move the footnote to the bottom.
         """
-        y = 0
+        y = -0.05
 
         """
         If the x-label is at the bottom, make space for it in the footnote.

@@ -163,7 +163,7 @@ class TestDrawable(MultiplexTest):
 
         viz.redraw()
         footnote_bb = footnote.get_virtual_bb(transform=viz.axes.transAxes)
-        self.assertEqual(0, round(footnote_bb.y1, 10))
+        self.assertEqual(-0.05, round(footnote_bb.y1, 10))
 
     @MultiplexTest.temporary_plot
     def test_footnote_redraw_bottom_xaxes(self):
