@@ -137,6 +137,36 @@ class Drawable():
         self.redraw()
         return self.caption
 
+    def set_footnote(self, caption, alpha=0.8, lineheight=1.25, fontsize='smaller', *args, **kwargs):
+        """
+        Add a caption to the subplot.
+        The caption is added just beneath the title.
+        The method re-draws the title to make space for the caption.
+
+        The caption is a :class:`~text.text.Annotation` object.
+        Any arguments that the constructor accepts can be provided to this method.
+
+        :param caption: The caption to add to the axes.
+        :type caption: str
+        :param alpha: The opacity of the caption between 0 and 1.
+        :type alpha: float
+        :param lineheight: The space between lines.
+        :type lineheight: float
+        :param fontsize: The font of the footnote, defaults to `smaller`.
+        :type fontsize: str or int
+
+        :return: The drawn caption.
+        :rtype: :class:`~text.annotation.Annotation`
+        """
+
+        self.footnote = Annotation(self, caption, (0, 1), 0,
+                                   va='top', alpha=alpha, lineheight=lineheight,
+                                   transform=self.axes.transAxes, fontsize=fontsize,
+                                   *args, **kwargs)
+        self.footnote.draw()
+        self.redraw()
+        return self.footnote
+
     def redraw(self):
         """
         Re-create the title, with the goal of leaving enough space to fit the caption and the legend.
@@ -157,6 +187,7 @@ class Drawable():
         self.legend.redraw()
         self._redraw_caption()
         self._redraw_title()
+        self._redraw_footnote()
 
     def _redraw_caption(self):
         """
@@ -232,6 +263,36 @@ class Drawable():
         pad_px = abs(self.axes.transAxes.transform((0, 0.015))[1] - self.axes.transAxes.transform((0, 0))[1])
         pad = pad_px * 2
         self.axes.set_title(title, loc='left', pad=(height + pad))
+
+    def _redraw_footnote(self):
+        """
+        Re-draw the footnote, re-positioning so that it does not overlap with the legend or axes.
+        """
+
+        if not self.footnote:
+            return
+
+        figure, axes = self.figure, self.axes
+
+        """
+        Move the footnote to the bottom.
+        """
+        y = 0
+
+        """
+        If the x-label is at the bottom, make space for it in the footnote.
+        In this case, it is assumed that the ticks are also at the bottom.
+        This is because for some reason they may be set to 'unknown'.
+        """
+        if axes.xaxis.get_label_position() == 'bottom':
+            y -= self._get_xlabel(transform=self.axes.transAxes).height * 2
+
+            xtick_labels_bb = self._get_xtick_labels(transform=axes.transAxes)
+            if xtick_labels_bb:
+                y -= max(xtick_labels_bb, key=lambda bb: bb.height).height * 2
+
+        self.footnote.redraw()
+        self.footnote.set_position((0, y), va='top', transform=self.axes.transAxes)
 
     def _get_xlabel(self, transform=None):
         """

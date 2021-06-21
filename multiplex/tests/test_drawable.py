@@ -68,7 +68,7 @@ class TestDrawable(MultiplexTest):
         self.assertEqual('This is a multi-level caption.', str(caption))
 
     @MultiplexTest.temporary_plot
-    def test_redraw_bottom_xaxes(self):
+    def test_caption_redraw_bottom_xaxes(self):
         """
         Test that when the x-axis label is at the bottom, the caption is at y=1.
         """
@@ -76,10 +76,10 @@ class TestDrawable(MultiplexTest):
         viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
         caption = viz.set_caption("sample caption")
         caption_bb = caption.get_virtual_bb(transform=viz.axes.transAxes)
-        self.assertEqual(1.1, round(caption_bb.y0, 10))
+        self.assertEqual(1.015, round(caption_bb.y0, 10))
 
     @MultiplexTest.temporary_plot
-    def test_redraw_top_xaxes(self):
+    def test_caption_redraw_top_xaxes(self):
         """
         Test that when the x-axis label is at the top, the caption moves up.
         """
@@ -103,6 +103,105 @@ class TestDrawable(MultiplexTest):
         viz.set_xlabel('label')
         viz.redraw()
         self.assertLess(caption_bb.y0, viz.caption.get_virtual_bb(transform=viz.axes.transAxes).y0)
+
+    @MultiplexTest.temporary_plot
+    def test_footnote(self):
+        """
+        Test that the footnote is set correctly.
+        """
+
+        text = 'footnote.'
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+        footnote = viz.set_footnote(text)
+        self.assertEqual(text, str(footnote))
+
+    @MultiplexTest.temporary_plot
+    def test_footnote_removes_multiple_spaces(self):
+        """
+        Test that the footnote preprocessing removes multiple consecutive spaces.
+        """
+
+        text = """
+            This is a multi-level   footnote.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+        footnote = viz.set_footnote(text)
+        self.assertEqual('This is a multi-level footnote.', str(footnote))
+
+    @MultiplexTest.temporary_plot
+    def test_footnote_removes_tabs(self):
+        """
+        Test that the footnote preprocessing removes tabs.
+        """
+
+        text = """
+            This is a multi-level    footnote.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+        footnote = viz.set_footnote(text)
+        self.assertEqual('This is a multi-level footnote.', str(footnote))
+
+    @MultiplexTest.temporary_plot
+    def test_footnote_redraw_top_xaxes(self):
+        """
+        Test that when the x-axis label is at the top, the footnote is at y=0.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+        footnote = viz.set_footnote("sample footnote")
+
+        """
+        Move the x-axis label and ticks to the top.
+        """
+        viz.axes.xaxis.set_label_position('top')
+        viz.axes.xaxis.tick_top()
+        viz.axes.spines['top'].set_visible(True)
+        viz.axes.spines['bottom'].set_visible(False)
+
+        viz.redraw()
+        footnote_bb = footnote.get_virtual_bb(transform=viz.axes.transAxes)
+        self.assertEqual(0, round(footnote_bb.y1, 10))
+
+    @MultiplexTest.temporary_plot
+    def test_footnote_redraw_bottom_xaxes(self):
+        """
+        Test that when the x-axis label is at the bottom, the footnote moves down.
+        """
+
+        viz = drawable.Drawable(plt.figure(figsize=(10, 5)))
+
+        """
+        Temporarily move the x-axis label and ticks to the top.
+        """
+        viz.axes.xaxis.set_label_position('top')
+        viz.axes.xaxis.tick_top()
+        viz.axes.spines['top'].set_visible(True)
+        viz.axes.spines['bottom'].set_visible(False)
+
+        """
+        Create the footnote now.
+        """
+        footnote = viz.set_footnote("sample footnote")
+        footnote_bb = footnote.get_virtual_bb(transform=viz.axes.transAxes)
+        self.assertFalse(util.overlapping_bb(footnote_bb, viz._get_xlabel(transform=viz.axes.transAxes)))
+
+        """
+        Move the x-axis label and ticks back to the bottom.
+        """
+        viz.axes.xaxis.set_label_position('bottom')
+        viz.axes.xaxis.tick_bottom()
+        viz.axes.spines['top'].set_visible(False)
+        viz.axes.spines['bottom'].set_visible(True)
+
+        """
+        After adding a label, the footnote should move down.
+        """
+        viz.set_xlabel('label')
+        viz.redraw()
+        self.assertGreater(footnote_bb.y1, viz.footnote.get_virtual_bb(transform=viz.axes.transAxes).y1)
 
     @MultiplexTest.temporary_plot
     def test_annotate_returns_annotation(self):
