@@ -86,6 +86,8 @@ def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs
     """
 
     transform = axes.transData if transform is None else transform
+    scale = axes.get_yscale()
+    axes.set_yscale('linear')
 
     """
     Draw a dummy token first.
@@ -113,6 +115,7 @@ def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs
     bb = util.get_bb(figure, axes, token, transform)
     height = bb.height
     token.remove()
+    axes.set_yscale('log')
     return height
 
 def get_wordspacing(figure, axes, transform=None, *args, **kwargs):
