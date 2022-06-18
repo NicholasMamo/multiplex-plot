@@ -87,6 +87,11 @@ def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs
 
     transform = axes.transData if transform is None else transform
 
+    yscale = None
+    if not axes.get_yscale() is 'linear':
+        yscale = axes.get_yscale()
+        axes.set_yscale('linear')
+
     """
     Draw a dummy token first.
     Some styling options are set specifically for the bbox.
@@ -113,6 +118,10 @@ def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs
     bb = util.get_bb(figure, axes, token, transform)
     height = bb.height
     token.remove()
+
+    if yscale:
+        axes.set_yscale(yscale)
+
     return height
 
 def get_wordspacing(figure, axes, transform=None, *args, **kwargs):
