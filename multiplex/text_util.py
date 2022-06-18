@@ -115,7 +115,7 @@ def get_linespacing(figure, axes, wordspacing=0, transform=None, *args, **kwargs
     bb = util.get_bb(figure, axes, token, transform)
     height = bb.height
     token.remove()
-    axes.set_yscale('log')
+    axes.set_yscale(scale)
     return height
 
 def get_wordspacing(figure, axes, transform=None, *args, **kwargs):
